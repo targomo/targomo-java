@@ -17,7 +17,7 @@ import net.motion_intelligence.client.api.util.TimeUtil;
 public class TravelOptions {
 
 	private Map<String,Source> sources					= new HashMap<>();
-	private Map<String,Target> targets 				    = new HashMap<>();
+	private Map<String,Target> targets 	    			= new HashMap<>();
 	
     private double bikeSpeed                         	= 15.0;
     private double bikeUphill                        	= 20.0;
@@ -94,7 +94,7 @@ public class TravelOptions {
 	/**
 	 * @return the targets
 	 */
-	public Map<String,Target> getTargets() {
+	public Map<String, ? extends Target> getTargets() {
 		return targets;
 	}
 	/**

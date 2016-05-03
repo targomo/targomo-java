@@ -2,8 +2,10 @@ package net.motion_intelligence.client.api.geo;
 
 public class Wgs84Coordinate {
 
-	protected final double latitude;
-	protected final double longitude;
+	protected double latitude;
+	protected double longitude;
+	
+	public Wgs84Coordinate(){}
 	
 	/**
 	 * 

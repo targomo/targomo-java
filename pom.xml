@@ -4,13 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>net.motionintelligence</groupId>
-		<artifactId>route360</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-
+	<groupId>net.motionintelligence</groupId>
 	<artifactId>r360-java-client</artifactId>
+	<version>0.0.1</version>
 	<name>r360-java-client</name>
 	<url>http://maven.apache.org</url>
 
@@ -53,6 +49,16 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.13</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

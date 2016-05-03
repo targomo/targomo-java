@@ -2,7 +2,9 @@ package net.motion_intelligence.client.api.geo;
 
 public class R360Point extends Wgs84Coordinate {
 
-	protected final String id;
+	protected String id;
+	
+	public R360Point(){}
 	
 	/**
 	 * 

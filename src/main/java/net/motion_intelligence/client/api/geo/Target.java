@@ -4,6 +4,8 @@ public class Target extends R360Point {
 
 	protected String name;
 	
+	public Target(){}
+	
 	/**
 	 * 
 	 * @param id
