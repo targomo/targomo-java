@@ -8,15 +8,17 @@ public class PolygonResponse {
 	private final long requestTimeMillis;
 	private final long roundTripTimeMillis;
 	private final TravelOptions travelOptions;
+	private final String result;
 
 	/**
 	 * @param code - route360 status code for the request
 	 * @param requestTimeMillis - the milliseconds for server runtime
 	 */
-	public PolygonResponse(TravelOptions travelOptions, String code, long requestTimeMillis, long roundTripTimeMillis) {
-		this.travelOptions 	   = travelOptions;
-		this.code 			   = code;
-		this.requestTimeMillis = requestTimeMillis;
+	public PolygonResponse(TravelOptions travelOptions, String result, String code, long requestTimeMillis, long roundTripTimeMillis) {
+		this.travelOptions 	   	= travelOptions;
+		this.code 			   	= code;
+		this.result				= result;
+		this.requestTimeMillis 	= requestTimeMillis;
 		this.roundTripTimeMillis = roundTripTimeMillis;
 	}
 
@@ -46,5 +48,9 @@ public class PolygonResponse {
 	 */
 	public long getRoundTripTimeMillis() {
 		return roundTripTimeMillis;
+	}
+
+	public String getResult() {
+		return result;
 	}
 }

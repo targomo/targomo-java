@@ -134,7 +134,9 @@ public class PolygonRequest {
 		
 		if ( response.getStatus() == Response.Status.OK.getStatusCode() ) {
 			
-			JSONObject result = JsonUtil.parseString(response.readEntity(String.class).replace(callback + "(", "").replaceAll("\\)$", ""));
+			String resultString = response.readEntity(String.class).replace(callback + "(", "").replaceAll("\\)$", "");
+			
+			JSONObject result = JsonUtil.parseString(resultString);
 			
 			if ( Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals( JsonUtil.getString(result, "code")) )
 				throw new Route360ClientException(result.toString(), null);
@@ -148,7 +150,7 @@ public class PolygonRequest {
 			if ( Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals( JsonUtil.getString(result, "code")) )
 				throw new Route360ClientException(result.toString(), null);
 			
-			return new PolygonResponse(this.travelOptions, JsonUtil.getString(result, "code"), JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis);
+			return new PolygonResponse(this.travelOptions, resultString, JsonUtil.getString(result, "code"), JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis);
 		}
 		else {
 			
