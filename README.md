@@ -10,3 +10,4 @@ Java Client API for Route360° web service
 		
 	PolygonResponse polygonResponse = new PolygonRequest(options).get();
 	System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
+	System.out.println(polygonResponse.getResult());
