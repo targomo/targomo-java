@@ -6,7 +6,7 @@ Java Client API for Route360° web service
 	options.setTravelType(TravelType.TRANSIT);
 	options.addSource(new Source("id1", 40.608155, -73.976636));
 	options.setServiceKey("ENTER YOUR KEY HERE");
-	options.setServiceUrl("https://service.route360.net/na_northeast/v1/");
+	options.setServiceUrl("https://service.route360.net/na_northeast/");
 		
 	PolygonResponse polygonResponse = new PolygonRequest(options).get();
 	System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
