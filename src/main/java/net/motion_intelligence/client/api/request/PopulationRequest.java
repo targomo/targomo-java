@@ -97,10 +97,8 @@ public class PopulationRequest {
 				.queryParam("travelDate", travelOptions.getDate())
 				.queryParam("travelTime", travelOptions.getTime())
 				.queryParam("travelType", travelOptions.getTravelType().toString())
-				.queryParam("key", travelOptions.getServiceKey());
-		
-		for ( String statistic : travelOptions.getStatistics())
-			target = target.queryParam("statistics", statistic);
+				.queryParam("key", travelOptions.getServiceKey())
+				.queryParam("statistics", travelOptions.getStatistics());
 		
 		Response response = target.request().post(Entity.entity(this.getSources(), MediaType.APPLICATION_JSON_TYPE));
 		
