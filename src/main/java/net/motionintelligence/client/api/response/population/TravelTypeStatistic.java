@@ -10,7 +10,7 @@ import net.motionintelligence.client.api.enums.TravelType;
  */
 public class TravelTypeStatistic {
 
-    private List<Integer> values = new ArrayList<>();
+	private List<Double> values = new ArrayList<>();
     private String statistic;
     private TravelType travelType;
     
@@ -55,20 +55,31 @@ public class TravelTypeStatistic {
      * @return
      */
     public double getValueToMinute(int minute) {
-    	return this.values.subList(0, Math.min(this.values.size(), minute)).stream().mapToDouble(Integer::intValue).sum();
+    	
+    	Double reduce = this.values.subList(0, Math.min(this.values.size(), minute)).stream().reduce(0.0, Double::sum);
+    	
+    	return reduce;
     }
     
     /**
      * @return the values
      */
-    public List<Integer> getValues() {
+    public List<Double> getValues() {
         return values;
     }
 
     /**
      * @param values the values to set
      */
-    public void setValues(List<Integer> values) {
+    public void setValues(List<Double> values) {
         this.values = values;
     }
+    
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TravelTypeStatistic {\n\tvalues: " + values + "\n\tstatistic: " + statistic + "\n\ttravelType: " + travelType + "\n}";
+	}
 }

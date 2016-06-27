@@ -35,10 +35,10 @@ public class PopulationResponse {
 		
 			JSONObject travelTypeStatistic = JsonUtil.getJSONObject(result, i);
 			
-			List<Integer> newValues = new ArrayList<>();
+			List<Double> newValues = new ArrayList<>();
 			JSONArray values 	   = travelTypeStatistic.getJSONArray("values");
 			for ( int j = 0 ; j < values.length() ; j++) 
-				newValues.add((int) values.getDouble(j));
+				newValues.add(values.getDouble(j));
 			
 			TravelTypeStatistic tts = new TravelTypeStatistic();
 			tts.setStatistic(travelTypeStatistic.getString("statistic"));

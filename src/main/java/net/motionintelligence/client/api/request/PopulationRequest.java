@@ -98,7 +98,9 @@ public class PopulationRequest {
 				.queryParam("travelTime", travelOptions.getTime())
 				.queryParam("travelType", travelOptions.getTravelType().toString())
 				.queryParam("key", travelOptions.getServiceKey())
-				.queryParam("statistics", travelOptions.getStatistics());
+				.queryParam("statistics", travelOptions.getStatistics().toArray(new String[travelOptions.getStatistics().size()]));
+		
+//		System.out.println(target.getUri());
 		
 		Response response = target.request().post(Entity.entity(this.getSources(), MediaType.APPLICATION_JSON_TYPE));
 		
