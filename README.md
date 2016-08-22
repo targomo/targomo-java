@@ -1,6 +1,9 @@
 # r360-java
 Java Client API for Route360° web service
 
+## API-Key
+Get your API key [here ](https://developers.route360.net/apikey.html).
+
 ## Build the library
 
      mvn clean install
