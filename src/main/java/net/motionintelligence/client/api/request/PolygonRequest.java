@@ -98,9 +98,10 @@ public class PolygonRequest {
 				
 				JSONObject travelMode = new JSONObject();
 				if ( TravelType.TRANSIT.equals(travelType) ) {
-					travelMode.put("time", travelOptions.getTime());
-					travelMode.put("date", travelOptions.getDate());
-					travelMode.put("frame", travelOptions.getFrame());
+					travelMode.put("frame", new JSONObject()
+						.put("time", travelOptions.getTime())
+						.put("date", travelOptions.getDate())
+						.put("duration", travelOptions.getFrame()));
 				}
 				
 				if ( TravelType.WALK.equals(travelType) ) {
