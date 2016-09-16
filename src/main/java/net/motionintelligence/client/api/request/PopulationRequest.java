@@ -98,6 +98,7 @@ public class PopulationRequest {
 				.queryParam("travelTime", travelOptions.getTime())
 				.queryParam("travelType", travelOptions.getTravelType().toString())
 				.queryParam("key", travelOptions.getServiceKey())
+				.queryParam("useBoundingBox", false)
 				.queryParam("statistics", travelOptions.getStatistics().toArray(new String[travelOptions.getStatistics().size()]));
 		
 //		System.out.println(target.getUri());

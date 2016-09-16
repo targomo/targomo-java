@@ -29,14 +29,16 @@ public class TravelOptions {
     private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
     private TravelType travelType                    	= TravelType.UNSPECIFIED;
     private Boolean elevationEnabled                 	= false;
-    private boolean pointReduction                   	= true;
-    private long minPolygonHoleSize                  	= 100000000;
+    private Boolean pointReduction                   	= true;
+    private Boolean reverse                   			= false;
+    private Long minPolygonHoleSize                  	= 100000000L;
                  
-    private int time                                 	= TimeUtil.getCurrentTime();
-    private int date                                 	= TimeUtil.getCurrentDate();
-    private int frame                                	= 18000;
-    private int recommendations                      	= 0;
+    private Integer time                                 = TimeUtil.getCurrentTime();
+    private Integer date                                 = TimeUtil.getCurrentDate();
+    private Integer frame                                = 18000;
+    private Integer recommendations                      = 0;
 
+    private Integer bufferInMeter						= null;
     private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
@@ -103,6 +105,15 @@ public class TravelOptions {
 	public void setTargets(Map<String,Target> targets) {
 		this.targets = targets;
 	}
+	
+	/**
+	 * 
+	 * @param targets
+	 */
+	public void addAllTargets(Map<String,Target> targets) {
+		this.targets.putAll(targets);
+	}
+	
 	/**
 	 * @return the bikeSpeed
 	 */
@@ -412,5 +423,21 @@ public class TravelOptions {
 	
 	public boolean getOnlyPrintReachablePoints() {
 		return onlyPrintReachablePoints;
+	}
+
+	public Integer getBufferInMeter() {
+		return bufferInMeter;
+	}
+
+	public void setBufferInMeter(Integer bufferInMeter) {
+		this.bufferInMeter = bufferInMeter;
+	}
+
+	public Boolean getReverse() {
+		return reverse;
+	}
+
+	public void setReverse(Boolean reverse) {
+		this.reverse = reverse;
 	}
 }

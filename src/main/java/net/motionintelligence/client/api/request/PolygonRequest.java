@@ -80,6 +80,7 @@ public class PolygonRequest {
 			JSONObject config = new JSONObject();
 			
 			JSONObject polygon = new JSONObject();
+			polygon.put(Constants.BUFFER_IN_METER, this.travelOptions.getBufferInMeter());
 			polygon.put(Constants.POLYGON_VALUES, new JSONArray(this.travelOptions.getTravelTimes()));
 			polygon.put(Constants.POLYGON_INTERSECTION_MODE, this.travelOptions.getIntersectionMode());
 			polygon.put(Constants.SERIALIZER, this.travelOptions.getPolygonSerializerType().getPolygonSerializerName());
@@ -95,12 +96,35 @@ public class PolygonRequest {
 				if ( src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
 					travelType = src.getTravelType();
 				
-				sources.put(new JSONObject()
+				JSONObject travelMode = new JSONObject();
+				if ( TravelType.TRANSIT.equals(travelType) ) {
+					travelMode.put("time", travelOptions.getTime());
+					travelMode.put("date", travelOptions.getDate());
+					travelMode.put("frame", travelOptions.getFrame());
+				}
+				
+				if ( TravelType.WALK.equals(travelType) ) {
+					travelMode.put("speed", travelOptions.getWalkSpeed());
+					travelMode.put("uphill", travelOptions.getWalkDownhill());
+					travelMode.put("downhill", travelOptions.getWalkUphill());
+				}
+				
+				if ( TravelType.BIKE.equals(travelType) ) {
+					travelMode.put("speed", travelOptions.getBikeSpeed());
+					travelMode.put("uphill", travelOptions.getBikeDownhill());
+					travelMode.put("downhill", travelOptions.getBikeUphill());
+				}
+				
+				JSONObject source = new JSONObject()
 					.put(Constants.ID, src.getId())
 					.put(Constants.LATITUDE, src.getLatitude())
 					.put(Constants.LONGITUDE, src.getLongitude())
-					.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), new JSONObject()))
-				);
+					.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+				
+				if ( this.travelOptions.getReverse() )
+					source.put(Constants.REVERSE, true);
+				
+				sources.put(source);
 			}
 			
 			config.put(Constants.SOURCES, sources);

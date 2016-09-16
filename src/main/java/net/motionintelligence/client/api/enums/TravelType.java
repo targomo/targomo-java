@@ -18,7 +18,7 @@ public enum TravelType {
 	
 	public static TravelType parse(String travelType) {
 		
-		switch ( travelType ) {
+		switch ( travelType.toLowerCase() ) {
 			case Constants.TRAVEL_TYPE_WALK: return WALK;
 			case Constants.TRAVEL_TYPE_BIKE: return BIKE;
 			case Constants.TRAVEL_TYPE_CAR: return CAR;

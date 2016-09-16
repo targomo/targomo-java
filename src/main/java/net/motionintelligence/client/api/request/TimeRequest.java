@@ -66,7 +66,7 @@ public class TimeRequest {
 				travelMode = "{ \"frame\" : " +
 						"{ \"time\" : \""+ travelOptions.getTime()+ "\", " +
 						"  \"date\" : \""+travelOptions.getDate() + "\"  " + 
-//						"  \"duration\" : \""+travelOptions.getFrame() + "\""
+						"  \"frame\" : \""+travelOptions.getFrame() + "\"" +
 						"}}";
 			}
 			
@@ -125,7 +125,14 @@ public class TimeRequest {
 		}
 		else if ( HttpMethod.POST.equals(this.method) ) {
 			
-			response = target.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
+			try {
+				
+				response = target.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
+			}
+			catch ( Exception e) {
+				
+				e.printStackTrace();
+			}
 		}
 		else 
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
