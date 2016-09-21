@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Source;
+import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.PopulationResponse;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -69,10 +69,10 @@ public class PopulationRequest {
 		try {
 			
 			JSONArray sources = new JSONArray();
-			for ( Map.Entry<String,Source> source : this.travelOptions.getSources().entrySet() ) {
+			for ( Map.Entry<String,Coordinate> source : this.travelOptions.getSources().entrySet() ) {
 				sources.put(new JSONObject()
-						.put("lat", source.getValue().getLatitude())
-						.put("lng", source.getValue().getLongitude())
+						.put("lat", source.getValue().getY())
+						.put("lng", source.getValue().getX())
 						.put("id", source.getValue().getId()));
 			}
 			

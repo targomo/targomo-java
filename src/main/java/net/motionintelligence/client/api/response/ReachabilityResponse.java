@@ -28,7 +28,7 @@ public class ReachabilityResponse {
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = JsonUtil.getString(result, "code");
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
-		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+		this.totalTimeMillis 	  = System.currentTimeMillis() - requestStart;
 		
 		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
 		for ( int i = 0 ; i < jsonArray.length() ; i++) {

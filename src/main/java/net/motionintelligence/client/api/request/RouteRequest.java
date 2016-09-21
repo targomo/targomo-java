@@ -13,8 +13,7 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Source;
-import net.motionintelligence.client.api.geo.Target;
+import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.response.RouteResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -66,7 +65,7 @@ public class RouteRequest {
 			config.put(Constants.POLYGON, polygon);
 			
 			JSONArray sources = new JSONArray();
-			for ( Source src : this.travelOptions.getSources().values() ) {
+			for ( Coordinate src : this.travelOptions.getSources().values() ) {
 				
 				TravelType travelType = travelOptions.getTravelType();
 				if ( src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
@@ -87,8 +86,8 @@ public class RouteRequest {
 				
 				sources.put(new JSONObject()
 					.put(Constants.ID, src.getId())
-					.put(Constants.LATITUDE, src.getLatitude())
-					.put(Constants.LONGITUDE, src.getLongitude())
+					.put(Constants.LATITUDE, src.getY())
+					.put(Constants.LONGITUDE, src.getX())
 					.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), jsonObject))
 				);
 			}
@@ -96,12 +95,12 @@ public class RouteRequest {
 			config.put(Constants.SOURCES, sources);
 			
 			JSONArray targets = new JSONArray();
-			for ( Target trg : this.travelOptions.getTargets().values() ) {
+			for ( Coordinate trg : this.travelOptions.getTargets().values() ) {
 				
 				targets.put(new JSONObject()
 					.put(Constants.ID, trg.getId())
-					.put(Constants.LATITUDE, trg.getLatitude())
-					.put(Constants.LONGITUDE, trg.getLongitude())
+					.put(Constants.LATITUDE, trg.getY())
+					.put(Constants.LONGITUDE, trg.getX())
 				);
 			}
 			

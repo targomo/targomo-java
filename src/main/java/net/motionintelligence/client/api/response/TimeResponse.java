@@ -7,8 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.geo.Source;
-import net.motionintelligence.client.api.geo.Target;
+import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.JsonUtil;
 
 public class TimeResponse {
@@ -18,7 +17,7 @@ public class TimeResponse {
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
 	
-	private final Map<Source, Map<Target,Integer>> travelTimes = new HashMap<>();
+	private final Map<Coordinate, Map<Coordinate,Integer>> travelTimes = new HashMap<>();
 
 	/**
 	 * @param travelOptions2
@@ -69,7 +68,7 @@ public class TimeResponse {
 	 * @param target
 	 * @param travelTime
 	 */
-	public void addTravelTime(Source source, Target target, Integer travelTime) {
+	public void addTravelTime(Coordinate source, Coordinate target, Integer travelTime) {
 		
 		this.travelTimes.putIfAbsent(source, new HashMap<>());
 		this.travelTimes.get(source).put(target, travelTime);
@@ -80,7 +79,7 @@ public class TimeResponse {
 	 * @param target
 	 * @return null if the source or the target is not available, the travel time otherwise
 	 */
-	public Integer getTravelTime(Source source, Target target) {
+	public Integer getTravelTime(Coordinate source, Coordinate target) {
 		return this.travelTimes.getOrDefault(source, null).getOrDefault(target, -1);
 	}
 
@@ -109,7 +108,7 @@ public class TimeResponse {
 	 * 
 	 * @return
 	 */
-	public Map<Source, Map<Target, Integer>> getTravelTimes() {
+	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
 		return this.travelTimes;
 	}
 	

@@ -40,4 +40,6 @@ public class Constants {
 	public static final String EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION 					= "unknown-exception";
 	public static final String BUFFER_IN_METER 											= "buffer";
 	public static final String REVERSE 													= "reverse";
+	public static final String Y 														= "y";
+	public static final String X 														= "x";
 }

@@ -14,8 +14,7 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Source;
-import net.motionintelligence.client.api.geo.Target;
+import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.response.TimeResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -55,7 +54,7 @@ public class TimeRequest {
 		
 		// sources
 		StringBuffer sourcesBuffer = new StringBuffer().append("[");
-		for ( Source src : this.travelOptions.getSources().values() ) {
+		for ( Coordinate src : this.travelOptions.getSources().values() ) {
 			
 			TravelType travelType = travelOptions.getTravelType();
 			if ( src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
@@ -73,20 +72,20 @@ public class TimeRequest {
 			sourcesBuffer.append("{\"")
 				.append(Constants.ID).append("\":\"").append(src.getId()).append("\",\"")
 				.append(Constants.TRANSPORT_MODE).append("\":").append("{\"").append(travelType.toString()).append("\":"+travelMode+"},\"")
-				.append(Constants.LATITUDE).append("\":\"").append(src.getLatitude()).append("\",\"")
-				.append(Constants.LONGITUDE).append("\":\"").append(src.getLongitude()).append("\"},");
+				.append(Constants.LATITUDE).append("\":\"").append(src.getY()).append("\",\"")
+				.append(Constants.LONGITUDE).append("\":\"").append(src.getX()).append("\"},");
 		}
 		sourcesBuffer.deleteCharAt(sourcesBuffer.length() - 1); 
 		sourcesBuffer.append("]");
 		
 		// targets
 		StringBuffer targetsBuffer = new StringBuffer().append("[");
-		for ( Target trg : this.travelOptions.getTargets().values() ) {
+		for ( Coordinate trg : this.travelOptions.getTargets().values() ) {
 			
 			targetsBuffer.append("{ \"")
 				.append(Constants.ID).append("\":\"").append(trg.getId()).append("\",\"")
-				.append(Constants.LATITUDE).append("\":\"").append(trg.getLatitude()).append("\",\"")
-				.append(Constants.LONGITUDE).append("\":\"").append(trg.getLongitude()).append("\"},");
+				.append(Constants.LATITUDE).append("\":\"").append(trg.getY()).append("\",\"")
+				.append(Constants.LONGITUDE).append("\":\"").append(trg.getX()).append("\"},");
 		}
 		targetsBuffer.deleteCharAt(targetsBuffer.length() - 1);
 		targetsBuffer.append("]");

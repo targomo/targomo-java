@@ -1,5 +1,7 @@
 package net.motionintelligence.client.api.response;
 
+import org.json.JSONObject;
+
 import net.motionintelligence.client.api.TravelOptions;
 
 public class PolygonResponse {
@@ -8,18 +10,29 @@ public class PolygonResponse {
 	private final long requestTimeMillis;
 	private final long roundTripTimeMillis;
 	private final TravelOptions travelOptions;
-	private final String result;
+	private final JSONObject result;
+	private final long parseTime;
 
 	/**
 	 * @param code - route360 status code for the request
 	 * @param requestTimeMillis - the milliseconds for server runtime
 	 */
-	public PolygonResponse(TravelOptions travelOptions, String result, String code, long requestTimeMillis, long roundTripTimeMillis) {
+	public PolygonResponse(TravelOptions travelOptions, JSONObject result, String code, long requestTimeMillis, long roundTripTimeMillis) {
 		this.travelOptions 	   	= travelOptions;
 		this.code 			   	= code;
 		this.result				= result;
 		this.requestTimeMillis 	= requestTimeMillis;
 		this.roundTripTimeMillis = roundTripTimeMillis;
+		this.parseTime 			= -1;
+	}
+	
+	public PolygonResponse(TravelOptions travelOptions, JSONObject result, String code, long requestTimeMillis, long roundTripTimeMillis, long parseTime) {
+		this.travelOptions 	   	= travelOptions;
+		this.code 			   	= code;
+		this.result				= result;
+		this.requestTimeMillis 	= requestTimeMillis;
+		this.roundTripTimeMillis = roundTripTimeMillis;
+		this.parseTime 			= parseTime;
 	}
 
 	/**
@@ -50,7 +63,11 @@ public class PolygonResponse {
 		return roundTripTimeMillis;
 	}
 
-	public String getResult() {
+	public JSONObject getResult() {
 		return result;
+	}
+
+	public long getParseTime() {
+		return parseTime;
 	}
 }

@@ -16,7 +16,8 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Source;
+import net.motionintelligence.client.api.geo.Coordinate;
+import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -90,10 +91,10 @@ public class PolygonRequest {
 			config.put(Constants.POLYGON, polygon);
 			
 			JSONArray sources = new JSONArray();
-			for ( Source src : this.travelOptions.getSources().values() ) {
+			for ( Coordinate src : this.travelOptions.getSources().values() ) {
 				
 				TravelType travelType = travelOptions.getTravelType();
-				if ( src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
+				if ( src.getTravelType() != null && src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
 					travelType = src.getTravelType();
 				
 				JSONObject travelMode = new JSONObject();
@@ -118,8 +119,8 @@ public class PolygonRequest {
 				
 				JSONObject source = new JSONObject()
 					.put(Constants.ID, src.getId())
-					.put(Constants.LATITUDE, src.getLatitude())
-					.put(Constants.LONGITUDE, src.getLongitude())
+					.put(Constants.LATITUDE, src.getY())
+					.put(Constants.LONGITUDE, src.getX())
 					.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 				
 				if ( this.travelOptions.getReverse() )
@@ -161,7 +162,9 @@ public class PolygonRequest {
 			
 			String resultString = response.readEntity(String.class).replace(callback + "(", "").replaceAll("\\)$", "");
 			
+			long startParsing = System.currentTimeMillis();
 			JSONObject result = JsonUtil.parseString(resultString);
+			long parseTime = System.currentTimeMillis() - startParsing;
 			
 			if ( Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals( JsonUtil.getString(result, "code")) )
 				throw new Route360ClientException(result.toString(), null);
@@ -175,7 +178,9 @@ public class PolygonRequest {
 			if ( Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals( JsonUtil.getString(result, "code")) )
 				throw new Route360ClientException(result.toString(), null);
 			
-			return new PolygonResponse(this.travelOptions, resultString, JsonUtil.getString(result, "code"), JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis);
+			return new PolygonResponse(this.travelOptions, result, 
+					JsonUtil.getString(result, "code"), 
+					JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis, parseTime);
 		}
 		else {
 			
@@ -188,7 +193,7 @@ public class PolygonRequest {
 		TravelOptions options = new TravelOptions();
 		options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
 		options.setTravelType(TravelType.TRANSIT);
-		options.addSource(new Source("id1", 40.608155, -73.976636));
+		options.addSource(new DefaultSourceCoordinate("id1", -73.976636, 40.608155));
 		options.setServiceKey("INSERT_YOUR_KEY_HERE");
 		options.setServiceUrl("https://service.route360.net/na_northeast/");
 		

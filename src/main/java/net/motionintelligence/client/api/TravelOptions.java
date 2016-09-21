@@ -9,15 +9,14 @@ import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.geo.R360Point;
-import net.motionintelligence.client.api.geo.Source;
-import net.motionintelligence.client.api.geo.Target;
+import net.motionintelligence.client.api.geo.Coordinate;
+import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
 public class TravelOptions {
 
-	private Map<String,Source> sources					= new HashMap<>();
-	private Map<String,Target> targets 	    			= new HashMap<>();
+	private Map<String,Coordinate> sources		= new HashMap<>();
+	private Map<String,Coordinate> targets 	    = new HashMap<>();
 	
     private double bikeSpeed                         	= 15.0;
     private double bikeUphill                        	= 20.0;
@@ -70,13 +69,13 @@ public class TravelOptions {
 	 * @param points
 	 * @return
 	 */
-	private double[][] getCoordinates(Map<String, ? extends R360Point> points) {
+	private double[][] getCoordinates(Map<String, Coordinate> points) {
 		
-		R360Point[] pointList = points.values().toArray(new R360Point[0]);
+		Coordinate[] pointList = points.values().toArray(new Coordinate[0]);
 		
 		double[][] coordinates = new double[points.size()][];
 		for ( int i = 0 ; i < points.size() ; i ++ ) 
-			coordinates[i] = new double[]{pointList[i].getLongitude(), pointList[i].getLatitude()};
+			coordinates[i] = new double[]{pointList[i].getX(), pointList[i].getY()};
 		
 		return coordinates;
 	}
@@ -84,25 +83,25 @@ public class TravelOptions {
 	/**
 	 * @return the sources
 	 */
-	public Map<String,Source> getSources() {
+	public Map<String, Coordinate> getSources() {
 		return sources;
 	}
 	/**
 	 * @param sources the sources to set
 	 */
-	public void setSources(Map<String,Source> sources) {
+	public void setSources(Map<String, Coordinate> sources) {
 		this.sources = sources;
 	}
 	/**
 	 * @return the targets
 	 */
-	public Map<String, ? extends Target> getTargets() {
+	public Map<String, Coordinate> getTargets() {
 		return targets;
 	}
 	/**
 	 * @param targets the targets to set
 	 */
-	public void setTargets(Map<String,Target> targets) {
+	public void setTargets(Map<String,Coordinate> targets) {
 		this.targets = targets;
 	}
 	
@@ -110,7 +109,7 @@ public class TravelOptions {
 	 * 
 	 * @param targets
 	 */
-	public void addAllTargets(Map<String,Target> targets) {
+	public void addAllTargets(Map<String,Coordinate> targets) {
 		this.targets.putAll(targets);
 	}
 	
@@ -370,14 +369,14 @@ public class TravelOptions {
 	/**
 	 * @param source
 	 */
-	public void addSource(Source source) {
+	public void addSource(DefaultSourceCoordinate source) {
 		this.sources.put(source.getId(), source);
 	}
 	
 	/**
 	 * @param target
 	 */
-	public void addTarget(Target target) {
+	public void addTarget(Coordinate target) {
 		this.targets.put(target.getId(), target);
 	}
 	
@@ -397,7 +396,7 @@ public class TravelOptions {
 	 * @param id
 	 * @return
 	 */
-	public Source getSource(String id) {
+	public Coordinate getSource(String id) {
 		return this.sources.get(id);
 	}
 	
@@ -406,7 +405,7 @@ public class TravelOptions {
 	 * @param id
 	 * @return
 	 */
-	public Target getTarget(String id) {
+	public Coordinate getTarget(String id) {
 		return this.targets.get(id);
 	}
 	
