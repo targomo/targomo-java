@@ -49,7 +49,6 @@ public class ReachabilityRequest {
 	public ReachabilityRequest(Client client, TravelOptions travelOptions, String method){
 		
 		this.client	= client;
-		client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 		this.method = method;
 	}

@@ -9,6 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.message.GZipEncoder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
@@ -50,54 +52,75 @@ public class TimeRequest {
 	 * 
 	 * @return
 	 */
-	public String getCfg() {
+	public String getCfg() throws Route360ClientException {
 		
 		// sources
 		StringBuffer sourcesBuffer = new StringBuffer().append("[");
-		for ( Coordinate src : this.travelOptions.getSources().values() ) {
-			
-			TravelType travelType = travelOptions.getTravelType();
-			if ( src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
-				travelType = src.getTravelType();
-			
-			String travelMode = "{}";
-			if ( travelType.isTransit() ) {
-				travelMode = "{ \"frame\" : " +
-						"{ \"time\" : \""+ travelOptions.getTime()+ "\", " +
-						"  \"date\" : \""+travelOptions.getDate() + "\"  " + 
-						"  \"frame\" : \""+travelOptions.getFrame() + "\"" +
-						"}}";
+		StringBuffer config = new StringBuffer();
+		
+		try {
+		
+			for ( Coordinate src : this.travelOptions.getSources().values() ) {
+				
+				TravelType travelType = travelOptions.getTravelType();
+				if (  src.getTravelType() != null && src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
+					travelType = src.getTravelType();
+				
+				JSONObject travelMode = new JSONObject();
+				if ( TravelType.TRANSIT.equals(travelType) ) {
+					travelMode.put("frame", new JSONObject()
+						.put("time", travelOptions.getTime())
+						.put("date", travelOptions.getDate())
+						.put("duration", travelOptions.getFrame()));
+				}
+				
+				if ( TravelType.WALK.equals(travelType) ) {
+					travelMode.put("speed", travelOptions.getWalkSpeed());
+					travelMode.put("uphill", travelOptions.getWalkDownhill());
+					travelMode.put("downhill", travelOptions.getWalkUphill());
+				}
+				
+				if ( TravelType.BIKE.equals(travelType) ) {
+					travelMode.put("speed", travelOptions.getBikeSpeed());
+					travelMode.put("uphill", travelOptions.getBikeDownhill());
+					travelMode.put("downhill", travelOptions.getBikeUphill());
+				}
+				
+				sourcesBuffer.append("{\"")
+					.append(Constants.ID).append("\":\"").append(src.getId()).append("\",\"")
+					.append(Constants.TRANSPORT_MODE).append("\":").append("{\"").append(travelType.toString()).append("\":"+travelMode.toString()+"},\"")
+					.append(Constants.LATITUDE).append("\":\"").append(src.getY()).append("\",\"")
+					.append(Constants.LONGITUDE).append("\":\"").append(src.getX()).append("\"},");
 			}
+			sourcesBuffer.deleteCharAt(sourcesBuffer.length() - 1); 
+			sourcesBuffer.append("]");
 			
-			sourcesBuffer.append("{\"")
-				.append(Constants.ID).append("\":\"").append(src.getId()).append("\",\"")
-				.append(Constants.TRANSPORT_MODE).append("\":").append("{\"").append(travelType.toString()).append("\":"+travelMode+"},\"")
-				.append(Constants.LATITUDE).append("\":\"").append(src.getY()).append("\",\"")
-				.append(Constants.LONGITUDE).append("\":\"").append(src.getX()).append("\"},");
-		}
-		sourcesBuffer.deleteCharAt(sourcesBuffer.length() - 1); 
-		sourcesBuffer.append("]");
-		
-		// targets
-		StringBuffer targetsBuffer = new StringBuffer().append("[");
-		for ( Coordinate trg : this.travelOptions.getTargets().values() ) {
+			// targets
+			StringBuffer targetsBuffer = new StringBuffer().append("[");
+			for ( Coordinate trg : this.travelOptions.getTargets().values() ) {
+				
+				targetsBuffer.append("{ \"")
+					.append(Constants.ID).append("\":\"").append(trg.getId()).append("\",\"")
+					.append(Constants.LATITUDE).append("\":\"").append(trg.getY()).append("\",\"")
+					.append(Constants.LONGITUDE).append("\":\"").append(trg.getX()).append("\"},");
+			}
+			targetsBuffer.deleteCharAt(targetsBuffer.length() - 1);
+			targetsBuffer.append("]");
 			
-			targetsBuffer.append("{ \"")
-				.append(Constants.ID).append("\":\"").append(trg.getId()).append("\",\"")
-				.append(Constants.LATITUDE).append("\":\"").append(trg.getY()).append("\",\"")
-				.append(Constants.LONGITUDE).append("\":\"").append(trg.getX()).append("\"},");
-		}
-		targetsBuffer.deleteCharAt(targetsBuffer.length() - 1);
-		targetsBuffer.append("]");
-		
-		StringBuffer config = new StringBuffer()
-			.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",");
-		
-		if ( this.travelOptions.isElevationEnabled() != null ) 
-			config.append("\"" + Constants.ENABLE_ELEVATION + "\":" + this.travelOptions.isElevationEnabled() + ",");
-		
+			config
+				.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",");
+			
+			if ( this.travelOptions.isElevationEnabled() != null ) 
+				config.append("\"" + Constants.ENABLE_ELEVATION + "\":" + this.travelOptions.isElevationEnabled() + ",");
+			
 			config.append("\"" + Constants.SOURCES + "\": " + sourcesBuffer.toString() + ",");
 			config.append("\"" + Constants.TARGETS + "\": " + targetsBuffer.toString() + "}");
+		}
+		catch ( Exception e) {
+			throw new Route360ClientException("Could not generate r360 config object", e);
+		}
+		
+		
 		
 		return config.toString();
 	}
@@ -114,6 +137,13 @@ public class TimeRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
 				.queryParam("cb", callback)
 				.queryParam("key", travelOptions.getServiceKey());
+		
+//		try {
+//			System.out.println(new JSONObject(getCfg()).toString(4));
+//		} catch (JSONException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		
 		Response response = null; 
 		

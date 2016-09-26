@@ -369,7 +369,7 @@ public class TravelOptions {
 	/**
 	 * @param source
 	 */
-	public void addSource(DefaultSourceCoordinate source) {
+	public void addSource(Coordinate source) {
 		this.sources.put(source.getId(), source);
 	}
 	
