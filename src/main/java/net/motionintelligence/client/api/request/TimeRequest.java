@@ -1,9 +1,11 @@
 package net.motionintelligence.client.api.request;
 
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.ResponseProcessingException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -108,8 +110,9 @@ public class TimeRequest {
 			targetsBuffer.append("]");
 			
 			config
-				.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",");
-			
+				.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",")
+				.append("{\"" + Constants.POLYGON_INTERSECTION_MODE + "\":" + this.travelOptions.getIntersectionMode() + ",");
+				
 			if ( this.travelOptions.isElevationEnabled() != null ) 
 				config.append("\"" + Constants.ENABLE_ELEVATION + "\":" + this.travelOptions.isElevationEnabled() + ",");
 			
@@ -130,20 +133,13 @@ public class TimeRequest {
 	 * @return
 	 * @throws Route360ClientException 
 	 */
-	public TimeResponse get() throws Route360ClientException {
+	public TimeResponse get() throws Route360ClientException, ProcessingException {
 		
 		long requestStart = System.currentTimeMillis();
 		
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
 				.queryParam("cb", callback)
 				.queryParam("key", travelOptions.getServiceKey());
-		
-//		try {
-//			System.out.println(new JSONObject(getCfg()).toString(4));
-//		} catch (JSONException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 		
 		Response response = null; 
 		
@@ -154,14 +150,7 @@ public class TimeRequest {
 		}
 		else if ( HttpMethod.POST.equals(this.method) ) {
 			
-			try {
-				
-				response = target.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
-			}
-			catch ( Exception e) {
-				
-				e.printStackTrace();
-			}
+			response = target.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
 		}
 		else 
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);

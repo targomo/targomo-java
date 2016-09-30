@@ -125,6 +125,7 @@ public class ReachabilityRequest {
 			config
 				.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",")
 				.append("\"" + Constants.ENABLE_ELEVATION + "\":" + this.travelOptions.isElevationEnabled() + ",")
+				.append("{\"" + Constants.POLYGON_INTERSECTION_MODE + "\":" + this.travelOptions.getIntersectionMode() + ",")
 				.append("\"" + Constants.REVERSE + "\":" + this.travelOptions.getReverse() + ",")
 				.append("\"" + Constants.POLYGON + "\": " + polygonBuffer.toString() + ",")
 				.append("\"" + Constants.SOURCES + "\": " + sourcesBuffer.toString() + ",")
