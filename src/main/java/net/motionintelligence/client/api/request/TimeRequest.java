@@ -111,7 +111,7 @@ public class TimeRequest {
 			
 			config
 				.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + this.travelOptions.getMaxRoutingTime() + ",")
-				.append("{\"" + Constants.POLYGON_INTERSECTION_MODE + "\":\"" + this.travelOptions.getIntersectionMode() + "\",");
+				.append("\"" + Constants.POLYGON_INTERSECTION_MODE + "\":\"" + this.travelOptions.getIntersectionMode() + "\",");
 				
 			if ( this.travelOptions.isElevationEnabled() != null ) 
 				config.append("\"" + Constants.ENABLE_ELEVATION + "\":" + this.travelOptions.isElevationEnabled() + ",");
