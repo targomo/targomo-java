@@ -131,6 +131,7 @@ public class PolygonRequest {
 			
 			config.put(Constants.SOURCES, sources);
 			config.put(Constants.ENABLE_ELEVATION, this.travelOptions.isElevationEnabled());
+			config.put(Constants.REVERSE, this.travelOptions.getReverse());
 			
 			cfg = IOUtil.encode(config.toString());
 		}
