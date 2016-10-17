@@ -2,9 +2,12 @@ package net.motionintelligence.client.api.request;
 
 import java.util.Arrays;
 
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
@@ -27,6 +30,7 @@ public class PolygonRequest {
 	private Client client;
 	private TravelOptions travelOptions;
 	private String callback = "callback";
+	private String method;
 	
 	public PolygonRequest(Client client){
 		
@@ -49,6 +53,12 @@ public class PolygonRequest {
 	public PolygonRequest(TravelOptions travelOptions){
 		this();
 		this.travelOptions = travelOptions;
+	}
+	
+	public PolygonRequest(TravelOptions travelOptions, String method){
+		this();
+		this.travelOptions = travelOptions;
+		this.method 	   = method;
 	}
 	
 	public PolygonRequest(Client client, TravelOptions travelOptions){
@@ -153,10 +163,21 @@ public class PolygonRequest {
 		
 		WebTarget request = client.target(travelOptions.getServiceUrl()).path("v1/polygon")
 			.queryParam("cb", callback)
-			.queryParam("key", travelOptions.getServiceKey())
-			.queryParam("cfg", this.getCfg());
+			.queryParam("key", travelOptions.getServiceKey());
 		
-		Response response = request.request().get();
+		Response response = null;
+		if ( HttpMethod.GET.equals(this.method) ) {
+			
+			request  = request.queryParam("cfg", IOUtil.encode(getCfg()));
+			response = request.request().get();
+		}
+		else if ( HttpMethod.POST.equals(this.method) ) {
+			
+			response = request.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
+		}
+		else 
+			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
+		
 		roundTripTimeMillis = ( System.currentTimeMillis() - roundTripTimeMillis);
 		
 		if ( response.getStatus() == Response.Status.OK.getStatusCode() ) {
