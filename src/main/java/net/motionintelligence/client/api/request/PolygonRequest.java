@@ -185,7 +185,8 @@ public class PolygonRequest {
 		}
 		else {
 			
-			throw new Route360ClientException(response.readEntity(String.class), null);
+			
+			throw new Route360ClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
 		}
 	}
 
