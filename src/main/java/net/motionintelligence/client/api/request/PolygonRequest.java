@@ -143,7 +143,7 @@ public class PolygonRequest {
 			config.put(Constants.ENABLE_ELEVATION, this.travelOptions.isElevationEnabled());
 			config.put(Constants.REVERSE, this.travelOptions.getReverse());
 			
-			cfg = IOUtil.encode(config.toString());
+			cfg = config.toString();
 		}
 		catch ( Exception e) {
 			throw new Route360ClientException("Could not generate r360 config object", e);
@@ -161,7 +161,7 @@ public class PolygonRequest {
 		
 		long roundTripTimeMillis = System.currentTimeMillis();
 		
-		WebTarget request = client.target(travelOptions.getServiceUrl()).path("v1/polygon")
+		WebTarget request = client.target(travelOptions.getServiceUrl()).path("v1/polygon" + (HttpMethod.POST.equals(this.method) ? "_post" : ""))
 			.queryParam("cb", callback)
 			.queryParam("key", travelOptions.getServiceKey());
 		
