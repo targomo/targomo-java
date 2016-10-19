@@ -21,6 +21,7 @@ import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
+import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -43,7 +44,7 @@ public class PolygonRequest {
 	/**
 	 */
 	public PolygonRequest(){
-		this(ClientBuilder.newClient());
+		this(JerseySslClientGenerator.initClient());
 	}
 	
 	/**
