@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
@@ -22,6 +24,8 @@ import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
 
 public class ReachabilityRequest {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
 	
 	private Client client;
 	private String method;
