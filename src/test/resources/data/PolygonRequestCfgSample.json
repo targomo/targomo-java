@@ -1,0 +1,1 @@
+{"elevation":false,"polygon":{"pointReduction":true,"intersectionMode":"UNION","values":[600,1200,1800,2400,3000,3600],"minPolygonHoleSize":100000000,"serializer":"json"},"sources":[{"lng":-73.976636,"tm":{"transit":{"frame":{"date":20161020,"duration":18000,"time":55852}}},"id":"id1","lat":40.608155}],"reverse":false}

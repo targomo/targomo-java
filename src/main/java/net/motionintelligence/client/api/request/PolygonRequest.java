@@ -1,32 +1,27 @@
 package net.motionintelligence.client.api.request;
 
-import java.util.Arrays;
-
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.message.GZipEncoder;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.config.RequestConfigurator;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
+import org.glassfish.jersey.client.ClientProperties;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 public class PolygonRequest {
 	
@@ -52,7 +47,7 @@ public class PolygonRequest {
 	
 	/**
 	 * 
-	 * @param traveloptions
+	 * @param travelOptions
 	 */
 	public PolygonRequest(TravelOptions travelOptions){
 		this();
@@ -87,73 +82,8 @@ public class PolygonRequest {
 	 * @throws Route360ClientException 
 	 */
 	public String getCfg() throws Route360ClientException {
-
-		String cfg = "";
-		
-		try {
-			
-			JSONObject config = new JSONObject();
-			
-			JSONObject polygon = new JSONObject();
-			polygon.put(Constants.BUFFER_IN_METER, this.travelOptions.getBufferInMeter());
-			polygon.put(Constants.POLYGON_VALUES, new JSONArray(this.travelOptions.getTravelTimes()));
-			polygon.put(Constants.POLYGON_INTERSECTION_MODE, this.travelOptions.getIntersectionMode());
-			polygon.put(Constants.SERIALIZER, this.travelOptions.getPolygonSerializerType().getPolygonSerializerName());
-			polygon.put(Constants.POINT_REDUCTION, this.travelOptions.isPointReduction());
-			polygon.put(Constants.MIN_POLYGON_HOLE_SIZE, this.travelOptions.getMinPolygonHoleSize());
-			
-			config.put(Constants.POLYGON, polygon);
-			
-			JSONArray sources = new JSONArray();
-			for ( Coordinate src : this.travelOptions.getSources().values() ) {
-				
-				TravelType travelType = travelOptions.getTravelType();
-				if ( src.getTravelType() != null && src.getTravelType() != travelType && src.getTravelType() != TravelType.UNSPECIFIED ) 
-					travelType = src.getTravelType();
-				
-				JSONObject travelMode = new JSONObject();
-				if ( TravelType.TRANSIT.equals(travelType) ) {
-					travelMode.put("frame", new JSONObject()
-						.put("time", travelOptions.getTime())
-						.put("date", travelOptions.getDate())
-						.put("duration", travelOptions.getFrame()));
-				}
-				
-				if ( TravelType.WALK.equals(travelType) ) {
-					travelMode.put("speed", travelOptions.getWalkSpeed());
-					travelMode.put("uphill", travelOptions.getWalkDownhill());
-					travelMode.put("downhill", travelOptions.getWalkUphill());
-				}
-				
-				if ( TravelType.BIKE.equals(travelType) ) {
-					travelMode.put("speed", travelOptions.getBikeSpeed());
-					travelMode.put("uphill", travelOptions.getBikeDownhill());
-					travelMode.put("downhill", travelOptions.getBikeUphill());
-				}
-				
-				JSONObject source = new JSONObject()
-					.put(Constants.ID, src.getId())
-					.put(Constants.LATITUDE, src.getY())
-					.put(Constants.LONGITUDE, src.getX())
-					.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
-				
-				if ( this.travelOptions.getReverse() )
-					source.put(Constants.REVERSE, true);
-				
-				sources.put(source);
-			}
-			
-			config.put(Constants.SOURCES, sources);
-			config.put(Constants.ENABLE_ELEVATION, this.travelOptions.isElevationEnabled());
-			config.put(Constants.REVERSE, this.travelOptions.getReverse());
-			
-			cfg = config.toString();
-		}
-		catch ( Exception e) {
-			throw new Route360ClientException("Could not generate r360 config object", e);
-		}
-		
-		return cfg;
+		// TODO remove method after all request classes have been refactored & tested
+		return RequestConfigurator.getPolygonConfig(travelOptions);
 	}
 
 	/**
