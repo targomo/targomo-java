@@ -75,16 +75,6 @@ public class PolygonRequest {
 	public void setTravelOptions(TravelOptions options) {
 		this.travelOptions = options;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 * @throws Route360ClientException 
-	 */
-	public String getCfg() throws Route360ClientException {
-		// TODO remove method after all request classes have been refactored & tested
-		return RequestConfigurator.getPolygonConfig(travelOptions);
-	}
 
 	/**
 	 * 
@@ -100,14 +90,15 @@ public class PolygonRequest {
 			.queryParam("key", travelOptions.getServiceKey());
 		
 		Response response = null;
+		String config = RequestConfigurator.getPolygonConfig(travelOptions);
 		if ( HttpMethod.GET.equals(this.method) ) {
 			
-			request  = request.queryParam("cfg", IOUtil.encode(getCfg()));
+			request  = request.queryParam("cfg", IOUtil.encode(config));
 			response = request.request().get();
 		}
 		else if ( HttpMethod.POST.equals(this.method) ) {
 			
-			response = request.request().post(Entity.entity(this.getCfg(), MediaType.APPLICATION_JSON_TYPE));
+			response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 		}
 		else 
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);

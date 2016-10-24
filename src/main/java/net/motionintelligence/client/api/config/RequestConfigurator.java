@@ -5,11 +5,14 @@ import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public final class RequestConfigurator {
+
+	private static final Logger LOG = Logger.getLogger(RequestConfigurator.class);
 
     private RequestConfigurator() {
     }
@@ -27,6 +30,49 @@ public final class RequestConfigurator {
             throw new Route360ClientException("Could not generate r360 config object", e);
         }
         return config.toString();
+    }
+
+    public static String getTimeConfig(final TravelOptions travelOptions) throws Route360ClientException {
+	    LOG.info("Creating time config...");
+	    StringBuilder configBuilder = new StringBuilder();
+	    try {
+		    StringBuilder sourcesBuffer = new StringBuilder().append("[");
+		    for (Coordinate src : travelOptions.getSources().values()) {
+			    TravelType travelType = getTravelType(travelOptions, src);
+			    JSONObject travelMode = getTravelMode(travelOptions, travelType);
+			    sourcesBuffer.append("{\"")
+					    .append(Constants.ID).append("\":\"").append(src.getId()).append("\",\"")
+					    .append(Constants.TRANSPORT_MODE).append("\":").append("{\"").append(travelType.toString()).append("\":"+travelMode.toString()+"},\"")
+					    .append(Constants.LATITUDE).append("\":\"").append(src.getY()).append("\",\"")
+					    .append(Constants.LONGITUDE).append("\":\"").append(src.getX()).append("\"},");
+		    }
+		    sourcesBuffer.deleteCharAt(sourcesBuffer.length() - 1);
+		    sourcesBuffer.append("]");
+		    StringBuilder targetsBuffer = new StringBuilder().append("[");
+		    for (Coordinate trg : travelOptions.getTargets().values()) {
+			    targetsBuffer.append("{ \"")
+					    .append(Constants.ID).append("\":\"").append(trg.getId()).append("\",\"")
+					    .append(Constants.LATITUDE).append("\":\"").append(trg.getY()).append("\",\"")
+					    .append(Constants.LONGITUDE).append("\":\"").append(trg.getX()).append("\"},");
+		    }
+		    targetsBuffer.deleteCharAt(targetsBuffer.length() - 1);
+		    targetsBuffer.append("]");
+
+		    configBuilder.append("{\"" + Constants.MAX_ROUTING_TIME + "\":" + travelOptions.getMaxRoutingTime() + ",")
+				    .append("\"" + Constants.POLYGON_INTERSECTION_MODE + "\":\"" + travelOptions.getIntersectionMode() + "\",");
+
+		    if (travelOptions.isElevationEnabled() != null)
+			    configBuilder.append("\"" + Constants.ENABLE_ELEVATION + "\":" + travelOptions.isElevationEnabled() + ",");
+
+		    configBuilder.append("\"" + Constants.SOURCES + "\": " + sourcesBuffer.toString() + ",");
+		    configBuilder.append("\"" + Constants.TARGETS + "\": " + targetsBuffer.toString() + "}");
+
+	    } catch (JSONException e) {
+		    throw new Route360ClientException("Could not generate r360 config object", e);
+	    }
+	    String config = configBuilder.toString();
+	    LOG.info("Time config created.");
+	    return config;
     }
 
     private static JSONObject getPolygonObject(final TravelOptions travelOptions) throws JSONException {
