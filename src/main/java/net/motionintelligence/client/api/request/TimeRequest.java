@@ -1,8 +1,8 @@
 package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.config.RequestConfigurator;
 import net.motionintelligence.client.api.exception.Route360ClientException;
+import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.TimeResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -58,7 +58,7 @@ public class TimeRequest {
 				.queryParam("key", travelOptions.getServiceKey());
 		
 		Response response = null; 
-		String config = RequestConfigurator.getTimeConfig(travelOptions);
+		String config = RequestConfigurator.getConfig(travelOptions);
 		if (HttpMethod.GET.equals(this.method)) {
 			target 	 = target.queryParam("cfg", IOUtil.encode(config));
 			response = target.request().get();

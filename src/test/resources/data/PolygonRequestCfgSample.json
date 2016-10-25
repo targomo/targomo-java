@@ -19,6 +19,7 @@
       "lng": -73.976636,
       "tm": {
         "transit": {
+          "recommendations": 0,
           "frame": {
             "date": 20161020,
             "duration": 18000,
@@ -27,6 +28,7 @@
         }
       },
       "id": "id1",
+      "reverse": false,
       "lat": 40.608155
     }
   ],

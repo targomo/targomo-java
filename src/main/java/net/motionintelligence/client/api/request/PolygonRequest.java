@@ -2,10 +2,8 @@ package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.config.RequestConfigurator;
-import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
+import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
@@ -21,7 +19,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 
 public class PolygonRequest {
 	
@@ -90,7 +87,7 @@ public class PolygonRequest {
 			.queryParam("key", travelOptions.getServiceKey());
 		
 		Response response = null;
-		String config = RequestConfigurator.getPolygonConfig(travelOptions);
+		String config = RequestConfigurator.getConfig(travelOptions);
 		if ( HttpMethod.GET.equals(this.method) ) {
 			
 			request  = request.queryParam("cfg", IOUtil.encode(config));
@@ -134,19 +131,5 @@ public class PolygonRequest {
 			
 			throw new Route360ClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
 		}
-	}
-
-	public static void main(String[] args) throws Route360ClientException {
-		
-		TravelOptions options = new TravelOptions();
-		options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
-		options.setTravelType(TravelType.TRANSIT);
-		options.addSource(new DefaultSourceCoordinate("id1", -73.976636, 40.608155));
-		options.setServiceKey("INSERT_YOUR_KEY_HERE");
-		options.setServiceUrl("https://service.route360.net/na_northeast/");
-		
-		PolygonRequest req = new PolygonRequest(options);
-		PolygonResponse polygonResponse = req.get();
-		System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
 	}
 }

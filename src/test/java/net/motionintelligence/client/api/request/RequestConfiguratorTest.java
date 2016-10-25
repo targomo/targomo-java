@@ -2,12 +2,13 @@ package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.config.RequestConfigurator;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class RequestConfiguratorTest {
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
+	        // Generate input
             TravelOptions options = new TravelOptions();
             options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
             options.setTravelType(TravelType.TRANSIT);
@@ -33,16 +35,18 @@ public class RequestConfiguratorTest {
             options.setDate(20161020);
             options.setTime(55852);
 
-            String cfg = RequestConfigurator.getPolygonConfig(options);
-
+	        // Run configurator && get object
+            String cfg = RequestConfigurator.getConfig(options);
             JSONObject actualObject = new JSONObject(cfg);
 
+	        // Load sample json & load object
             String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
 
-            Assert.assertEquals(sampleObject.getString(Constants.POLYGON), actualObject.getString(Constants.POLYGON));
+	        // Compare two objects
+	        checkPolygons(actualObject, sampleObject);
             Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
-            Assert.assertEquals(
+	        Assert.assertEquals(
                     sampleObject.getString(Constants.ENABLE_ELEVATION),
                     actualObject.getString(Constants.ENABLE_ELEVATION)
             );
@@ -58,20 +62,31 @@ public class RequestConfiguratorTest {
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
+	        // Generate random input
+	        final int numOfSources = 1000;
+	        final int numOfTargets = 500000;
+
             TravelOptions options = new TravelOptions();
             options.setMaxRoutingTime(3600);
+
+	        // Sources
 	        double min = -90;
 	        double max = 90;
+	        for (int i=0; i < numOfSources; i++) {
+		        double randomX = ThreadLocalRandom.current().nextDouble(min, max);
+		        double randomY = ThreadLocalRandom.current().nextDouble(min, max);
+		        options.addSource(new DefaultSourceCoordinate("id" + i, randomX, randomY));
+	        }
+
+	        // Targets
 	        Map<String, Coordinate> targets = new HashMap<>();
-            for (int i=0; i < 500; i++) {
+            for (int i=0; i < numOfTargets; i++) {
 	            double randomX = ThreadLocalRandom.current().nextDouble(min, max);
 	            double randomY = ThreadLocalRandom.current().nextDouble(min, max);
-	            options.addSource(new DefaultSourceCoordinate("id" + i, randomX, randomY));
-	            randomX = ThreadLocalRandom.current().nextDouble(min, max);
-	            randomY = ThreadLocalRandom.current().nextDouble(min, max);
 	            targets.put("id" + i, new DefaultTargetCoordinate("id" + i, randomX, randomY));
             }
             options.setTargets(targets);
+
             options.setTravelType(TravelType.CAR);
             options.setServiceKey("ENTER YOUR KEY HERE");
             options.setServiceUrl("https://service.route360.net/germany/");
@@ -79,18 +94,17 @@ public class RequestConfiguratorTest {
             options.setDate(20161020);
             options.setTime(55852);
 
-            String cfg = RequestConfigurator.getTimeConfig(options);
-
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeRequestCfgSample.json"));
-
+	        // Run configurator & create JSON Object
+            String cfg = RequestConfigurator.getConfig(options);
 	        JSONObject actualObject = new JSONObject(cfg);
+
+	        // Load sample json file & create sample object
+	        String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeRequestCfgSample.json"));
 	        JSONObject sampleObject = new JSONObject(sampleJson);
 
-	        Assert.assertEquals(sampleObject.getJSONArray(Constants.SOURCES).length(),
-			        actualObject.getJSONArray(Constants.SOURCES).length());
-
-	        Assert.assertEquals(sampleObject.getJSONArray(Constants.TARGETS).length(),
-			        actualObject.getJSONArray(Constants.TARGETS).length());
+	        // Input is random at each test, so we only compare array lengths to make sure all data is converted
+	        Assert.assertEquals(numOfSources, actualObject.getJSONArray(Constants.SOURCES).length());
+	        Assert.assertEquals(numOfTargets, actualObject.getJSONArray(Constants.TARGETS).length());
 
 	        Assert.assertEquals(sampleObject.get(Constants.MAX_ROUTING_TIME),
 			        actualObject.get(Constants.MAX_ROUTING_TIME));
@@ -106,4 +120,20 @@ public class RequestConfiguratorTest {
         }
     }
 
+	private void checkPolygons(final JSONObject actualObject, final JSONObject sampleObject) throws JSONException {
+		JSONObject actualPolygon = actualObject.getJSONObject(Constants.POLYGON);
+		JSONObject samplePolygon = sampleObject.getJSONObject(Constants.POLYGON);
+
+		Assert.assertEquals(samplePolygon.get(Constants.POLYGON_VALUES).toString(),
+				actualPolygon.get(Constants.POLYGON_VALUES).toString());
+
+		Assert.assertEquals(samplePolygon.get(Constants.POLYGON_INTERSECTION_MODE),
+				actualPolygon.get(Constants.POLYGON_INTERSECTION_MODE));
+
+		Assert.assertEquals(samplePolygon.get(Constants.POINT_REDUCTION),
+				actualPolygon.get(Constants.POINT_REDUCTION));
+
+		Assert.assertEquals(samplePolygon.get(Constants.MIN_POLYGON_HOLE_SIZE),
+				actualPolygon.get(Constants.MIN_POLYGON_HOLE_SIZE));
+	}
 }
