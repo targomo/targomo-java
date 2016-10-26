@@ -1,4 +1,4 @@
-package net.motionintelligence.client.api.request;
+package net.motionintelligence.client.api.request.config;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
@@ -6,7 +6,6 @@ import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
