@@ -10,8 +10,6 @@ import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
 import org.glassfish.jersey.client.ClientProperties;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -21,115 +19,144 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class PolygonRequest {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PolygonRequest.class);
-	
+
+	private static final String CALLBACK = "CALLBACK";
+
 	private Client client;
 	private TravelOptions travelOptions;
-	private String callback = "callback";
 	private String method;
-	
-	public PolygonRequest(Client client){
-		
+
+	/**
+	 * Use a custom client implementation
+	 * @param client Client to be used
+	 */
+	public PolygonRequest(Client client) {
 		this.client	= client;
 		this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
         this.client.property(ClientProperties.READ_TIMEOUT, 100000);
-	} 
-	
+	}
+
 	/**
+	 * Use default Client
 	 */
-	public PolygonRequest(){
+	public PolygonRequest() {
 		this(JerseySslClientGenerator.initClient());
 	}
-	
+
 	/**
-	 * 
-	 * @param travelOptions
+	 * Use default Client with specified travelOptions
+	 * @param travelOptions Travel options parameters
 	 */
-	public PolygonRequest(TravelOptions travelOptions){
+	public PolygonRequest(TravelOptions travelOptions) {
 		this();
 		this.travelOptions = travelOptions;
 	}
-	
-	public PolygonRequest(TravelOptions travelOptions, String method){
+
+	/**
+	 * Use default Client with specified travelOptions and method
+	 * @param travelOptions Travel options parameters
+	 * @param method HTTP Method (GET or POST)
+	 */
+	public PolygonRequest(TravelOptions travelOptions, String method) {
 		this();
 		this.travelOptions = travelOptions;
 		this.method 	   = method;
 	}
-	
-	public PolygonRequest(Client client, TravelOptions travelOptions){
 
+	/**
+	 * Use custom client with specified travelOptions
+	 * @param client Client to be used
+	 * @param travelOptions Travel options parameters
+	 */
+	public PolygonRequest(Client client, TravelOptions travelOptions){
 		this.client	= client;
 		this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
         this.client.property(ClientProperties.READ_TIMEOUT, 100000);
 		this.travelOptions = travelOptions;
 	}
-	
+
 	/**
-	 * 
-	 * @param options
+	 *
+	 * @param options Travel options parameters
 	 */
 	public void setTravelOptions(TravelOptions options) {
 		this.travelOptions = options;
 	}
 
 	/**
-	 * 
-	 * @return
-	 * @throws Route360ClientException 
+	 * Execute request
+	 * @return Polygon response
+	 * @throws Route360ClientException In case or error other than Gateway Timeout
 	 */
 	public PolygonResponse get() throws Route360ClientException {
-		
-		long roundTripTimeMillis = System.currentTimeMillis();
-		
-		WebTarget request = client.target(travelOptions.getServiceUrl()).path("v1/polygon" + (HttpMethod.POST.equals(this.method) ? "_post" : ""))
-			.queryParam("cb", callback)
-			.queryParam("key", travelOptions.getServiceKey());
-		
-		Response response = null;
+
+		long startTimeMillis = System.currentTimeMillis();
+
+		WebTarget request = client.target(travelOptions.getServiceUrl())
+				.path("v1/polygon" + (HttpMethod.POST.equals(method) ? "_post" : ""))
+				.queryParam("cb", CALLBACK)
+				.queryParam("key", travelOptions.getServiceKey());
+
+		// Execute request
+		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
-		if ( HttpMethod.GET.equals(this.method) ) {
-			
+		if (HttpMethod.GET.equals(method)) {
 			request  = request.queryParam("cfg", IOUtil.encode(config));
 			response = request.request().get();
 		}
-		else if ( HttpMethod.POST.equals(this.method) ) {
-			
+		else if (HttpMethod.POST.equals(method)) {
 			response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
-		}
-		else 
+		} else {
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
-		
-		roundTripTimeMillis = ( System.currentTimeMillis() - roundTripTimeMillis);
-		
-		if ( response.getStatus() == Response.Status.OK.getStatusCode() ) {
-			
-			String resultString = response.readEntity(String.class).replace(callback + "(", "").replaceAll("\\)$", "");
-			
+		}
+
+		// Execution time
+		long roundTripTimeMillis = (System.currentTimeMillis() - startTimeMillis);
+
+		// Validate & return
+		return validateResponse(response, roundTripTimeMillis);
+	}
+
+	/**
+	 * Validate HTTP response & return a PolygonResponse
+	 * @param response HTTP response
+	 * @param roundTripTimeMillis Execution time in milliseconds
+	 * @return PolygonResponse
+	 * @throws Route360ClientException In case of errors other than GatewayTimeout
+	 */
+	private PolygonResponse validateResponse(final Response response, final long roundTripTimeMillis) throws Route360ClientException {
+		// Check HTTP status
+		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+			String resultString = response.readEntity(String.class).replace(CALLBACK + "(", "").replaceAll("\\)$", "");
+
 			long startParsing = System.currentTimeMillis();
 			JSONObject result = JsonUtil.parseString(resultString);
 			long parseTime = System.currentTimeMillis() - startParsing;
-			
-			if ( Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals( JsonUtil.getString(result, "code")) )
+
+			// Check response code
+			final String responseCode = JsonUtil.getString(result, "code");
+			if (Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals(responseCode)
+					|| Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
+					|| Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
+					|| Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
 				throw new Route360ClientException(result.toString(), null);
-			
-			if ( Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals( JsonUtil.getString(result, "code")) )
-				throw new Route360ClientException(result.toString(), null);
-			
-			if ( Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals( JsonUtil.getString(result, "code")) )
-				throw new Route360ClientException(result.toString(), null);
-			
-			if ( Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals( JsonUtil.getString(result, "code")) )
-				throw new Route360ClientException(result.toString(), null);
-			
-			return new PolygonResponse(this.travelOptions, result, 
-					JsonUtil.getString(result, "code"), 
+			}
+
+			return new PolygonResponse(travelOptions, result,
+					JsonUtil.getString(result, "code"),
 					JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis, parseTime);
-		}
-		else {
-			
-			
+		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
+			return new PolygonResponse(travelOptions, new JSONObject(), "gateway-time-out", roundTripTimeMillis, -1);
+		} else {
 			throw new Route360ClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
 		}
+	}
+
+	/**
+	 * Specify HTTP method to be used
+	 * @param method HTTP method (GET or POST)
+	 */
+	public void setMethod(final String method) {
+		this.method = method;
 	}
 }
