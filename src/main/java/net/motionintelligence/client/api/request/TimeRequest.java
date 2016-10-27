@@ -18,69 +18,88 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class TimeRequest {
-	
+
+	private static final String CALLBACK = "CALLBACK";
+
 	private Client client;
 	private String method;
 	private TravelOptions travelOptions;
-	private String callback = "callback";
-	
+
 	/**
-	 * 
-	 * @param travelOptions
+	 * Use default client implementation with specified options & method
+	 * @param travelOptions Options to be used
+	 * @param method HTTP Method (GET or POST)
 	 */
-	public TimeRequest(TravelOptions travelOptions, String method){
-		
+	public TimeRequest(TravelOptions travelOptions, String method) {
 		this.client	= ClientBuilder.newClient();
 		client.register(GZipEncoder.class);
 		
 		this.travelOptions = travelOptions;
 		this.method = method;
 	}
-	
-	public TimeRequest(Client client, TravelOptions travelOptions, String method){
-		
+
+	/**
+	 * Use a custom client implementation with specified options & method
+	 * @param client Client implementation to be used
+	 * @param travelOptions Options to be used
+	 * @param method HTTP Method (GET or POST)
+	 */
+	public TimeRequest(Client client, TravelOptions travelOptions, String method) {
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.method = method;
 	}
 
 	/**
-	 * 
-	 * @return
-	 * @throws Route360ClientException 
+	 * Execute request
+	 * @return Time response
+	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public TimeResponse get() throws Route360ClientException, ProcessingException {
 		
 		long requestStart = System.currentTimeMillis();
 		
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
-				.queryParam("cb", callback)
+				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 		
-		Response response = null; 
+		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
+
 		if (HttpMethod.GET.equals(this.method)) {
 			target 	 = target.queryParam("cfg", IOUtil.encode(config));
 			response = target.request().get();
-		}
-		else if (HttpMethod.POST.equals(this.method)) {
+		} else if (HttpMethod.POST.equals(this.method)) {
 			response = target.request().post(
 					Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
-		}
-		else 
+		} else {
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
-		
+		}
+
+		return validateResponse(response, requestStart);
+	}
+
+	/**
+	 * Validate HTTP response & return a TimeResponse
+	 * @param response HTTP response
+	 * @param requestStart Beginning of execution in milliseconds
+	 * @return TimeResponse
+	 * @throws Route360ClientException In case of errors other than GatewayTimeout
+	 */
+	private TimeResponse validateResponse(final Response response, final long requestStart)
+			throws Route360ClientException {
+
 		// compare the HTTP status codes, NOT the route 360 code
-		if ( response.getStatus() == Response.Status.OK.getStatusCode() ) {
-			
-			String res = response.readEntity(String.class).replace(callback + "(", "").replaceAll("\\)$", "");
-			
+		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+
+			String res = response.readEntity(String.class).replace(CALLBACK + "(", "").replaceAll("\\)$", "");
+
 			// consume the results
 			return new TimeResponse(this.travelOptions, JsonUtil.parseString(res), requestStart);
-		}
-		else if ( response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode() ) 
+		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode() )
 			return new TimeResponse(this.travelOptions, "gateway-time-out", System.currentTimeMillis() - requestStart, requestStart);
-		else 
+		else {
 			throw new Route360ClientException(response.readEntity(String.class), null);
+		}
 	}
 }

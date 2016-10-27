@@ -33,9 +33,9 @@ public final class RequestConfigurator {
 	 * @throws Route360ClientException Thrown when JSON cannot be generated
 	 */
 	public static String getConfig(final TravelOptions travelOptions) throws Route360ClientException {
-	    LOG.info("Creating configuration...");
+	    LOG.trace("Creating configuration...");
 	    String config = getCommonConfig(travelOptions);
-	    LOG.info("Configuration created.");
+	    LOG.trace("Configuration created.");
 	    return config;
     }
 

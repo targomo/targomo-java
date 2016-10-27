@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "id": "id0",
+      "targets": [
+        {
+          "id": "id0",
+          "travelTime": -1
+        },
+        {
+          "id": "id2",
+          "travelTime": 1
+        },
+        {
+          "id": "id1",
+          "travelTime": 833
+        }
+      ]
+    },
+    {
+      "id": "id2",
+      "targets": [
+        {
+          "id": "id0",
+          "travelTime": -1
+        },
+        {
+          "id": "id2",
+          "travelTime": 3059
+        },
+        {
+          "id": "id1",
+          "travelTime": 2953
+        }
+      ]
+    },
+    {
+      "id": "id1",
+      "targets": [
+        {
+          "id": "id0",
+          "travelTime": -1
+        },
+        {
+          "id": "id2",
+          "travelTime": 1
+        },
+        {
+          "id": "id1",
+          "travelTime": 833
+        }
+      ]
+    }
+  ],
+  "code": "ok",
+  "message": "",
+  "requestTime": "472"
+}

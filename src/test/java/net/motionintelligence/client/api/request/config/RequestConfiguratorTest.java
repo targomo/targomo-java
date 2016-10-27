@@ -13,6 +13,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RequestConfiguratorTest {
     @Test
-    public void getPolygonConfig() throws Exception {
+    public void getConfig_check_polygons() throws Exception {
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
@@ -57,9 +59,8 @@ public class RequestConfiguratorTest {
     }
 
     @Test
-    public void getTimeConfig() throws Exception {
+    public void getConfig_many_targets() throws Exception {
 
-        ClassLoader classLoader = getClass().getClassLoader();
         try {
 	        // Generate random input
 	        final int numOfSources = 1000;
@@ -89,16 +90,14 @@ public class RequestConfiguratorTest {
             options.setTravelType(TravelType.CAR);
             options.setServiceKey("ENTER YOUR KEY HERE");
             options.setServiceUrl("https://service.route360.net/germany/");
-
-            options.setDate(20161020);
-            options.setTime(55852);
-
+	        
 	        // Run configurator & create JSON Object
             String cfg = RequestConfigurator.getConfig(options);
 	        JSONObject actualObject = new JSONObject(cfg);
 
 	        // Load sample json file & create sample object
-	        String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeRequestCfgSample.json"));
+	        InputStream resource = getClass().getClassLoader().getResourceAsStream("data/TimeRequestCfgSample.json");
+	        String sampleJson = IOUtils.toString(resource, Charset.forName("UTF-8"));
 	        JSONObject sampleObject = new JSONObject(sampleJson);
 
 	        // Input is random at each test, so we only compare array lengths to make sure all data is converted

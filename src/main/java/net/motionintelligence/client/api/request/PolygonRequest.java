@@ -86,7 +86,7 @@ public class PolygonRequest {
 	/**
 	 * Execute request
 	 * @return Polygon response
-	 * @throws Route360ClientException In case or error other than Gateway Timeout
+	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public PolygonResponse get() throws Route360ClientException {
 
@@ -124,7 +124,9 @@ public class PolygonRequest {
 	 * @return PolygonResponse
 	 * @throws Route360ClientException In case of errors other than GatewayTimeout
 	 */
-	private PolygonResponse validateResponse(final Response response, final long roundTripTimeMillis) throws Route360ClientException {
+	private PolygonResponse validateResponse(final Response response, final long roundTripTimeMillis)
+			throws Route360ClientException {
+
 		// Check HTTP status
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			String resultString = response.readEntity(String.class).replace(CALLBACK + "(", "").replaceAll("\\)$", "");
