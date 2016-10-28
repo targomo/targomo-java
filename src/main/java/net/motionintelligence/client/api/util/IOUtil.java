@@ -1,36 +1,52 @@
 package net.motionintelligence.client.api.util;
 
+import net.motionintelligence.client.Constants;
+
+import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class IOUtil {
+public final class IOUtil {
 
-	public static String decode(String string) {
-		
+	private IOUtil() {
+	}
+
+	/**
+	 * Decode a URL-encoded String
+	 * @param string URL-encoded string
+	 * @return Decoded string
+	 */
+	public static String decode(final String string) {
 		try {
-			
 			return URLDecoder.decode(string, StandardCharsets.UTF_8.name());
 		} 
 		catch (UnsupportedEncodingException e) {
 			throw new AssertionError("UTF-8 is unknown");
 		}
 	}
-	
-	public static String encode(String string) {
-		
+
+	/**
+	 * Convert a String to URL-encoded version
+	 * @param string input String
+	 * @return URL-encoded version of string
+	 */
+	public static String encode(final String string) {
 		try {
-			
 			return URLEncoder.encode(string, StandardCharsets.UTF_8.name());
 		} 
 		catch (UnsupportedEncodingException e) {
 			throw new AssertionError("UTF-8 is unknown");
 		}
 	}
-	
-	public static void main(String[] args) {
-		
-		System.out.println(IOUtil.encode("18923789127*&(!@&#*(^!*&@$^%&*%!"));
+
+	/**
+	 * Convert get body from HTTP response & remove callback field
+	 * @param response HTTP response
+	 * @return Response body without callback
+	 */
+	public static String getResultString(final Response response) {
+		return response.readEntity(String.class).replace(Constants.CALLBACK + "(", "").replaceAll("\\)$", "");
 	}
 }

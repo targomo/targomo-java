@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 
 public class TimeRequest {
 
-	private static final String CALLBACK = "CALLBACK";
+	private static final String CALLBACK = "callback";
 
 	private Client client;
 	private String method;
@@ -76,28 +76,31 @@ public class TimeRequest {
 			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
 		}
 
-		return validateResponse(response, requestStart);
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateResponse(response, requestStart, roundTripTime);
 	}
 
 	/**
 	 * Validate HTTP response & return a TimeResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
+	 * @param roundTripTime Execution time in milliseconds
 	 * @return TimeResponse
 	 * @throws Route360ClientException In case of errors other than GatewayTimeout
 	 */
-	private TimeResponse validateResponse(final Response response, final long requestStart)
+	private TimeResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws Route360ClientException {
 
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
-			String res = response.readEntity(String.class).replace(CALLBACK + "(", "").replaceAll("\\)$", "");
+			String res = IOUtil.getResultString(response);
 
 			// consume the results
-			return new TimeResponse(this.travelOptions, JsonUtil.parseString(res), requestStart);
+			return new TimeResponse(travelOptions, JsonUtil.parseString(res), requestStart);
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode() )
-			return new TimeResponse(this.travelOptions, "gateway-time-out", System.currentTimeMillis() - requestStart, requestStart);
+			return new TimeResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
 		else {
 			throw new Route360ClientException(response.readEntity(String.class), null);
 		}

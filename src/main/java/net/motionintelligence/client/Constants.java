@@ -42,4 +42,5 @@ public class Constants {
 	public static final String REVERSE 													= "reverse";
 	public static final String Y 														= "y";
 	public static final String X 														= "x";
+	public static final String CALLBACK                                                 = "callback";
 }

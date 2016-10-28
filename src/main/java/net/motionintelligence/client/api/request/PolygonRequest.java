@@ -20,8 +20,6 @@ import javax.ws.rs.core.Response;
 
 public class PolygonRequest {
 
-	private static final String CALLBACK = "CALLBACK";
-
 	private Client client;
 	private TravelOptions travelOptions;
 	private String method;
@@ -68,7 +66,7 @@ public class PolygonRequest {
 	 * @param client Client to be used
 	 * @param travelOptions Travel options parameters
 	 */
-	public PolygonRequest(Client client, TravelOptions travelOptions){
+	public PolygonRequest(Client client, TravelOptions travelOptions) {
 		this.client	= client;
 		this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
         this.client.property(ClientProperties.READ_TIMEOUT, 100000);
@@ -94,7 +92,7 @@ public class PolygonRequest {
 
 		WebTarget request = client.target(travelOptions.getServiceUrl())
 				.path("v1/polygon" + (HttpMethod.POST.equals(method) ? "_post" : ""))
-				.queryParam("cb", CALLBACK)
+				.queryParam("cb", Constants.CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 
 		// Execute request
@@ -129,7 +127,7 @@ public class PolygonRequest {
 
 		// Check HTTP status
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-			String resultString = response.readEntity(String.class).replace(CALLBACK + "(", "").replaceAll("\\)$", "");
+			String resultString = IOUtil.getResultString(response);
 
 			long startParsing = System.currentTimeMillis();
 			JSONObject result = JsonUtil.parseString(resultString);
