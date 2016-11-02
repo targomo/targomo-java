@@ -1,8 +1,7 @@
 package net.motionintelligence.client.api.response;
 
-import org.json.JSONArray;
-
 import net.motionintelligence.client.api.TravelOptions;
+import org.json.JSONArray;
 
 public class RouteResponse {
 
@@ -44,6 +43,12 @@ public class RouteResponse {
 	}
 
 	/**
+	 * Returns generated routes in JSON format.
+	 * <p> Example: <br>
+	 * <code> [{"travelTime": 483, "length": 4064.2, "target_id": "target0", "source_id": "source0",
+	 *   "segments": [{"travelTime": 483,"length": 4064.2324777363283,"endname": "target", "type": "CAR",
+	 *                 "startname": "source",
+	 *                 "points": [[6890540,1493497,37],[6890662,1493215,39]]}]}] </code> </p>
 	 * @return the routes
 	 */
 	public JSONArray getRoutes() {

@@ -1,13 +1,12 @@
 package net.motionintelligence.client.api.response;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.util.JsonUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.util.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReachabilityResponse {
 
@@ -19,9 +18,9 @@ public class ReachabilityResponse {
 	private final Map<String,Integer> travelTimes = new HashMap<>();
 
 	/**
-	 * @param travelOptions2
+	 * @param travelOptions
 	 * @param result
-	 * @param totalTimeMillis 
+	 * @param requestStart
 	 */
 	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
 		
@@ -55,8 +54,7 @@ public class ReachabilityResponse {
 	}
 
 	/**
-	 * @param source
-	 * @param target
+	 * @param targetId
 	 * @param travelTime
 	 */
 	public void addTravelTime(String targetId, Integer travelTime) {
@@ -86,8 +84,8 @@ public class ReachabilityResponse {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Map of source IDs - travel times
+	 * @return travel time map
 	 */
 	public Map<String, Integer> getTravelTimes() {
 		return this.travelTimes;

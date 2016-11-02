@@ -18,6 +18,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Calculates travel time for each source point to all targets, or -1 if unreachable.
+ */
 public class ReachabilityRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);

@@ -16,6 +16,8 @@ Get your API key [here ](https://developers.route360.net/apikey.html).
 
 ## PolygonService
 
+Create polygon from source point.
+
     TravelOptions options = new TravelOptions();
     options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
     options.setTravelType(TravelType.TRANSIT);
@@ -29,6 +31,8 @@ Get your API key [here ](https://developers.route360.net/apikey.html).
     
 ## TimeService
 
+Return travel times from each source to each target point.
+
     TravelOptions options = new TravelOptions();
     options.setMaxRoutingTime(3600);
     options.addSource(source);
@@ -40,3 +44,35 @@ Get your API key [here ](https://developers.route360.net/apikey.html).
     TimeResponse timeResponse = new TimeRequest(options, HttpMethod.POST).get();
     // so the api returns all combinations of source and target with the corresponding travel time, or -1 if not reachable
     Map<Source, Map<Target, Integer>> travelTimes = timeResponse.getTravelTimes();
+
+## ReachabilityService
+
+Return total travel time for each source point to all targets.
+
+    TravelOptions options = new TravelOptions();
+    options.setMaxRoutingTime(3600);
+    options.addSource(source);
+    options.setTargets(targets);
+    options.setTravelType(TravelType.CAR);
+    options.setServiceKey("ENTER YOUR KEY HERE");
+    options.setServiceUrl("https://service.route360.net/germany/");
+
+	ReachabilityResponse reachabilityResponse = new ReachabilityRequest(options, HttpMethod.POST).get();
+	// source ID, total travel time or -1 if not reachable
+	Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
+
+## RouteService
+
+Return possible route from each source point to each target.
+
+    TravelOptions options = new TravelOptions();
+    options.setMaxRoutingTime(3600);
+    options.addSource(source);
+    options.setTargets(targets);
+    options.setTravelType(TravelType.BIKE);
+    options.setElevationEnabled(true);
+    options.setServiceKey("ENTER YOUR KEY HERE");
+    options.setServiceUrl("https://service.route360.net/germany/");
+
+	RouteResponse routeResponse = new RouteRequest(options, HttpMethod.POST).get();
+	JSONArray routes = routeResponse.getRoutes();

@@ -1,18 +1,25 @@
 package net.motionintelligence.client.api;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Common configuration class for executing all requests.
+ * Define source points, target points & other configuration values such as travel times, elevation etc. here.
+ * See: {@link net.motionintelligence.client.api.request.PolygonRequest},
+ * {@link net.motionintelligence.client.api.request.RouteRequest},
+ * {@link net.motionintelligence.client.api.request.TimeRequest},
+ * {@link net.motionintelligence.client.api.request.ReachabilityRequest}.
+ */
 public class TravelOptions {
 
 	private Map<String,Coordinate> sources		= new HashMap<>();
@@ -50,7 +57,7 @@ public class TravelOptions {
 	
 	/**
 	 * 
-	 * @return
+	 * @return source coordinates array
 	 */
 	public double[][] getSourceCoordinates() {
 		return getCoordinates(this.sources);
@@ -58,16 +65,16 @@ public class TravelOptions {
 	
 	/**
 	 * 
-	 * @return
+	 * @return target coordinates array
 	 */
 	public double[][] getTargetCoordinates(){
 		return getCoordinates(this.targets);
 	}
 	
 	/**
-	 * 
-	 * @param points
-	 * @return
+	 * Convert a map of Coordinate ID, Coordinate value into double arrays
+	 * @param points map of coordinates
+	 * @return coordinates array in the form of [[x0, y0], [x1, y1]]
 	 */
 	private double[][] getCoordinates(Map<String, Coordinate> points) {
 		
@@ -107,7 +114,7 @@ public class TravelOptions {
 	
 	/**
 	 * 
-	 * @param targets
+	 * @param targets add all specified targets to the target map
 	 */
 	public void addAllTargets(Map<String,Coordinate> targets) {
 		this.targets.putAll(targets);
@@ -288,7 +295,7 @@ public class TravelOptions {
 		return intersectionMode;
 	}
 	/**
-	 * @param intersectionMode the intersectionMode to set
+	 * @param intersectionMode the intersectionMode to set. Default: UNION
 	 */
 	public void setIntersectionMode(PolygonIntersectionMode intersectionMode) {
 		this.intersectionMode = intersectionMode;
@@ -300,7 +307,7 @@ public class TravelOptions {
 		return pathSerializer;
 	}
 	/**
-	 * @param pathSerializer the pathSerializer to set
+	 * @param pathSerializer the pathSerializer to set. Default: COMPACT
 	 */
 	public void setPathSerializer(PathSerializerType pathSerializer) {
 		this.pathSerializer = pathSerializer;
@@ -312,7 +319,7 @@ public class TravelOptions {
 		return polygonSerializerType;
 	}
 	/**
-	 * @param polygonSerializerType the polygonSerializerType to set
+	 * @param polygonSerializerType the polygonSerializerType to set. Default: JSON
 	 */
 	public void setPolygonSerializerType(PolygonSerializerType polygonSerializerType) {
 		this.polygonSerializerType = polygonSerializerType;
@@ -324,7 +331,7 @@ public class TravelOptions {
 		return pointReduction;
 	}
 	/**
-	 * @param pointReduction the pointReduction to set
+	 * @param pointReduction the pointReduction to set. Default: true
 	 */
 	public void setPointReduction(boolean pointReduction) {
 		this.pointReduction = pointReduction;
@@ -416,6 +423,11 @@ public class TravelOptions {
 	public void setStatistics(List<String> statistics) {
 		this.statistics = statistics ;
 	}
+
+	/**
+	 * Determines whether to return only reachable points or all
+	 * @param onlyPrintReachablePoints default: true
+	 */
 	public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
 		this.onlyPrintReachablePoints = onlyPrintReachablePoints;
 	}
@@ -436,6 +448,10 @@ public class TravelOptions {
 		return reverse;
 	}
 
+	/**
+	 *
+	 * @param reverse default: false
+	 */
 	public void setReverse(Boolean reverse) {
 		this.reverse = reverse;
 	}

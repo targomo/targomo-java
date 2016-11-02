@@ -1,14 +1,13 @@
 package net.motionintelligence.client.api.response;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.JsonUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TimeResponse {
 
@@ -20,9 +19,9 @@ public class TimeResponse {
 	private final Map<Coordinate, Map<Coordinate,Integer>> travelTimes = new HashMap<>();
 
 	/**
-	 * @param travelOptions2
+	 * @param travelOptions
 	 * @param result
-	 * @param totalTimeMillis 
+	 * @param requestStart
 	 */
 	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
 		
@@ -105,16 +104,15 @@ public class TimeResponse {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get travel times from each source point to each target point.
+	 * @return map for sources -> (targets, travel times)
 	 */
 	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
 		return this.travelTimes;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return Total execution time
 	 */
 	public long getTotalTime() {
 		return this.totalTimeMillis;

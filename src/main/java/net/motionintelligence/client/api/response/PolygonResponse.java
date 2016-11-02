@@ -1,8 +1,7 @@
 package net.motionintelligence.client.api.response;
 
-import org.json.JSONObject;
-
 import net.motionintelligence.client.api.TravelOptions;
+import org.json.JSONObject;
 
 public class PolygonResponse {
 
@@ -63,6 +62,63 @@ public class PolygonResponse {
 		return roundTripTimeMillis;
 	}
 
+	/**
+	 * Generated polygons in JSON format. <p>
+	 * Example: <br>
+	 * <code> {
+		 "requestTime": "2314",
+		 "code": "ok",
+		 "data": [{
+			 "area": 7408443.013488605,
+			 "polygons": [
+			 {
+				 "area": 7408443.013488605,
+				 "travelTime": 300,
+				 "outerBoundary": [
+					 [
+					 1488566,
+					 6894821
+					 ],
+					 [
+					 1488565,
+					 6894837
+					 ],
+					 [
+					 1488549,
+					 6894837
+					 ],
+					 [
+					 1488536,
+					 6894837
+					 ]
+				 ],
+				 "innerBoundary": [
+					 [
+					 1504982,
+					 6895249
+					 ],
+					 [
+					 1504987,
+					 6895348
+					 ],
+					 [
+					 1504882,
+					 6895342
+					 ],
+					 [
+					 1504823,
+					 6895341
+					 ],
+					 [
+					 1504729,
+					 6895413
+					 ]
+				 ]
+			 }
+		 }]
+	 } </code> </p>
+	 * @return polygon data
+	 */
 	public JSONObject getResult() {
 		return result;
 	}

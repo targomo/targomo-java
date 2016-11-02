@@ -17,6 +17,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Calculates travel times from each source point to each target.
+ */
 public class TimeRequest {
 
 	private static final String CALLBACK = "callback";

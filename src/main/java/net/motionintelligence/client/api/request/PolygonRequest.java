@@ -18,6 +18,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Creates polygons for the source points with specified travel times in minutes.
+ */
 public class PolygonRequest {
 
 	private Client client;
