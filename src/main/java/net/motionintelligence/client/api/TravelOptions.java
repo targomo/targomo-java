@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * Common configuration class for executing all requests.
- * Define source points, target points & other configuration values such as travel times, elevation etc. here.
+ * Define source points, target points and other configuration values such as travel times, elevation etc. here.
  * See: {@link net.motionintelligence.client.api.request.PolygonRequest},
  * {@link net.motionintelligence.client.api.request.RouteRequest},
  * {@link net.motionintelligence.client.api.request.TimeRequest},

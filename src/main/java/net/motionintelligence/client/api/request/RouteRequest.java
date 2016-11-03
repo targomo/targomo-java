@@ -26,6 +26,7 @@ public class RouteRequest {
 
 	/**
 	 * Use default Client with specified travelOptions
+	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
 	 * @param travelOptions Travel options parameters
 	 */
 	public RouteRequest(TravelOptions travelOptions){
@@ -63,7 +64,7 @@ public class RouteRequest {
 	}
 
 	/**
-	 * Validate HTTP response & return a PolygonResponse
+	 * Validate HTTP response and return a PolygonResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
 	 * @return RouteResponse

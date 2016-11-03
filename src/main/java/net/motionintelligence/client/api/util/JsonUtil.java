@@ -1,12 +1,11 @@
 package net.motionintelligence.client.api.util;
 
+import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 
 public class JsonUtil {
 	
@@ -24,7 +23,7 @@ public class JsonUtil {
 
 	/**
 	 * 
-	 * @param response
+	 * @param object
 	 * @param string
 	 * @param jsonArray
 	 */
@@ -70,7 +69,7 @@ public class JsonUtil {
 	
 	/**
 	 * 
-	 * @param response
+	 * @param object
 	 * @param string
 	 * @param jsonObject
 	 */

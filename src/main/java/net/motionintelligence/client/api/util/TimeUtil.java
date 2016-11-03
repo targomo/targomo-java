@@ -15,7 +15,7 @@ public class TimeUtil {
 	
 	/**
 	 * Parses time values such as 09:16:45 from gtfs to an integer values 
-	 * represented in seconds. => 9*3600 + 16*60 + 45
+	 * represented in seconds. For example: 9*3600 + 16*60 + 45
 	 * 
 	 * @param time the time to parse
 	 * @return number of seconds for given time

@@ -44,33 +44,26 @@ public final class RequestConfigurator {
 		StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
 
 		try {
-			if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty()) {
+			if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty())
 				JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
-			}
 
-			if (travelOptions.getIntersectionMode() != null) {
+			if (travelOptions.getIntersectionMode() != null)
 				JSONBuilder.appendString(config, Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
-			}
 
-			if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty()) {
+			if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
 				JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
-			}
 
-			if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty()) {
+			if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
 				JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
-			}
 
-			if (travelOptions.getPathSerializer() != null) {
+			if (travelOptions.getPathSerializer() != null)
 				JSONBuilder.appendString(config, Constants.PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
-			}
 
-			if (travelOptions.isElevationEnabled() != null) {
+			if (travelOptions.isElevationEnabled() != null)
 				JSONBuilder.append(config, Constants.ENABLE_ELEVATION, travelOptions.isElevationEnabled());
-			}
 
-			if (travelOptions.getReverse() != null) {
+			if (travelOptions.getReverse() != null)
 				JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
-			}
 
 			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
 
@@ -88,12 +81,12 @@ public final class RequestConfigurator {
 		polygon.put(Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
 		polygon.put(Constants.POINT_REDUCTION, travelOptions.isPointReduction());
 		polygon.put(Constants.MIN_POLYGON_HOLE_SIZE, travelOptions.getMinPolygonHoleSize());
-		if (travelOptions.getBufferInMeter() != null) {
+		if (travelOptions.getBufferInMeter() != null)
 			polygon.put(Constants.BUFFER_IN_METER, travelOptions.getBufferInMeter());
-		}
-		if (travelOptions.getPolygonSerializerType() != null) {
+
+		if (travelOptions.getPolygonSerializerType() != null)
 			polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
-		}
+
 		return polygon;
 	}
 
@@ -143,6 +136,8 @@ public final class RequestConfigurator {
 				travelMode.put("speed", travelOptions.getBikeSpeed());
 				travelMode.put("uphill", travelOptions.getBikeDownhill());
 				travelMode.put("downhill", travelOptions.getBikeUphill());
+				break;
+			default:
 				break;
 		}
 

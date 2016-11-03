@@ -4,7 +4,7 @@
 package net.motionintelligence.client.api.enums;
 
 /**
- * @author Daniel Gerber <daniel.gerber@icloud.com>
+ * @author Daniel Gerber
  *
  */
 public enum PolygonIntersectionMode {

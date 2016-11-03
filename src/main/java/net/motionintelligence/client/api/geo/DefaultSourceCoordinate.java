@@ -2,104 +2,65 @@ package net.motionintelligence.client.api.geo;
 
 import net.motionintelligence.client.api.enums.TravelType;
 
-public class DefaultSourceCoordinate implements Coordinate {
-	
-	protected String id;
-	protected double x, y;
+/**
+ * Default implementation for storing source coordinates.
+ * Basically a {@link Coordinate} with TravelType, specialized to be used as a target.
+ */
+public class DefaultSourceCoordinate extends Coordinate {
+
 	private TravelType travelType;
 	
 	/**
-	 * 
-	 * @param id
-	 * @param x
-	 * @param y
+	 * Generate Source coordinate with a TravelType as well as ID, X and Y values.
+	 * @param id ID to associate with the target coordinate
+	 * @param x X value of target
+	 * @param y Y value of target
+	 * @param travelType TravelType to be associated with the coordinate
 	 */
 	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType) {
-		this.id = id;
-		this.x  = x;
-		this.y  = y;
+		super(id, x, y);
 		this.travelType = travelType;
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 * @param x
-	 * @param y
+	 * Generate Source coordinate with ID, X and Y values with no travel type.
+	 * Travel type will be set to null.
+	 * @param id ID to associate with the target coordinate
+	 * @param x X value of target
+	 * @param y Y value of target
 	 */
 	public DefaultSourceCoordinate(String id, double x, double y) {
-		this(id,x,y,null);
+		this(id, x, y, null);
 	}
 
 	/**
-	 * @return the id
+	 * Get travel type configuration for the source coordinate.
+	 * @return Travel type
 	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the x
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * @param x the x to set
-	 */
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	/**
-	 * @return the y
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
-	 * @param y the y to set
-	 */
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	/**
-	 * 
-	 */
+	@Override
 	public TravelType getTravelType() {
-		return this.travelType;
+		return travelType;
 	}
-	
+
 	/**
-	 * 
+	 * Specify a travel type for the source coordinate.
+	 * @param travelType TravelType to be associated with the source coordinate.
 	 */
-	public void setTravelType(TravelType travelType) {
+	@Override
+	public void setTravelType(final TravelType travelType) {
 		this.travelType = travelType;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getClass().getName());
 		builder.append(" {\n\tid: ");
-		builder.append(id);
+		builder.append(getId());
 		builder.append("\n\tx: ");
-		builder.append(x);
+		builder.append(getX());
 		builder.append("\n\ty: ");
-		builder.append(y);
+		builder.append(getY());
 		builder.append("\n\ttravelType: ");
 		builder.append(travelType);
 		builder.append("\n}\n");

@@ -8,7 +8,6 @@ import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.client.ClientProperties;
 import org.json.JSONObject;
 
 import javax.ws.rs.HttpMethod;
@@ -33,12 +32,10 @@ public class PolygonRequest {
 	 */
 	public PolygonRequest(Client client) {
 		this.client	= client;
-		this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
-        this.client.property(ClientProperties.READ_TIMEOUT, 100000);
 	}
 
 	/**
-	 * Use default Client
+	 * Use default Client. See {@link JerseySslClientGenerator}
 	 */
 	public PolygonRequest() {
 		this(JerseySslClientGenerator.initClient());
@@ -54,7 +51,7 @@ public class PolygonRequest {
 	}
 
 	/**
-	 * Use default Client with specified travelOptions and method
+	 * Use default Client with specified travelOptions and HTTP method
 	 * @param travelOptions Travel options parameters
 	 * @param method HTTP Method (GET or POST)
 	 */
@@ -71,8 +68,6 @@ public class PolygonRequest {
 	 */
 	public PolygonRequest(Client client, TravelOptions travelOptions) {
 		this.client	= client;
-		this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
-        this.client.property(ClientProperties.READ_TIMEOUT, 100000);
 		this.travelOptions = travelOptions;
 	}
 
@@ -119,7 +114,7 @@ public class PolygonRequest {
 	}
 
 	/**
-	 * Validate HTTP response & return a PolygonResponse
+	 * Validate HTTP response and return a PolygonResponse
 	 * @param response HTTP response
 	 * @param roundTripTimeMillis Execution time in milliseconds
 	 * @return PolygonResponse

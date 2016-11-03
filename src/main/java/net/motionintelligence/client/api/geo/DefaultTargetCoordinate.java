@@ -3,89 +3,38 @@ package net.motionintelligence.client.api.geo;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 
-public class DefaultTargetCoordinate implements Coordinate {
-	
-	protected String id;
-	protected double x, y;
-	
+/**
+ * Default implementation for storing target coordinates.
+ * Basically a {@link Coordinate} specialized to be used as a target.
+ */
+public class DefaultTargetCoordinate extends Coordinate {
+
 	/**
-	 * 
-	 * @param id
-	 * @param x
-	 * @param y
+	 * Generate Target coordinate with an ID along with X and Y values.
+	 * @param id ID to associate with the target coordinate
+	 * @param x X value of target
+	 * @param y Y value of target
 	 */
-	public DefaultTargetCoordinate(String id, double x, double y) {
-		this.id = id;
-		this.x  = x;
-		this.y  = y;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
+	public DefaultTargetCoordinate(final String id, final double x, final double y) {
+		super(id, x, y);
 	}
 
 	/**
-	 * @param id the id to set
+	 * Not implemented, will throw exception.
+	 * @throws Route360ClientRuntimeException
 	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the x
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * @param x the x to set
-	 */
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	/**
-	 * @return the y
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
-	 * @param y the y to set
-	 */
-	public void setY(double y) {
-		this.y = y;
-	}
-
 	@Override
 	public TravelType getTravelType() {
-		throw new Route360ClientRuntimeException("not implemented");
+		throw new Route360ClientRuntimeException("Not implemented.");
 	}
 
-	@Override
-	public void setTravelType(TravelType travelType) {
-		throw new Route360ClientRuntimeException("not implemented");
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Not implemented, will throw exception.
+	 * @param travelType travelType to set
+	 * @throws Route360ClientRuntimeException
 	 */
 	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(getClass().getName());
-		builder.append(" {\n\tid: ");
-		builder.append(id);
-		builder.append("\n\tx: ");
-		builder.append(x);
-		builder.append("\n\ty: ");
-		builder.append(y);
-		builder.append("\n}\n");
-		return builder.toString();
+	public void setTravelType(final TravelType travelType) {
+		throw new Route360ClientRuntimeException("Not implemented.");
 	}
 }

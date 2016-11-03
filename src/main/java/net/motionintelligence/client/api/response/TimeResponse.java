@@ -1,6 +1,7 @@
 package net.motionintelligence.client.api.response;
 
 import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.JsonUtil;
 import org.json.JSONArray;
@@ -19,9 +20,10 @@ public class TimeResponse {
 	private final Map<Coordinate, Map<Coordinate,Integer>> travelTimes = new HashMap<>();
 
 	/**
-	 * @param travelOptions
-	 * @param result
-	 * @param requestStart
+	 * Create a response from JSON results.
+	 * @param travelOptions Travel options used in request
+	 * @param result Travel times in JSON
+	 * @param requestStart Start time of execution
 	 */
 	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
 		
@@ -29,37 +31,55 @@ public class TimeResponse {
 		this.code 		 	   	  = JsonUtil.getString(result, "code");
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
 		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
-		
-		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
-		for ( int i = 0 ; i < jsonArray.length() ; i++) {
-		
-			JSONObject source = JsonUtil.getJSONObject(jsonArray, i);
-			String srcId 	  = JsonUtil.getString(source, "id");
-			
-			JSONArray targets = JsonUtil.getJsonArray(source, "targets");
-			
-			for ( int j = 0 ; j < targets.length() ; j++) {
-				
-				JSONObject target = JsonUtil.getJSONObject(targets, j);
-				String trgId      = JsonUtil.getString(target, "id");
-				
-				this.addTravelTime(travelOptions.getSource(srcId), travelOptions.getTarget(trgId), JsonUtil.getInt(target, "travelTime"));
-			}
-		}
+
+		mapResults(result);
 	}
 
 	/**
-	 * 
-	 * @param travelOptions
-	 * @param code
-	 * @param requestime
+	 * Create a response with custom response code and without results. Can be used in case of errors.
+	 * @param travelOptions Travel options used in request
+	 * @param code Response code
+	 * @param requestTime Execution time in milliseconds
+	 * @param requestStart Start time of execution
 	 */
-	public TimeResponse(TravelOptions travelOptions, String code, long requestime, long requestStart) {
-		
+	public TimeResponse(TravelOptions travelOptions, String code, long requestTime, long requestStart) {
+
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = code;
-		this.requestTimeMillis 	  = requestime;
+		this.requestTimeMillis 	  = requestTime;
 		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+	}
+
+	/**
+	 * Parse results in JSON to travel times map.
+	 * @param result resulting JSON
+	 */
+	public void mapResults(final JSONObject result) {
+		if (travelOptions == null)
+			throw new Route360ClientRuntimeException("Unsupported call");
+
+		mapResults(travelOptions, result);
+	}
+
+	/**
+	 * Parse results in JSON to travel times map.
+	 * @param travelOptions options used in the request
+	 * @param result resulting JSON
+	 */
+	public void mapResults(final TravelOptions travelOptions, final JSONObject result) {
+		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
+		for (int i = 0 ; i < jsonArray.length(); i++) {
+			JSONObject source = JsonUtil.getJSONObject(jsonArray, i);
+			String srcId = JsonUtil.getString(source, "id");
+			JSONArray targets = JsonUtil.getJsonArray(source, "targets");
+
+			for (int j = 0; j < targets.length(); j++) {
+				JSONObject target = JsonUtil.getJSONObject(targets, j);
+				String trgId = JsonUtil.getString(target, "id");
+
+				addTravelTime(travelOptions.getSource(srcId), travelOptions.getTarget(trgId), JsonUtil.getInt(target, "travelTime"));
+			}
+		}
 	}
 
 	/**
@@ -105,7 +125,7 @@ public class TimeResponse {
 	
 	/**
 	 * Get travel times from each source point to each target point.
-	 * @return map for sources -> (targets, travel times)
+	 * @return map from each source to (targets, travel times)
 	 */
 	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
 		return this.travelTimes;

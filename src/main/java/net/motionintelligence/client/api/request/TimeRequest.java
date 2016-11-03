@@ -19,38 +19,35 @@ import javax.ws.rs.core.Response;
 
 /**
  * Calculates travel times from each source point to each target.
+ * Only accepts {@link HttpMethod} POST.
  */
 public class TimeRequest {
 
 	private static final String CALLBACK = "callback";
 
 	private Client client;
-	private String method;
 	private TravelOptions travelOptions;
 
 	/**
-	 * Use default client implementation with specified options & method
+	 * Use default client implementation with specified options and method
+	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
 	 * @param travelOptions Options to be used
-	 * @param method HTTP Method (GET or POST)
 	 */
-	public TimeRequest(TravelOptions travelOptions, String method) {
+	public TimeRequest(TravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
 		client.register(GZipEncoder.class);
 		
 		this.travelOptions = travelOptions;
-		this.method = method;
 	}
 
 	/**
-	 * Use a custom client implementation with specified options & method
+	 * Use a custom client implementation with specified options and method
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
-	 * @param method HTTP Method (GET or POST)
 	 */
-	public TimeRequest(Client client, TravelOptions travelOptions, String method) {
+	public TimeRequest(Client client, TravelOptions travelOptions) {
 		this.client	= client;
 		this.travelOptions = travelOptions;
-		this.method = method;
 	}
 
 	/**
@@ -68,16 +65,8 @@ public class TimeRequest {
 		
 		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
-
-		if (HttpMethod.GET.equals(this.method)) {
-			target 	 = target.queryParam("cfg", IOUtil.encode(config));
-			response = target.request().get();
-		} else if (HttpMethod.POST.equals(this.method)) {
-			response = target.request().post(
-					Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
-		} else {
-			throw new Route360ClientException("HTTP Method not supported: " + this.method, null);
-		}
+		// Execute POST request
+		response = target.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
@@ -85,7 +74,7 @@ public class TimeRequest {
 	}
 
 	/**
-	 * Validate HTTP response & return a TimeResponse
+	 * Validate HTTP response and return a TimeResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
 	 * @param roundTripTime Execution time in milliseconds

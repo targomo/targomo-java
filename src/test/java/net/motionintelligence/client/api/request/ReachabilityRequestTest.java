@@ -31,7 +31,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
 		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions(), HttpMethod.GET);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions(), HttpMethod.POST);
 		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 
 		assertEquals("ok", reachabilityResponse.getCode());
@@ -44,7 +44,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.GET);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.POST);
 		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 		assertEquals("gateway-time-out", reachabilityResponse.getCode());
 	}
@@ -54,7 +54,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.GET);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.POST);
 		reachabilityRequest.get();
 	}
 

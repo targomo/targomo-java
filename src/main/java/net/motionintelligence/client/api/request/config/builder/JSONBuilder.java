@@ -41,7 +41,7 @@ public final class JSONBuilder {
 	}
 
 	/**
-	 * Appends Object directly & puts JSON object end descriptor "}" to the end
+	 * Appends Object directly and puts JSON object end descriptor "}" to the end
 	 * @param builder Builder to append the descriptor
 	 * @param key Field name
 	 * @param value Value object

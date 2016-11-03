@@ -42,7 +42,7 @@ public final class IOUtil {
 	}
 
 	/**
-	 * Convert get body from HTTP response & remove callback field
+	 * Convert get body from HTTP response and remove callback field
 	 * @param response HTTP response
 	 * @return Response body without callback
 	 */
