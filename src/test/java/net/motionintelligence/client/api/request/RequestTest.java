@@ -10,6 +10,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -33,5 +34,6 @@ public abstract class RequestTest {
 		when(mockWebTarget.request()).thenReturn(mockBuilder);
 
 		when(mockBuilder.get()).thenReturn(sampleResponse);
+		when(mockBuilder.post(anyObject())).thenReturn(sampleResponse);
 	}
 }

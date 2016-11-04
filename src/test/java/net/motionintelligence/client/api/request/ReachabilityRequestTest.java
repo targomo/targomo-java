@@ -10,7 +10,6 @@ import net.motionintelligence.client.api.response.ReachabilityResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -31,7 +30,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
 		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions(), HttpMethod.POST);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions());
 		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 
 		assertEquals("ok", reachabilityResponse.getCode());
@@ -44,7 +43,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.POST);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
 		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 		assertEquals("gateway-time-out", reachabilityResponse.getCode());
 	}
@@ -54,7 +53,7 @@ public class ReachabilityRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options, HttpMethod.POST);
+		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
 		reachabilityRequest.get();
 	}
 

@@ -10,7 +10,6 @@ import net.motionintelligence.client.api.response.TimeResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -31,7 +30,7 @@ public class TimeRequestTest extends RequestTest {
 		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
 		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		TimeRequest timeRequest = new TimeRequest(mockClient, getTravelOptions(), HttpMethod.POST);
+		TimeRequest timeRequest = new TimeRequest(mockClient, getTravelOptions());
 		TimeResponse timeResponse = timeRequest.get();
 
 		assertEquals("ok", timeResponse.getCode());
@@ -44,7 +43,7 @@ public class TimeRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		TimeRequest timeRequest = new TimeRequest(mockClient, options, HttpMethod.POST);
+		TimeRequest timeRequest = new TimeRequest(mockClient, options);
 		TimeResponse timeResponse = timeRequest.get();
 		assertEquals("gateway-time-out", timeResponse.getCode());
 	}
@@ -54,7 +53,7 @@ public class TimeRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
 		TravelOptions options = getTravelOptions();
-		TimeRequest timeRequest = new TimeRequest(mockClient, options, HttpMethod.POST);
+		TimeRequest timeRequest = new TimeRequest(mockClient, options);
 		timeRequest.get();
 	}
 

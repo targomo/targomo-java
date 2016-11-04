@@ -29,7 +29,7 @@ public class RouteRequest {
 	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
 	 * @param travelOptions Travel options parameters
 	 */
-	public RouteRequest(TravelOptions travelOptions){
+	public RouteRequest(TravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
 		client.register(GZipEncoder.class);
 		

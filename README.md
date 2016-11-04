@@ -41,7 +41,7 @@ Return travel times from each source to each target point.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
     
-    TimeResponse timeResponse = new TimeRequest(options, HttpMethod.POST).get();
+    TimeResponse timeResponse = new TimeRequest(options).get();
     // so the api returns all combinations of source and target with the corresponding travel time, or -1 if not reachable
     Map<Source, Map<Target, Integer>> travelTimes = timeResponse.getTravelTimes();
 
@@ -57,7 +57,7 @@ Return total travel time for each source point to all targets.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
 
-	ReachabilityResponse reachabilityResponse = new ReachabilityRequest(options, HttpMethod.POST).get();
+	ReachabilityResponse reachabilityResponse = new ReachabilityRequest(options).get();
 	// source ID, total travel time or -1 if not reachable
 	Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
 
@@ -74,5 +74,5 @@ Return possible route from each source point to each target.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
 
-	RouteResponse routeResponse = new RouteRequest(options, HttpMethod.POST).get();
+	RouteResponse routeResponse = new RouteRequest(options).get();
 	JSONArray routes = routeResponse.getRoutes();
