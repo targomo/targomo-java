@@ -12,7 +12,8 @@
       3600
     ],
     "minPolygonHoleSize": 100000000,
-    "serializer": "json"
+    "serializer": "json",
+    "srid" : 25833
   },
   "sources": [
     {
