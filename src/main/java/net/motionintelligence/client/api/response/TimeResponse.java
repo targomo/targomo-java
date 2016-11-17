@@ -2,6 +2,7 @@ package net.motionintelligence.client.api.response;
 
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
+import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.JsonUtil;
 import org.json.JSONArray;
@@ -98,7 +99,7 @@ public class TimeResponse {
 	 * @param target
 	 * @return null if the source or the target is not available, the travel time otherwise
 	 */
-	public Integer getTravelTime(Coordinate source, Coordinate target) {
+	public Integer getTravelTime(AbstractCoordinate source, AbstractCoordinate target) {
 		return this.travelTimes.getOrDefault(source, null).getOrDefault(target, -1);
 	}
 

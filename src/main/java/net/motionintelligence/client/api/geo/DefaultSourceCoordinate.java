@@ -4,9 +4,9 @@ import net.motionintelligence.client.api.enums.TravelType;
 
 /**
  * Default implementation for storing source coordinates.
- * Basically a {@link Coordinate} with TravelType, specialized to be used as a target.
+ * Basically a {@link AbstractCoordinate} with TravelType, specialized to be used as a target.
  */
-public class DefaultSourceCoordinate extends Coordinate {
+public class DefaultSourceCoordinate extends AbstractCoordinate {
 
 	private TravelType travelType;
 	

@@ -5,9 +5,9 @@ import net.motionintelligence.client.api.exception.Route360ClientRuntimeExceptio
 
 /**
  * Default implementation for storing target coordinates.
- * Basically a {@link Coordinate} specialized to be used as a target.
+ * Basically a {@link AbstractCoordinate} specialized to be used as a target.
  */
-public class DefaultTargetCoordinate extends Coordinate {
+public class DefaultTargetCoordinate extends AbstractCoordinate {
 
 	/**
 	 * Generate Target coordinate with an ID along with X and Y values.

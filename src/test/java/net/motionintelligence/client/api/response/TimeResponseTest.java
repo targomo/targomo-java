@@ -3,6 +3,7 @@ package net.motionintelligence.client.api.response;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
+import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;

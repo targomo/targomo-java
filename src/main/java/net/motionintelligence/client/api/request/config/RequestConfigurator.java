@@ -4,6 +4,7 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
+import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.request.config.builder.JSONBuilder;
 import org.apache.log4j.Logger;
@@ -78,16 +79,27 @@ public final class RequestConfigurator {
 		return config.toString();
 	}
 
+	/**
+	 * 
+	 * @param travelOptions
+	 * @return
+	 * @throws JSONException
+	 */
 	private static JSONObject getPolygonObject(final TravelOptions travelOptions) throws JSONException {
+		
 		JSONObject polygon = new JSONObject();
-		polygon.put(Constants.POLYGON_VALUES, new JSONArray(travelOptions.getTravelTimes()));
+		polygon.put(Constants.POLYGON_VALUES, 			 new JSONArray(travelOptions.getTravelTimes()));
 		polygon.put(Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
-		polygon.put(Constants.POINT_REDUCTION, travelOptions.isPointReduction());
-		polygon.put(Constants.MIN_POLYGON_HOLE_SIZE, travelOptions.getMinPolygonHoleSize());
-		if (travelOptions.getBufferInMeter() != null)
+		polygon.put(Constants.POINT_REDUCTION, 			 travelOptions.isPointReduction());
+		polygon.put(Constants.MIN_POLYGON_HOLE_SIZE, 	 travelOptions.getMinPolygonHoleSize());
+		
+		if ( travelOptions.getSrid() != null )
+			polygon.put(Constants.SRID, travelOptions.getSrid());
+		
+		if ( travelOptions.getBufferInMeter() != null )
 			polygon.put(Constants.BUFFER_IN_METER, travelOptions.getBufferInMeter());
 
-		if (travelOptions.getPolygonSerializerType() != null)
+		if ( travelOptions.getPolygonSerializerType() != null )
 			polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
 		return polygon;

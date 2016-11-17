@@ -5,6 +5,7 @@ import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
+import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
@@ -44,6 +45,7 @@ public class TravelOptions {
     private Integer date                                 = TimeUtil.getCurrentDate();
     private Integer frame                                = 18000;
     private Integer recommendations                      = 0;
+    private Integer srid                      			 = null;
 
     private Integer bufferInMeter						= null;
     private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
@@ -456,6 +458,14 @@ public class TravelOptions {
 	 */
 	public void setReverse(Boolean reverse) {
 		this.reverse = reverse;
+	}
+
+	public Integer getSrid() {
+		return srid;
+	}
+
+	public void setSrid(Integer srid) {
+		this.srid = srid;
 	}
 
 	public EdgeWeightType getEdgeWeightType() {
