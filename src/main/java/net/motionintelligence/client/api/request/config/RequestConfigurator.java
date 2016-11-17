@@ -66,6 +66,9 @@ public final class RequestConfigurator {
 			if (travelOptions.getReverse() != null)
 				JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
 
+			if (travelOptions.getEdgeWeightType() != null)
+				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT_TYPE, travelOptions.getEdgeWeightType());
+
 			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
 
 		}
