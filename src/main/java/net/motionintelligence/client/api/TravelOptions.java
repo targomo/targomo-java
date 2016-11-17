@@ -1,5 +1,6 @@
 package net.motionintelligence.client.api;
 
+import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
@@ -52,6 +53,7 @@ public class TravelOptions {
     private String serviceUrl                        	= "";
     private String serviceKey                        	= "";
 	private boolean onlyPrintReachablePoints			= true;
+	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
 
 	private List<String> statistics;
 	
@@ -454,5 +456,13 @@ public class TravelOptions {
 	 */
 	public void setReverse(Boolean reverse) {
 		this.reverse = reverse;
+	}
+
+	public EdgeWeightType getEdgeWeightType() {
+		return edgeWeightType;
+	}
+
+	public void setEdgeWeightType(final EdgeWeightType edgeWeightType) {
+		this.edgeWeightType = edgeWeightType;
 	}
 }
