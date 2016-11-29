@@ -66,10 +66,8 @@ public class ReachabilityRequest {
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 		
-		Response response;
-		String config = RequestConfigurator.getConfig(travelOptions);
 		// Execute POST request
-		response = target.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+		Response response = target.request().post(Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE));
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 

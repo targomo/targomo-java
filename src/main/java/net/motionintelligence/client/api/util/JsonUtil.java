@@ -1,6 +1,14 @@
 package net.motionintelligence.client.api.util;
 
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -253,5 +261,27 @@ public static JSONArray parseArray(String config) throws Route360ClientRuntimeEx
 			
 			throw new Route360ClientRuntimeException(String.format("Could not (pretty) print '%s' with indendation: %s", config, intendation));
 		}
+	}
+	
+	public static Set<String> getKeys(JSONObject results) {
+		
+		Set<String> keys = new HashSet<>();
+		
+		Iterator<String> iterator = results.keys();
+		while ( iterator.hasNext() ) 
+			keys.add(iterator.next());
+		
+		return keys;
+	}
+
+	public static List<Integer> getSortedIntKeySet(JSONObject object) {
+		
+		List<Integer> keysAsInt = new ArrayList<>();
+		for ( String key : getKeys(object)) 
+			keysAsInt.add(Integer.valueOf(key));
+		
+		Collections.sort(keysAsInt);
+		
+		return keysAsInt;
 	}
 }
