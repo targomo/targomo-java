@@ -2,8 +2,8 @@ package net.motionintelligence.client.api.request.config;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
@@ -37,6 +37,7 @@ public class RequestConfiguratorTest {
             options.setDate(20161020);
             options.setTime(55852);
             options.setSrid(25833);
+	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -54,6 +55,7 @@ public class RequestConfiguratorTest {
                     actualObject.getString(Constants.ENABLE_ELEVATION)
             );
             Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
+	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT_TYPE), actualObject.getString(Constants.EDGE_WEIGHT_TYPE));
 
         } catch (IOException e) {
             e.printStackTrace();
