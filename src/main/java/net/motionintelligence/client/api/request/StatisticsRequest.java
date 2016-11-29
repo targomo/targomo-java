@@ -94,8 +94,6 @@ public class StatisticsRequest {
 		for ( Integer stat : this.travelOptions.getStatisticIds()) 
 			target = target.queryParam("statistics", stat);
 		
-		System.out.println(target.getUri().toString());
-		
 		// Execute POST request
 		Response response = target.request().post(Entity.entity(parseSources(this.travelOptions.getSources()), MediaType.APPLICATION_JSON_TYPE));
 
@@ -109,17 +107,21 @@ public class StatisticsRequest {
 		TravelOptions options = new TravelOptions();
 		options.setMaxRoutingTime(1800);
 		options.setTravelType(TravelType.WALK);
-		options.addSource(new DefaultSourceCoordinate("ashjdkahw", 7.4474, 46.9480));
+//		options.addSource(new DefaultSourceCoordinate("ashjdkahw", 13.0645, 52.3906));
+		options.addSource(new DefaultSourceCoordinate("ashjdkahw", 7.4474, 46.94801));
+//		options.setServiceUrl("http://localhost:8080/");
 		options.setServiceUrl("https://service.route360.net/switzerland/");
 		options.setStatisticServiceUrl("http://localhost:8081/");
 		options.setServiceKey("uhWrWpUhyZQy8rPfiC7X");
 		options.setDate(20150812);
 		options.setTime(43200);
-		options.setStatisticIds(new HashSet<>(Arrays.asList(0,1)));
+		options.setAppendTravelTimes(false);
+		options.setStatisticIds(new HashSet<>(Arrays.asList(0)));
+		options.setStatisticGroupId("census_brandenburg_population");
 		options.setStatisticGroupId("switzerland_statistics");
 		
 		StatisticsResponse response   = new StatisticsRequest(options).get();
-		System.out.println(response.getStatisticResult().getResult());
+		System.out.println(response.getStatisticResult());
 	}
 	
 	/**
