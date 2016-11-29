@@ -10,7 +10,9 @@ import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -395,15 +397,93 @@ public class TravelOptions {
 		this.targets.put(target.getId(), target);
 	}
 	
+	private String toString(Collection<?> collection, int maxLen) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[");
+		int i = 0;
+		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+			if (i > 0)
+				builder.append(", ");
+			builder.append(iterator.next());
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "TravelOptions {\n\tsources: " + sources.size() + "\n\ttargets: " + targets.size() + "\n\tbikeSpeed: " + bikeSpeed + "\n\tbikeUphill: " + bikeUphill + "\n\tbikeDownhill: " + bikeDownhill + "\n\twalkSpeed: " + walkSpeed + "\n\twalkUphill: " + walkUphill + "\n\twalkDownhill: " + walkDownhill
-				+ "\n\ttravelTimes: " + travelTimes + "\n\ttravelType: " + travelType + "\n\televationEnabled: " + elevationEnabled + "\n\tpointReduction: " + pointReduction + "\n\tminPolygonHoleSize: " + minPolygonHoleSize + "\n\ttime: " + time + "\n\tdate: " + date + "\n\tframe: " + frame
-				+ "\n\trecommendations: " + recommendations + "\n\tintersectionMode: " + intersectionMode + "\n\tpathSerializer: " + pathSerializer + "\n\tpolygonSerializerType: " + polygonSerializerType + "\n\tmaxRoutingTime: " + maxRoutingTime + "\n\tserviceUrl: " + serviceUrl + "\n\tserviceKey: "
-				+ serviceKey + "\n}";
+		final int maxLen = 5;
+		StringBuilder builder = new StringBuilder();
+		builder.append(getClass().getName());
+		builder.append(" {\n\tsources: ");
+		builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
+		builder.append("\n\ttargets: ");
+		builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
+		builder.append("\n\tbikeSpeed: ");
+		builder.append(bikeSpeed);
+		builder.append("\n\tbikeUphill: ");
+		builder.append(bikeUphill);
+		builder.append("\n\tbikeDownhill: ");
+		builder.append(bikeDownhill);
+		builder.append("\n\twalkSpeed: ");
+		builder.append(walkSpeed);
+		builder.append("\n\twalkUphill: ");
+		builder.append(walkUphill);
+		builder.append("\n\twalkDownhill: ");
+		builder.append(walkDownhill);
+		builder.append("\n\ttravelTimes: ");
+		builder.append(travelTimes != null ? toString(travelTimes, maxLen) : null);
+		builder.append("\n\ttravelType: ");
+		builder.append(travelType);
+		builder.append("\n\televationEnabled: ");
+		builder.append(elevationEnabled);
+		builder.append("\n\tappendTravelTimes: ");
+		builder.append(appendTravelTimes);
+		builder.append("\n\tpointReduction: ");
+		builder.append(pointReduction);
+		builder.append("\n\treverse: ");
+		builder.append(reverse);
+		builder.append("\n\tminPolygonHoleSize: ");
+		builder.append(minPolygonHoleSize);
+		builder.append("\n\ttime: ");
+		builder.append(time);
+		builder.append("\n\tdate: ");
+		builder.append(date);
+		builder.append("\n\tframe: ");
+		builder.append(frame);
+		builder.append("\n\trecommendations: ");
+		builder.append(recommendations);
+		builder.append("\n\tsrid: ");
+		builder.append(srid);
+		builder.append("\n\tbufferInMeter: ");
+		builder.append(bufferInMeter);
+		builder.append("\n\tintersectionMode: ");
+		builder.append(intersectionMode);
+		builder.append("\n\tpathSerializer: ");
+		builder.append(pathSerializer);
+		builder.append("\n\tpolygonSerializerType: ");
+		builder.append(polygonSerializerType);
+		builder.append("\n\tmaxRoutingTime: ");
+		builder.append(maxRoutingTime);
+		builder.append("\n\tserviceUrl: ");
+		builder.append(serviceUrl);
+		builder.append("\n\tstatisticServiceUrl: ");
+		builder.append(statisticServiceUrl);
+		builder.append("\n\tserviceKey: ");
+		builder.append(serviceKey);
+		builder.append("\n\tonlyPrintReachablePoints: ");
+		builder.append(onlyPrintReachablePoints);
+		builder.append("\n\tedgeWeightType: ");
+		builder.append(edgeWeightType);
+		builder.append("\n\tstatisticIds: ");
+		builder.append(statisticIds != null ? toString(statisticIds, maxLen) : null);
+		builder.append("\n\tstatisticGroupId: ");
+		builder.append(statisticGroupId);
+		builder.append("\n}\n");
+		return builder.toString();
 	}
 	
 	/**
