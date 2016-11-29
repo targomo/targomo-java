@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Common configuration class for executing all requests.
@@ -37,6 +38,7 @@ public class TravelOptions {
     private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
     private TravelType travelType                    	= TravelType.UNSPECIFIED;
     private Boolean elevationEnabled                 	= false;
+    private Boolean appendTravelTimes					= false;
     private Boolean pointReduction                   	= true;
     private Boolean reverse                   			= false;
     private Long minPolygonHoleSize                  	= 100000000L;
@@ -53,11 +55,13 @@ public class TravelOptions {
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
     private int maxRoutingTime                       	= 3600;
     private String serviceUrl                        	= "";
+    private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
     private String serviceKey                        	= "";
 	private boolean onlyPrintReachablePoints			= true;
 	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
 
-	private List<String> statistics;
+	private Set<Integer> statisticIds;
+	private String statisticGroupId;
 	
 	/**
 	 * 
@@ -420,12 +424,12 @@ public class TravelOptions {
 		return this.targets.get(id);
 	}
 	
-	public List<String> getStatistics() {
-		return this.statistics;
+	public Set<Integer> getStatisticIds() {
+		return this.statisticIds;
 	}
 	
-	public void setStatistics(List<String> statistics) {
-		this.statistics = statistics ;
+	public void setStatisticIds(Set<Integer> statisticIds) {
+		this.statisticIds = statisticIds ;
 	}
 
 	/**
@@ -474,5 +478,36 @@ public class TravelOptions {
 
 	public void setEdgeWeightType(final EdgeWeightType edgeWeightType) {
 		this.edgeWeightType = edgeWeightType;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Boolean getAppendTravelTimes() {
+		return this.appendTravelTimes;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setAppendTravelTimes(Boolean appendTravelTimes) {
+		this.appendTravelTimes = appendTravelTimes;
+	}
+
+	public String getStatisticServiceUrl() {
+		return statisticServiceUrl;
+	}
+
+	public void setStatisticServiceUrl(String statisticServiceUrl) {
+		this.statisticServiceUrl = statisticServiceUrl;
+	}
+
+	public String getStatisticGroupId() {
+		return statisticGroupId;
+	}
+
+	public void setStatisticGroupId(String statisticGroupId) {
+		this.statisticGroupId = statisticGroupId;
 	}
 }
