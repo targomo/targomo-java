@@ -5,7 +5,6 @@ import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
@@ -54,6 +53,7 @@ public class TravelOptions {
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
     private int maxRoutingTime                       	= 3600;
+	private int maxRoutingLength                       	= 100000;
     private String serviceUrl                        	= "";
     private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
     private String serviceKey                        	= "";
@@ -350,12 +350,28 @@ public class TravelOptions {
 	public int getMaxRoutingTime() {
 		return maxRoutingTime;
 	}
+
 	/**
 	 * @param maxRoutingTime the maxRoutingTime to set
 	 */
 	public void setMaxRoutingTime(int maxRoutingTime) {
 		this.maxRoutingTime = maxRoutingTime;
 	}
+
+	/**
+	 * @return the maxRoutingLength
+	 */
+	public int getMaxRoutingLength() {
+		return maxRoutingLength;
+	}
+
+	/**
+	 * @param maxRoutingLength the maxRoutingLength to set
+	 */
+	public void setMaxRoutingLength(int maxRoutingLength) {
+		this.maxRoutingLength = maxRoutingLength;
+	}
+
 	/**
 	 * @return the serviceUrl
 	 */

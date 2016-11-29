@@ -5,6 +5,7 @@ public class Constants {
 	public static final String POLYGON_VALUES 											= "values";
 	public static final String POLYGON_INTERSECTION_MODE 								= "intersectionMode";
 	public static final String MAX_ROUTING_TIME											= "maxRoutingTime";
+	public static final String MAX_ROUTING_LENGTH										= "maxRoutingLength";
 	public static final String SERIALIZER 												= "serializer";
 	public static final String POLYGON_SERIALIZER 										= "polygonSerializer";
 	public static final String POINT_REDUCTION 											= "pointReduction";

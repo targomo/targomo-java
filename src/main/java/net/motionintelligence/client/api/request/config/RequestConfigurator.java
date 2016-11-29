@@ -4,7 +4,6 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.request.config.builder.JSONBuilder;
 import org.apache.log4j.Logger;
@@ -69,7 +68,9 @@ public final class RequestConfigurator {
 			if (travelOptions.getEdgeWeightType() != null)
 				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT_TYPE, travelOptions.getEdgeWeightType());
 
-			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
+			JSONBuilder.append(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
+
+			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_LENGTH, travelOptions.getMaxRoutingLength());
 
 		}
 		catch (Exception e) {
