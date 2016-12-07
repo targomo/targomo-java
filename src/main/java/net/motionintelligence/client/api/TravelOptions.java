@@ -5,7 +5,6 @@ import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.geo.AbstractCoordinate;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.util.TimeUtil;
 
@@ -353,12 +352,14 @@ public class TravelOptions {
 	public int getMaxRoutingTime() {
 		return maxRoutingTime;
 	}
+
 	/**
 	 * @param maxRoutingTime the maxRoutingTime to set
 	 */
 	public void setMaxRoutingTime(int maxRoutingTime) {
 		this.maxRoutingTime = maxRoutingTime;
 	}
+
 	/**
 	 * @return the maxRoutingLength
 	 */
@@ -483,6 +484,8 @@ public class TravelOptions {
 		builder.append(polygonSerializerType);
 		builder.append("\n\tmaxRoutingTime: ");
 		builder.append(maxRoutingTime);
+		builder.append("\n\tmaxRoutingLength: ");
+		builder.append(maxRoutingLength);
 		builder.append("\n\tserviceUrl: ");
 		builder.append(serviceUrl);
 		builder.append("\n\tstatisticServiceUrl: ");

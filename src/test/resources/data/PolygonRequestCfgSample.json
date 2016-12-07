@@ -33,5 +33,6 @@
       "lat": 40.608155
     }
   ],
-  "reverse": false
+  "reverse": false,
+  "edgeWeight": "DISTANCE"
 }

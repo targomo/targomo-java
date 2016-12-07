@@ -1,18 +1,15 @@
 package net.motionintelligence.client.api.request;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import net.motionintelligence.client.Constants;
+import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.enums.TravelType;
+import net.motionintelligence.client.api.exception.Route360ClientException;
+import net.motionintelligence.client.api.geo.Coordinate;
+import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
+import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
+import net.motionintelligence.client.api.response.StatisticsResponse;
+import net.motionintelligence.client.api.util.IOUtil;
+import net.motionintelligence.client.api.util.JsonUtil;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,18 +17,15 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.motionintelligence.client.Constants;
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.Coordinate;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
-import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
-import net.motionintelligence.client.api.response.ReachabilityResponse;
-import net.motionintelligence.client.api.response.StatisticsResponse;
-import net.motionintelligence.client.api.util.IOUtil;
-import net.motionintelligence.client.api.util.JsonUtil;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
 
 public class StatisticsRequest {
 	
@@ -94,6 +88,7 @@ public class StatisticsRequest {
 				.queryParam("intersectionMode", this.travelOptions.getIntersectionMode())
 				.queryParam("appendTravelTimes", this.travelOptions.getAppendTravelTimes())
 				.queryParam("maxRoutingTime", this.travelOptions.getMaxRoutingTime())
+				.queryParam("maxRoutingLength", this.travelOptions.getMaxRoutingLength())
 				.queryParam("statisticGroupId", this.travelOptions.getStatisticGroupId());
 		
 		for ( Integer stat : this.travelOptions.getStatisticIds()) 
