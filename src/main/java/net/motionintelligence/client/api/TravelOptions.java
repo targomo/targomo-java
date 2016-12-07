@@ -56,6 +56,7 @@ public class TravelOptions {
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
     private int maxRoutingTime                       	= 3600;
+    private int maxRoutingLength                       	= 100000;
     private String serviceUrl                        	= "";
     private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
     private String serviceKey                        	= "";
@@ -358,6 +359,20 @@ public class TravelOptions {
 	public void setMaxRoutingTime(int maxRoutingTime) {
 		this.maxRoutingTime = maxRoutingTime;
 	}
+	/**
+	 * @return the maxRoutingLength
+	 */
+	public int getMaxRoutingLength() {
+		return maxRoutingLength;
+	}
+
+	/**
+	 * @param maxRoutingLength the maxRoutingLength to set
+	 */
+	public void setMaxRoutingLength(int maxRoutingLength) {
+		this.maxRoutingLength = maxRoutingLength;
+	}
+
 	/**
 	 * @return the serviceUrl
 	 */
