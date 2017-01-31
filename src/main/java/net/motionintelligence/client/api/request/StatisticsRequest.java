@@ -23,8 +23,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Map;
 
 public class StatisticsRequest {
@@ -91,7 +90,7 @@ public class StatisticsRequest {
 				.queryParam("maxRoutingLength", this.travelOptions.getMaxRoutingLength())
 				.queryParam("statisticGroupId", this.travelOptions.getStatisticGroupId());
 		
-		for ( Integer stat : this.travelOptions.getStatisticIds()) 
+		for (Short stat : this.travelOptions.getStatisticIds())
 			target = target.queryParam("statistics", stat);
 		
 		// Execute POST request
@@ -116,7 +115,7 @@ public class StatisticsRequest {
 		options.setDate(20150812);
 		options.setTime(43200);
 		options.setAppendTravelTimes(false);
-		options.setStatisticIds(new HashSet<>(Arrays.asList(0)));
+		options.setStatisticIds(Collections.singletonList((short) 0));
 		options.setStatisticGroupId("census_brandenburg_population");
 		options.setStatisticGroupId("switzerland_statistics");
 		
