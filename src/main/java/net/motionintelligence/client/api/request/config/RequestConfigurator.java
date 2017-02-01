@@ -128,8 +128,8 @@ public final class RequestConfigurator {
 	private static StringBuilder buildTarget(final StringBuilder targetsBuilder, final Coordinate trg) {
 		JSONBuilder.beginJson(targetsBuilder);
 		JSONBuilder.appendString(targetsBuilder, Constants.ID, trg.getId());
-		JSONBuilder.append(targetsBuilder, Constants.LATITUDE, trg.getY());
-		JSONBuilder.appendAndEnd(targetsBuilder, Constants.LONGITUDE, trg.getX());
+		JSONBuilder.append(targetsBuilder, Constants.LATITUDE, (double)Math.round(trg.getY() * 100000d) / 100000d);
+		JSONBuilder.appendAndEnd(targetsBuilder, Constants.LONGITUDE, (double)Math.round(trg.getX() * 100000d) / 100000d);
 		return targetsBuilder;
 	}
 
