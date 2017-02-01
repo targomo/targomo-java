@@ -26,8 +26,9 @@ import java.util.Set;
  */
 public class TravelOptions {
 
-	private Map<String,Coordinate> sources		= new HashMap<>();
-	private Map<String,Coordinate> targets 	    = new HashMap<>();
+	private Map<String,Coordinate> sources		        = new HashMap<>();
+    private Map<String,Coordinate> inactiveSources		= new HashMap<>();
+	private Map<String,Coordinate> targets 	            = new HashMap<>();
 	
     private double bikeSpeed                         	= 15.0;
     private double bikeUphill                        	= 20.0;
@@ -54,17 +55,17 @@ public class TravelOptions {
     private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
-    private Integer maxRoutingTime                      = 3600;
-    private Integer maxRoutingLength                    = 100000;
+    private Integer maxRoutingTime                      = 1800;
+    private Integer maxRoutingLength                    = 60000;
     private String serviceUrl                        	= "";
-    private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
     private String serviceKey                        	= "";
 	private boolean onlyPrintReachablePoints			= true;
 	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
 
 	private Set<Integer> statisticIds;
-	private String statisticGroupId;
-	
+	private String statisticGroupId; // TODO this should be an integer in future versions
+	private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
+
 	/**
 	 * 
 	 * @return source coordinates array
@@ -608,4 +609,12 @@ public class TravelOptions {
 	public void setStatisticGroupId(String statisticGroupId) {
 		this.statisticGroupId = statisticGroupId;
 	}
+
+    public Map<String,Coordinate> getInactiveSources() {
+        return this.inactiveSources;
+    }
+
+    public void setInactiveSources(Map<String,Coordinate> inactiveSources) {
+        this.inactiveSources = inactiveSources;
+    }
 }

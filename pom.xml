@@ -6,7 +6,7 @@
 
 	<groupId>net.motionintelligence</groupId>
 	<artifactId>r360-java-client</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<name>r360-java-client</name>
 	<url>http://maven.apache.org</url>
 

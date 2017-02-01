@@ -16,6 +16,7 @@ public class ReachabilityResponse {
 	private final TravelOptions travelOptions;
 	
 	private final Map<String,Integer> travelTimes = new HashMap<>();
+	private final Map<String,String> closestSourceId = new HashMap<>();
 
 	/**
 	 * Create a response from JSON results, using given travel options
@@ -60,6 +61,7 @@ public class ReachabilityResponse {
 			String trgId = JsonUtil.getString(target, "id");
 
 			this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
+			this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
 		}
 	}
 
@@ -68,8 +70,11 @@ public class ReachabilityResponse {
 	 * @param travelTime
 	 */
 	public void addTravelTime(String targetId, Integer travelTime) {
-		
 		this.travelTimes.put(targetId, travelTime);
+	}
+
+	public void addClosestSource(String targetId, String closestSourceId) {
+		this.closestSourceId.put(targetId, closestSourceId);
 	}
 	
 	/**
@@ -100,6 +105,12 @@ public class ReachabilityResponse {
 	public Map<String, Integer> getTravelTimes() {
 		return this.travelTimes;
 	}
+
+	/**
+	 * Map of target IDs to the individual closest source ID
+	 * @return target id -> source id
+	 */
+	public Map<String, String> getClosestSourceIds(){ return this.closestSourceId; }
 	
 	/**
 	 * 
