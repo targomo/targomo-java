@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Common configuration class for executing all requests.
@@ -62,7 +61,7 @@ public class TravelOptions {
 	private boolean onlyPrintReachablePoints			= true;
 	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
 
-	private Set<Integer> statisticIds;
+	private List<Short> statisticIds;
 	private String statisticGroupId; // TODO this should be an integer in future versions
 	private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
 
@@ -523,11 +522,11 @@ public class TravelOptions {
 		return this.targets.get(id);
 	}
 	
-	public Set<Integer> getStatisticIds() {
+	public List<Short> getStatisticIds() {
 		return this.statisticIds;
 	}
 	
-	public void setStatisticIds(Set<Integer> statisticIds) {
+	public void setStatisticIds(List<Short> statisticIds) {
 		this.statisticIds = statisticIds ;
 	}
 
