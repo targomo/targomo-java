@@ -1,17 +1,35 @@
 package net.motionintelligence.client.api.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import net.motionintelligence.client.Constants;
 
 public enum TravelType {
 
-	UNSPECIFIED,
-	WALK,
-	BIKE,
-	TRANSIT,
-	WALKTRANSIT,
-	BIKETRANSIT,
-	CAR;
-	
+	UNSPECIFIED("unspecified"),
+	WALK("walk"),
+	BIKE("bike"),
+	TRANSIT("transit"),
+	WALKTRANSIT("walktransit"),
+	BIKETRANSIT("biketransit"),
+	CAR("car");
+
+	private String key;
+
+	TravelType(String key) {
+		this.key = key;
+	}
+
+	@JsonCreator
+	public static EdgeWeightType fromString(String key) {
+		return key == null ? null : EdgeWeightType.valueOf(key.toUpperCase());
+	}
+
+	@JsonValue
+	public String getKey() {
+		return key;
+	}
+
 	public String toString(){
 		return name().toLowerCase(); 
 	}

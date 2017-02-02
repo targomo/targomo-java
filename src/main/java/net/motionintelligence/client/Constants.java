@@ -46,4 +46,5 @@ public class Constants {
 	public static final String CALLBACK                                                 = "callback";
 	public static final String SRID 													= "srid";
 	public static final String EDGE_WEIGHT_TYPE                                         = "edgeWeight";
+    public static final String MAX_EDGE_WEIGTH 											= "maxEdgeWeight";
 }

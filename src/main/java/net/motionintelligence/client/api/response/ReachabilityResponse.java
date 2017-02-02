@@ -61,7 +61,7 @@ public class ReachabilityResponse {
 			String trgId = JsonUtil.getString(target, "id");
 
 			this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
-			this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
+			if (target.has("source")) this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
 		}
 	}
 

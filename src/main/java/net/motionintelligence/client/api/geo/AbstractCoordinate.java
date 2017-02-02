@@ -11,6 +11,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	private double x;
 	private double y;
 
+	// needed for jackson
+	public AbstractCoordinate(){}
+
 	/**
 	 * Generate a Coordinate with an ID along with X and Y values.
 	 * @param id ID to associate with the target coordinate

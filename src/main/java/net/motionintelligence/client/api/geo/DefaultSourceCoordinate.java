@@ -9,7 +9,10 @@ import net.motionintelligence.client.api.enums.TravelType;
 public class DefaultSourceCoordinate extends AbstractCoordinate {
 
 	private TravelType travelType;
-	
+
+	// needed for jackson
+	public DefaultSourceCoordinate(){}
+
 	/**
 	 * Generate Source coordinate with a TravelType as well as ID, X and Y values.
 	 * @param id ID to associate with the target coordinate

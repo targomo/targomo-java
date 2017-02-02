@@ -1,11 +1,17 @@
 package net.motionintelligence.client.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
 import net.motionintelligence.client.api.enums.PolygonSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
+import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
+import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.json.DefaultSourceCoordinateDeserializer;
+import net.motionintelligence.client.api.json.DefaultTargetCoordinateDeserializer;
 import net.motionintelligence.client.api.util.TimeUtil;
 
 import java.util.Arrays;
@@ -25,8 +31,13 @@ import java.util.Map;
  */
 public class TravelOptions {
 
+    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateDeserializer.class)
 	private Map<String,Coordinate> sources		        = new HashMap<>();
+
+    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateDeserializer.class)
     private Map<String,Coordinate> inactiveSources		= new HashMap<>();
+
+    @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateDeserializer.class)
 	private Map<String,Coordinate> targets 	            = new HashMap<>();
 	
     private double bikeSpeed                         	= 15.0;
@@ -54,11 +65,15 @@ public class TravelOptions {
     private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
+
+    private Integer maxEdgeWeight                       = 1800;
     private Integer maxRoutingTime                      = 1800;
     private Integer maxRoutingLength                    = 60000;
     private String serviceUrl                        	= "";
     private String serviceKey                        	= "";
 	private boolean onlyPrintReachablePoints			= true;
+
+	@JsonProperty("edgeWeight")
 	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
 
 	private List<Short> statisticIds;
@@ -346,9 +361,11 @@ public class TravelOptions {
 	public void setPointReduction(boolean pointReduction) {
 		this.pointReduction = pointReduction;
 	}
+
 	/**
 	 * @return the maxRoutingTime
 	 */
+	@Deprecated
 	public int getMaxRoutingTime() {
 		return maxRoutingTime;
 	}
@@ -356,6 +373,7 @@ public class TravelOptions {
 	/**
 	 * @param maxRoutingTime the maxRoutingTime to set
 	 */
+    @Deprecated
 	public void setMaxRoutingTime(int maxRoutingTime) {
 		this.maxRoutingTime = maxRoutingTime;
 	}
@@ -363,6 +381,7 @@ public class TravelOptions {
 	/**
 	 * @return the maxRoutingLength
 	 */
+    @Deprecated
 	public Integer getMaxRoutingLength() {
 		return maxRoutingLength;
 	}
@@ -370,6 +389,7 @@ public class TravelOptions {
 	/**
 	 * @param maxRoutingLength the maxRoutingLength to set
 	 */
+    @Deprecated
 	public void setMaxRoutingLength(Integer maxRoutingLength) {
 		this.maxRoutingLength = maxRoutingLength;
 	}
@@ -615,5 +635,17 @@ public class TravelOptions {
 
     public void setInactiveSources(Map<String,Coordinate> inactiveSources) {
         this.inactiveSources = inactiveSources;
+    }
+
+    public Integer getMaxEdgeWeight() {
+        return maxEdgeWeight;
+    }
+
+    public void setMaxEdgeWeight(Integer maxEdgeWeight) {
+        this.maxEdgeWeight = maxEdgeWeight;
+    }
+
+    public void addAllSources(Map<String, Coordinate> inactiveSources) {
+		this.sources.putAll(inactiveSources);
     }
 }

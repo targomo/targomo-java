@@ -68,6 +68,8 @@ public final class RequestConfigurator {
 			if (travelOptions.getEdgeWeightType() != null)
 				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT_TYPE, travelOptions.getEdgeWeightType());
 
+			JSONBuilder.append(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
+
 			JSONBuilder.append(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
 
 			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_LENGTH, travelOptions.getMaxRoutingLength());
