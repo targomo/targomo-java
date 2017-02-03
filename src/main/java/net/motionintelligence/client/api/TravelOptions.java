@@ -420,14 +420,14 @@ public class TravelOptions {
 	}
 	
 	/**
-	 * @param source
+	 * @param source Source coordinate
 	 */
 	public void addSource(Coordinate source) {
 		this.sources.put(source.getId(), source);
 	}
 	
 	/**
-	 * @param target
+	 * @param target Target coordinate
 	 */
 	public void addTarget(Coordinate target) {
 		this.targets.put(target.getId(), target);
@@ -526,8 +526,8 @@ public class TravelOptions {
 	
 	/**
 	 * 
-	 * @param id
-	 * @return
+	 * @param id ID of source Coordinate
+	 * @return Source coordinate
 	 */
 	public Coordinate getSource(String id) {
 		return this.sources.get(id);
@@ -535,8 +535,8 @@ public class TravelOptions {
 	
 	/**
 	 * 
-	 * @param id
-	 * @return
+	 * @param id ID of source Coordinate
+	 * @return Target coordinate
 	 */
 	public Coordinate getTarget(String id) {
 		return this.targets.get(id);
@@ -600,15 +600,12 @@ public class TravelOptions {
 
 	/**
 	 * 
-	 * @return
+	 * @return Append travel times setting
 	 */
 	public Boolean getAppendTravelTimes() {
 		return this.appendTravelTimes;
 	}
-	
-	/**
-	 * 
-	 */
+
 	public void setAppendTravelTimes(Boolean appendTravelTimes) {
 		this.appendTravelTimes = appendTravelTimes;
 	}

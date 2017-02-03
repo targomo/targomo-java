@@ -83,9 +83,9 @@ public class TimeResponse {
 	}
 
 	/**
-	 * @param source
-	 * @param target
-	 * @param travelTime
+	 * @param source Source coordinate
+	 * @param target Target coordinate
+	 * @param travelTime Travel time to be added
 	 */
 	public void addTravelTime(Coordinate source, Coordinate target, Integer travelTime) {
 		
@@ -94,8 +94,8 @@ public class TimeResponse {
 	}
 	
 	/**
-	 * @param source
-	 * @param target
+	 * @param source Source coordinate
+	 * @param target Target coordinate
 	 * @return null if the source or the target is not available, the travel time otherwise
 	 */
 	public Integer getTravelTime(Coordinate source, Coordinate target) {

@@ -66,8 +66,9 @@ public class ReachabilityResponse {
 	}
 
 	/**
-	 * @param targetId
-	 * @param travelTime
+	 * Add travel time to a target
+	 * @param targetId Target ID
+	 * @param travelTime Travel time for the target
 	 */
 	public void addTravelTime(String targetId, Integer travelTime) {
 		this.travelTimes.put(targetId, travelTime);
@@ -113,8 +114,8 @@ public class ReachabilityResponse {
 	public Map<String, String> getClosestSourceIds(){ return this.closestSourceId; }
 	
 	/**
-	 * 
-	 * @return
+	 * Get total time in milliseconds
+	 * @return total time
 	 */
 	public long getTotalTime() {
 		return this.totalTimeMillis;

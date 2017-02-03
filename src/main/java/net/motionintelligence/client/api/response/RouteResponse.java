@@ -11,8 +11,11 @@ public class RouteResponse {
 	private final JSONArray routes;
 
 	/**
-	 * @param code - route360 status code for the request
-	 * @param requestTimeMillis - the milliseconds for server runtime
+	 *
+	 * @param travelOptions Travel configuration
+	 * @param routes Response body
+	 * @param code route360 status code for the request
+	 * @param requestTimeMillis the milliseconds for server runtime
 	 */
 	public RouteResponse(TravelOptions travelOptions, JSONArray routes, String code, long requestTimeMillis) {
 		this.travelOptions 	   = travelOptions;

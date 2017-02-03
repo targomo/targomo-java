@@ -1,6 +1,11 @@
 package net.motionintelligence.client.api.util;
 
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,12 +13,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JsonUtil {
 	
@@ -30,10 +29,10 @@ public class JsonUtil {
 	}
 
 	/**
-	 * 
-	 * @param object
-	 * @param string
-	 * @param jsonArray
+	 * Put array to JSONObject
+	 * @param object JSONObject that the array will be insterted into
+	 * @param string Key for the array
+	 * @param jsonArray The array to be put
 	 */
 	public static JSONObject put(JSONObject object, String string, JSONArray jsonArray) {
 		
@@ -76,10 +75,10 @@ public class JsonUtil {
 	}
 	
 	/**
-	 * 
-	 * @param object
-	 * @param string
-	 * @param jsonObject
+	 * Put object inside another JSONObject
+	 * @param object Parent object
+	 * @param string Key for the child object
+	 * @param jsonObject Child object
 	 */
 	public static JSONObject put(JSONObject object, String string, JSONObject jsonObject) {
 		
@@ -95,10 +94,10 @@ public class JsonUtil {
 	}
 
 	/**
-	 * 
-	 * @param object
-	 * @param string
-	 * @param value
+	 * Put String inside JSONObject
+	 * @param object Parent object
+	 * @param string Key for the string
+	 * @param value The string
 	 */
 	public static JSONObject put(JSONObject object, String string, String value) {
 		
@@ -114,10 +113,10 @@ public class JsonUtil {
 	}
 
 	/**
-	 * 
-	 * @param config
-	 * @return
-	 * @throws Route360ClientRuntimeException
+	 * Parse configuration string
+	 * @param config Configuration string
+	 * @return Parsed JSONObject
+	 * @throws Route360ClientRuntimeException In case of any parse errors
 	 */
 	public static JSONObject parseString(String config) throws Route360ClientRuntimeException {
 		

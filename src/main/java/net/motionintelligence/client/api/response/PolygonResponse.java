@@ -13,8 +13,12 @@ public class PolygonResponse {
 	private final long parseTime;
 
 	/**
-	 * @param code - route360 status code for the request
-	 * @param requestTimeMillis - the milliseconds for server runtime
+	 *
+	 * @param travelOptions Travel configuration
+	 * @param result Response body
+	 * @param code route360 status code for the request
+	 * @param requestTimeMillis the milliseconds for server runtime
+	 * @param roundTripTimeMillis the milliseconds for total roundtrip
 	 */
 	public PolygonResponse(TravelOptions travelOptions, JSONObject result, String code, long requestTimeMillis, long roundTripTimeMillis) {
 		this.travelOptions 	   	= travelOptions;

@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit;
  * @author gerb
  *
  */
-public class TimeUtil {
+public final class TimeUtil {
+
+	private TimeUtil() { }
 	
 	/**
 	 * Parses time values such as 09:16:45 from gtfs to an integer values 
@@ -20,7 +22,7 @@ public class TimeUtil {
 	 * @param time the time to parse
 	 * @return number of seconds for given time
 	 */
-	public static int timeToInt(final String time){
+	public static int timeToInt(final String time) {
 		
 		String[] 	times 	= time.split(":");
 		
@@ -32,10 +34,10 @@ public class TimeUtil {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get current date as integer
+	 * @return Current date as integer
 	 */
-	public static int getCurrentDate(){
+	public static int getCurrentDate() {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -47,8 +49,8 @@ public class TimeUtil {
 	}
 	
 	/**
-	 * 
-	 * @return
+     * Get current time as integer
+     * @return Current time as integer
 	 */
 	public static int getCurrentTime(){
 		
@@ -129,7 +131,7 @@ public class TimeUtil {
 	}
 	
 	/**
-	 * @return
+	 * @return yesterday at noon 12:00:00
 	 */
 	public static Date getYesterday() {
 		

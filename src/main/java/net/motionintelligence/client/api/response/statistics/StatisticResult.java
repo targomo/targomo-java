@@ -1,15 +1,14 @@
 package net.motionintelligence.client.api.response.statistics;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
+import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.util.JsonUtil;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.util.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class StatisticResult {
 	
@@ -21,8 +20,8 @@ public class StatisticResult {
 	private final TravelOptions options;
 
 	/**
-	 * 
-	 * @param jsonResult
+	 * @param options Travel configuration
+	 * @param jsonResult Result as json object
 	 */
 	public StatisticResult(TravelOptions options, JSONObject jsonResult) {
 		
@@ -34,8 +33,8 @@ public class StatisticResult {
 	
 	/**
 	 * 
-	 * @param jsonResult
-	 * @return
+	 * @param jsonResult result as json object
+	 * @return Map of reachable targets
 	 */
 	private Map<Integer, Integer> parseReachableTargetsResult(JSONObject jsonResult) {
 		
@@ -52,8 +51,8 @@ public class StatisticResult {
 
 	/**
 	 * 
-	 * @param jsonResult
-	 * @return
+	 * @param jsonResult result as json object
+	 * @return Map of target travel times
 	 */
 	private Map<Integer, Integer> parseTargetTravelTimes(JSONObject jsonResult) {
 
@@ -70,8 +69,8 @@ public class StatisticResult {
 
 	/**
 	 * 
-	 * @param result
-	 * @return
+	 * @param result result as json object
+	 * @return Map of targets with reachability and statistics
 	 */
 	public Map<Integer, Map<Integer, Double>> parseReachableStatisticsResult(JSONObject result)  {
 		
@@ -97,23 +96,14 @@ public class StatisticResult {
 		return reachablePersonsByStatistic;
 	}
 
-	/**
-	 * @return
-	 */
 	public Map<Integer, Map<Integer, Double>> getStatistics() {
 		return statistics;
 	}
-	
-	/**
-	 * @return the reachableTargets
-	 */
+
 	public Map<Integer, Integer> getReachableTargets() {
 		return reachableTargets;
 	}
 
-	/**
-	 * @return the targetTravelTimes
-	 */
 	public Map<Integer, Integer> getTargetTravelTimes() {
 		return targetTravelTimes;
 	}

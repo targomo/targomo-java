@@ -56,17 +56,9 @@ public class StatisticsRequest {
 	}
 	
 	/**
-	 * 
-	 * @param sources
-	 * @param serviceUrl
-	 * @param travelType
-	 * @param travelTime
-	 * @param travelDate
-	 * @param travelTimes
-	 * @param statistics
-	 * @return
-	 * @throws JSONException
-	 * @throws Route360ClientException 
+	 * @return Response from the statistics server
+	 * @throws JSONException In case the returned response is not parsable
+	 * @throws Route360ClientException In case of other errors
 	 */
 	public StatisticsResponse get() throws Route360ClientException, JSONException {
 		
@@ -149,10 +141,9 @@ public class StatisticsRequest {
 	}
 
 	/**
-	 * @param sources
-	 * @param travelType
-	 * @return
-	 * @throws JSONException
+	 * @param sources ID -> Coordinate map of sources to be parsed
+	 * @return Sources parsed into JSON
+	 * @throws JSONException In case something cannot be parsed
 	 */
 	private static String parseSources(Map<String,Coordinate> sources) throws JSONException {
 		

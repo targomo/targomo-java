@@ -1,16 +1,11 @@
 package net.motionintelligence.client.api.response;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.response.statistics.StatisticResult;
 import net.motionintelligence.client.api.util.JsonUtil;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StatisticsResponse {
 	
@@ -23,9 +18,9 @@ public class StatisticsResponse {
 	
 	/**
 	 * 
-	 * @param travelOptions
-	 * @param result
-	 * @param requestStart
+	 * @param travelOptions Travel configuration
+	 * @param result Response body
+	 * @param requestStart Start time of request in milliseconds
 	 */
 	public StatisticsResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
 		
@@ -38,10 +33,10 @@ public class StatisticsResponse {
 	
 	/**
 	 * 
-	 * @param travelOptions
-	 * @param string
-	 * @param roundTripTime
-	 * @param requestStart
+	 * @param travelOptions Travel configuration
+	 * @param string Error message, if any
+	 * @param roundTripTime Total roundtrip time
+	 * @param requestStart Start time of request in milliseconds
 	 */
 	public StatisticsResponse(TravelOptions travelOptions, String string, long roundTripTime, long requestStart) {
 		

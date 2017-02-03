@@ -21,7 +21,7 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 
 	/**
 	 * Not implemented, will throw exception.
-	 * @throws Route360ClientRuntimeException
+	 * @throws Route360ClientRuntimeException any time this method is called.
 	 */
 	@Override
 	public TravelType getTravelType() {
@@ -31,7 +31,7 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	/**
 	 * Not implemented, will throw exception.
 	 * @param travelType travelType to set
-	 * @throws Route360ClientRuntimeException
+	 * @throws Route360ClientRuntimeException any time this method is called.
 	 */
 	@Override
 	public void setTravelType(final TravelType travelType) {
