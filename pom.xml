@@ -8,6 +8,7 @@
 	<artifactId>r360-java-client</artifactId>
 	<version>0.0.6</version>
 	<name>Route 360 Java Client</name>
+	<description>Java client library for easy usage of Route 360 services.</description>
 	<url>http://www.route360.net</url>
 
 	<licenses>
