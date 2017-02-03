@@ -4,14 +4,12 @@ Java Client API for Route360° web service
 ## API-Key
 Get your API key [here ](https://developers.route360.net/apikey.html).
 
-## Build the library
+## Add the library to your Maven configuration
 
-     mvn clean install
-     
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.5</version>
+         <version>0.0.6</version>
      </dependency>
 
 ## PolygonService
