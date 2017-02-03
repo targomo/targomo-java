@@ -647,9 +647,9 @@ public class TravelOptions {
     }
 
     /**
-     *
-     * @param id
-     * @param source
+     * Clear sources and add new one
+     * @param id ID for the new source
+     * @param source New source coordinate
      */
     public void clearAndAddSource(String id, Coordinate source) {
 	    this.sources.clear();

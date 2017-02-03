@@ -109,7 +109,7 @@ public class ReachabilityResponse {
 
 	/**
 	 * Map of target IDs to the individual closest source ID
-	 * @return target id -> source id
+	 * @return target id - source id
 	 */
 	public Map<String, String> getClosestSourceIds(){ return this.closestSourceId; }
 	

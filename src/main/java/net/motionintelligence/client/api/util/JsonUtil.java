@@ -33,6 +33,7 @@ public class JsonUtil {
 	 * @param object JSONObject that the array will be insterted into
 	 * @param string Key for the array
 	 * @param jsonArray The array to be put
+     * @return Updated JSONObject
 	 */
 	public static JSONObject put(JSONObject object, String string, JSONArray jsonArray) {
 		
@@ -79,6 +80,7 @@ public class JsonUtil {
 	 * @param object Parent object
 	 * @param string Key for the child object
 	 * @param jsonObject Child object
+	 * @return Resulting parent object with child object
 	 */
 	public static JSONObject put(JSONObject object, String string, JSONObject jsonObject) {
 		
@@ -98,6 +100,7 @@ public class JsonUtil {
 	 * @param object Parent object
 	 * @param string Key for the string
 	 * @param value The string
+     * @return Resulting parent object with child object
 	 */
 	public static JSONObject put(JSONObject object, String string, String value) {
 		
