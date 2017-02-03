@@ -648,4 +648,14 @@ public class TravelOptions {
     public void addAllSources(Map<String, Coordinate> inactiveSources) {
 		this.sources.putAll(inactiveSources);
     }
+
+    /**
+     *
+     * @param id
+     * @param source
+     */
+    public void clearAndAddSource(String id, Coordinate source) {
+	    this.sources.clear();
+	    this.sources.put(id, source);
+    }
 }

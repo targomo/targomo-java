@@ -119,4 +119,8 @@ public class ReachabilityResponse {
 	public long getTotalTime() {
 		return this.totalTimeMillis;
 	}
+
+	public String getClosestSourceForTarget(String targetId) {
+		return this.closestSourceId.get(targetId);
+	}
 }
