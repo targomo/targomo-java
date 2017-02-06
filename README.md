@@ -2,7 +2,7 @@
 Java Client API for Route360° web service
 
 ## API-Key
-Get your API key [here ](https://developers.route360.net/apikey.html).
+Get your API key [here](https://developers.route360.net/signup/free).
 
 ## Add the library to your Maven configuration
 
