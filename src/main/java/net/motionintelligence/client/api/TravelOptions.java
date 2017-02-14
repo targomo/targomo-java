@@ -34,9 +34,6 @@ public class TravelOptions {
     @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateDeserializer.class)
 	private Map<String,Coordinate> sources		        = new HashMap<>();
 
-    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateDeserializer.class)
-    private Map<String,Coordinate> inactiveSources		= new HashMap<>();
-
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateDeserializer.class)
 	private Map<String,Coordinate> targets 	            = new HashMap<>();
 	
@@ -55,8 +52,8 @@ public class TravelOptions {
     private Boolean reverse                   			= false;
     private Long minPolygonHoleSize                  	= 100000000L;
                  
-    private Integer time                                 = TimeUtil.getCurrentTime();
-    private Integer date                                 = TimeUtil.getCurrentDate();
+    private Integer time                                 = 9 * 3600;
+    private Integer date                                 = 20170214;
     private Integer frame                                = 18000;
     private Integer recommendations                      = 0;
     private Integer srid                      			 = null;
@@ -70,6 +67,7 @@ public class TravelOptions {
     private Integer maxRoutingTime                      = 1800;
     private Integer maxRoutingLength                    = 60000;
     private String serviceUrl                        	= "";
+	private String fallbackServiceUrl                   = "";
     private String serviceKey                        	= "";
 	private boolean onlyPrintReachablePoints			= true;
 
@@ -445,10 +443,113 @@ public class TravelOptions {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		TravelOptions that = (TravelOptions) o;
+
+		if (Double.compare(that.bikeSpeed, bikeSpeed) != 0) return false;
+		if (Double.compare(that.bikeUphill, bikeUphill) != 0) return false;
+		if (Double.compare(that.bikeDownhill, bikeDownhill) != 0) return false;
+		if (Double.compare(that.walkSpeed, walkSpeed) != 0) return false;
+		if (Double.compare(that.walkUphill, walkUphill) != 0) return false;
+		if (Double.compare(that.walkDownhill, walkDownhill) != 0) return false;
+		if (onlyPrintReachablePoints != that.onlyPrintReachablePoints) return false;
+		if (sources != null ? !sources.equals(that.sources) : that.sources != null) return false;
+		if (targets != null ? !targets.equals(that.targets) : that.targets != null) return false;
+		if (travelTimes != null ? !travelTimes.equals(that.travelTimes) : that.travelTimes != null) return false;
+		if (travelType != that.travelType) return false;
+		if (elevationEnabled != null ? !elevationEnabled.equals(that.elevationEnabled) : that.elevationEnabled != null)
+			return false;
+		if (appendTravelTimes != null ? !appendTravelTimes.equals(that.appendTravelTimes) : that.appendTravelTimes != null)
+			return false;
+		if (pointReduction != null ? !pointReduction.equals(that.pointReduction) : that.pointReduction != null)
+			return false;
+		if (reverse != null ? !reverse.equals(that.reverse) : that.reverse != null) return false;
+		if (minPolygonHoleSize != null ? !minPolygonHoleSize.equals(that.minPolygonHoleSize) : that.minPolygonHoleSize != null)
+			return false;
+		if (time != null ? !time.equals(that.time) : that.time != null) return false;
+		if (date != null ? !date.equals(that.date) : that.date != null) return false;
+		if (frame != null ? !frame.equals(that.frame) : that.frame != null) return false;
+		if (recommendations != null ? !recommendations.equals(that.recommendations) : that.recommendations != null)
+			return false;
+		if (srid != null ? !srid.equals(that.srid) : that.srid != null) return false;
+		if (bufferInMeter != null ? !bufferInMeter.equals(that.bufferInMeter) : that.bufferInMeter != null)
+			return false;
+		if (intersectionMode != that.intersectionMode) return false;
+		if (pathSerializer != that.pathSerializer) return false;
+		if (polygonSerializerType != that.polygonSerializerType) return false;
+		if (maxEdgeWeight != null ? !maxEdgeWeight.equals(that.maxEdgeWeight) : that.maxEdgeWeight != null)
+			return false;
+		if (maxRoutingTime != null ? !maxRoutingTime.equals(that.maxRoutingTime) : that.maxRoutingTime != null)
+			return false;
+		if (maxRoutingLength != null ? !maxRoutingLength.equals(that.maxRoutingLength) : that.maxRoutingLength != null)
+			return false;
+		if (serviceUrl != null ? !serviceUrl.equals(that.serviceUrl) : that.serviceUrl != null) return false;
+		if (fallbackServiceUrl != null ? !fallbackServiceUrl.equals(that.fallbackServiceUrl) : that.fallbackServiceUrl != null)
+			return false;
+		if (serviceKey != null ? !serviceKey.equals(that.serviceKey) : that.serviceKey != null) return false;
+		if (edgeWeightType != that.edgeWeightType) return false;
+		if (statisticIds != null ? !statisticIds.equals(that.statisticIds) : that.statisticIds != null) return false;
+		if (statisticGroupId != null ? !statisticGroupId.equals(that.statisticGroupId) : that.statisticGroupId != null)
+			return false;
+		return statisticServiceUrl != null ? statisticServiceUrl.equals(that.statisticServiceUrl) : that.statisticServiceUrl == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = sources != null ? sources.hashCode() : 0;
+		result = 31 * result + (targets != null ? targets.hashCode() : 0);
+		temp = Double.doubleToLongBits(bikeSpeed);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(bikeUphill);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(bikeDownhill);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(walkSpeed);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(walkUphill);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(walkDownhill);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + (travelTimes != null ? travelTimes.hashCode() : 0);
+		result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
+		result = 31 * result + (elevationEnabled != null ? elevationEnabled.hashCode() : 0);
+		result = 31 * result + (appendTravelTimes != null ? appendTravelTimes.hashCode() : 0);
+		result = 31 * result + (pointReduction != null ? pointReduction.hashCode() : 0);
+		result = 31 * result + (reverse != null ? reverse.hashCode() : 0);
+		result = 31 * result + (minPolygonHoleSize != null ? minPolygonHoleSize.hashCode() : 0);
+		result = 31 * result + (time != null ? time.hashCode() : 0);
+		result = 31 * result + (date != null ? date.hashCode() : 0);
+		result = 31 * result + (frame != null ? frame.hashCode() : 0);
+		result = 31 * result + (recommendations != null ? recommendations.hashCode() : 0);
+		result = 31 * result + (srid != null ? srid.hashCode() : 0);
+		result = 31 * result + (bufferInMeter != null ? bufferInMeter.hashCode() : 0);
+		result = 31 * result + (intersectionMode != null ? intersectionMode.hashCode() : 0);
+		result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
+		result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
+		result = 31 * result + (maxEdgeWeight != null ? maxEdgeWeight.hashCode() : 0);
+		result = 31 * result + (maxRoutingTime != null ? maxRoutingTime.hashCode() : 0);
+		result = 31 * result + (maxRoutingLength != null ? maxRoutingLength.hashCode() : 0);
+		result = 31 * result + (serviceUrl != null ? serviceUrl.hashCode() : 0);
+		result = 31 * result + (fallbackServiceUrl != null ? fallbackServiceUrl.hashCode() : 0);
+		result = 31 * result + (serviceKey != null ? serviceKey.hashCode() : 0);
+		result = 31 * result + (onlyPrintReachablePoints ? 1 : 0);
+		result = 31 * result + (edgeWeightType != null ? edgeWeightType.hashCode() : 0);
+		result = 31 * result + (statisticIds != null ? statisticIds.hashCode() : 0);
+		result = 31 * result + (statisticGroupId != null ? statisticGroupId.hashCode() : 0);
+		result = 31 * result + (statisticServiceUrl != null ? statisticServiceUrl.hashCode() : 0);
+		return result;
+	}
+
 	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+         * @see java.lang.Object#toString()
+         */
 	@Override
 	public String toString() {
 		final int maxLen = 5;
@@ -626,14 +727,6 @@ public class TravelOptions {
 		this.statisticGroupId = statisticGroupId;
 	}
 
-    public Map<String,Coordinate> getInactiveSources() {
-        return this.inactiveSources;
-    }
-
-    public void setInactiveSources(Map<String,Coordinate> inactiveSources) {
-        this.inactiveSources = inactiveSources;
-    }
-
     public Integer getMaxEdgeWeight() {
         return maxEdgeWeight;
     }
@@ -655,4 +748,12 @@ public class TravelOptions {
 	    this.sources.clear();
 	    this.sources.put(id, source);
     }
+
+	public String getFallbackServiceUrl() {
+		return fallbackServiceUrl;
+	}
+
+	public void setFallbackServiceUrl(String fallbackServiceUrl) {
+		this.fallbackServiceUrl = fallbackServiceUrl;
+	}
 }

@@ -11,12 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.SocketException;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -65,9 +67,32 @@ public class ReachabilityRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
-		
-		// Execute POST request
-		Response response = target.request().post(Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE));
+
+		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
+
+		LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+
+		Response response;
+
+		try {
+
+			// Execute POST request
+			response = target.request().post(entity);
+		}
+		// this can happen for example if we are doing a request and restart the corresponding
+		// route360 service on the same machine, in case of a fallback we need to try a different host
+		// but only once
+		catch ( ProcessingException exception ) {
+
+			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
+					.queryParam("cb", CALLBACK)
+					.queryParam("key", travelOptions.getServiceKey());
+
+			LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+
+			// Execute POST request
+			response = target.request().post(entity);
+		}
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 

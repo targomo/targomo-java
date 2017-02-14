@@ -69,4 +69,22 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 		builder.append("\n}\n");
 		return builder.toString();
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+
+		DefaultSourceCoordinate that = (DefaultSourceCoordinate) o;
+
+		return travelType == that.travelType;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
+		return result;
+	}
 }

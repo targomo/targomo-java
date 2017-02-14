@@ -103,4 +103,28 @@ public abstract class AbstractCoordinate implements Coordinate {
 		builder.append("\n}\n");
 		return builder.toString();
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		AbstractCoordinate that = (AbstractCoordinate) o;
+
+		if (Double.compare(that.x, x) != 0) return false;
+		if (Double.compare(that.y, y) != 0) return false;
+		return id != null ? id.equals(that.id) : that.id == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = id != null ? id.hashCode() : 0;
+		temp = Double.doubleToLongBits(x);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 }
