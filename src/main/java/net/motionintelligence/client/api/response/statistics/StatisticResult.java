@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,9 +27,9 @@ public class StatisticResult {
 	public StatisticResult(TravelOptions options, JSONObject jsonResult) {
 		
 		this.options		   = options;
-		this.statistics 	   = parseReachableStatisticsResult(jsonResult);
-		this.reachableTargets  = parseReachableTargetsResult(jsonResult);
-		this.targetTravelTimes = parseTargetTravelTimes(jsonResult);
+		this.statistics 	   = jsonResult.has("statistics") ? parseReachableStatisticsResult(jsonResult) : Collections.emptyMap();
+		this.reachableTargets  = jsonResult.has("reachableTargets") ? parseReachableTargetsResult(jsonResult) : Collections.emptyMap();
+		this.targetTravelTimes = jsonResult.has("targetTravelTimes") ? parseTargetTravelTimes(jsonResult) : Collections.emptyMap();
 	}
 	
 	/**
