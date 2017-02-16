@@ -12,7 +12,6 @@ import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
 import net.motionintelligence.client.api.json.DefaultSourceCoordinateDeserializer;
 import net.motionintelligence.client.api.json.DefaultTargetCoordinateDeserializer;
-import net.motionintelligence.client.api.util.TimeUtil;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,13 +51,13 @@ public class TravelOptions {
     private Boolean reverse                   			= false;
     private Long minPolygonHoleSize                  	= 100000000L;
                  
-    private Integer time                                 = 9 * 3600;
-    private Integer date                                 = 20170214;
-    private Integer frame                                = 18000;
-    private Integer recommendations                      = 0;
-    private Integer srid                      			 = null;
+    private Integer time                                = 9 * 3600;
+    private Integer date                                = 20170214;
+    private Integer frame                               = 18000;
+    private Integer recommendations                     = 0;
+    private Integer srid                      			= null;
 
-    private Integer bufferInMeter						= null;
+    private Double buffer 								= null;
     private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
     private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
     private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
@@ -477,7 +476,7 @@ public class TravelOptions {
 		if (recommendations != null ? !recommendations.equals(that.recommendations) : that.recommendations != null)
 			return false;
 		if (srid != null ? !srid.equals(that.srid) : that.srid != null) return false;
-		if (bufferInMeter != null ? !bufferInMeter.equals(that.bufferInMeter) : that.bufferInMeter != null)
+		if (buffer != null ? !buffer.equals(that.buffer) : that.buffer != null)
 			return false;
 		if (intersectionMode != that.intersectionMode) return false;
 		if (pathSerializer != that.pathSerializer) return false;
@@ -529,7 +528,7 @@ public class TravelOptions {
 		result = 31 * result + (frame != null ? frame.hashCode() : 0);
 		result = 31 * result + (recommendations != null ? recommendations.hashCode() : 0);
 		result = 31 * result + (srid != null ? srid.hashCode() : 0);
-		result = 31 * result + (bufferInMeter != null ? bufferInMeter.hashCode() : 0);
+		result = 31 * result + (buffer != null ? buffer.hashCode() : 0);
 		result = 31 * result + (intersectionMode != null ? intersectionMode.hashCode() : 0);
 		result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
 		result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
@@ -595,8 +594,8 @@ public class TravelOptions {
 		builder.append(recommendations);
 		builder.append("\n\tsrid: ");
 		builder.append(srid);
-		builder.append("\n\tbufferInMeter: ");
-		builder.append(bufferInMeter);
+		builder.append("\n\tbuffer: ");
+		builder.append(buffer);
 		builder.append("\n\tintersectionMode: ");
 		builder.append(intersectionMode);
 		builder.append("\n\tpathSerializer: ");
@@ -663,12 +662,20 @@ public class TravelOptions {
 		return onlyPrintReachablePoints;
 	}
 
-	public Integer getBufferInMeter() {
-		return bufferInMeter;
+	/**
+	 * Get the buffer value of polygons. Unit can be meters or degrees depending on the output CRS
+	 * @return Buffer value in meters or in degrees
+	 */
+	public Double getBuffer() {
+		return buffer;
 	}
 
-	public void setBufferInMeter(Integer bufferInMeter) {
-		this.bufferInMeter = bufferInMeter;
+	/**
+	 * Set how much the polygons will be buffered. Unit can be meters or degrees depending on the output CRS
+	 * @param buffer Buffer value in meters or in degrees
+	 */
+	public void setBuffer(Double buffer) {
+		this.buffer = buffer;
 	}
 
 	public Boolean getReverse() {

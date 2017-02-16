@@ -19,6 +19,9 @@ import javax.ws.rs.core.Response;
 
 /**
  * Creates polygons for the source points with specified travel times in minutes.
+ * In case of GeoJson output, Polygons will be buffered, simplified and transformed
+ * according to the respective values in {@link net.motionintelligence.client.api.TravelOptions}.
+ * Buffer should be given in meters or in degrees, depending on the output CRS's unit.
  */
 public class PolygonRequest {
 

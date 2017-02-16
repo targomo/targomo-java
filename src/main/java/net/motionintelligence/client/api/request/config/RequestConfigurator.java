@@ -99,8 +99,8 @@ public final class RequestConfigurator {
 		if ( travelOptions.getSrid() != null )
 			polygon.put(Constants.SRID, travelOptions.getSrid());
 		
-		if ( travelOptions.getBufferInMeter() != null )
-			polygon.put(Constants.BUFFER_IN_METER, travelOptions.getBufferInMeter());
+		if ( travelOptions.getBuffer() != null )
+			polygon.put(Constants.BUFFER, travelOptions.getBuffer());
 
 		if ( travelOptions.getPolygonSerializerType() != null )
 			polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
