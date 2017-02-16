@@ -9,7 +9,7 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.6</version>
+         <version>0.0.10</version>
      </dependency>
 
 ## PolygonService
