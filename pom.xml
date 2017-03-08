@@ -6,7 +6,7 @@
 
 	<groupId>net.motionintelligence</groupId>
 	<artifactId>r360-java-client</artifactId>
-	<version>0.0.10</version>
+	<version>0.0.11</version>
 	<name>Route 360 Java Client</name>
 	<description>Java client library for easy usage of Route 360 services.</description>
 	<url>http://www.route360.net</url>
@@ -45,6 +45,21 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.6.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.2.6.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.2.6.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>

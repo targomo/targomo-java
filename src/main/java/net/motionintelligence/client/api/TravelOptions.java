@@ -1,7 +1,9 @@
 package net.motionintelligence.client.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.PathSerializerType;
 import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
@@ -10,9 +12,12 @@ import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
-import net.motionintelligence.client.api.json.DefaultSourceCoordinateDeserializer;
-import net.motionintelligence.client.api.json.DefaultTargetCoordinateDeserializer;
+import net.motionintelligence.client.api.json.DefaultSourceCoordinateMapDeserializer;
+import net.motionintelligence.client.api.json.DefaultSourceCoordinateMapSerializer;
+import net.motionintelligence.client.api.json.DefaultTargetCoordinateMapDeserializer;
+import net.motionintelligence.client.api.json.DefaultTargetCoordinateMapSerializer;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,59 +33,91 @@ import java.util.Map;
  * {@link net.motionintelligence.client.api.request.TimeRequest},
  * {@link net.motionintelligence.client.api.request.ReachabilityRequest}.
  */
+@Entity
+@Table(name = "travel_option")
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class TravelOptions {
 
-    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateDeserializer.class)
-	private Map<String,Coordinate> sources		        = new HashMap<>();
+    @Id
+    @GeneratedValue(strategy=GenerationType.TABLE)
+    private Integer id;
 
-    @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateDeserializer.class)
+    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
+	@JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
+    @Transient
+    private Map<String,Coordinate> sources		        = new HashMap<>();
+
+    @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
+	@JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
+	@Transient
 	private Map<String,Coordinate> targets 	            = new HashMap<>();
-	
+
+    @Column(name = "bike_speed")
     private double bikeSpeed                         	= 15.0;
+
+	@Column(name = "bike_uphill")
     private double bikeUphill                        	= 20.0;
-    private double bikeDownhill                      	= -10.0;
+
+	@Column(name = "bike_downhill")
+	private double bikeDownhill                      	= -10.0;
+
+	@Column(name = "walk_speed")
     private double walkSpeed                         	= 5.0;
+
+	@Column(name = "walk_uphill")
     private double walkUphill                        	= 10.0;
+
+	@Column(name = "walk_downhill")
     private double walkDownhill                      	= 0.0;
-                 
-    private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
-    private TravelType travelType                    	= TravelType.UNSPECIFIED;
-    private Boolean elevationEnabled                 	= false;
-    private Boolean appendTravelTimes					= false;
-    private Boolean pointReduction                   	= true;
-    private Boolean reverse                   			= false;
-    private Long minPolygonHoleSize                  	= 100000000L;
-                 
-    private Integer time                                = 9 * 3600;
-    private Integer date                                = 20170214;
-    private Integer frame                               = 18000;
-    private Integer recommendations                     = 0;
-    private Integer srid                      			= null;
 
-    private Double buffer 								= null;
-    private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
-    private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
-    private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
+	@Transient private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
 
-    private Integer maxEdgeWeight                       = 1800;
-    private Integer maxRoutingTime                      = 1800;
-    private Integer maxRoutingLength                    = 60000;
-    private String serviceUrl                        	= "";
-	private String fallbackServiceUrl                   = "";
-    private String serviceKey                        	= "";
-	private boolean onlyPrintReachablePoints			= true;
+    @Column(name = "travel_type")
+	private TravelType travelType                    	            = TravelType.UNSPECIFIED;
+
+    @Column(name = "elevation_enabled")
+    private Boolean elevationEnabled                 	            = false;
+
+    @Transient private Boolean appendTravelTimes					= false;
+	@Transient private Boolean pointReduction                   	= true;
+	@Transient private Boolean reverse                   			= false;
+	@Transient private Long minPolygonHoleSize                  	= 100000000L;
+
+    @Column(name = "time") private Integer time                     = 9 * 3600;
+    @Column(name = "date")  private Integer date                    = 20170214;
+    @Column(name = "frame") private Integer frame                   = 18000;
+	@Transient private Integer recommendations                      = 0;
+	@Transient private Integer srid                      			= null;
+
+	@Transient private Double buffer 								= null;
+	@Transient private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
+	@Transient private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
+	@Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
+
+    @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
+	@Transient private Integer maxRoutingTime                                  = 1800;
+	@Transient private Integer maxRoutingLength                                = 60000;
+    @Column(name = "service_url") private String serviceUrl                    = "";
+    @Column(name = "fallback_service_url") private String fallbackServiceUrl   = "";
+    @Column(name = "service_key") private String serviceKey                    = "";
+	@Transient private boolean onlyPrintReachablePoints			               = true;
 
 	@JsonProperty("edgeWeight")
-	private EdgeWeightType edgeWeightType               = EdgeWeightType.TIME;
+    @Column(name = "edge_weight_type") private EdgeWeightType edgeWeightType   = EdgeWeightType.TIME;
 
-	private List<Short> statisticIds;
-	private String statisticGroupId; // TODO this should be an integer in future versions
-	private String statisticServiceUrl                 	= "https://service.route360.net/statistics/";
+	@Transient private List<Short> statisticIds;
+	@Column(name = "statistic_group_id") private Integer statisticGroupId;
+    @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://service.route360.net/statistics/";
 
-	/**
+    public Integer getId() { return id; }
+
+    public void setId(Integer id) { this.id = id; }
+
+    /**
 	 * 
 	 * @return source coordinates array
 	 */
+	@JsonIgnore
 	public double[][] getSourceCoordinates() {
 		return getCoordinates(this.sources);
 	}
@@ -89,6 +126,7 @@ public class TravelOptions {
 	 * 
 	 * @return target coordinates array
 	 */
+	@JsonIgnore
 	public double[][] getTargetCoordinates(){
 		return getCoordinates(this.targets);
 	}
@@ -645,7 +683,7 @@ public class TravelOptions {
 	public List<Short> getStatisticIds() {
 		return this.statisticIds;
 	}
-	
+
 	public void setStatisticIds(List<Short> statisticIds) {
 		this.statisticIds = statisticIds ;
 	}
@@ -726,11 +764,11 @@ public class TravelOptions {
 		this.statisticServiceUrl = statisticServiceUrl;
 	}
 
-	public String getStatisticGroupId() {
+	public Integer getStatisticGroupId() {
 		return statisticGroupId;
 	}
 
-	public void setStatisticGroupId(String statisticGroupId) {
+	public void setStatisticGroupId(Integer statisticGroupId) {
 		this.statisticGroupId = statisticGroupId;
 	}
 

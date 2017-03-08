@@ -6,6 +6,7 @@ import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.TimeResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
+import org.apache.log4j.ConsoleAppender;
 import org.glassfish.jersey.message.GZipEncoder;
 
 import javax.ws.rs.HttpMethod;
@@ -62,7 +63,7 @@ public class TimeRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
-		
+
 		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
 		// Execute POST request

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,11 +17,11 @@ import java.util.Map;
  * Created by gerb on 01/02/2017.
  */
 
-public class DefaultTargetCoordinateDeserializer extends JsonDeserializer<Map<String, Coordinate>> {
+public class DefaultSourceCoordinateMapDeserializer extends JsonDeserializer<Map<String, Coordinate>> {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public DefaultTargetCoordinateDeserializer() {}
+    public DefaultSourceCoordinateMapDeserializer() {}
 
     @Override
     public Map<String, Coordinate> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
@@ -34,7 +33,7 @@ public class DefaultTargetCoordinateDeserializer extends JsonDeserializer<Map<St
 
         for (JsonNode coordinateNode : coordinatesArray) {
             coordinates.put(coordinateNode.get("id").asText(),
-                    mapper.readValue(coordinateNode.toString(), DefaultTargetCoordinate.class));
+                mapper.readValue(coordinateNode.toString(), DefaultSourceCoordinate.class));
         }
 
         return coordinates;

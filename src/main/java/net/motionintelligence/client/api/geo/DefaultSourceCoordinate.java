@@ -2,12 +2,22 @@ package net.motionintelligence.client.api.geo;
 
 import net.motionintelligence.client.api.enums.TravelType;
 
+import javax.persistence.*;
+
 /**
  * Default implementation for storing source coordinates.
  * Basically a {@link AbstractCoordinate} with TravelType, specialized to be used as a target.
  */
+@Entity
+@Table(name="source_coordinate")
 public class DefaultSourceCoordinate extends AbstractCoordinate {
 
+	@Id
+	@Column(name = "identifier")
+	@GeneratedValue(strategy= GenerationType.TABLE)
+	private long identifier;
+
+	@Column(name = "travel_type")
 	private TravelType travelType;
 
 	// needed for jackson
@@ -45,7 +55,19 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 		return travelType;
 	}
 
-	/**
+    /**
+     * The main problem with this identifier is that we need it for hibernate
+     * since it's not able to work without an ID. But source coordinates have
+     * perse no real identifier since the same coordinate could come from multiple
+     * clients and have different lat/lng/traveltype.
+     *
+     * @return this database unique identifier of this source point
+     */
+	public long getIdentifier() { return identifier; }
+
+	public void setIdentifier(long id) { this.identifier = id; }
+
+    /**
 	 * Specify a travel type for the source coordinate.
 	 * @param travelType TravelType to be associated with the source coordinate.
 	 */
@@ -57,16 +79,16 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(getClass().getName());
-		builder.append(" {\n\tid: ");
+		builder.append(getClass().getSimpleName());
+		builder.append(" { id: ");
 		builder.append(getId());
-		builder.append("\n\tx: ");
+		builder.append(", x: ");
 		builder.append(getX());
-		builder.append("\n\ty: ");
+		builder.append(", y: ");
 		builder.append(getY());
-		builder.append("\n\ttravelType: ");
+		builder.append(", travelType: ");
 		builder.append(travelType);
-		builder.append("\n}\n");
+		builder.append("}");
 		return builder.toString();
 	}
 

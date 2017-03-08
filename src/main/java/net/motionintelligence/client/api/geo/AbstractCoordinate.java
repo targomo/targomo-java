@@ -2,13 +2,18 @@ package net.motionintelligence.client.api.geo;
 
 import net.motionintelligence.client.api.enums.TravelType;
 
+import javax.persistence.*;
+
 /**
  * Simple abstract class to use for storing coordinates with IDs and travel types.
  */
+@MappedSuperclass
 public abstract class AbstractCoordinate implements Coordinate {
 
 	private String id;
+
 	private double x;
+
 	private double y;
 
 	// needed for jackson

@@ -62,7 +62,7 @@ public class RequestConfiguratorTest {
         }
     }
 
-//    @Test
+    @Test
     public void getConfig_many_targets() throws Exception {
 
         try {
