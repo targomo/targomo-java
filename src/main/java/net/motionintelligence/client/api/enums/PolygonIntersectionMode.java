@@ -24,8 +24,8 @@ public enum PolygonIntersectionMode {
 	}
 
 	@JsonCreator
-	public static EdgeWeightType fromString(String key) {
-		return key == null ? null : EdgeWeightType.valueOf(key.toUpperCase());
+	public static PolygonIntersectionMode fromString(String key) {
+		return key == null ? null : PolygonIntersectionMode.valueOf(key.toUpperCase());
 	}
 
 	@JsonValue
