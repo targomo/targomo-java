@@ -4,14 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import net.motionintelligence.client.api.enums.EdgeWeightType;
-import net.motionintelligence.client.api.enums.PathSerializerType;
-import net.motionintelligence.client.api.enums.PolygonIntersectionMode;
-import net.motionintelligence.client.api.enums.PolygonSerializerType;
-import net.motionintelligence.client.api.enums.TravelType;
+import net.motionintelligence.client.api.enums.*;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
@@ -21,14 +16,10 @@ import net.motionintelligence.client.api.json.DefaultSourceCoordinateMapSerializ
 import net.motionintelligence.client.api.json.DefaultTargetCoordinateMapDeserializer;
 import net.motionintelligence.client.api.json.DefaultTargetCoordinateMapSerializer;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
+import net.motionintelligence.client.api.statistic.PoiType;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -115,8 +106,65 @@ public class TravelOptions {
 	@Transient private List<Short> statisticIds;
 	@Column(name = "statistic_group_id") private Integer statisticGroupId;
     @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://service.route360.net/statistics/";
+	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://service.route360.net/pointsofinterest/";
 
-    public Integer getId() { return id; }
+	@Transient
+	private Format format;
+
+	@Transient
+	private String boundingBox;
+
+	@Transient
+	private Set<TravelType> travelTypes = new HashSet<>();
+
+	@Transient
+	private Set<PoiType> osmTypes = new HashSet<>();
+
+	@Transient
+	private Set<PoiType> customPois = new HashSet<>();
+
+
+	public Format getFormat() {
+		return format;
+	}
+
+	public void setFormat(Format format) {
+		this.format = format;
+	}
+
+	public String getBoundingBox() {
+		return boundingBox;
+	}
+
+	public void setBoundingBox(String boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
+	public Set<PoiType> getCustomPois() {
+		return customPois;
+	}
+
+	public void setCustomPois(Set<PoiType> customPois) {
+		this.customPois = customPois;
+	}
+
+	public Set<TravelType> getTravelTypes() {
+		return travelTypes;
+	}
+
+	public void setTravelTypes(Set<TravelType> travelTypes) {
+		this.travelTypes = travelTypes;
+	}
+
+	public Set<PoiType> getOsmTypes() {
+		return osmTypes;
+	}
+
+	public void setOsmTypes(Set<PoiType> osmTypes) {
+		this.osmTypes = osmTypes;
+	}
+
+	public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }
 
@@ -827,5 +875,9 @@ public class TravelOptions {
 
 
 		System.out.println(String.format("%s", RequestConfigurator.getConfig(to)));
+	}
+
+	public String getPointOfInterestServiceUrl() {
+		return pointOfInterestServiceUrl;
 	}
 }

@@ -91,12 +91,21 @@ public final class TimeUtil {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
         StringBuilder sb = new StringBuilder(64);
-        sb.append(days);
-        sb.append(" Days ");
-        sb.append(hours);
-        sb.append(" Hours ");
-        sb.append(minutes);
-        sb.append(" Minutes ");
+        if ( days != 0 ) {
+			sb.append(days);
+			sb.append(" Days ");
+		}
+		if ( hours != 0 ) {
+
+			sb.append(hours);
+			sb.append(" Hours ");
+		}
+		if ( minutes != 0) {
+
+			sb.append(minutes);
+			sb.append(" Minutes ");
+		}
+
         sb.append(seconds);
         sb.append(" Seconds");
 

@@ -1,5 +1,6 @@
 package net.motionintelligence.client.api.request.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
@@ -66,7 +67,7 @@ public final class RequestConfigurator {
 				JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
 
 			if (travelOptions.getEdgeWeightType() != null)
-				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT_TYPE, travelOptions.getEdgeWeightType());
+				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT, travelOptions.getEdgeWeightType());
 
 			if (travelOptions.getStatisticGroupId() != null)
 				JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
@@ -74,12 +75,31 @@ public final class RequestConfigurator {
 			if (travelOptions.getStatisticIds() != null)
 				JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
 
+			if (travelOptions.getServiceUrl() != null)
+				JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");
+
+			if (travelOptions.getServiceKey() != null)
+				JSONBuilder.append(config, "serviceKey", "\"" + travelOptions.getServiceKey() + "\"");
+
+			if (travelOptions.getFormat() != null)
+				JSONBuilder.append(config, Constants.FORMAT, "\"" + travelOptions.getFormat().toString().toLowerCase() + "\"");
+
+			if (travelOptions.getBoundingBox() != null)
+				JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
+
+
+			if (travelOptions.getOsmTypes() != null) {
+
+                ObjectMapper mapper = new ObjectMapper();
+                JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
+            }
+
+            JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
 			JSONBuilder.append(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
 
 			JSONBuilder.append(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
 
 			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_LENGTH, travelOptions.getMaxRoutingLength());
-
 		}
 		catch (Exception e) {
 			throw new Route360ClientException("Could not generate r360 config object", e);

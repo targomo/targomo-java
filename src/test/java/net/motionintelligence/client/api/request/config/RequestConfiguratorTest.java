@@ -55,7 +55,7 @@ public class RequestConfiguratorTest {
                     actualObject.getString(Constants.ENABLE_ELEVATION)
             );
             Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
-	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT_TYPE), actualObject.getString(Constants.EDGE_WEIGHT_TYPE));
+	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT), actualObject.getString(Constants.EDGE_WEIGHT));
 
         } catch (IOException e) {
             e.printStackTrace();
