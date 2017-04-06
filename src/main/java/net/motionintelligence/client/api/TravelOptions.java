@@ -108,6 +108,9 @@ public class TravelOptions {
     @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://service.route360.net/statistics/";
 	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://service.route360.net/pointsofinterest/";
 
+	@Column(name = "overpass_query") private String overpassQuery;
+	@Column(name = "overpass_service_url") private String overpassServiceUrl = "https://service.route360.net/overpass/";
+
 	@Transient
 	private Format format;
 
@@ -122,7 +125,6 @@ public class TravelOptions {
 
 	@Transient
 	private Set<PoiType> customPois = new HashSet<>();
-
 
 	public Format getFormat() {
 		return format;
@@ -879,5 +881,21 @@ public class TravelOptions {
 
 	public String getPointOfInterestServiceUrl() {
 		return pointOfInterestServiceUrl;
+	}
+
+	public String getOverpassServiceUrl() {
+		return overpassServiceUrl;
+	}
+
+	public void setOverpassServiceUrl(String overpassServiceUrl) {
+		this.overpassServiceUrl = overpassServiceUrl;
+	}
+
+	public String getOverpassQuery() {
+		return overpassQuery;
+	}
+
+	public void setOverpassQuery(String overpassQuery) {
+		this.overpassQuery = overpassQuery;
 	}
 }
