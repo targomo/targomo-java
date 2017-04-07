@@ -113,7 +113,7 @@ public class ReachabilityRequest {
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
-			String res = IOUtil.getResultString(response);
+			String res = response.readEntity(String.class);
 			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new ReachabilityResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);

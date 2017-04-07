@@ -26,7 +26,7 @@ public final class JSONBuilder {
 	 * @return Builder after appending
 	 */
 	public static StringBuilder appendString(final StringBuilder builder, final String key, final Object value) {
-		return append(builder, key, "\"" + value + "\"");
+		return builder.append("\"").append(key).append("\":\"").append(value).append("\",");
 	}
 
 	/**

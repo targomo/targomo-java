@@ -28,6 +28,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Column(name = "useCache")
     private boolean useCache = true;
 
+    @Column(name = "iFeelLucky")
+    private boolean iFeelLucky = true;
+
     /**
      *
      * @return
@@ -50,6 +53,14 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public void setUseCache(boolean useCache) {
         this.useCache = useCache;
+    }
+
+    public boolean isiFeelLucky() {
+        return iFeelLucky;
+    }
+
+    public void setiFeelLucky(boolean iFeelLucky) {
+        this.iFeelLucky = iFeelLucky;
     }
 
     @Override
