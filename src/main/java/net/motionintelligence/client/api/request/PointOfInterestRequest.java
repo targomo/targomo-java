@@ -46,7 +46,7 @@ public class PointOfInterestRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public PointOfInterestRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
@@ -57,9 +57,9 @@ public class PointOfInterestRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public PointOfInterestResponse get() throws Route360ClientException {
-		
+
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path("/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());

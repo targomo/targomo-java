@@ -45,7 +45,7 @@ public class OverpassRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public OverpassRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
@@ -56,9 +56,9 @@ public class OverpassRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public OverpassResponse get() throws Route360ClientException {
-		
+
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());

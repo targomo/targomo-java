@@ -50,12 +50,12 @@ public class RouteRequest {
 	 */
 	public RouteResponse get() throws Route360ClientException {
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget request = client.target(travelOptions.getServiceUrl()).path("v1/route")
 			.queryParam("cb", CALLBACK)
 			.queryParam("key", travelOptions.getServiceKey())
 			.queryParam("cfg", IOUtil.encode(RequestConfigurator.getConfig(travelOptions)));
-		
+
 		// make the request
 		Response response = request.request().get();
 		return validateResponse(requestStart, response);

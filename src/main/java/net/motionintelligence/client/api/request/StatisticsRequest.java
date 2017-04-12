@@ -50,11 +50,11 @@ public class StatisticsRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
-	
+
 	/**
 	 * @return Response from the statistics server
 	 * @throws JSONException In case the returned response is not parsable
@@ -127,9 +127,9 @@ public class StatisticsRequest {
 //
 //		return validateResponse(response, requestStart, roundTripTime);
 	}
-	
+
 	public static void main(String[] args) throws Route360ClientException, JSONException {
-		
+
 		TravelOptions options = new TravelOptions();
 		options.setMaxRoutingTime(1800);
 		options.setTravelType(TravelType.WALK);
@@ -147,7 +147,7 @@ public class StatisticsRequest {
 		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDET);
 		System.out.println(response.getStatisticResult());
 	}
-	
+
 	/**
 	 * Validate HTTP response and return a ReachabilityResponse
 	 * @param response HTTP response
@@ -158,16 +158,16 @@ public class StatisticsRequest {
 	 */
 	private StatisticsResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws Route360ClientException {
-		
+
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-			
+
 			// consume the results
 			return new StatisticsResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
-		} 
+		}
 		else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new StatisticsResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
-		} 
+		}
 		else {
 			throw new Route360ClientException(response.readEntity(String.class), null);
 		}
@@ -179,7 +179,7 @@ public class StatisticsRequest {
 	 * @throws JSONException In case something cannot be parsed
 	 */
 	private static String parseSources(Map<String,Coordinate> sources) throws JSONException {
-		
+
 		JSONArray sourcesJson = new JSONArray();
 		for ( Coordinate src : sources.values() ) {
 			sourcesJson.put(new JSONObject()
@@ -188,7 +188,7 @@ public class StatisticsRequest {
 				.put(Constants.X, src.getX())
 			);
 		}
-		
+
 		return sourcesJson.toString();
 	}
 }

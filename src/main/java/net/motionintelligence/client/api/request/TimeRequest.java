@@ -53,9 +53,9 @@ public class TimeRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public TimeResponse get() throws Route360ClientException, ProcessingException {
-		
+
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());

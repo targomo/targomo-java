@@ -46,7 +46,7 @@ public class ReachabilityRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public ReachabilityRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
@@ -57,9 +57,9 @@ public class ReachabilityRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public ReachabilityResponse get() throws Route360ClientException {
-		
+
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
