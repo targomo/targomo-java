@@ -111,6 +111,8 @@ public class TravelOptions {
 	@Column(name = "overpass_query") private String overpassQuery;
 	@Column(name = "overpass_service_url") private String overpassServiceUrl = "https://service.route360.net/overpass/";
 
+    @Column(name = "inter_service_key") private String interServiceKey = "";
+
 	@Transient
 	private Format format;
 
@@ -594,6 +596,7 @@ public class TravelOptions {
 		if (statisticIds != null ? !statisticIds.equals(that.statisticIds) : that.statisticIds != null) return false;
 		if (statisticGroupId != null ? !statisticGroupId.equals(that.statisticGroupId) : that.statisticGroupId != null)
 			return false;
+        if (interServiceKey != null ? !interServiceKey.equals(that.interServiceKey) : that.interServiceKey != null) return false;
 		return statisticServiceUrl != null ? statisticServiceUrl.equals(that.statisticServiceUrl) : that.statisticServiceUrl == null;
 	}
 
@@ -642,6 +645,7 @@ public class TravelOptions {
 		result = 31 * result + (statisticIds != null ? statisticIds.hashCode() : 0);
 		result = 31 * result + (statisticGroupId != null ? statisticGroupId.hashCode() : 0);
 		result = 31 * result + (statisticServiceUrl != null ? statisticServiceUrl.hashCode() : 0);
+        result = 31 * result + (interServiceKey != null ? interServiceKey.hashCode() : 0);
 		return result;
 	}
 
@@ -720,6 +724,8 @@ public class TravelOptions {
 		builder.append("\n\tstatisticGroupId: ");
 		builder.append(statisticGroupId);
 		builder.append("\n}\n");
+        builder.append("\n\tinterServiceKey: ");
+        builder.append(interServiceKey);
 		return builder.toString();
 	}
 	
@@ -898,4 +904,12 @@ public class TravelOptions {
 	public void setOverpassQuery(String overpassQuery) {
 		this.overpassQuery = overpassQuery;
 	}
+
+    public String getInterServiceKey() {
+        return interServiceKey;
+    }
+
+    public void setInterServiceKey(String interServiceKey) {
+        this.interServiceKey = interServiceKey;
+    }
 }

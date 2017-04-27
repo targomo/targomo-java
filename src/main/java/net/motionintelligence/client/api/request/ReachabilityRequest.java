@@ -1,10 +1,10 @@
 package net.motionintelligence.client.api.request;
 
+import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.ReachabilityResponse;
-import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.slf4j.Logger;
@@ -18,7 +18,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.SocketException;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -66,7 +65,8 @@ public class ReachabilityRequest {
 		
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
-				.queryParam("key", travelOptions.getServiceKey());
+				.queryParam("key", travelOptions.getServiceKey())
+                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
