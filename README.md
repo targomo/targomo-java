@@ -25,7 +25,9 @@ Create polygon from source point.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
     
-    PolygonResponse polygonResponse = new PolygonRequest(options).get();
+    Client client = ClientBuilder.newClient();
+    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    PolygonResponse polygonResponse = new PolygonRequest(client, options).get();
     System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
     System.out.println(polygonResponse.getResult());
 
@@ -41,9 +43,11 @@ Return travel times from each source to each target point.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
     
-    TimeResponse timeResponse = new TimeRequest(options).get();
+    Client client = ClientBuilder.newClient();
+    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    TimeResponse timeResponse = new TimeRequest(client, options).get();
     // so the api returns all combinations of source and target with the corresponding travel time, or -1 if not reachable
-    Map<Source, Map<Target, Integer>> travelTimes = timeResponse.getTravelTimes();
+    Map</*Source*/Coordinate, Map</*Target*/Coordinate, Integer>> travelTimes = timeResponse.getTravelTimes();
 
 ## ReachabilityService
 
@@ -57,7 +61,9 @@ Return total travel time for each source point to all targets.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
 
-    ReachabilityResponse reachabilityResponse = new ReachabilityRequest(options).get();
+    Client client = ClientBuilder.newClient();
+    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
     // source ID, total travel time or -1 if not reachable
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
 
@@ -74,5 +80,24 @@ Return possible route from each source point to each target.
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
 
-    RouteResponse routeResponse = new RouteRequest(options).get();
+    Client client = ClientBuilder.newClient();
+    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
+
+## Release Notes
+
+### 0.0.13
+
+The hard dependency to [Jersey](https://jersey.java.net/) was removed. Instead
+the user now can and has to provide a JAX-WS implementation of choice as
+runtime dependency.
+
+This has the downside that some implementation specific set-up has to be
+performed:
+
+* Enabling gzip compression is mandatory when running against Route360°
+  servers. A gzip encoder or interceptor has to be registered with the `Client`
+  in a library specific way.
+
+* Client timeouts have to be set using library specific properties.
