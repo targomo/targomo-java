@@ -4,9 +4,7 @@ import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.ReachabilityResponse;
-import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +16,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.SocketException;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -27,20 +24,19 @@ import java.net.SocketException;
 public class ReachabilityRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
-	
+
 	private Client client;
 	private TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
 
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}.
 	 * @param travelOptions Options to be used
 	 */
 	public ReachabilityRequest(TravelOptions travelOptions) {
-		
+
 		this.client	= ClientBuilder.newClient();
-		client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 	}
 

@@ -4,15 +4,12 @@ import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.PointOfInterestResponse;
-import net.motionintelligence.client.api.response.ReachabilityResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -34,13 +31,12 @@ public class PointOfInterestRequest {
 
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}.
 	 * @param travelOptions Options to be used
 	 */
 	public PointOfInterestRequest(TravelOptions travelOptions) {
 
 		this.client	= ClientBuilder.newClient();
-		client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 	}
 

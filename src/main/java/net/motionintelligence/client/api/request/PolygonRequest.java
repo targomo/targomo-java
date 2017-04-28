@@ -4,7 +4,7 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
-import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
+import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
 import net.motionintelligence.client.api.response.PolygonResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
@@ -38,10 +38,10 @@ public class PolygonRequest {
 	}
 
 	/**
-	 * Use default Client. See {@link JerseySslClientGenerator}
+	 * Use default Client. See {@link SslClientGenerator}
 	 */
 	public PolygonRequest() {
-		this(JerseySslClientGenerator.initClient());
+		this(SslClientGenerator.initClient());
 	}
 
 	/**

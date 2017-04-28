@@ -1,7 +1,5 @@
 package net.motionintelligence.client.api.request;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
@@ -9,13 +7,10 @@ import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.request.config.JacksonRequestConfigurator;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.request.enums.StatisticMethod;
-import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.StatisticsResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,24 +25,22 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 public class StatisticsRequest {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRequest.class);
 	private Client client;
 	private TravelOptions travelOptions;
-	
+
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(TravelOptions travelOptions) {
-		
+
 		this.client	= ClientBuilder.newClient();
-		this.client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 	}
 
@@ -109,7 +102,7 @@ public class StatisticsRequest {
 
 //		long requestStart = System.currentTimeMillis();
 //
-//		WebTarget target = JerseySslClientGenerator.initClient()
+//		WebTarget target = SslClientGenerator.initClient()
 //				.target(this.travelOptions.getStatisticServiceUrl())
 //				.path("/calculate")
 //				.queryParam("travelType", this.travelOptions.getTravelType())

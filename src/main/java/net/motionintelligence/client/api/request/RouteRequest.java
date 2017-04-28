@@ -6,7 +6,6 @@ import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.RouteResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,20 +18,19 @@ import javax.ws.rs.core.Response;
  * Generates possible route from sources to targets.
  */
 public class RouteRequest {
-	
+
 	private Client client;
 	private TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
 
 	/**
 	 * Use default Client with specified travelOptions
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}
 	 * @param travelOptions Travel options parameters
 	 */
 	public RouteRequest(TravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
-		client.register(GZipEncoder.class);
-		
+
 		this.travelOptions = travelOptions;
 	}
 	/**
