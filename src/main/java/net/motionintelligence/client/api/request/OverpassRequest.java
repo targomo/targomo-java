@@ -3,13 +3,9 @@ package net.motionintelligence.client.api.request;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.OverpassResponse;
-import net.motionintelligence.client.api.response.PointOfInterestResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,15 +32,12 @@ public class OverpassRequest {
 
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}.
 	 * @param travelOptions Options to be used
 	 */
 	public OverpassRequest(TravelOptions travelOptions) {
 
 		this.client	= ClientBuilder.newClient();
-		this.client.property(ClientProperties.CONNECT_TIMEOUT, Integer.MAX_VALUE);
-		this.client.property(ClientProperties.READ_TIMEOUT,    Integer.MAX_VALUE);
-		this.client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 	}
 
@@ -54,7 +47,7 @@ public class OverpassRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public OverpassRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
@@ -91,11 +84,10 @@ public class OverpassRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public OverpassResponse get() throws Route360ClientException {
-		
-		long requestStart = System.currentTimeMillis();
-		
-		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter");
 
+		long requestStart = System.currentTimeMillis();
+
+		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter");
         LOGGER.info(String.format("%s", target.getUri()));
 
 		if (travelOptions.getOverpassQuery() == null || travelOptions.getOverpassQuery().isEmpty())

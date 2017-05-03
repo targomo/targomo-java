@@ -6,9 +6,6 @@ import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.TimeResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.apache.log4j.ConsoleAppender;
-import org.glassfish.jersey.message.GZipEncoder;
-
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -31,13 +28,12 @@ public class TimeRequest {
 
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}.
 	 * @param travelOptions Options to be used
 	 */
 	public TimeRequest(TravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
-		client.register(GZipEncoder.class);
-		
+
 		this.travelOptions = travelOptions;
 	}
 
@@ -57,9 +53,9 @@ public class TimeRequest {
 	 * @throws Route360ClientException In case of error other than Gateway Timeout
 	 */
 	public TimeResponse get() throws Route360ClientException, ProcessingException {
-		
+
 		long requestStart = System.currentTimeMillis();
-		
+
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());

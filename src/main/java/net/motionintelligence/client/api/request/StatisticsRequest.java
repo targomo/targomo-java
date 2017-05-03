@@ -1,7 +1,5 @@
 package net.motionintelligence.client.api.request;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
@@ -9,13 +7,10 @@ import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.request.config.JacksonRequestConfigurator;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.request.enums.StatisticMethod;
-import net.motionintelligence.client.api.request.ssl.JerseySslClientGenerator;
 import net.motionintelligence.client.api.response.StatisticsResponse;
 import net.motionintelligence.client.api.util.IOUtil;
 import net.motionintelligence.client.api.util.JsonUtil;
-import org.glassfish.jersey.message.GZipEncoder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,24 +25,22 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 public class StatisticsRequest {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRequest.class);
 	private Client client;
 	private TravelOptions travelOptions;
-	
+
 	/**
 	 * Use default client implementation with specified options and method
-	 * Default client uses {@link ClientBuilder} with a {@link GZipEncoder} attached.
+	 * Default client uses {@link ClientBuilder}
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(TravelOptions travelOptions) {
-		
+
 		this.client	= ClientBuilder.newClient();
-		this.client.register(GZipEncoder.class);
 		this.travelOptions = travelOptions;
 	}
 
@@ -57,11 +50,11 @@ public class StatisticsRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(Client client, TravelOptions travelOptions){
-		
+
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
-	
+
 	/**
 	 * @return Response from the statistics server
 	 * @throws JSONException In case the returned response is not parsable
@@ -109,7 +102,7 @@ public class StatisticsRequest {
 
 //		long requestStart = System.currentTimeMillis();
 //
-//		WebTarget target = JerseySslClientGenerator.initClient()
+//		WebTarget target = SslClientGenerator.initClient()
 //				.target(this.travelOptions.getStatisticServiceUrl())
 //				.path("/calculate")
 //				.queryParam("travelType", this.travelOptions.getTravelType())
@@ -134,9 +127,9 @@ public class StatisticsRequest {
 //
 //		return validateResponse(response, requestStart, roundTripTime);
 	}
-	
+
 	public static void main(String[] args) throws Route360ClientException, JSONException {
-		
+
 		TravelOptions options = new TravelOptions();
 		options.setMaxRoutingTime(1800);
 		options.setTravelType(TravelType.WALK);
@@ -154,7 +147,7 @@ public class StatisticsRequest {
 		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDET);
 		System.out.println(response.getStatisticResult());
 	}
-	
+
 	/**
 	 * Validate HTTP response and return a ReachabilityResponse
 	 * @param response HTTP response
@@ -165,16 +158,16 @@ public class StatisticsRequest {
 	 */
 	private StatisticsResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws Route360ClientException {
-		
+
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-			
+
 			// consume the results
 			return new StatisticsResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
-		} 
+		}
 		else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new StatisticsResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
-		} 
+		}
 		else {
 			throw new Route360ClientException(response.readEntity(String.class), null);
 		}
@@ -186,7 +179,7 @@ public class StatisticsRequest {
 	 * @throws JSONException In case something cannot be parsed
 	 */
 	private static String parseSources(Map<String,Coordinate> sources) throws JSONException {
-		
+
 		JSONArray sourcesJson = new JSONArray();
 		for ( Coordinate src : sources.values() ) {
 			sourcesJson.put(new JSONObject()
@@ -195,7 +188,7 @@ public class StatisticsRequest {
 				.put(Constants.X, src.getX())
 			);
 		}
-		
+
 		return sourcesJson.toString();
 	}
 }

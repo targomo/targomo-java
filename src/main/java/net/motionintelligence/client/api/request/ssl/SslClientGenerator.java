@@ -1,9 +1,6 @@
 package net.motionintelligence.client.api.request.ssl;
 
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.message.GZipEncoder;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -19,9 +16,9 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
- * Generates the default client. Uses {@link SSLContext} with trust-all policy and registers a {@link GZipEncoder}
+ * Generates the default client. Uses {@link SSLContext} with trust-all policy.
  */
-public class JerseySslClientGenerator {
+public class SslClientGenerator {
 
 	/**
 	 * Generate the default SSL client
@@ -36,14 +33,10 @@ public class JerseySslClientGenerator {
 			ctx.init(null, certs, new SecureRandom());
 			
 			return ClientBuilder.newBuilder()
-	                .withConfig(new ClientConfig())
-	                .hostnameVerifier(new TrustAllHostNameVerifier())
-	                .sslContext(ctx)
-	                .build()
-	                .register(GZipEncoder.class)
-					.property(ClientProperties.CONNECT_TIMEOUT, 1000)
-					.property(ClientProperties.READ_TIMEOUT, 100000);
-		} 
+					.hostnameVerifier(new TrustAllHostNameVerifier())
+					.sslContext(ctx)
+					.build();
+		}
 		catch (NoSuchAlgorithmException | KeyManagementException e) {
 			
 			throw new Route360ClientRuntimeException("Exception generating SSL context.", e);
