@@ -2,6 +2,7 @@ package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
+import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.response.OverpassResponse;
 import net.motionintelligence.client.api.response.PointOfInterestResponse;
@@ -19,6 +20,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 /**
  * Find reachable openstreetmap pois with this class.
@@ -57,6 +59,32 @@ public class OverpassRequest {
 		this.travelOptions = travelOptions;
 	}
 
+	public static void main(String[] args) throws Route360ClientException {
+
+		TravelOptions tp = new TravelOptions();
+		tp.setOverpassServiceUrl("https://api5.eu.route360.net:8081/");
+		tp.setOverpassQuery("[maxsize:12147483648][timeout:3600][out:json]\n" +
+				"[bbox:47.2701115,5.8663425,55.0815,15.0418962];\n" +
+				"(\n" +
+				"  node['tourism'='hotel'];\n" +
+				"  way['tourism'='hotel'];\n" +
+				");\n" +
+				"out center;");
+
+		long start = System.currentTimeMillis();
+		try {
+
+			final OverpassResponse overpassResponse = new OverpassRequest(tp).get();
+			final Map<String, Coordinate> targets = overpassResponse.getTargets();
+			System.out.println(String.format("Targets: %s", targets.size()));
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			System.out.println(String.format("Failed after: %sms", System.currentTimeMillis() - start));
+		}
+
+	}
+
 	/**
 	 * Execute request
 	 * @return point of interest response
@@ -66,9 +94,9 @@ public class OverpassRequest {
 		
 		long requestStart = System.currentTimeMillis();
 		
-		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter")
-				.queryParam("cb", CALLBACK)
-				.queryParam("key", travelOptions.getServiceKey());
+		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter");
+
+        LOGGER.info(String.format("%s", target.getUri()));
 
 		if (travelOptions.getOverpassQuery() == null || travelOptions.getOverpassQuery().isEmpty())
 			throw new Route360ClientException("Empty query");
