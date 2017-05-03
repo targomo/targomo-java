@@ -50,4 +50,5 @@ public class Constants {
     public static final String STATISTIC_GROUP_ID 										= "statisticGroupId";
     public static final String STATISTICS_ID 											= "statistics";
     public static final String FORMAT 													= "format";
+    public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
 }

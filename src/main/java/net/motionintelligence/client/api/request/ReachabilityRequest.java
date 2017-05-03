@@ -1,5 +1,6 @@
 package net.motionintelligence.client.api.request;
 
+import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
@@ -62,7 +63,8 @@ public class ReachabilityRequest {
 
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
-				.queryParam("key", travelOptions.getServiceKey());
+				.queryParam("key", travelOptions.getServiceKey())
+                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
