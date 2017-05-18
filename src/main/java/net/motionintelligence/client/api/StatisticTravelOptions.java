@@ -26,7 +26,7 @@ public class StatisticTravelOptions extends TravelOptions {
     private boolean useCache = true;
 
     @Column(name = "iFeelLucky")
-    private boolean iFeelLucky = true;
+    private boolean iFeelLucky = false;
 
     /**
      *
