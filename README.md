@@ -14,6 +14,23 @@ Get your API key [here](https://developers.route360.net/signup/free).
 
 You also need to add a JAX-RS implementation of your choice.
 
+## Release Notes
+
+### 0.0.13
+
+The hard dependency to [Jersey](https://jersey.java.net/) was removed. Instead
+the user now can and has to provide a JAX-WS implementation of choice as
+runtime dependency.
+
+This has the downside that some implementation specific set-up has to be
+performed:
+
+* Enabling gzip compression is mandatory when running against Route360°
+  servers. A gzip encoder or interceptor has to be registered with the `Client`
+  in a library specific way.
+
+* Client timeouts have to be set using library specific properties.
+
 ## PolygonService
 
 Create polygon from source point.
@@ -84,20 +101,3 @@ Return possible route from each source point to each target.
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
-
-## Release Notes
-
-### 0.0.13
-
-The hard dependency to [Jersey](https://jersey.java.net/) was removed. Instead
-the user now can and has to provide a JAX-WS implementation of choice as
-runtime dependency.
-
-This has the downside that some implementation specific set-up has to be
-performed:
-
-* Enabling gzip compression is mandatory when running against Route360°
-  servers. A gzip encoder or interceptor has to be registered with the `Client`
-  in a library specific way.
-
-* Client timeouts have to be set using library specific properties.
