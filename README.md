@@ -9,7 +9,7 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.13</version>
+         <version>0.0.14</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
