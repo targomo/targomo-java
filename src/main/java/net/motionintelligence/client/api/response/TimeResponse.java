@@ -73,6 +73,8 @@ public class TimeResponse {
 			String srcId = JsonUtil.getString(source, "id");
 			JSONArray targets = JsonUtil.getJsonArray(source, "targets");
 
+			this.travelTimes.putIfAbsent(travelOptions.getSource(srcId), new HashMap<>());
+
 			for (int j = 0; j < targets.length(); j++) {
 				JSONObject target = JsonUtil.getJSONObject(targets, j);
 				String trgId = JsonUtil.getString(target, "id");
