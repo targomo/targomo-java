@@ -2,13 +2,10 @@ package net.motionintelligence.client.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import net.motionintelligence.client.api.enums.Format;
-import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import net.motionintelligence.client.api.json.DefaultSourceCoordinateMapSerializer;
-import net.motionintelligence.client.api.statistic.PoiType;
 
 import javax.persistence.*;
 import java.util.*;
@@ -29,7 +26,7 @@ public class StatisticTravelOptions extends TravelOptions {
     private boolean useCache = true;
 
     @Column(name = "iFeelLucky")
-    private boolean iFeelLucky = true;
+    private boolean iFeelLucky = false;
 
     /**
      *
