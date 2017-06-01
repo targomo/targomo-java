@@ -28,6 +28,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Column(name = "iFeelLucky")
     private boolean iFeelLucky = false;
 
+    @Column(name = "get_closest_sources")
+    private boolean getClosestSources = false;
+
     /**
      *
      * @return
@@ -78,5 +81,13 @@ public class StatisticTravelOptions extends TravelOptions {
         result = 31 * result + (inactiveSources != null ? inactiveSources.hashCode() : 0);
         result = 31 * result + (useCache ? 1 : 0);
         return result;
+    }
+
+    public boolean isGetClosestSources() {
+        return getClosestSources;
+    }
+
+    public void setGetClosestSources(boolean getClosestSources) {
+        this.getClosestSources = getClosestSources;
     }
 }
