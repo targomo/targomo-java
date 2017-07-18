@@ -8,8 +8,10 @@ import java.util.List;
 
 /**
  * Response of the ESRI geocoding REST service for a requested address. It is immutable with a private constructor
- * since it is only meant to be created from the returned json object. This is not the complete response from the
- * REST service - only relevant information is captured, the remainder is discarded.
+ * since it is only meant to be created from the returned json object.
+ *
+ * Note: This is not the complete response from the REST service - only relevant information is captured, the remainder
+ * is discarded.
  *
  * Created by David on 17.07.2017.
  */
@@ -53,10 +55,21 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
             this.location = df;
         }
 
+        /**
+         * Return the Score of the candidate. The higher the score the more confidence into the candidate as the correct
+         * representative. Maximum score is 100.0; Minimum 0.0.
+         *
+         * @return
+         */
         public double getScore() {
             return this.score;
         }
 
+        /**
+         * Returns the geocode as {@link DefaultTargetCoordinate} according to the spatial reference from the request.
+         * Default reference is "EPSG 4326" (.i.e. if not otherwise specified)
+         * @return
+         */
         public DefaultTargetCoordinate getLocation(){
             return this.location;
         }
