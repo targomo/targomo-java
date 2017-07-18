@@ -2,8 +2,6 @@ package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.response.GeocodingResponse;
-//import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-//import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,18 +54,13 @@ public class GeocodingRequestTest extends RequestTest{
         client.close();
     }
 
-    private GeocodingResponse[] executeBatchRequest(String[] input, CheckedFunction<String[],GeocodingResponse[]> request) throws Route360ClientException{
+    private GeocodingResponse[] executeBatchRequest(String[] input, GetRequest<String[],GeocodingResponse[]> request) throws Route360ClientException{
         long timeBefore = System.currentTimeMillis();
-        GeocodingResponse[] responses = request.apply( input );
+        GeocodingResponse[] responses = request.get( input );
         long timeSequentialFinished = System.currentTimeMillis();
         LOGGER.debug( Arrays.asList(responses).toString() );
         LOGGER.info( "Runtime for " + input.length + " addresses: " + (timeSequentialFinished-timeBefore));
         return responses;
-    }
-
-    @FunctionalInterface
-    public interface CheckedFunction<T, R> {
-        R apply(T t) throws Route360ClientException;
     }
 
     private static String[] batch2 = new String[]{

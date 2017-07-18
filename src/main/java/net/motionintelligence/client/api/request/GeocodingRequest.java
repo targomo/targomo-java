@@ -2,9 +2,9 @@ package net.motionintelligence.client.api.request;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.response.GeocodingResponse;
-//import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ import java.util.function.Function;
  * TODO refactor all requests - a lot of potential since it's all kind of repetitive
  * TODO make other requests with no Client deprecated too
  */
-public class GeocodingRequest {
+public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
     public enum Option {
         SOURCE_COUNTRY("sourceCountry"), // Limits the candidates returned by the findAddressCandidates operation to the specified country or countries, e.g. "sourceCountry=FRA,DEU,ESP" - see https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm
@@ -75,6 +75,7 @@ public class GeocodingRequest {
      * @return GeocodingResponse
      * @throws Route360ClientException In case of error other than Gateway Timeout
      */
+    @Override
     public GeocodingResponse get(String address) throws Route360ClientException {
         return get( webTarget -> webTarget.queryParam("singleLine", address));
     }
@@ -85,13 +86,12 @@ public class GeocodingRequest {
      * @return GeocodingResponse
      * @throws Route360ClientException In case of error
      */
-    public GeocodingResponse get(String address, String address2, String city, String postalCode, String countryCode)
-            throws Route360ClientException {
-        return get( webTarget -> webTarget.queryParam("address", address)
-                .queryParam("address2", address2)
-                .queryParam("city", city)
-                .queryParam("postal", postalCode)
-                .queryParam("countryCode", countryCode));
+    public GeocodingResponse get(Address address) throws Route360ClientException {
+        return get( webTarget -> webTarget.queryParam("address", address.street)
+                .queryParam("address2", address.streetDetails)
+                .queryParam("city", address.city)
+                .queryParam("postal", address.postalCode)
+                .queryParam("countryCode", address.country));
     }
 
     private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
@@ -116,16 +116,26 @@ public class GeocodingRequest {
         }
     }
 
-    public GeocodingResponse[] getBatchParallel(final int parallelThreads, final int triesBeforeFail,
-                                                final String... addresses) throws Route360ClientException {
+    public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
+                                                  final String... addresses) throws Route360ClientException {
+        return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
+    }
+
+    public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
+                                                  final Address... addresses) throws Route360ClientException {
+        return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
+    }
+
+    private <InputType> GeocodingResponse[] getBatchParallel( final GetRequest<InputType,GeocodingResponse> singleRequest,
+            final int parallelThreads, final int triesBeforeFail, final InputType[] addresses) throws Route360ClientException {
         final ExecutorService executor = Executors.newFixedThreadPool(parallelThreads);
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();
-        for (String singleAddress : addresses) {
+        for (InputType singleAddress : addresses) {
             requests.add( () -> {
                 // will terminate after the 5th try
                 for( int nbrTry = 0; nbrTry < triesBeforeFail; nbrTry ++) {
                     try {
-                        return get(singleAddress);
+                        return singleRequest.get(singleAddress);
                         // special case since the service is sometimes unavailable when too many parallel requests are processed
                     } catch (ServiceUnavailableException e) {
                         continue;
@@ -146,7 +156,7 @@ public class GeocodingRequest {
             } catch (InterruptedException e) { executor.shutdownNow(); }
             //Collecting results
             GeocodingResponse[] resultArray = new GeocodingResponse[addresses.length];
-            int i=0;
+            int i = 0;
             for(Future<GeocodingResponse> result : results)
                 resultArray[i++] = result.get();
             return resultArray;
@@ -156,6 +166,13 @@ public class GeocodingRequest {
     }
 
     public GeocodingResponse[] getBatchSequential(String... addresses) throws Route360ClientException {
+        GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
+        for( int i = 0; i<addresses.length; i++)
+            batchResults[i] = get(addresses[i]);
+        return batchResults;
+    }
+
+    public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException {
         GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
         for( int i = 0; i<addresses.length; i++)
             batchResults[i] = get(addresses[i]);
