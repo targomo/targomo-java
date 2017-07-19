@@ -33,7 +33,6 @@ public class TimeRequest {
 	 */
 	public TimeRequest(TravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
-
 		this.travelOptions = travelOptions;
 	}
 
