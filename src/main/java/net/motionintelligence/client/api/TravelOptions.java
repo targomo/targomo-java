@@ -88,7 +88,8 @@ public class TravelOptions {
 	@Transient private Integer srid                      			= null;
 
 	@Transient private Double buffer 								= null;
-	@Transient private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
+    @Transient private Double simplify 								= null;
+    @Transient private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
 	@Transient private PathSerializerType pathSerializer        	= PathSerializerType.COMPACT_PATH_SERIALIZER;
 	@Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
 
@@ -579,6 +580,8 @@ public class TravelOptions {
 		if (srid != null ? !srid.equals(that.srid) : that.srid != null) return false;
 		if (buffer != null ? !buffer.equals(that.buffer) : that.buffer != null)
 			return false;
+        if (simplify != null ? !simplify.equals(that.simplify) : that.simplify != null)
+            return false;
 		if (intersectionMode != that.intersectionMode) return false;
 		if (pathSerializer != that.pathSerializer) return false;
 		if (polygonSerializerType != that.polygonSerializerType) return false;
@@ -631,6 +634,7 @@ public class TravelOptions {
 		result = 31 * result + (recommendations != null ? recommendations.hashCode() : 0);
 		result = 31 * result + (srid != null ? srid.hashCode() : 0);
 		result = 31 * result + (buffer != null ? buffer.hashCode() : 0);
+        result = 31 * result + (simplify != null ? simplify.hashCode() : 0);
 		result = 31 * result + (intersectionMode != null ? intersectionMode.hashCode() : 0);
 		result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
 		result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
@@ -699,6 +703,8 @@ public class TravelOptions {
 		builder.append(srid);
 		builder.append("\n\tbuffer: ");
 		builder.append(buffer);
+        builder.append("\n\tsimplify: ");
+        builder.append(simplify);
 		builder.append("\n\tintersectionMode: ");
 		builder.append(intersectionMode);
 		builder.append("\n\tpathSerializer: ");
@@ -783,7 +789,23 @@ public class TravelOptions {
 		this.buffer = buffer;
 	}
 
-	public Boolean getReverse() {
+    /**
+     * Get the simplify value of polygons (in meters).
+     * @return Simplify value in meters or in degrees
+     */
+    public Double getSimplify() {
+        return simplify;
+    }
+
+    /**
+     * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly.
+     * @param simplify Simplify value in meters
+     */
+    public void setSimplify(Double simplify) {
+        this.simplify = simplify;
+    }
+
+    public Boolean getReverse() {
 		return reverse;
 	}
 

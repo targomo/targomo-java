@@ -128,7 +128,10 @@ public final class RequestConfigurator {
 		if ( travelOptions.getBuffer() != null )
 			polygon.put(Constants.BUFFER, travelOptions.getBuffer());
 
-		if ( travelOptions.getPolygonSerializerType() != null )
+        if ( travelOptions.getSimplify() != null )
+            polygon.put(Constants.SIMPLIFY, travelOptions.getSimplify());
+
+        if ( travelOptions.getPolygonSerializerType() != null )
 			polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
 		return polygon;
