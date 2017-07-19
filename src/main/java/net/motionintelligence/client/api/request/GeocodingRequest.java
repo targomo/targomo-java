@@ -247,9 +247,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
                     try {
                         return singleRequest.get(singleAddress);
                         // special case since the service is sometimes unavailable when too many parallel requests are processed
-                    } catch (ServiceUnavailableException e) {
-                        continue;
-                    }
+                    } catch (ServiceUnavailableException e) { /* do nothing, i.e. ignore the exception and try again */ }
                 }
                 throw new ServiceUnavailableException("Even after " + triesBeforeFail + " tries the service was still " +
                         "unavailable. Try reducing the thread number or increasing the number of tries.");

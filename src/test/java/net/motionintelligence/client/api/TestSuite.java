@@ -6,6 +6,7 @@ import net.motionintelligence.client.api.request.RouteRequestTest;
 import net.motionintelligence.client.api.request.TimeRequestTest;
 import net.motionintelligence.client.api.request.config.RequestConfiguratorTest;
 import net.motionintelligence.client.api.request.ssl.SslClientGeneratorTest;
+import net.motionintelligence.client.api.request.GeocodingRequestTest;
 import net.motionintelligence.client.api.response.ReachabilityResponseTest;
 import net.motionintelligence.client.api.response.TimeResponseTest;
 import net.motionintelligence.client.api.util.IOUtilTest;
@@ -22,7 +23,8 @@ import org.junit.runners.Suite;
 		IOUtilTest.class,
 		TimeResponseTest.class,
 		ReachabilityResponseTest.class,
-		SslClientGeneratorTest.class
+		SslClientGeneratorTest.class,
+        GeocodingRequestTest.class
 })
 public class TestSuite {
 }

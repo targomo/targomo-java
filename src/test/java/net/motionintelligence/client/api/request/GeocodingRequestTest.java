@@ -5,14 +5,18 @@ import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.ToDoubleFunction;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Tests of the Geocoding request methods. This class contains:
@@ -32,8 +36,60 @@ public class GeocodingRequestTest extends RequestTest{
      *  JUnit tests
      ***************************************************************************************************************/
 
-    //TODO - should use the mocking for junit tests
-    //TODO 1) Test with Exceptions
+    @Test(expected = Route360ClientException.class)
+    public void testExceptionResponse() throws Route360ClientException {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+        new GeocodingRequest(mockClient).get(batch2[0]);
+    }
+
+    @Test(expected = ServiceUnavailableException.class)
+    public void testServiceUnavailableResponse() throws Route360ClientException {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+        new GeocodingRequest(mockClient).get(batch2[0]);
+    }
+
+    @Test(expected = Route360ClientException.class) //caused by service unavailable
+    public void testExceptionBatchResponse() throws Route360ClientException {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+        new GeocodingRequest(mockClient).getBatchParallel(10,2,batch2);
+    }
+
+    @Test
+    public void testSuccessResponse() throws Route360ClientException {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+        // Get sample json when success response is queried
+        String sampleJson = "{\n" +
+                " \"spatialReference\": {\n" +
+                "  \"wkid\": 4326,\n" +
+                "  \"latestWkid\": 4326\n" +
+                " },\n" +
+                " \"candidates\": [\n" +
+                "  {\n" +
+                "   \"address\": \"Chausseestraße 101, 10115, Mitte, Berlin\",\n" +
+                "   \"location\": {\n" +
+                "    \"x\": 13.380707532171671,\n" +
+                "    \"y\": 52.532420302239096\n" +
+                "   },\n" +
+                "   \"score\": 98.290000000000006,\n" +
+                "   \"attributes\": {\n" +
+                "    \n" +
+                "   },\n" +
+                "   \"extent\": {\n" +
+                "    \"xmin\": 13.379457500000006,\n" +
+                "    \"ymin\": 52.531325000000017,\n" +
+                "    \"xmax\": 13.381457500000005,\n" +
+                "    \"ymax\": 52.533325000000012\n" +
+                "   }\n" +
+                "  }\n" +
+                " ]\n" +
+                "}";
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        GeocodingResponse response =  new GeocodingRequest(mockClient).get(batch2[0]);
+
+        Assert.assertEquals( 98.29, response.getRepresentativeCandidate().getScore(), DELTA);
+        Assert.assertEquals( 13.380707532171671, response.getRepresentativeGeocodeOfRequest().getX(), DELTA);
+        Assert.assertEquals( 52.532420302239096, response.getRepresentativeGeocodeOfRequest().getY(), DELTA);
+    }
 
     /****************************************************************************************************************
      *  System tests
@@ -100,32 +156,6 @@ public class GeocodingRequestTest extends RequestTest{
         executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd26, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-    }
-
-    //Might be too unsafe this test - since the exception might not happen at all
-    @Test(expected = Route360ClientException.class)
-    public void testBatchConcurrentRequestFailed() throws Route360ClientException {
-        //Usage of different client to facilitate the ServiceUnavailability Response
-        Client newClient = new ResteasyClientBuilder().connectionPoolSize(100).build();
-        try {
-            final GeocodingRequest geocodingRequest = new GeocodingRequest(newClient);
-            executeBatchRequest(null, batch104, batch -> geocodingRequest.getBatchParallel(100, 1, batch));
-        } finally {
-            newClient.close();
-        }
-    }
-
-    //Not sure if this test is meritted since it's not really a feature the some client implementations fail
-    @Test(expected = Route360ClientException.class)
-    public void testBatchRequestFailedBecauseClientDoesNotSupportAsynchRequests() throws Route360ClientException {
-        //Usage of JBoss client to facilitate the concurrent error
-        Client newClient = new ResteasyClientBuilder().build();
-        try {
-            final GeocodingRequest geocodingRequest = new GeocodingRequest(newClient);
-            executeBatchRequest(null, batch104, batch -> geocodingRequest.getBatchParallel(100, 1, batch));
-        } finally {
-            newClient.close();
-        }
     }
 
     @Test

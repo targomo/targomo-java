@@ -24,13 +24,22 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
     }
 
     /**
-     * @return the first (and thus best) candidate contained in this geocoding response.
+     * @return the first (and thus best) candidate coordinates contained in this geocoding response.
      *
      * @throws ArrayIndexOutOfBoundsException when response contains no candidates
      */
     public DefaultTargetCoordinate getRepresentativeGeocodeOfRequest() {
         Candidate mostLikelyCandidate = this.candidates.get(0);
         return mostLikelyCandidate.getLocation();
+    }
+
+    /**
+     * @return the first (and thus best) candidate contained in this geocoding response.
+     *
+     * @throws ArrayIndexOutOfBoundsException when response contains no candidates
+     */
+    public Candidate getRepresentativeCandidate() {
+        return this.candidates.get(0);
     }
 
     /**
