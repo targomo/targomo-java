@@ -17,10 +17,11 @@ import java.util.concurrent.*;
 import java.util.function.Function;
 
 /**
- * Calculates coordinates using the ...
- * TODO proper documentation
- * TODO refactor all requests - a lot of potential since it's all kind of repetitive
- * TODO make other requests with no Client deprecated too
+ * The {@link GeocodingRequest} uses the ESRI webservice to request a coordinate candidates for one or more addresses.
+ *
+ * Multiple requests can be executed with one {@link GeocodingRequest} object.
+ *
+ * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
  */
 public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
@@ -31,13 +32,38 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
      */
     public enum Option {
-        SOURCE_COUNTRY("sourceCountry"), // Limits the candidates returned by the findAddressCandidates operation to the specified country or countries, e.g. "sourceCountry=FRA,DEU,ESP" - see https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm
-        SEARCH_EXTENT("searchExtent"), //A set of bounding box coordinates that limit the search area to a specific region, e.g. "-104,35.6,-94.32,41"
-        CLOSE_LOCATION("location"), //Defines an origin point location that is used to sort geocoding candidates based on their proximity to the location.
-        SPATIAL_REFERENCE("outSR"), //The spatial reference of the x/y coordinates returned by a geocode request, e.g. outSR=102100 (http://resources.arcgis.com/EN/HELP/REST/APIREF/PCS.HTML and http://resources.arcgis.com/EN/HELP/REST/APIREF/GCS.HTML)
-        //OUTPUT_FIELDS("outFields"), //The list of fields to be returned in the response. So far only default coordinates are returned
-        MAX_LOCATIONS("maxLocations"), //If more geocode candidates are supposed to be returned; by default only the one best fitting candidate is returned
-        FOR_STORAGE("forStorage"); //Specifies whether the results of the operation will be persisted, if true an authentication is required and the operation execution will be charged to the account
+        /**
+         * Limits the candidates returned by the findAddressCandidates operation to the specified country or countries,
+         * e.g. "sourceCountry=FRA,DEU,ESP"
+         * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm">Country Codes</a>
+         */
+        SOURCE_COUNTRY("sourceCountry"),
+        /**
+         * A set of bounding box coordinates that limit the search area to a specific region, e.g. "-104,35.6,-94.32,41"
+         */
+        SEARCH_EXTENT("searchExtent"),
+        /**
+         * Defines an origin point location that is used to sort geocoding candidates based on their proximity to the location.
+         */
+        CLOSE_LOCATION("location"),
+        /**
+         * The spatial reference of the x/y coordinates returned by a geocode request, e.g. "outSR=102100"
+         * @see <a href="http://resources.arcgis.com/EN/HELP/REST/APIREF/PCS.HTML">PCS</a>
+         * @see <a href="http://resources.arcgis.com/EN/HELP/REST/APIREF/GCS.HTML">GCS</a>
+         */
+        SPATIAL_REFERENCE("outSR"),
+        //The list of fields to be returned in the response. So far only default coordinates are returned -
+        //https://developers.arcgis.com/rest/geocode/api-reference/geocoding-service-output.htm#ESRI_SECTION1_42D7D3D0231241E9B656C01438209440
+        //OUTPUT_FIELDS("outFields"),
+        /**
+         * If more geocode candidates are supposed to be returned; by default only the one best fitting candidate is returned
+         */
+        MAX_LOCATIONS("maxLocations"),
+        /**
+         * Specifies whether the results of the operation will be persisted, if true an authentication is required and
+         * the operation execution will be charged to the account
+         */
+        FOR_STORAGE("forStorage");
 
         private String name;
         Option(String repName){
@@ -45,11 +71,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         }
     }
 
-    private static final String       REST_URI            = "http://geocode.arcgis.com";
-    private static final String       PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
+    private static final String REST_URI            = "http://geocode.arcgis.com";
+    private static final String PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
 
-    private static final Logger       LOGGER      = LoggerFactory.getLogger(GeocodingRequest.class);
-    private static final ObjectMapper JSON_PARSER = JsonFactory.create();
+    private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
+    private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
 
     private final Client client;
     private final Map<Option,String> requestOptions;
@@ -81,16 +107,17 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param client specified Client implementation to be used, e.g. Jersey or jBoss client
      * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
      */
-    public GeocodingRequest(Client client, EnumMap<Option,String> extraOptions){
+    public GeocodingRequest(Client client, Map<Option,String> extraOptions){
         this.client	        = client;
         this.requestOptions = extraOptions;
     }
 
     /**
-     * Execute request TODO docu
+     * Invokes a simple request to geocode one address. The address is given in a single {@link String}.
      *
-     * @return GeocodingResponse
-     * @throws Route360ClientException In case of error other than Gateway Timeout
+     * @param singleLineAddress e.g. "Chausseestr. 101, 10115 Berlin"
+     * @return the parsed REST service response
+     * @throws Route360ClientException
      */
     @Override
     public GeocodingResponse get(String singleLineAddress) throws Route360ClientException {
@@ -98,10 +125,12 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     }
 
     /**
-     * Execute request TODO docu
+     * Invokes a simple request to geocode one address. The address is given in an {@link Address}.
+     * Empty or null fields will be ignored by the request.
      *
-     * @return GeocodingResponse
-     * @throws Route360ClientException In case of error
+     * @param address e.g. <pre>new Address("Chausseestr. 101","","Berlin","10115",null);</pre>
+     * @return the parsed REST service response
+     * @throws Route360ClientException
      */
     public GeocodingResponse get(Address address) throws Route360ClientException {
         return get( webTarget ->
@@ -112,17 +141,27 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             conditionalQueryParam("countryCode", address.country, webTarget))))));
     }
 
+    /**
+     * Private method to only add a query paramter when the value is not null and not an empty string.
+     */
     private WebTarget conditionalQueryParam(String key, String value, WebTarget webTarget) {
-        if( value == null || value.length() == 0 )
+        if( value == null || value.isEmpty() )
             return webTarget;
         else
             return webTarget.queryParam(key,value);
     }
 
+    /**
+     * Private Method facilitating a single geocoding request, i.e. creating web target, requesting the result, and
+     * validating/parsing the result.
+     *
+     * @param queryPrep
+     * @return
+     * @throws Route360ClientException
+     */
     private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
             throws Route360ClientException {
 
-        final long requestStart = System.currentTimeMillis();
         WebTarget target = queryPrep.apply(client.target(REST_URI)
                 .path(PATH_SINGLE_ADDRESS)
                 .queryParam("f", "json"));
@@ -131,34 +170,77 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         for(Map.Entry<Option,String> entry : requestOptions.entrySet())
             target = conditionalQueryParam(entry.getKey().name, entry.getValue(), target);
 
-        LOGGER.debug("Executing geocoding request to URI: '%s'", target.getUri());
+        LOGGER.debug("Executing geocoding request to URI: " + target.getUri());
         Response response = target.request().buildGet().invoke();
         try {
-            final long roundTripTime = System.currentTimeMillis() - requestStart;
-            return validateResponse(response, requestStart, roundTripTime);
+            return validateResponse(response);
         } finally {
             response.close();
         }
     }
 
+    /**
+     * Facilitating a parallel batch request for geocoding multiple addresses given as single String. It uses an
+     * {@link ExecutorService} with a specified thread pool size. These threads are used to request single geocoding
+     * results in parallel. Due to temporal unavailability of the service the request may be repeated a number
+     * of times before failing.
+     *
+     * @see GeocodingRequest#get(String)
+     *
+     * @param parallelThreads
+     * @param triesBeforeFail
+     * @param addresses
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
                                                  final String... addresses) throws Route360ClientException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
+    /**
+     * Facilitating a parallel batch request for geocoding multiple {@link Address Addresses}. It uses an
+     * {@link ExecutorService} with a specified thread pool size. These threads are used to request single geocoding
+     * results in parallel. Due to temporal unavailability of the service the request may be repeated a number
+     * of times before failing.
+     *
+     * @see GeocodingRequest#get(Address)
+     *
+     * @param parallelThreads
+     * @param triesBeforeFail
+     * @param addresses
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
                                                  final Address... addresses) throws Route360ClientException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
-    private <ADDRESS_TYPE> GeocodingResponse[] getBatchParallel(
-            final GetRequest<ADDRESS_TYPE,GeocodingResponse> singleRequest,
-            final int parallelThreads, final int triesBeforeFail, final ADDRESS_TYPE[] addresses)
+    /**
+     * Private Method facilitating a parallel batch request for geocoding multiple addresses. It uses an
+     * {@link ExecutorService} with a specified thread pool size. These threads are used to request single geocoding
+     * results in parallel. Due to temporal unavailability of the service the request may be repeated a number
+     * of times before failing.
+     *
+     * @see GeocodingRequest#get(Function)
+     *
+     * @param singleRequest
+     * @param parallelThreads
+     * @param triesBeforeFail
+     * @param addresses
+     * @param <A> address type (String or {@link Address})
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
+    private <A> GeocodingResponse[] getBatchParallel(
+            final GetRequest<A,GeocodingResponse> singleRequest,
+            final int parallelThreads, final int triesBeforeFail, final A[] addresses)
             throws Route360ClientException {
 
         final ExecutorService executor = Executors.newFixedThreadPool(parallelThreads);
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();
-        for (ADDRESS_TYPE singleAddress : addresses) {
+        for (A singleAddress : addresses) {
             requests.add( () -> { //Adding individual Callables to be executed in available parallel Threads
                 // will terminate after the 5th try
                 for( int numberOfTries = 0; numberOfTries < triesBeforeFail; numberOfTries ++) {
@@ -189,6 +271,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         }
     }
 
+    /**
+     * Oracle's proposed routine to savely shutdown the {@link ExecutorService}.
+     * @param executor
+     * @throws InterruptedException
+     */
     private void shutdownServiceExecutor(ExecutorService executor) throws InterruptedException {
         executor.shutdown();
         try {
@@ -200,6 +287,15 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         }
     }
 
+    /**
+     * Facilitating a sequential batch request for geocoding multiple addresses each given as single String.
+     *
+     * @see GeocodingRequest#get(String)
+     *
+     * @param addresses
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
     public GeocodingResponse[] getBatchSequential(String... addresses) throws Route360ClientException {
         GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
         for( int i = 0; i<addresses.length; i++)
@@ -207,6 +303,15 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         return batchResults;
     }
 
+    /**
+     * Facilitating a sequential batch request for geocoding multiple {@link Address Addresses}.
+     *
+     * @see GeocodingRequest#get(Address)
+     *
+     * @param addresses
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
     public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException {
         GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
         for( int i = 0; i<addresses.length; i++)
@@ -214,19 +319,25 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         return batchResults;
     }
 
-    //TODO include request times
-    private GeocodingResponse validateResponse(final Response response,
-                                                  final long requestStart, final long roundTripTime)
-            throws Route360ClientException {
+    /**
+     * Private method to validate and parse the repsonse.
+     *
+     * @param response
+     * @return
+     * @throws Route360ClientException
+     */
+    private GeocodingResponse validateResponse(final Response response) throws Route360ClientException {
+
         // compare the HTTP status codes, NOT the route 360 code
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             // parse the results
             String res = response.readEntity(String.class);
-
-            GeocodingResponse parsedResponse = JSON_PARSER.fromJson(res, GeocodingResponse.class);
-            return parsedResponse;
+            GeocodingResponse ret = JSON_PARSER.fromJson(res, GeocodingResponse.class);
+            if(!ret.iterator().hasNext())
+                throw new Route360ClientException("No representative geo coordinates where found for this address.");
+            return ret;
         } else if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode() )
-            throw new ServiceUnavailableException();
+            throw new ServiceUnavailableException(); // Some clients (e.g. jBoss) return SERVICE_UNAVAILABLE while others will wait
         else
             throw new Route360ClientException("Request failed with response: \n" + response.readEntity(String.class));
     }

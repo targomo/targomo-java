@@ -4,19 +4,21 @@ import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
 import net.motionintelligence.client.api.response.GeocodingResponse;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.ToDoubleFunction;
 
 /**
+ * Tests of the Geocoding request methods. This class contains:
+ * (1) JUnit tests and
+ * (2) System tests (actually calling the REST service)
+ *
  * Created by David on 18.07.2017.
  */
 public class GeocodingRequestTest extends RequestTest{
@@ -24,72 +26,111 @@ public class GeocodingRequestTest extends RequestTest{
     private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
     private static final double DELTA  = 0.005; //Allowed delta when comparing the coordinates
 
-    //TODO 1) Test with Exceptions
+    private static Client client;
 
     /****************************************************************************************************************
      *  JUnit tests
      ***************************************************************************************************************/
 
     //TODO - should use the mocking for junit tests
+    //TODO 1) Test with Exceptions
 
     /****************************************************************************************************************
      *  System tests
      ***************************************************************************************************************/
 
+    @BeforeClass
+    public static void classSetUp() {
+        //Make sure it's the Jersey Client. For other clients a connection pool for concurrent requests is required
+        //otherwise the parallel batch requests will fail
+        client = JerseyClientBuilder.createClient();
+    }
+
+    @AfterClass
+    public static void classTearDown() {
+        if( client != null )
+            client.close();
+    }
+
+    @Test(expected = Route360ClientException.class)
+    public void testSimpleLineRequestFailed() throws Route360ClientException {
+        new GeocodingRequest(client).get( "" );
+    }
+
     @Test
     public void testSimpleLineRequestSuccess() throws Route360ClientException {
-        Client client = ClientBuilder.newClient();
+
         GeocodingResponse response = new GeocodingRequest(client).get( batch2[0] );
         GeocodingResponse response2 = new GeocodingRequest(client).get( batch2[1] );
+
         Assert.assertEquals( coordinates2[0].getX(), response.getRepresentativeGeocodeOfRequest().getX(), DELTA);
         Assert.assertEquals( coordinates2[0].getY(), response.getRepresentativeGeocodeOfRequest().getY(), DELTA);
         Assert.assertEquals( coordinates2[1].getX(), response2.getRepresentativeGeocodeOfRequest().getX(), DELTA);
         Assert.assertEquals( coordinates2[1].getY(), response2.getRepresentativeGeocodeOfRequest().getY(), DELTA);
-        client.close();
     }
 
     @Test
     public void testAddressRequestSuccess() throws Route360ClientException {
-        Client client = ClientBuilder.newClient();
+
         GeocodingResponse response = new GeocodingRequest(client).get(batchAdd2[0]);
         GeocodingResponse response2 = new GeocodingRequest(client).get(batchAdd2[1]);
+
         Assert.assertEquals( coordinatesAdd2[0].getX(), response.getRepresentativeGeocodeOfRequest().getX(), DELTA);
         Assert.assertEquals( coordinatesAdd2[0].getY(), response.getRepresentativeGeocodeOfRequest().getY(), DELTA);
         Assert.assertEquals( coordinatesAdd2[1].getX(), response2.getRepresentativeGeocodeOfRequest().getX(), DELTA);
         Assert.assertEquals( coordinatesAdd2[1].getY(), response2.getRepresentativeGeocodeOfRequest().getY(), DELTA);
-        client.close();
     }
 
     @Test
     public void testParallelBatchRequestSuccess() throws Route360ClientException {
 
-        Client client = ClientBuilder.newClient();
         final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinates2, batch2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        client.close();
     }
 
     @Test
     public void testParallelAddressBatchRequestSuccess() throws Route360ClientException {
 
-        Client client = ClientBuilder.newClient();
         final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd26, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        client.close();
+    }
+
+    //Might be too unsafe this test - since the exception might not happen at all
+    @Test(expected = Route360ClientException.class)
+    public void testBatchConcurrentRequestFailed() throws Route360ClientException {
+        //Usage of different client to facilitate the ServiceUnavailability Response
+        Client newClient = new ResteasyClientBuilder().connectionPoolSize(100).build();
+        try {
+            final GeocodingRequest geocodingRequest = new GeocodingRequest(newClient);
+            executeBatchRequest(null, batch104, batch -> geocodingRequest.getBatchParallel(100, 1, batch));
+        } finally {
+            newClient.close();
+        }
+    }
+
+    //Not sure if this test is meritted since it's not really a feature the some client implementations fail
+    @Test(expected = Route360ClientException.class)
+    public void testBatchRequestFailedBecauseClientDoesNotSupportAsynchRequests() throws Route360ClientException {
+        //Usage of JBoss client to facilitate the concurrent error
+        Client newClient = new ResteasyClientBuilder().build();
+        try {
+            final GeocodingRequest geocodingRequest = new GeocodingRequest(newClient);
+            executeBatchRequest(null, batch104, batch -> geocodingRequest.getBatchParallel(100, 1, batch));
+        } finally {
+            newClient.close();
+        }
     }
 
     @Test
-//    @Ignore  //Note: Performance Test. No Assertions
     public void testParallelBatchWithOptionsRequestSuccess() throws Route360ClientException {
 
-        Client client = ClientBuilder.newClient();
         //Add Option source country: Germany
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.SOURCE_COUNTRY,"DEU");
@@ -97,60 +138,61 @@ public class GeocodingRequestTest extends RequestTest{
 
         LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
         executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
-        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany");
-        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
-        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany");
-        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany");
-        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany");
+//        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
+//        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany");
+//        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany");
+//        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
 
         //Add option search extent: Berlin
         options.put(GeocodingRequest.Option.SEARCH_EXTENT,"12.9803466797,52.3420516364,13.8153076172,52.716330936");
         LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
         executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
-        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
-        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
-        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
-        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
-        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
+//        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
+//        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
+//        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
+//        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+
+        //Other tests excluded since they were only for testing performance of configurations
 
         //Note: Test results seem to indicate the options don't seem to have a notable effect on the search performance
         //There seems to be fixed limit from the server about max number of parallel requests from one source
-        client.close();
     }
 
     @Test
     public void testSequentialAddressBatchRequestSuccess() throws Route360ClientException {
-        Client client = ClientBuilder.newClient();
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, geocodingRequest::getBatchSequential );
         executeBatchRequest(coordinatesAdd26, batchAdd26, geocodingRequest::getBatchSequential );
-        client.close();
     }
 
     @Test
     public void testSequentialBatchRequestSuccess() throws Route360ClientException {
-        Client client = ClientBuilder.newClient();
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinates2, batch2, geocodingRequest::getBatchSequential );
         executeBatchRequest(coordinates26, batch26, geocodingRequest::getBatchSequential );
-        client.close();
     }
 
+    /****************************************************************************************************************
+     *  Private helper test methods
+     ***************************************************************************************************************/
+
     /**
+     * Private Method to execute and assert the results of a batch call.
      *
      * @param expectedOutput
      * @param input
      * @param request
-     * @param <InputType>
-     * @return
+     * @param <A> input type, e.g. String or {@link Address}
      * @throws Route360ClientException
      */
-    private <InputType> GeocodingResponse[] executeBatchRequest(DefaultTargetCoordinate[] expectedOutput,
-                            InputType[] input, GetRequest<InputType[],GeocodingResponse[]> request) throws Route360ClientException{
+    private <A> void executeBatchRequest(DefaultTargetCoordinate[] expectedOutput,
+                            A[] input, GetRequest<A[],GeocodingResponse[]> request) throws Route360ClientException{
         long timeBefore = System.currentTimeMillis();
         GeocodingResponse[] responses = request.get( input );
         long timeSequentialFinished = System.currentTimeMillis();
@@ -161,9 +203,15 @@ public class GeocodingRequestTest extends RequestTest{
             assertCoordinate(expectedOutput, responses, DefaultTargetCoordinate::getY);
         }
         LOGGER.info( "Runtime for " + input.length + " addresses: " + (timeSequentialFinished-timeBefore));
-        return responses;
     }
 
+    /**
+     * Private method to assert either the x or y coordinates
+     *
+     * @param expectedOutput
+     * @param actual
+     * @param extractor
+     */
     private void assertCoordinate(DefaultTargetCoordinate[] expectedOutput, GeocodingResponse[] actual,
                          ToDoubleFunction<DefaultTargetCoordinate> extractor) {
         Assert.assertArrayEquals(
@@ -534,8 +582,8 @@ public class GeocodingRequestTest extends RequestTest{
             new DefaultTargetCoordinate(null, 13.3841061, 52.5147475)};
 
     private static Address[] batchAdd2 = new Address[]{
-            new Address("Grolmanstraße 141","","Berlin","10623", "DEU"),
-            new Address("Andreasstr. 10","","Berlin","10243", "DEU")};
+            new Address("Grolmanstraße 141",null,"Berlin","10623", "DEU"),
+            new Address("Andreasstr. 10",null,"Berlin","10243", "DEU")};
 
     private static Address[] batchAdd18 = new Address[]{
             new Address("Grolmanstraße 141","","Berlin","10623", "DEU"),
