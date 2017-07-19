@@ -1,10 +1,10 @@
 package net.motionintelligence.client.api.request;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.response.GeocodingResponse;
+import org.boon.json.JsonFactory;
+import org.boon.json.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,12 @@ import java.util.function.Function;
  */
 public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
+    /**
+     * Special Geocoding request options that can be set at creation of the request.
+     * For more details please see REST service documentation.
+     *
+     * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
+     */
     public enum Option {
         SOURCE_COUNTRY("sourceCountry"), // Limits the candidates returned by the findAddressCandidates operation to the specified country or countries, e.g. "sourceCountry=FRA,DEU,ESP" - see https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm
         SEARCH_EXTENT("searchExtent"), //A set of bounding box coordinates that limit the search area to a specific region, e.g. "-104,35.6,-94.32,41"
@@ -39,32 +45,43 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         }
     }
 
-    private static final String REST_URI            = "http://geocode.arcgis.com";
-    private static final String PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
+    private static final String       REST_URI            = "http://geocode.arcgis.com";
+    private static final String       PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
 
-    private static final Logger LOGGER      = LoggerFactory.getLogger(GeocodingRequest.class);
-    private static final Gson   GSON_PARSER = new GsonBuilder().create();
+    private static final Logger       LOGGER      = LoggerFactory.getLogger(GeocodingRequest.class);
+    private static final ObjectMapper JSON_PARSER = JsonFactory.create();
 
     private final Client client;
-    private final Map<Option,?> requestOptions;
+    private final Map<Option,String> requestOptions;
 
     /**
-     * Use a custom client implementation for the geo coding request
-     * @param client specified Client implementation to be used
+     * Creation of a default geo coding request.
+     *
+     * Note1: The client's lifecycle is not handled here. Please make sure to properly close the client when not
+     * needed anymore.
+     *
+     * Note2: For the parallel batch requests it may be required to set a certain connection pool size when client is
+     * created. (e.g. this was necessary for a JBoss client but not for the Jersey client)
+     *
+     * @param client specified Client implementation to be used, e.g. Jersey or jBoss client
      */
     public GeocodingRequest(Client client){
         this(client, new EnumMap<>(Option.class));
     }
 
     /**
-     * Use a custom client implementation for the geo coding request and set non-default request parameters.
+     * Use a custom client implementation for the geo coding request with non-default request parameters.
      *
-     * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
+     * Note1: The client's lifecycle is not handled here. Please make sure to properly close the client when not
+     * needed anymore.
      *
-     * @param client specified Client implementation to be used
-     * @param extraOptions as map
+     * Note2: For the parallel batch requests it may be required to set a certain connection pool size when client is
+     * created. (e.g. this was necessary for a JBoss client but not for the Jersey client)
+     *
+     * @param client specified Client implementation to be used, e.g. Jersey or jBoss client
+     * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
      */
-    public GeocodingRequest(Client client, EnumMap<Option,?> extraOptions){
+    public GeocodingRequest(Client client, EnumMap<Option,String> extraOptions){
         this.client	        = client;
         this.requestOptions = extraOptions;
     }
@@ -76,8 +93,8 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @throws Route360ClientException In case of error other than Gateway Timeout
      */
     @Override
-    public GeocodingResponse get(String address) throws Route360ClientException {
-        return get( webTarget -> webTarget.queryParam("singleLine", address));
+    public GeocodingResponse get(String singleLineAddress) throws Route360ClientException {
+        return get( webTarget -> webTarget.queryParam("singleLine", singleLineAddress));
     }
 
     /**
@@ -87,11 +104,19 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @throws Route360ClientException In case of error
      */
     public GeocodingResponse get(Address address) throws Route360ClientException {
-        return get( webTarget -> webTarget.queryParam("address", address.street)
-                .queryParam("address2", address.streetDetails)
-                .queryParam("city", address.city)
-                .queryParam("postal", address.postalCode)
-                .queryParam("countryCode", address.country));
+        return get( webTarget ->
+            conditionalQueryParam("address", address.street,
+            conditionalQueryParam("address2", address.streetDetails,
+            conditionalQueryParam("city", address.city,
+            conditionalQueryParam("postal", address.postalCode,
+            conditionalQueryParam("countryCode", address.country, webTarget))))));
+    }
+
+    private WebTarget conditionalQueryParam(String key, String value, WebTarget webTarget) {
+        if( value == null || value.length() == 0 )
+            return webTarget;
+        else
+            return webTarget.queryParam(key,value);
     }
 
     private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
@@ -103,10 +128,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
                 .queryParam("f", "json"));
         if( !requestOptions.containsKey(Option.MAX_LOCATIONS) )
             target = target.queryParam(Option.MAX_LOCATIONS.name, 1);
-        for(Map.Entry<Option,?> entry : requestOptions.entrySet())
-            target = target.queryParam( entry.getKey().name, entry.getValue());
+        for(Map.Entry<Option,String> entry : requestOptions.entrySet())
+            target = conditionalQueryParam(entry.getKey().name, entry.getValue(), target);
 
-        LOGGER.debug(String.format("Executing geocoding request to URI: '%s'", target.getUri()));
+        LOGGER.debug("Executing geocoding request to URI: '%s'", target.getUri());
         Response response = target.request().buildGet().invoke();
         try {
             final long roundTripTime = System.currentTimeMillis() - requestStart;
@@ -117,23 +142,26 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     }
 
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
-                                                  final String... addresses) throws Route360ClientException {
+                                                 final String... addresses) throws Route360ClientException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
-                                                  final Address... addresses) throws Route360ClientException {
+                                                 final Address... addresses) throws Route360ClientException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
-    private <InputType> GeocodingResponse[] getBatchParallel( final GetRequest<InputType,GeocodingResponse> singleRequest,
-            final int parallelThreads, final int triesBeforeFail, final InputType[] addresses) throws Route360ClientException {
+    private <ADDRESS_TYPE> GeocodingResponse[] getBatchParallel(
+            final GetRequest<ADDRESS_TYPE,GeocodingResponse> singleRequest,
+            final int parallelThreads, final int triesBeforeFail, final ADDRESS_TYPE[] addresses)
+            throws Route360ClientException {
+
         final ExecutorService executor = Executors.newFixedThreadPool(parallelThreads);
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();
-        for (InputType singleAddress : addresses) {
-            requests.add( () -> {
+        for (ADDRESS_TYPE singleAddress : addresses) {
+            requests.add( () -> { //Adding individual Callables to be executed in available parallel Threads
                 // will terminate after the 5th try
-                for( int nbrTry = 0; nbrTry < triesBeforeFail; nbrTry ++) {
+                for( int numberOfTries = 0; numberOfTries < triesBeforeFail; numberOfTries ++) {
                     try {
                         return singleRequest.get(singleAddress);
                         // special case since the service is sometimes unavailable when too many parallel requests are processed
@@ -148,12 +176,8 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         try {
             //Execution of the requests
             List<Future<GeocodingResponse>> results = executor.invokeAll(requests);
-            //shutdown of the parallel executor
-            executor.shutdown();
-            try {
-                if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS))
-                    executor.shutdownNow();
-            } catch (InterruptedException e) { executor.shutdownNow(); }
+            //at finish shutdown of the parallel executor
+            shutdownServiceExecutor(executor);
             //Collecting results
             GeocodingResponse[] resultArray = new GeocodingResponse[addresses.length];
             int i = 0;
@@ -162,6 +186,17 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             return resultArray;
         } catch(InterruptedException | ExecutionException e) {
             throw new Route360ClientException("Parallel Execution Failed! Cause: ", e);
+        }
+    }
+
+    private void shutdownServiceExecutor(ExecutorService executor) throws InterruptedException {
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS))
+                executor.shutdownNow();
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+            throw e;
         }
     }
 
@@ -188,7 +223,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             // parse the results
             String res = response.readEntity(String.class);
 
-            GeocodingResponse parsedResponse = GSON_PARSER.fromJson(res, GeocodingResponse.class);
+            GeocodingResponse parsedResponse = JSON_PARSER.fromJson(res, GeocodingResponse.class);
             return parsedResponse;
         } else if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode() )
             throw new ServiceUnavailableException();
