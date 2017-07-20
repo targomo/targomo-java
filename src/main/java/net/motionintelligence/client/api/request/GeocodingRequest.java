@@ -187,9 +187,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @see GeocodingRequest#get(String)
      *
-     * @param parallelThreads
-     * @param triesBeforeFail
-     * @param addresses
+     * @param parallelThreads >=1 (==1 means sequential processing) - be careful to not create too many Threads
+     * @param triesBeforeFail >=1
+     * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException
      */
@@ -206,9 +206,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @see GeocodingRequest#get(Address)
      *
-     * @param parallelThreads
-     * @param triesBeforeFail
-     * @param addresses
+     * @param parallelThreads >=1 (==1 means sequential processing) - be careful to not create too many Threads
+     * @param triesBeforeFail >=1
+     * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException
      */
@@ -226,9 +226,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @see GeocodingRequest#get(Function)
      *
      * @param singleRequest
-     * @param parallelThreads
-     * @param triesBeforeFail
-     * @param addresses
+     * @param parallelThreads >=1 (==1 means sequential processing) - be careful to not create too many Threads
+     * @param triesBeforeFail >=1
+     * @param addresses not null and with at least on element
      * @param <A> address type (String or {@link Address})
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException
@@ -237,6 +237,13 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             final GetRequest<A,GeocodingResponse> singleRequest,
             final int parallelThreads, final int triesBeforeFail, final A[] addresses)
             throws Route360ClientException {
+
+        if(parallelThreads<1)
+            throw new Route360ClientException("The number of specified threads has to be equal or greater than one.");
+        if(triesBeforeFail<1)
+            throw new Route360ClientException("The number of specified tries has to be equal or greater than one.");
+        if(addresses == null || addresses.length == 0)
+            throw new Route360ClientException("The addresses array has to be not null and contain at least one element.");
 
         final ExecutorService executor = Executors.newFixedThreadPool(parallelThreads);
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();
@@ -290,15 +297,12 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @see GeocodingRequest#get(String)
      *
-     * @param addresses
+     * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException
      */
     public GeocodingResponse[] getBatchSequential(String... addresses) throws Route360ClientException {
-        GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
-        for( int i = 0; i<addresses.length; i++)
-            batchResults[i] = get(addresses[i]);
-        return batchResults;
+        return getBatchSequential( this::get, addresses);
     }
 
     /**
@@ -306,14 +310,31 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @see GeocodingRequest#get(Address)
      *
-     * @param addresses
+     * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException
      */
     public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException {
+        return getBatchSequential( this::get, addresses);
+    }
+
+    /**
+     * Private helper method to sequentially batch request for geocoding multiple {@link Address Addresses}.
+     *
+     * @see GeocodingRequest#get(Address)
+     *
+     * @param addresses not null and with at least on element
+     * @return the resulting individual responses - same order as input addresses
+     * @throws Route360ClientException
+     */
+    private <A> GeocodingResponse[] getBatchSequential(final GetRequest<A,GeocodingResponse> singleRequest,
+                                                      A[] addresses) throws Route360ClientException {
+        if(addresses == null || addresses.length == 0)
+            throw new Route360ClientException("The addresses array has to be not null and contain at least one element.");
+
         GeocodingResponse[] batchResults = new GeocodingResponse[addresses.length];
         for( int i = 0; i<addresses.length; i++)
-            batchResults[i] = get(addresses[i]);
+            batchResults[i] = singleRequest.get(addresses[i]);
         return batchResults;
     }
 
