@@ -30,7 +30,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
      * @throws NoSuchElementException when response contains no candidates
      */
     public DefaultTargetCoordinate getRepresentativeGeocodeOfRequest() {
-        if( this.candidates.isEmpty() )
+        if( this.candidates == null || this.candidates.isEmpty() )
             throw new NoSuchElementException("This response does not contain a coordination candidate.");
         Candidate mostLikelyCandidate = this.candidates.get(0);
         return mostLikelyCandidate.getLocation();
@@ -42,7 +42,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
      * @throws NoSuchElementException when response contains no candidates
      */
     public Candidate getRepresentativeCandidate() {
-        if( this.candidates.isEmpty() )
+        if( this.candidates == null || this.candidates.isEmpty() )
             throw new NoSuchElementException("This response does not contain a candidate.");
         return this.candidates.get(0);
     }

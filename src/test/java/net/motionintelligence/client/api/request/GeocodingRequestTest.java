@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
  * (1) JUnit tests and
  * (2) System tests (actually calling the REST service)
  *
+ * TODO test for bad request (e.g. sourcecountry:germany instead of DEU)
+ *
  * Created by David on 18.07.2017.
  */
 public class GeocodingRequestTest extends RequestTest{
@@ -113,6 +115,15 @@ public class GeocodingRequestTest extends RequestTest{
     public void testSimpleLineRequestFailed() throws Route360ClientException {
         GeocodingResponse response = new GeocodingRequest(client).get( "" );
         response.getRepresentativeGeocodeOfRequest();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testForStorageRequestFailed() throws Route360ClientException {
+        //won't fail if authentication credentials provided
+        EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
+        options.put(GeocodingRequest.Option.FOR_STORAGE,"true");
+        GeocodingResponse response = new GeocodingRequest(client,options).get( batch2[0] );
+        response.getRepresentativeCandidate();
     }
 
     @Test
