@@ -2,6 +2,7 @@ package net.motionintelligence.client.api.request;
 
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
+import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.boon.json.JsonFactory;
 import org.boon.json.ObjectMapper;
@@ -239,11 +240,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             throws Route360ClientException {
 
         if(parallelThreads<1)
-            throw new Route360ClientException("The number of specified threads has to be equal or greater than one.");
+            throw new Route360ClientRuntimeException("The number of specified threads has to be equal or greater than one.");
         if(triesBeforeFail<1)
-            throw new Route360ClientException("The number of specified tries has to be equal or greater than one.");
+            throw new Route360ClientRuntimeException("The number of specified tries has to be equal or greater than one.");
         if(addresses == null || addresses.length == 0)
-            throw new Route360ClientException("The addresses array has to be not null and contain at least one element.");
+            throw new Route360ClientRuntimeException("The addresses array has to be not null and contain at least one element.");
 
         final ExecutorService executor = Executors.newFixedThreadPool(parallelThreads);
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();

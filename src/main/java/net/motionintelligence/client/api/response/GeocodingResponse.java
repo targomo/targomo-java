@@ -65,7 +65,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
      * @return true if empty; false otherwise
      */
     public boolean isEmpty() {
-        return candidates.isEmpty();
+        return this.candidates == null || this.candidates.isEmpty();
     }
 
     /**
