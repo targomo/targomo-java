@@ -14,6 +14,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.NoSuchElementException;
 import java.util.function.ToDoubleFunction;
 
 import static org.mockito.Mockito.when;
@@ -108,9 +109,10 @@ public class GeocodingRequestTest extends RequestTest{
             client.close();
     }
 
-    @Test(expected = Route360ClientException.class)
+    @Test(expected = NoSuchElementException.class)
     public void testSimpleLineRequestFailed() throws Route360ClientException {
-        new GeocodingRequest(client).get( "" );
+        GeocodingResponse response = new GeocodingRequest(client).get( "" );
+        response.getRepresentativeGeocodeOfRequest();
     }
 
     @Test
@@ -146,6 +148,18 @@ public class GeocodingRequestTest extends RequestTest{
         executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+    }
+
+    @Test
+    public void testParallelBatchRequestWithOneUnspecifiedAddress() throws Route360ClientException {
+
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+        GeocodingResponse[] response = executeBatchRequest(null, batch2OneEmpty,
+                batch -> geocodingRequest.getBatchParallel(2,5,batch) );
+
+        Assert.assertEquals( coordinates2[0].getX(), response[0].getRepresentativeGeocodeOfRequest().getX(), DELTA);
+        Assert.assertEquals( coordinates2[0].getY(), response[0].getRepresentativeGeocodeOfRequest().getY(), DELTA);
+        Assert.assertTrue( response[1].isEmpty() );
     }
 
     @Test
@@ -221,7 +235,7 @@ public class GeocodingRequestTest extends RequestTest{
      * @param <A> input type, e.g. String or {@link Address}
      * @throws Route360ClientException
      */
-    private <A> void executeBatchRequest(DefaultTargetCoordinate[] expectedOutput,
+    private <A> GeocodingResponse[] executeBatchRequest(DefaultTargetCoordinate[] expectedOutput,
                             A[] input, GetRequest<A[],GeocodingResponse[]> request) throws Route360ClientException{
         long timeBefore = System.currentTimeMillis();
         GeocodingResponse[] responses = request.get( input );
@@ -233,6 +247,7 @@ public class GeocodingRequestTest extends RequestTest{
             assertCoordinate(expectedOutput, responses, DefaultTargetCoordinate::getY);
         }
         LOGGER.info( "Runtime for " + input.length + " addresses: " + (timeSequentialFinished-timeBefore));
+        return responses;
     }
 
     /**
@@ -408,6 +423,9 @@ public class GeocodingRequestTest extends RequestTest{
             new DefaultTargetCoordinate( null,13.382203029545938, 52.548776739915894),
             new DefaultTargetCoordinate( null,13.363161067430415, 52.52770892091282)};
 
+    private static String[] batch2OneEmpty = new String[]{
+            "Chaussee 101 Berlin",
+            ""};
     private static String[] batch2 = new String[]{
             "Chaussee 101 Berlin",
             "Karl-Marx-Allee 90a, 10243 Berlin"};

@@ -249,7 +249,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         final List<Callable<GeocodingResponse>> requests = new ArrayList<>();
         for (A singleAddress : addresses) {
             requests.add( () -> { //Adding individual Callables to be executed in available parallel Threads
-                // will terminate after the 5th try
+                // will terminate after the n-th try
                 for( int numberOfTries = 0; numberOfTries < triesBeforeFail; numberOfTries ++) {
                     try {
                         return singleRequest.get(singleAddress);
@@ -351,10 +351,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             // parse the results
             String res = response.readEntity(String.class);
-            GeocodingResponse ret = JSON_PARSER.fromJson(res, GeocodingResponse.class);
-            if(!ret.iterator().hasNext())
-                throw new Route360ClientException("No representative geo coordinates where found for this address.");
-            return ret;
+            return JSON_PARSER.fromJson(res, GeocodingResponse.class);
         } else if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode() )
             throw new ServiceUnavailableException(); // Some clients (e.g. jBoss) return SERVICE_UNAVAILABLE while others will wait
         else

@@ -5,6 +5,7 @@ import net.motionintelligence.client.api.util.POJOUtil;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Response of the ESRI geocoding REST service for a requested address. It is immutable with a private constructor
@@ -26,9 +27,11 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
     /**
      * @return the first (and thus best) candidate coordinates contained in this geocoding response.
      *
-     * @throws ArrayIndexOutOfBoundsException when response contains no candidates
+     * @throws NoSuchElementException when response contains no candidates
      */
     public DefaultTargetCoordinate getRepresentativeGeocodeOfRequest() {
+        if( this.candidates.isEmpty() )
+            throw new NoSuchElementException("This response does not contain a coordination candidate.");
         Candidate mostLikelyCandidate = this.candidates.get(0);
         return mostLikelyCandidate.getLocation();
     }
@@ -36,9 +39,11 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
     /**
      * @return the first (and thus best) candidate contained in this geocoding response.
      *
-     * @throws ArrayIndexOutOfBoundsException when response contains no candidates
+     * @throws NoSuchElementException when response contains no candidates
      */
     public Candidate getRepresentativeCandidate() {
+        if( this.candidates.isEmpty() )
+            throw new NoSuchElementException("This response does not contain a candidate.");
         return this.candidates.get(0);
     }
 
@@ -54,6 +59,13 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
     @Override
     public Iterator<Candidate> iterator() {
         return candidates.iterator();
+    }
+
+    /**
+     * @return true if empty; false otherwise
+     */
+    public boolean isEmpty() {
+        return candidates.isEmpty();
     }
 
     /**
