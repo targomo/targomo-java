@@ -92,6 +92,7 @@ public class GeocodingRequestTest extends RequestTest{
         Assert.assertEquals( 98.29, response.getRepresentativeCandidate().getScore(), DELTA);
         Assert.assertEquals( 13.380707532171671, response.getRepresentativeGeocodeOfRequest().getX(), DELTA);
         Assert.assertEquals( 52.532420302239096, response.getRepresentativeGeocodeOfRequest().getY(), DELTA);
+        Assert.assertEquals( sampleJson, response.getCompleteJsonResponseAsString());
     }
 
     /****************************************************************************************************************

@@ -1,10 +1,12 @@
 package net.motionintelligence.client.api.request;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.boon.json.JsonFactory;
+import org.boon.json.JsonParser;
 import org.boon.json.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
@@ -351,8 +354,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         // compare the HTTP status codes, NOT the route 360 code
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             // parse the results
-            String res = response.readEntity(String.class);
-            return JSON_PARSER.fromJson(res, GeocodingResponse.class);
+            String jsonString = response.readEntity(String.class);
+            GeocodingResponse ret = JSON_PARSER.fromJson(jsonString, GeocodingResponse.class);
+            return GeocodingResponse.createWithJson(ret,jsonString);
         } else if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode() )
             throw new ServiceUnavailableException(); // Some clients (e.g. jBoss) return SERVICE_UNAVAILABLE while others will wait
         else

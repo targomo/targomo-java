@@ -19,9 +19,22 @@ import java.util.NoSuchElementException;
 public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
 
     private final List<Candidate> candidates;
+    private final String completeJsonResponse;
 
-    private GeocodingResponse(List<Candidate> candidates) {
+    private GeocodingResponse(List<Candidate> candidates, String jsonString) {
+        this.completeJsonResponse = jsonString;
         this.candidates = candidates;
+    }
+
+    public static GeocodingResponse createWithJson(GeocodingResponse response, String jsonString) {
+        return new GeocodingResponse(response.candidates, jsonString);
+    }
+
+    /**
+     * @return the complete JSON response as String
+     */
+    public String getCompleteJsonResponseAsString() {
+        return completeJsonResponse;
     }
 
     /**
