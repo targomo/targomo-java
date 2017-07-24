@@ -85,7 +85,7 @@ public class OverpassResponse {
 
         final JSONObject tags = JsonUtil.getJSONObject(element, "tags");
 
-        for ( String key : travelOptions.getOsmTypes().stream().map(type -> type.getKey()).collect(Collectors.toList()) )  {
+        for ( String key : travelOptions.getOsmTypes().stream().map(PoiType::getKey).collect(Collectors.toList()) )  {
 
             if ( tags.has(key) )
                 return new PoiType(key, JsonUtil.getString(tags, key));

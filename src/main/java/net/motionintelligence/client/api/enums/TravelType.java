@@ -21,8 +21,8 @@ public enum TravelType {
 	}
 
 	@JsonCreator
-	public static EdgeWeightType fromString(String key) {
-		return key == null ? null : EdgeWeightType.valueOf(key.toUpperCase());
+	public static TravelType fromString(String key) {
+		return key == null ? null : TravelType.valueOf(key.toUpperCase());
 	}
 
 	@JsonValue
