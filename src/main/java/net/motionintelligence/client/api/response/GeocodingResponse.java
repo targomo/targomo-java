@@ -62,7 +62,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
 
     /**
      * Pretty prints the {@link GeocodingResponse}, i.e. with indention and line breaks.
-     * @return
+     * @return the pretty print String of the response
      */
     @Override
     public String toString() {
@@ -98,7 +98,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
          * Return the Score of the candidate. The higher the score the more confidence into the candidate as the correct
          * representative. Maximum score is 100.0; Minimum 0.0.
          *
-         * @return
+         * @return the score of the candidate
          */
         public double getScore() {
             return this.score;
@@ -107,7 +107,7 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
         /**
          * Returns the geocode as {@link DefaultTargetCoordinate} according to the spatial reference from the request.
          * Default reference is "EPSG 4326" (.i.e. if not otherwise specified)
-         * @return
+         * @return the geo location of the candidate
          */
         public DefaultTargetCoordinate getLocation(){
             return this.location;
