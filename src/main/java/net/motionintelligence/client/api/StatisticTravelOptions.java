@@ -31,18 +31,10 @@ public class StatisticTravelOptions extends TravelOptions {
     @Column(name = "get_closest_sources")
     private boolean getClosestSources = false;
 
-    /**
-     *
-     * @return
-     */
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
 
-    /**
-     *
-     * @param inactiveSources
-     */
     public void setInactiveSources(Map<String,Coordinate> inactiveSources) {
         this.inactiveSources = inactiveSources;
     }

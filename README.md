@@ -9,12 +9,16 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.14</version>
+         <version>0.0.20</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
+
+### 0.0.20 
+
+* Implementation to carry out a Geocoding Request (i.e. translate one or more addresses into geo coordinates)
 
 ### 0.0.13
 
@@ -101,3 +105,25 @@ Return possible route from each source point to each target.
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
+
+
+## GeocodingService
+
+Return possible geocode(s) for each given address.
+
+    Client client = ClientBuilder.newClient();
+    GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+    
+    //Request geocoding for single address
+    GeocodingResponse response = geocodingRequest.get( "Lehrter Str. 56, Berlin" );
+    DefaultTargetCoordinate geocode = response.getRepresentativeGeocodeOfRequest();
+    
+    //Request geocoding for many addresses
+    GeocodingResponse[] manyGeocodes = geocodingRequest.getBatchParallel( 20, 10, 
+            "Ohlauer Str. 38, 10999 Berlin",
+            "Thiemannstr 1, Tor 4, 2.Hinterhof, 12059 Berlin",
+            "Telegrafenweg 21, 13599 Berlin",
+            "Wilhelm-Kabus-Straße 40, Berlin");
+    DefaultTargetCoordinate[] geocodes = Arrays.stream(manyGeocodes)
+                    .map(GeocodingResponse::getRepresentativeGeocodeOfRequest).toArray(DefaultTargetCoordinate[]::new);
+    

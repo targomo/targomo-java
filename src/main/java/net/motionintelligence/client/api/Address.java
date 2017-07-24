@@ -44,7 +44,7 @@ public class Address {
 
     /**
      * Pretty prints the {@link Address}, i.e. with indention and line breaks.
-     * @return
+     * @return the pretty print String of the Address
      */
     @Override
     public String toString() {

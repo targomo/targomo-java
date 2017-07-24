@@ -56,6 +56,7 @@ public class StatisticsRequest {
 	}
 
 	/**
+	 * @param method the method for the request to be executed
 	 * @return Response from the statistics server
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws Route360ClientException In case of other errors
