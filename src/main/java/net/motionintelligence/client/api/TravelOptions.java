@@ -19,6 +19,7 @@ import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.statistic.PoiType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public class TravelOptions {
+public class TravelOptions implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.TABLE)
