@@ -23,6 +23,8 @@ public abstract class RequestTest {
 	@Mock
 	Invocation.Builder mockBuilder;
 	@Mock
+	Invocation mockInvocation;
+	@Mock
 	Response sampleResponse;
 
 	@Before
@@ -35,5 +37,8 @@ public abstract class RequestTest {
 
 		when(mockBuilder.get()).thenReturn(sampleResponse);
 		when(mockBuilder.post(anyObject())).thenReturn(sampleResponse);
+        when(mockBuilder.buildGet()).thenReturn(mockInvocation);
+
+        when(mockInvocation.invoke()).thenReturn(sampleResponse);
 	}
 }
