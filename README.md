@@ -16,6 +16,10 @@ You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
 
+### 0.0.21
+
+- Fixed penalties for uphill and downhill
+
 ### 0.0.20 
 
 * Implementation to carry out a Geocoding Request (i.e. translate one or more addresses into geo coordinates)
@@ -81,7 +85,7 @@ Return total travel time for each source point to all targets.
     options.setTravelType(TravelType.CAR);
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
-
+    
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
@@ -100,7 +104,7 @@ Return possible route from each source point to each target.
     options.setElevationEnabled(true);
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://service.route360.net/germany/");
-
+    
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     RouteResponse routeResponse = new RouteRequest(client, options).get();
@@ -126,4 +130,4 @@ Return possible geocode(s) for each given address.
             "Wilhelm-Kabus-Straße 40, Berlin");
     DefaultTargetCoordinate[] geocodes = Arrays.stream(manyGeocodes)
                     .map(GeocodingResponse::getRepresentativeGeocodeOfRequest).toArray(DefaultTargetCoordinate[]::new);
-    
+
