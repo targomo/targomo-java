@@ -176,13 +176,13 @@ public final class RequestConfigurator {
 				break;
 			case WALK:
 				travelMode.put("speed", travelOptions.getWalkSpeed());
-				travelMode.put("uphill", travelOptions.getWalkDownhill());
-				travelMode.put("downhill", travelOptions.getWalkUphill());
+				travelMode.put("uphill", travelOptions.getWalkUphill());
+				travelMode.put("downhill", travelOptions.getWalkDownhill());
 				break;
 			case BIKE:
 				travelMode.put("speed", travelOptions.getBikeSpeed());
-				travelMode.put("uphill", travelOptions.getBikeDownhill());
-				travelMode.put("downhill", travelOptions.getBikeUphill());
+				travelMode.put("uphill", travelOptions.getBikeUphill());
+				travelMode.put("downhill", travelOptions.getBikeDownhill());
 				break;
 			default:
 				break;
