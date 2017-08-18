@@ -95,11 +95,7 @@ public final class RequestConfigurator {
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
-			JSONBuilder.append(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
-
-			JSONBuilder.append(config, Constants.MAX_ROUTING_TIME, travelOptions.getMaxRoutingTime());
-
-			JSONBuilder.appendAndEnd(config, Constants.MAX_ROUTING_LENGTH, travelOptions.getMaxRoutingLength());
+			JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
 		}
 		catch (Exception e) {
 			throw new Route360ClientException("Could not generate r360 config object", e);

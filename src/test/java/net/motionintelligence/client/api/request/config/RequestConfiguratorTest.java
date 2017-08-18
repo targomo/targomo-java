@@ -108,10 +108,13 @@ public class RequestConfiguratorTest {
 	        Assert.assertEquals(numOfSources, actualObject.getJSONArray(Constants.SOURCES).length());
 	        Assert.assertEquals(numOfTargets, actualObject.getJSONArray(Constants.TARGETS).length());
 
-	        Assert.assertEquals(sampleObject.get(Constants.MAX_ROUTING_TIME),
-			        actualObject.get(Constants.MAX_ROUTING_TIME));
+            Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGTH),
+                    actualObject.get(Constants.MAX_EDGE_WEIGTH));
 
-	        Assert.assertEquals(sampleObject.get(Constants.POLYGON_INTERSECTION_MODE),
+            Assert.assertEquals(sampleObject.get(Constants.EDGE_WEIGHT),
+                    actualObject.get(Constants.EDGE_WEIGHT));
+
+            Assert.assertEquals(sampleObject.get(Constants.POLYGON_INTERSECTION_MODE),
 			        actualObject.get(Constants.POLYGON_INTERSECTION_MODE));
 
 	        Assert.assertEquals(sampleObject.get(Constants.ENABLE_ELEVATION),

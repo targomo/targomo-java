@@ -95,8 +95,6 @@ public class TravelOptions implements Serializable {
 	@Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
-	@Transient private Integer maxRoutingTime                                  = 1800;
-	@Transient private Integer maxRoutingLength                                = 60000;
     @Column(name = "service_url") private String serviceUrl                    = "";
     @Column(name = "fallback_service_url") private String fallbackServiceUrl   = "";
     @Column(name = "service_key") private String serviceKey                    = "";
@@ -463,35 +461,51 @@ public class TravelOptions implements Serializable {
 	}
 
 	/**
+     * This function will be removed in a future release.
+     * Use maxEdgeWeight and edgeWeightType instead.
 	 * @return the maxRoutingTime
 	 */
 	@Deprecated
 	public int getMaxRoutingTime() {
-		return maxRoutingTime;
+	    if (edgeWeightType == EdgeWeightType.TIME) {
+            return maxEdgeWeight;
+        }
+        return 0;
 	}
 
 	/**
+     * This function will be removed in a future release.
+     * Use maxEdgeWeight and edgeWeightType instead.
 	 * @param maxRoutingTime the maxRoutingTime to set
 	 */
     @Deprecated
 	public void setMaxRoutingTime(int maxRoutingTime) {
-		this.maxRoutingTime = maxRoutingTime;
+		this.maxEdgeWeight = maxRoutingTime;
+		this.edgeWeightType = EdgeWeightType.TIME;
 	}
 
 	/**
+     * This function will be removed in a future release.
+     * Use maxEdgeWeight and edgeWeightType instead.
 	 * @return the maxRoutingLength
 	 */
     @Deprecated
 	public Integer getMaxRoutingLength() {
-		return maxRoutingLength;
+        if (edgeWeightType == EdgeWeightType.DISTANCE) {
+            return maxEdgeWeight;
+        }
+        return 0;
 	}
 
 	/**
+     * This function will be removed in a future release.
+     * Use maxEdgeWeight and edgeWeightType instead.
 	 * @param maxRoutingLength the maxRoutingLength to set
 	 */
     @Deprecated
 	public void setMaxRoutingLength(Integer maxRoutingLength) {
-		this.maxRoutingLength = maxRoutingLength;
+		this.maxEdgeWeight = maxRoutingLength;
+        this.edgeWeightType = EdgeWeightType.DISTANCE;
 	}
 
 	/**
@@ -588,10 +602,6 @@ public class TravelOptions implements Serializable {
 		if (polygonSerializerType != that.polygonSerializerType) return false;
 		if (maxEdgeWeight != null ? !maxEdgeWeight.equals(that.maxEdgeWeight) : that.maxEdgeWeight != null)
 			return false;
-		if (maxRoutingTime != null ? !maxRoutingTime.equals(that.maxRoutingTime) : that.maxRoutingTime != null)
-			return false;
-		if (maxRoutingLength != null ? !maxRoutingLength.equals(that.maxRoutingLength) : that.maxRoutingLength != null)
-			return false;
 		if (serviceUrl != null ? !serviceUrl.equals(that.serviceUrl) : that.serviceUrl != null) return false;
 		if (fallbackServiceUrl != null ? !fallbackServiceUrl.equals(that.fallbackServiceUrl) : that.fallbackServiceUrl != null)
 			return false;
@@ -640,8 +650,6 @@ public class TravelOptions implements Serializable {
 		result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
 		result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
 		result = 31 * result + (maxEdgeWeight != null ? maxEdgeWeight.hashCode() : 0);
-		result = 31 * result + (maxRoutingTime != null ? maxRoutingTime.hashCode() : 0);
-		result = 31 * result + (maxRoutingLength != null ? maxRoutingLength.hashCode() : 0);
 		result = 31 * result + (serviceUrl != null ? serviceUrl.hashCode() : 0);
 		result = 31 * result + (fallbackServiceUrl != null ? fallbackServiceUrl.hashCode() : 0);
 		result = 31 * result + (serviceKey != null ? serviceKey.hashCode() : 0);
@@ -712,10 +720,8 @@ public class TravelOptions implements Serializable {
 		builder.append(pathSerializer);
 		builder.append("\n\tpolygonSerializerType: ");
 		builder.append(polygonSerializerType);
-		builder.append("\n\tmaxRoutingTime: ");
-		builder.append(maxRoutingTime);
-		builder.append("\n\tmaxRoutingLength: ");
-		builder.append(maxRoutingLength);
+		builder.append("\n\tmaxEdgeWeight: ");
+		builder.append(maxEdgeWeight);
 		builder.append("\n\tserviceUrl: ");
 		builder.append(serviceUrl);
 		builder.append("\n\tstatisticServiceUrl: ");
