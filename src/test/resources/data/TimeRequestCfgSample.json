@@ -378,5 +378,6 @@
   "pathSerializer": "compact",
   "elevation": false,
   "reverse": false,
-  "maxRoutingTime": 3600
+  "maxEdgeWeight": 3600,
+  "edgeWeight": "TIME"
 }
