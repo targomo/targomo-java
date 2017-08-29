@@ -113,6 +113,8 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
+//    "rush_hour" -> "rushHour"
+
 	@Transient
 	private Format format;
 
