@@ -9,12 +9,16 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.20</version>
+         <version>0.0.22</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
+
+### 0.0.22
+
+- Removed depricated maxRoutingLength and maxRoutingTime from TravelOptions
 
 ### 0.0.21
 
