@@ -69,6 +69,9 @@ public class TravelOptions implements Serializable {
 	@Column(name = "walk_downhill")
     private double walkDownhill                      	= 0.0;
 
+	@Column(name = "rush_hour")
+	private Boolean rushHour                      		= true;
+
 	@Transient private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
 
     @Column(name = "travel_type")
@@ -311,12 +314,22 @@ public class TravelOptions implements Serializable {
 	public double getWalkDownhill() {
 		return walkDownhill;
 	}
+
 	/**
 	 * @param walkDownhill the walkDownhill to set
 	 */
 	public void setWalkDownhill(double walkDownhill) {
 		this.walkDownhill = walkDownhill;
 	}
+
+    public void setRushHour(boolean rushHourEnabled) {
+        this.rushHour = rushHourEnabled;
+    }
+
+    public boolean getRushHour() {
+        return rushHour;
+    }
+
 	/**
 	 * @return the travelTimes
 	 */
@@ -575,6 +588,7 @@ public class TravelOptions implements Serializable {
 		if (Double.compare(that.walkSpeed, walkSpeed) != 0) return false;
 		if (Double.compare(that.walkUphill, walkUphill) != 0) return false;
 		if (Double.compare(that.walkDownhill, walkDownhill) != 0) return false;
+        if (rushHour != that.rushHour) return false;
 		if (onlyPrintReachablePoints != that.onlyPrintReachablePoints) return false;
 		if (sources != null ? !sources.equals(that.sources) : that.sources != null) return false;
 		if (targets != null ? !targets.equals(that.targets) : that.targets != null) return false;
@@ -634,6 +648,7 @@ public class TravelOptions implements Serializable {
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(walkDownhill);
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (rushHour != null ? rushHour.hashCode() : 0);
 		result = 31 * result + (travelTimes != null ? travelTimes.hashCode() : 0);
 		result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
 		result = 31 * result + (elevationEnabled != null ? elevationEnabled.hashCode() : 0);
@@ -688,6 +703,8 @@ public class TravelOptions implements Serializable {
 		builder.append(walkUphill);
 		builder.append("\n\twalkDownhill: ");
 		builder.append(walkDownhill);
+        builder.append("\n\trushHour: ");
+        builder.append(rushHour);
 		builder.append("\n\ttravelTimes: ");
 		builder.append(travelTimes != null ? toString(travelTimes, maxLen) : null);
 		builder.append("\n\ttravelType: ");

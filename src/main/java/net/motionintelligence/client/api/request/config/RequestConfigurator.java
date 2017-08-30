@@ -180,6 +180,9 @@ public final class RequestConfigurator {
 				travelMode.put("uphill", travelOptions.getBikeUphill());
 				travelMode.put("downhill", travelOptions.getBikeDownhill());
 				break;
+            case CAR:
+                travelMode.put("rushHour", travelOptions.getRushHour());
+                break;
 			default:
 				break;
 		}
