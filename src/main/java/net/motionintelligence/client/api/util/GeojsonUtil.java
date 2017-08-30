@@ -24,6 +24,13 @@ public class GeojsonUtil {
 
     private static final Logger LOGGER        = LoggerFactory.getLogger(GeojsonUtil.class);
 
+    /**
+     * All filename-{@link org.wololo.geojson.Feature} pairs will be displayed in your default browser via the
+     * geojson.io website. Requires connection to the internet. (Only EPSG:4326 (WGS84) mode tested)
+     *
+     * @param featureCollections map of fileNames to their respective contents (i.e. the {@link FeatureCollection})
+     * @throws IOException if errors during parsing or execution occurred
+     */
     public static void openGeoJsonInBrowserWithGeojsonIO(Map<String,FeatureCollection> featureCollections) throws IOException {
         //(1) Build request
         ObjectMapper mapper = new ObjectMapper();
@@ -52,11 +59,14 @@ public class GeojsonUtil {
     }
 
     /**
+     * All filename-{@link org.wololo.geojson.Feature} pairs will be displayed in your default browser via the
+     * api.github.com/gists website. Requires connection to the internet. (Only EPSG:4326 (WGS84) mode tested)
+     *
      * Has sometimes display errors - esp. if multiple FeatureCollections are to be shown in one page. In that case it is
      * suggested to use {@link GeojsonUtil#openGeoJsonInBrowserWithGeojsonIO}.
      *
-     * @param featureCollections
-     * @throws IOException
+     * @param featureCollections map of fileNames and the respective contents (i.e. the {@link FeatureCollection})
+     * @throws IOException if errors during parsing or execution occurred
      */
     public static void openGeoJsonInBrowserWithGitHubGist(Map<String,FeatureCollection> featureCollections) throws IOException {
         //(1) Build request
