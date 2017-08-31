@@ -61,6 +61,20 @@ public class RouteRequest {
 		return validateResponse(requestStart, response);
 	}
 
+    /**
+     * For debugging.
+     *
+     * @return the request as curl String
+     */
+	public String toCurl() throws Route360ClientException {
+	    String url = travelOptions.getServiceUrl().endsWith("/") ? travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
+	    return "curl -X GET '" +
+                url + "v1/route" +
+                "?cb=" + CALLBACK +
+                "&key=" + travelOptions.getServiceKey() +
+                "&cfg=" + IOUtil.encode(RequestConfigurator.getConfig(travelOptions)) + "'";
+    }
+
 	/**
 	 * Validate HTTP response and return a PolygonResponse
 	 * @param response HTTP response

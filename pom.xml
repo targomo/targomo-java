@@ -6,7 +6,7 @@
 
 	<groupId>net.motionintelligence</groupId>
 	<artifactId>r360-java-client</artifactId>
-	<version>0.0.22</version>
+	<version>0.0.23</version>
 	<name>Route 360 Java Client</name>
 	<description>Java client library for easy usage of Route 360 services.</description>
 	<url>http://www.route360.net</url>
@@ -37,6 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jersey.version>2.6</jersey.version>
 		<junit.version>4.12</junit.version>
+        <geotools.version>16.1</geotools.version>
 	</properties>
 
 	<dependencies>
@@ -117,6 +118,31 @@
 			<version>${jersey.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.wololo</groupId>
+			<artifactId>jts2geojson</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-opengis</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-referencing</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-api</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
     </dependencies>
 
 	<build>
