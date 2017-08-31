@@ -480,6 +480,7 @@ public class TravelOptions implements Serializable {
      * Use maxEdgeWeight and edgeWeightType instead.
 	 * @return the maxRoutingTime
 	 */
+    @JsonIgnore
 	@Deprecated
 	public int getMaxRoutingTime() {
 	    if (edgeWeightType == EdgeWeightType.TIME) {
@@ -493,6 +494,7 @@ public class TravelOptions implements Serializable {
      * Use maxEdgeWeight and edgeWeightType instead.
 	 * @param maxRoutingTime the maxRoutingTime to set
 	 */
+    @JsonIgnore
     @Deprecated
 	public void setMaxRoutingTime(int maxRoutingTime) {
 		this.maxEdgeWeight = maxRoutingTime;
@@ -504,6 +506,7 @@ public class TravelOptions implements Serializable {
      * Use maxEdgeWeight and edgeWeightType instead.
 	 * @return the maxRoutingLength
 	 */
+    @JsonIgnore
     @Deprecated
 	public Integer getMaxRoutingLength() {
         if (edgeWeightType == EdgeWeightType.DISTANCE) {
@@ -517,6 +520,7 @@ public class TravelOptions implements Serializable {
      * Use maxEdgeWeight and edgeWeightType instead.
 	 * @param maxRoutingLength the maxRoutingLength to set
 	 */
+	@JsonIgnore
     @Deprecated
 	public void setMaxRoutingLength(Integer maxRoutingLength) {
 		this.maxEdgeWeight = maxRoutingLength;
