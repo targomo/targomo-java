@@ -61,7 +61,7 @@ public class GeojsonUtil {
      * @return Zero or more transformed geometry features
      * @throws TransformException if the geographic projection transformation fails
      */
-    private List<Feature> transformGeometry(MathTransform transformer, Feature... featuresToTransform) throws TransformException {
+    public static List<Feature> transformGeometry(MathTransform transformer, Feature... featuresToTransform) throws TransformException {
 
         List<Feature> featureList = new ArrayList<>(featuresToTransform.length);
         for (Feature feature : featuresToTransform) {
