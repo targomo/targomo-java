@@ -1,5 +1,8 @@
 package net.motionintelligence.client.api.util;
 
+import net.motionintelligence.client.api.StatisticTravelOptions;
+import net.motionintelligence.client.api.enums.EdgeWeightType;
+import net.motionintelligence.client.api.enums.TravelType;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
@@ -7,6 +10,8 @@ import javax.ws.rs.core.Response;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class IOUtilTest {
 	@Test
@@ -32,4 +37,19 @@ public class IOUtilTest {
 		assertEquals("{\"aaa\": \"bb\",\n\"cc\":\"bab\"", IOUtil.getResultString(response));
 	}
 
+	@Test
+	public void testTravelOptionsCloning() {
+		//prepare
+		StatisticTravelOptions original = new StatisticTravelOptions();
+		original.setTravelType(TravelType.CAR);
+		original.setElevationEnabled(true);
+		original.setMaxEdgeWeight(7200);
+		original.setEdgeWeightType(EdgeWeightType.TIME);
+		original.setServiceUrl("TestURL");
+		original.setServiceKey("TestKey");
+
+		StatisticTravelOptions clone = IOUtil.cloneTravelOptions( original, StatisticTravelOptions.class );
+
+		assertThat(clone).isEqualToComparingFieldByFieldRecursively(original);
+	}
 }

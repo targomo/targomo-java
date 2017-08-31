@@ -1,8 +1,12 @@
 package net.motionintelligence.client.api.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.motionintelligence.client.Constants;
+import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -11,6 +15,23 @@ import java.nio.charset.StandardCharsets;
 public final class IOUtil {
 
 	private IOUtil() {
+	}
+
+    /**
+     * Deep cloning of the TravleOptions.
+     *
+     * @param travelOptions input travelOptions
+     * @param clazz specified TravelOptions class
+     * @param <T> type of the TravelOptions
+     * @return clone of the travel options
+     */
+	public static <T extends TravelOptions> T cloneTravelOptions(T travelOptions, Class<T> clazz){
+		try {
+			ObjectMapper om = new ObjectMapper();
+			return om.readValue(om.writeValueAsString(travelOptions), clazz);
+		} catch (IOException e) {
+			throw new Route360ClientRuntimeException("Could not duplicate travel options due to: " + e.getMessage());
+		}
 	}
 
 	/**
