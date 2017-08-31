@@ -2,9 +2,16 @@ package net.motionintelligence.client.api.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.vividsolutions.jts.geom.Geometry;
+import org.geotools.geometry.jts.JTS;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
+import org.wololo.jts2geojson.GeoJSONReader;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -16,13 +23,58 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * Utils for geojson. Currently supported methods:
+ * <ul>
+ *     <li>Transformation between geo formats</li>
+ *     <li>Visualization of Geojson data in browser</li>
+ * </ul>
+ */
 public class GeojsonUtil {
 
-    private static final Logger LOGGER        = LoggerFactory.getLogger(GeojsonUtil.class);
+    private static final Logger LOGGER      = LoggerFactory.getLogger(GeojsonUtil.class);
+    private static final String FILE_ENDING = ".geojson";
+
+    private GeojsonUtil() {}
+
+    /**
+     * Transforms geojson geometry between different formats. Usage example:
+     * <pre>
+     * FeatureCollection featureCollectionIn3857 = ... //e.g. from the route service
+     * //Preparing transformer
+     * CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:3857"); //Web Mercartor
+     * CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:4326"); //WGS84
+     * MathTransform transformer = CRS.findMathTransform(sourceCRS, targetCRS);
+     * //Do transformation from EPSG:3857 (Web Mercartor) to EPSG:4326 (WGS84)
+     * FeatureCollection featureCollectionIn4326 = new FeatureCollection(
+     *     GeojsonUtil.transformGeometry(featureCollectionIn3857,transformer).toArray(new Feature[0]));
+     * </pre>
+     *
+     * @param transformer transformer initialized with the correct formats
+     * @param featuresToTransform features that need to be transformed into the target format
+     * @return Zero or more transformed geometry features
+     * @throws TransformException if the geographic projection transformation fails
+     */
+    private List<Feature> transformGeometry(MathTransform transformer, Feature... featuresToTransform) throws TransformException {
+
+        List<Feature> featureList = new ArrayList<>(featuresToTransform.length);
+        for (Feature feature : featuresToTransform) {
+            GeoJSONReader reader = new GeoJSONReader();
+            Geometry geometry = reader.read(feature.getGeometry());
+            geometry = JTS.transform(geometry, transformer);
+            GeoJSONWriter writer = new GeoJSONWriter();
+            org.wololo.geojson.Geometry json = writer.write(geometry);
+
+            featureList.add(new Feature(json, feature.getProperties()));
+        }
+        return featureList;
+    }
 
     /**
      * All filename-{@link org.wololo.geojson.Feature} pairs will be displayed in your default browser via the
@@ -36,7 +88,7 @@ public class GeojsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> fileMap = new HashMap<>(featureCollections.size());
         for( Map.Entry<String,FeatureCollection> entry : featureCollections.entrySet() ){
-            String fileName = entry.getKey().endsWith(".geojson") ? entry.getKey() : entry.getKey() + ".geojson";
+            String fileName = entry.getKey().endsWith(FILE_ENDING) ? entry.getKey() : entry.getKey() + FILE_ENDING;
             String featureCollectionAsString = mapper.writeValueAsString(entry.getValue());
             fileMap.put(fileName, ImmutableMap.builder().put("content",featureCollectionAsString).build());
         }
@@ -73,7 +125,7 @@ public class GeojsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> fileMap = new HashMap<>(featureCollections.size());
         for( Map.Entry<String,FeatureCollection> entry : featureCollections.entrySet() ){
-            String fileName = entry.getKey().endsWith(".geojson") ? entry.getKey() : entry.getKey() + ".geojson";
+            String fileName = entry.getKey().endsWith(FILE_ENDING) ? entry.getKey() : entry.getKey() + FILE_ENDING;
             String featureCollectionAsString = mapper.writeValueAsString(entry.getValue());
             fileMap.put(fileName, ImmutableMap.builder().put("content",featureCollectionAsString).build());
         }

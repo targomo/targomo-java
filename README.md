@@ -18,7 +18,7 @@ You also need to add a JAX-RS implementation of your choice.
 
 ### 0.0.23
 
-- GeojsonUtils included: they allow displaying your Geojson data in your browser
+- GeojsonUtils included: they allow displaying your Geojson data in your browser and transforming it between different geo formats
 - included toCurl() methods for TimeRequests and RouteRequests
 - included "rushHour" in TravelOptions
 

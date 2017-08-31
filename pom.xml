@@ -37,6 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jersey.version>2.6</jersey.version>
 		<junit.version>4.12</junit.version>
+        <geotools.version>16.1</geotools.version>
 	</properties>
 
 	<dependencies>
@@ -127,7 +128,21 @@
             <artifactId>guava</artifactId>
             <version>23.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-opengis</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-referencing</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-api</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
     </dependencies>
 
 	<build>
