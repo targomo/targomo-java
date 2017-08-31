@@ -70,7 +70,7 @@ public class TravelOptions implements Serializable {
     private double walkDownhill                      	= 0.0;
 
 	@Column(name = "rush_hour")
-	private Boolean rushHour                      		= true;
+	private Boolean rushHour                      		= false;
 
 	@Transient private List<Integer> travelTimes                	= Arrays.asList(600, 1200, 1800);
 
