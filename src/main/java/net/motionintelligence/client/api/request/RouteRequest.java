@@ -65,6 +65,7 @@ public class RouteRequest {
      * For debugging.
      *
      * @return the request as curl String
+     * @throws Route360ClientException when error occurred during parsing of the travel options
      */
 	public String toCurl() throws Route360ClientException {
 	    String url = travelOptions.getServiceUrl().endsWith("/") ? travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
