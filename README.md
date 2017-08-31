@@ -9,12 +9,22 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.20</version>
+         <version>0.0.23</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
+
+### 0.0.23
+
+- GeojsonUtils included: they allow displaying your Geojson data in your browser and transforming it between different geo formats
+- included toCurl() methods for TimeRequests and RouteRequests
+- included "rushHour" in TravelOptions
+
+### 0.0.22
+
+- Removed depricated maxRoutingLength and maxRoutingTime from TravelOptions
 
 ### 0.0.21
 

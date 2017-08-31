@@ -70,6 +70,23 @@ public class TimeRequest {
 	}
 
 	/**
+	 * For debugging.
+	 *
+	 * @return the request as curl String
+	 */
+	public String toCurl() throws Route360ClientException {
+		String url = travelOptions.getServiceUrl().endsWith("/") ?
+				travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
+		return "curl -X POST '" +
+                    url + "v1/time" +
+                    "?cb=" + CALLBACK +
+                    "&key=" + travelOptions.getServiceKey() + "' " +
+                "-H 'content-type: application/json' " +
+                "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
+	}
+
+
+	/**
 	 * Validate HTTP response and return a TimeResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
