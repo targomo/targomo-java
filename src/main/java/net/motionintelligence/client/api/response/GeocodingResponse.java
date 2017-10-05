@@ -1,7 +1,10 @@
 package net.motionintelligence.client.api.response;
 
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.response.esri.ErrorDescription;
 import net.motionintelligence.client.api.util.POJOUtil;
+import org.boon.json.JsonFactory;
+import org.boon.json.ObjectMapper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,16 +21,29 @@ import java.util.NoSuchElementException;
  */
 public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
 
+    private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
+
     private final List<Candidate> candidates;
+    private final ErrorDescription error;
     private final String completeJsonResponse;
 
-    private GeocodingResponse(List<Candidate> candidates, String jsonString) {
+    private GeocodingResponse(List<Candidate> candidates, ErrorDescription error, String jsonString) {
         this.completeJsonResponse = jsonString;
+        this.error = error;
         this.candidates = candidates;
     }
 
-    public static GeocodingResponse createWithJson(GeocodingResponse response, String jsonString) {
-        return new GeocodingResponse(response.candidates, jsonString);
+    public static GeocodingResponse createFromJson(String jsonString) {
+        GeocodingResponse ret = JSON_PARSER.fromJson(jsonString, GeocodingResponse.class);
+        return new GeocodingResponse(ret.candidates, ret.error, jsonString);
+    }
+
+    public ErrorDescription getError() {
+        return error;
+    }
+
+    public boolean wasErrorResponse() {
+        return error != null;
     }
 
     /**

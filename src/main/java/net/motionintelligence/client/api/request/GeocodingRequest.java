@@ -3,7 +3,10 @@ package net.motionintelligence.client.api.request;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.exception.Route360ClientRuntimeException;
+import net.motionintelligence.client.api.request.esri.ESRIAthenticationDetails;
 import net.motionintelligence.client.api.response.GeocodingResponse;
+import net.motionintelligence.client.api.response.esri.AuthenticationResponse;
+import net.motionintelligence.client.api.util.POJOUtil;
 import org.boon.json.JsonFactory;
 import org.boon.json.ObjectMapper;
 import org.slf4j.Logger;
@@ -74,12 +77,19 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
     private static final String REST_URI            = "http://geocode.arcgis.com";
     private static final String PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
+    private static final String URI_AUTHENTICATION  = "https://www.arcgis.com";
+    private static final String PATH_AUTHENTICATION = "sharing/oauth2/token";
 
-    private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
+    private static final Integer ESRI_ERROR_INVALID_TOKEN = 498;
+
     private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
+    private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
 
     private final Client client;
+    private final ESRIAthenticationDetails authenticationDetails;
     private final Map<Option,String> requestOptions;
+
+    private String  currentAccessToken = null;
 
     /**
      * Creation of a default geo coding request.
@@ -109,8 +119,24 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
      */
     public GeocodingRequest(Client client, Map<Option,String> extraOptions){
-        this.client	        = client;
-        this.requestOptions = extraOptions;
+        this(client, null, extraOptions);
+    }
+
+    /**
+     * TODO
+     * @param client
+     * @param authenticationDetails
+     * @param extraOptions
+     */
+    public GeocodingRequest(Client client, ESRIAthenticationDetails authenticationDetails, Map<Option,String> extraOptions){
+        this.client	                = client;
+        this.requestOptions         = extraOptions;
+        this.authenticationDetails  = authenticationDetails;
+        //validation
+        if("true".equals(extraOptions.get(Option.FOR_STORAGE))) {
+            Objects.requireNonNull(this.authenticationDetails,
+                    "client authorization is required for option " + Option.FOR_STORAGE.name + "=true");
+        }
     }
 
     /**
@@ -163,21 +189,89 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
             throws Route360ClientException {
 
+        //prepare statement
         WebTarget target = queryPrep.apply(client.target(REST_URI)
                 .path(PATH_SINGLE_ADDRESS)
                 .queryParam("f", "json"));
-        if( !requestOptions.containsKey(Option.MAX_LOCATIONS) )
+        if(!requestOptions.containsKey(Option.MAX_LOCATIONS) )
             target = target.queryParam(Option.MAX_LOCATIONS.name, 1);
         for(Map.Entry<Option,String> entry : requestOptions.entrySet())
             target = conditionalQueryParam(entry.getKey().name, entry.getValue(), target);
 
-        LOGGER.debug("Executing geocoding request to URI: " + target.getUri());
-        Response response = target.request().buildGet().invoke();
-        try {
-            return validateResponse(response);
-        } finally {
-            response.close();
+        boolean tokenIsInvalid = this.currentAccessToken == null;
+        do {
+            //add token if authorization available
+            if (authenticationDetails != null) {
+                if ( tokenIsInvalid )
+                    authenticateWithAccountAndRetrieveValidToken(); //throws Exception if unsuccessful
+                target = target.queryParam("token", this.currentAccessToken);
+            }
+            //execute request
+            LOGGER.debug("Executing geocoding request to URI: " + target.getUri());
+            Response response = target.request().buildGet().invoke();
+            try {
+                GeocodingResponse reqResponse = validateGeocodingResponse(response);
+                if (reqResponse.wasErrorResponse() &&
+                        reqResponse.getError().getCode().equals(ESRI_ERROR_INVALID_TOKEN)) {
+                    if( tokenIsInvalid )
+                        throw new Route360ClientException( "Freshly retrieved token already invalid - " +
+                                "should never happen: \n" + POJOUtil.prettyPrintPOJO(reqResponse.getError()));
+                    tokenIsInvalid = true;
+                } else
+                    return reqResponse; //successful request with valid response (can also be an error unrelated to the token validity)
+            } finally {
+                response.close();
+            }
+        } while (true);
+        // The above while-loop is looping at least once and a maximum of two times - there are three possible outcomes:
+        // (1) The authentication (either executed in the first or second loop iteration) produced an error -> Route360ClientException
+        // (2) An Token invalid error occurred AFTER a token was retrieved through authentication -> Route360ClientException
+        // (3) The geocoding request finished "successfully" without the above two errors:
+        //      (3a) Token there and still valid -> valid response
+        //      (3b) Token not there -> authentication -> request -> valid response
+        //      (3c) Token there but invalid -> 2. iteration of loop -> (3b)
+        //     Note that a valid response can also be an error caused by a different request problem
+    }
+
+    /**
+     * Caries out the authentication against the ESRI service interface - uses authenticationDetails to retrieve a
+     * valid token (which can expire after a while)
+     *
+     * @return true if successful - otherwise throws Route360ClientException
+     * @throws Route360ClientException if unsuccessful - otherwise returns true
+     */
+    private boolean authenticateWithAccountAndRetrieveValidToken() throws Route360ClientException {
+
+        LOGGER.debug("User requires authentication");
+        this.currentAccessToken = null;
+        synchronized (this.authenticationDetails) { //make sure only one authorization is carried out
+            if (this.currentAccessToken == null) {
+                WebTarget target = client
+                        .target(URI_AUTHENTICATION)
+                        .path(PATH_AUTHENTICATION)
+                        .queryParam("grant_type", "client_credentials")
+                        .queryParam("f", "json")
+                        .queryParam("client_id", this.authenticationDetails.getClientID())
+                        .queryParam("client_secret", this.authenticationDetails.getClientSecret())
+                        .queryParam("expiration", this.authenticationDetails.getTokenExpirationInMinutes());
+
+                LOGGER.debug("Have to redo authentication for ESRI user with client id: {}",
+                        this.authenticationDetails.getClientID());
+                Response response = target.request().buildGet().invoke();
+                AuthenticationResponse auth;
+                try {
+                    auth = validateAuthenticationResponse(response);
+                    if (auth.wasErrorResponse())
+                        throw new Route360ClientException("Error occurred during authentication with ESRI Service - " +
+                                "Response: \n" + POJOUtil.prettyPrintPOJO(auth.getError()));
+                } finally {
+                    response.close();
+                }
+                LOGGER.debug("Auth Result: " + POJOUtil.prettyPrintPOJO(auth));
+                this.currentAccessToken = auth.getAccessToken();
+            }
         }
+        return true;
     }
 
     /**
@@ -346,14 +440,20 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @return interpreted {@link GeocodingResponse}
      * @throws Route360ClientException when error occurs during request
      */
-    private GeocodingResponse validateResponse(final Response response) throws Route360ClientException {
+    private GeocodingResponse validateGeocodingResponse(final Response response) throws Route360ClientException {
+        return validateResponse(response, GeocodingResponse::createFromJson);
+    }
 
+    private AuthenticationResponse validateAuthenticationResponse(final Response response) throws Route360ClientException {
+        return validateResponse(response, jsonString -> JSON_PARSER.fromJson(jsonString, AuthenticationResponse.class) );
+    }
+
+    private <T> T validateResponse(final Response response, final Function<String,T> parser) throws Route360ClientException {
         // compare the HTTP status codes, NOT the route 360 code
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             // parse the results
             String jsonString = response.readEntity(String.class);
-            GeocodingResponse ret = JSON_PARSER.fromJson(jsonString, GeocodingResponse.class);
-            return GeocodingResponse.createWithJson(ret,jsonString);
+            return parser.apply(jsonString);
         } else if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode() )
             throw new ServiceUnavailableException(); // Some clients (e.g. jBoss) return SERVICE_UNAVAILABLE while others will wait
         else

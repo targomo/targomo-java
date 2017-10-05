@@ -3,6 +3,7 @@ package net.motionintelligence.client.api.request;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.request.esri.ESRIAthenticationDetails;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.*;
@@ -124,6 +125,7 @@ public class GeocodingRequestTest extends RequestTest{
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.FOR_STORAGE,"true");
         GeocodingResponse response = new GeocodingRequest(client,options).get( batch2[0] );
+        System.out.println(response.getCompleteJsonResponseAsString());
         response.getRepresentativeCandidate();
     }
 
@@ -154,12 +156,26 @@ public class GeocodingRequestTest extends RequestTest{
     @Test
     public void testParallelBatchRequestSuccess() throws Route360ClientException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,
+                new ESRIAthenticationDetails("SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa",1),
+                new EnumMap<>(GeocodingRequest.Option.class));
 
-        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+
+//        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+//        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+
+        try {
+            for( int i = 0; i < 360; i++ ) {
+                Thread.sleep(1000L);
+                System.out.println(i);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        executeBatchRequest(null, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
     }
 
     @Test
