@@ -154,6 +154,7 @@ public class GeocodingRequestTest extends RequestTest{
     }
 
     @Test
+    @Ignore
     public void testParallelBatchRequestSuccess() throws Route360ClientException {
 
         final GeocodingRequest geocodingRequest = new GeocodingRequest(client,
