@@ -154,29 +154,28 @@ public class GeocodingRequestTest extends RequestTest{
     }
 
     @Test
-    @Ignore
-    public void testParallelBatchRequestSuccess() throws Route360ClientException {
+    public void testParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,
-                new ESRIAthenticationDetails("SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa",1),
+        //Tests both with and without credentials
+        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client,
+                new ESRIAthenticationDetails("SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa", 1),
                 new EnumMap<>(GeocodingRequest.Option.class));
 
-        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
+        long timeAfterFirstRequest = System.currentTimeMillis();
+        String firstAccessToken = geocodingRequestWithCredentials.getCurrentAccessToken();
 
-//        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-//        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-//        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-//        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+        //while waiting a minute so that the first token will be invalidated, test the batch process without credentials
+        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
 
-        try {
-            for( int i = 0; i < 360; i++ ) {
-                Thread.sleep(1000L);
-                System.out.println(i);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        executeBatchRequest(null, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+        //wait until we surpassed one minute - token will be invalid
+        Thread.sleep(Math.max(0L,60000L-(System.currentTimeMillis()-timeAfterFirstRequest)));
+        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
+        Assert.assertNotEquals(firstAccessToken,geocodingRequestWithCredentials.getCurrentAccessToken());
     }
 
     @Test

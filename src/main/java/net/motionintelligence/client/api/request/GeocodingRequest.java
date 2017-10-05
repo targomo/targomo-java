@@ -199,22 +199,24 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             target = conditionalQueryParam(entry.getKey().name, entry.getValue(), target);
 
         boolean tokenIsInvalid = this.currentAccessToken == null;
+        WebTarget finalTarget;
         do {
             //add token if authorization available
             if (authenticationDetails != null) {
                 if ( tokenIsInvalid )
                     authenticateWithAccountAndRetrieveValidToken(); //throws Exception if unsuccessful
-                target = target.queryParam("token", this.currentAccessToken);
-            }
+                finalTarget = target.queryParam("token", this.currentAccessToken);
+            } else
+                finalTarget = target;
             //execute request
-            LOGGER.debug("Executing geocoding request to URI: " + target.getUri());
-            Response response = target.request().buildGet().invoke();
+            LOGGER.debug("Executing geocoding request to URI: " + finalTarget.getUri());
+            Response response = finalTarget.request().buildGet().invoke();
             try {
                 GeocodingResponse reqResponse = validateGeocodingResponse(response);
                 if (reqResponse.wasErrorResponse() &&
                         reqResponse.getError().getCode().equals(ESRI_ERROR_INVALID_TOKEN)) {
                     if( tokenIsInvalid )
-                        throw new Route360ClientException( "Freshly retrieved token already invalid - " +
+                        throw new Route360ClientException( Thread.currentThread() + "Freshly retrieved token already invalid - " +
                                 "should never happen: \n" + POJOUtil.prettyPrintPOJO(reqResponse.getError()));
                     tokenIsInvalid = true;
                 } else
@@ -242,7 +244,6 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      */
     private boolean authenticateWithAccountAndRetrieveValidToken() throws Route360ClientException {
 
-        LOGGER.debug("User requires authentication");
         this.currentAccessToken = null;
         synchronized (this.authenticationDetails) { //make sure only one authorization is carried out
             if (this.currentAccessToken == null) {
@@ -267,7 +268,6 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
                 } finally {
                     response.close();
                 }
-                LOGGER.debug("Auth Result: " + POJOUtil.prettyPrintPOJO(auth));
                 this.currentAccessToken = auth.getAccessToken();
             }
         }
@@ -411,6 +411,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      */
     public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException {
         return getBatchSequential( this::get, addresses);
+    }
+
+    public String getCurrentAccessToken() {
+        return currentAccessToken;
     }
 
     /**
