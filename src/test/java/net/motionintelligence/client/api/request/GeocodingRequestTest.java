@@ -3,9 +3,11 @@ package net.motionintelligence.client.api.request;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.request.esri.ESRIAuthenticationDetails;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +30,14 @@ import static org.mockito.Mockito.when;
  *
  * Created by David on 18.07.2017.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GeocodingRequestTest extends RequestTest{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
     private static final double DELTA  = 0.005; //Allowed delta when comparing the coordinates
+
+    private static final ESRIAuthenticationDetails esriAccountInfo = new ESRIAuthenticationDetails(
+            "SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa", 1);
 
     private static Client client;
 
@@ -118,13 +124,12 @@ public class GeocodingRequestTest extends RequestTest{
         response.getRepresentativeGeocodeOfRequest();
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = NullPointerException.class)
     public void testForStorageRequestFailed() throws Route360ClientException {
         //won't fail if authentication credentials provided
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.FOR_STORAGE,"true");
-        GeocodingResponse response = new GeocodingRequest(client,options).get( batch2[0] );
-        response.getRepresentativeCandidate();
+        new GeocodingRequest(client,options);
     }
 
     @Test
@@ -152,14 +157,26 @@ public class GeocodingRequestTest extends RequestTest{
     }
 
     @Test
-    public void testParallelBatchRequestSuccess() throws Route360ClientException {
+    public void ztestParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+        //Tests both with and without credentials (to save some time)
+        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client, esriAccountInfo);
 
-        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
+        long timeAfterFirstRequest = System.currentTimeMillis();
+        String firstAccessToken = geocodingRequestWithCredentials.getCurrentAccessToken();
+
+        //while waiting a minute so that the first token will be invalidated, test the batch process without credentials
+        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates13, batch13, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates26, batch26, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
+
+        //wait until we surpassed one minute - token will be invalid
+        Thread.sleep(Math.max(0L,60000L-(System.currentTimeMillis()-timeAfterFirstRequest)));
+        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
+        Assert.assertNotEquals(firstAccessToken,geocodingRequestWithCredentials.getCurrentAccessToken());
     }
 
     @Test
@@ -177,7 +194,7 @@ public class GeocodingRequestTest extends RequestTest{
     @Test
     public void testParallelAddressBatchRequestSuccess() throws Route360ClientException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
@@ -190,7 +207,7 @@ public class GeocodingRequestTest extends RequestTest{
         //Add Option source country: Germany
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.SOURCE_COUNTRY,"DEU");
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,options);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,esriAccountInfo,options);
 
         LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
         executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
@@ -223,15 +240,12 @@ public class GeocodingRequestTest extends RequestTest{
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, geocodingRequest::getBatchSequential );
-        executeBatchRequest(coordinatesAdd26, batchAdd26, geocodingRequest::getBatchSequential );
     }
 
     @Test
     public void testSequentialBatchRequestSuccess() throws Route360ClientException {
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
-
-        executeBatchRequest(coordinates2, batch2, geocodingRequest::getBatchSequential );
-        executeBatchRequest(coordinates26, batch26, geocodingRequest::getBatchSequential );
+        executeBatchRequest(coordinates13, batch13, geocodingRequest::getBatchSequential );
     }
 
     /****************************************************************************************************************
