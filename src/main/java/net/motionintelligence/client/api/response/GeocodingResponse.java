@@ -1,6 +1,7 @@
 package net.motionintelligence.client.api.response;
 
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
+import net.motionintelligence.client.api.response.esri.Candidate;
 import net.motionintelligence.client.api.response.esri.ErrorDescription;
 import net.motionintelligence.client.api.util.POJOUtil;
 import org.boon.json.JsonFactory;
@@ -11,15 +12,21 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Response of the ESRI geocoding REST service for a requested address. It is immutable with a private constructor
- * since it is only meant to be created from the returned json object.
+ * Response of the ESRI geocoding REST service for a requested address. There are two different possible response types:
+ * <ul>
+ *   <li>(1) the response was an error message (<code>wasErrorResponse()==true</code>), i.e. error value is set -
+ *           see {@link ErrorDescription}</li>
+ *   <li>(2) the request was successful (<code>wasErrorResponse()==false</code>) the <code>candidates</code> value is set
+ * </ul>
  *
+ * <p>
+ * Note: It is immutable with a private constructor since it is only meant to be created from the returned json object.<br>
  * Note: This is not the complete response from the REST service - only relevant information is captured, the remainder
  * is discarded.
+ * </p>
  *
- * Created by David on 17.07.2017.
  */
-public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
+public class GeocodingResponse implements Iterable<Candidate>{
 
     private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
 
@@ -27,21 +34,36 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
     private final ErrorDescription error;
     private final String completeJsonResponse;
 
+    /**
+     * private - not used since this is a POJO only created from a json String
+     */
     private GeocodingResponse(List<Candidate> candidates, ErrorDescription error, String jsonString) {
         this.completeJsonResponse = jsonString;
         this.error = error;
         this.candidates = candidates;
     }
 
+    /**
+     * Creates the response from a JSON String
+     *
+     * @param jsonString to be parsed
+     * @return the resulting POJO GeocodingResponse
+     */
     public static GeocodingResponse createFromJson(String jsonString) {
         GeocodingResponse ret = JSON_PARSER.fromJson(jsonString, GeocodingResponse.class);
         return new GeocodingResponse(ret.candidates, ret.error, jsonString);
     }
 
+    /**
+     * @return if an error occurred, the {@link ErrorDescription} is returned
+     */
     public ErrorDescription getError() {
         return error;
     }
 
+    /**
+     * @return <code>true</code> if error was recorded; <code>false</code> otherwise
+     */
     public boolean wasErrorResponse() {
         return error != null;
     }
@@ -97,36 +119,5 @@ public class GeocodingResponse implements Iterable<GeocodingResponse.Candidate>{
         return this.candidates == null || this.candidates.isEmpty();
     }
 
-    /**
-     * Geocoding candidate for a requested address. It is immutable with a private constructor since it is only
-     * meant to be created from a json object (as a REST response).
-     */
-    public class Candidate {
-        private final double score;
-        private final DefaultTargetCoordinate location;
 
-        private Candidate(double score, DefaultTargetCoordinate df){
-            this.score = score;
-            this.location = df;
-        }
-
-        /**
-         * Return the Score of the candidate. The higher the score the more confidence into the candidate as the correct
-         * representative. Maximum score is 100.0; Minimum 0.0.
-         *
-         * @return the score of the candidate
-         */
-        public double getScore() {
-            return this.score;
-        }
-
-        /**
-         * Returns the geocode as {@link DefaultTargetCoordinate} according to the spatial reference from the request.
-         * Default reference is "EPSG 4326" (.i.e. if not otherwise specified)
-         * @return the geo location of the candidate
-         */
-        public DefaultTargetCoordinate getLocation(){
-            return this.location;
-        }
-    }
 }

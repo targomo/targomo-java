@@ -3,7 +3,7 @@ package net.motionintelligence.client.api.request;
 import net.motionintelligence.client.api.Address;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
-import net.motionintelligence.client.api.request.esri.ESRIAthenticationDetails;
+import net.motionintelligence.client.api.request.esri.ESRIAuthenticationDetails;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.*;
@@ -33,6 +33,9 @@ public class GeocodingRequestTest extends RequestTest{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
     private static final double DELTA  = 0.005; //Allowed delta when comparing the coordinates
+
+    private static final ESRIAuthenticationDetails esriAccountInfo = new ESRIAuthenticationDetails(
+            "SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa", 1);
 
     private static Client client;
 
@@ -119,14 +122,12 @@ public class GeocodingRequestTest extends RequestTest{
         response.getRepresentativeGeocodeOfRequest();
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = NullPointerException.class)
     public void testForStorageRequestFailed() throws Route360ClientException {
         //won't fail if authentication credentials provided
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.FOR_STORAGE,"true");
-        GeocodingResponse response = new GeocodingRequest(client,options).get( batch2[0] );
-        System.out.println(response.getCompleteJsonResponseAsString());
-        response.getRepresentativeCandidate();
+        new GeocodingRequest(client,options);
     }
 
     @Test
@@ -156,11 +157,9 @@ public class GeocodingRequestTest extends RequestTest{
     @Test
     public void testParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
-        //Tests both with and without credentials
+        //Tests both with and without credentials (to save some time)
         final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
-        final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client,
-                new ESRIAthenticationDetails("SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa", 1),
-                new EnumMap<>(GeocodingRequest.Option.class));
+        final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client, esriAccountInfo);
 
         executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
         long timeAfterFirstRequest = System.currentTimeMillis();
