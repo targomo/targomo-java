@@ -7,6 +7,7 @@ import net.motionintelligence.client.api.request.esri.ESRIAuthenticationDetails;
 import net.motionintelligence.client.api.response.GeocodingResponse;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.when;
  *
  * Created by David on 18.07.2017.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GeocodingRequestTest extends RequestTest{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
@@ -155,7 +157,7 @@ public class GeocodingRequestTest extends RequestTest{
     }
 
     @Test
-    public void testParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
+    public void ztestParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
         //Tests both with and without credentials (to save some time)
         final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
@@ -192,7 +194,7 @@ public class GeocodingRequestTest extends RequestTest{
     @Test
     public void testParallelAddressBatchRequestSuccess() throws Route360ClientException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
@@ -205,7 +207,7 @@ public class GeocodingRequestTest extends RequestTest{
         //Add Option source country: Germany
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.SOURCE_COUNTRY,"DEU");
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,options);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,esriAccountInfo,options);
 
         LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
         executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
@@ -238,15 +240,12 @@ public class GeocodingRequestTest extends RequestTest{
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
 
         executeBatchRequest(coordinatesAdd2, batchAdd2, geocodingRequest::getBatchSequential );
-        executeBatchRequest(coordinatesAdd26, batchAdd26, geocodingRequest::getBatchSequential );
     }
 
     @Test
     public void testSequentialBatchRequestSuccess() throws Route360ClientException {
         GeocodingRequest geocodingRequest = new GeocodingRequest(client);
-
-        executeBatchRequest(coordinates2, batch2, geocodingRequest::getBatchSequential );
-        executeBatchRequest(coordinates26, batch26, geocodingRequest::getBatchSequential );
+        executeBatchRequest(coordinates13, batch13, geocodingRequest::getBatchSequential );
     }
 
     /****************************************************************************************************************
