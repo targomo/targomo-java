@@ -9,12 +9,17 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.24</version>
+         <version>0.0.25</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
+
+### 0.0.25
+
+- Geocoding with Authorization against the ESRI service (including access token handling) - batch 
+geocoding with authorization is a lot faster
 
 ### 0.0.24
 
