@@ -19,7 +19,8 @@ public class ESRIAuthenticationDetails {
      * Creates an authentication specification. The value for token expiration is set to the default value of
      * 20160 minutes (=14 days).
      *
-     * @see <url>https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm</url>
+     * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm">
+     *     Authentication for geocoding</a>
      *
      * @param clientID - look into link for details how to get your ESRI client id
      * @param clientSecret - look into link for details how to get your ESRI client secret
@@ -31,7 +32,8 @@ public class ESRIAuthenticationDetails {
     /**
      * Creates an authentication specification.
      *
-     * @see <url>https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm</url>
+     * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm">
+     *     Authentication for geocoding</a>
      *
      * @param clientID - look into link for details how to get your ESRI client id
      * @param clientSecret - look into link for details how to get your ESRI client secret
