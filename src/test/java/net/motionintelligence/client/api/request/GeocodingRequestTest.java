@@ -29,6 +29,14 @@ import static org.mockito.Mockito.when;
  * (1) JUnit tests and
  * (2) System tests (actually calling the REST service)
  *
+ * In order to run all tests you should include a file "geocodingTest.properties"
+ * in your "src/test/resources/" folder with the following content:
+ * <pre>
+ *     esri.clientId=YOUR_ESRI_CLIENT_KEY_HERE
+ *     esri.clientSecret=YOUR_ESRI_CLIENT_SECRET_HERE
+ * </pre>
+ *
+ *
  * TODO test for bad request (e.g. sourcecountry:germany instead of DEU)
  *
  * Created by David on 18.07.2017.
@@ -47,7 +55,7 @@ public class GeocodingRequestTest extends RequestTest{
     public static void setup() {
         InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("geocodingTest.properties");
         if(stream == null) {
-            LOGGER.warn("No geocodingTest.properties found in test/resources : " +
+            LOGGER.warn("No geocodingTest.properties found in src/test/resources : " +
                     "Tests associated with an ESRI account are skipped");
         } else {
             Properties prop = new Properties();
