@@ -12,6 +12,7 @@ import org.boon.json.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -177,9 +178,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param singleLineAddress e.g. "Chausseestr. 101, 10115 Berlin"
      * @return the parsed REST service response
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     @Override
-    public GeocodingResponse get(String singleLineAddress) throws Route360ClientException {
+    public GeocodingResponse get(String singleLineAddress) throws Route360ClientException, ProcessingException {
         return get( webTarget -> webTarget.queryParam("singleLine", singleLineAddress));
     }
 
@@ -190,8 +192,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param address e.g. <pre>new Address("Chausseestr. 101","","Berlin","10115",null);</pre>
      * @return the parsed REST service response
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
-    public GeocodingResponse get(Address address) throws Route360ClientException {
+    public GeocodingResponse get(Address address) throws Route360ClientException, ProcessingException {
         return get( webTarget ->
             conditionalQueryParam("address", address.street,
             conditionalQueryParam("address2", address.streetDetails,
@@ -218,9 +221,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param queryPrep function to prepare the query
      * @return the resulting {@link GeocodingResponse}
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
-            throws Route360ClientException {
+            throws Route360ClientException, ProcessingException {
 
         //prepare statement
         WebTarget target = queryPrep.apply(client.target(REST_URI)
@@ -309,8 +313,8 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
         try {
             auth = validateAuthenticationResponse(response);
             if (auth.wasErrorResponse())
-                throw new Route360ClientException("Error occurred during authentication with ESRI Service - " +
-                        "Response: \n" + POJOUtil.prettyPrintPOJO(auth.getError()));
+                throw new Route360ClientException("Error occurred during authentication with ESRI Service - \nRequest: \n" +
+                        target.getUri() + "\nResponse: \n" + POJOUtil.prettyPrintPOJO(auth.getError()));
         } finally {
             response.close();
         }
@@ -330,9 +334,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
-                                                 final String... addresses) throws Route360ClientException {
+                                                 final String... addresses)
+                                                throws Route360ClientException, ProcessingException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
@@ -349,9 +355,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
-                                                 final Address... addresses) throws Route360ClientException {
+                                                 final Address... addresses)
+                                                throws Route360ClientException, ProcessingException {
         return getBatchParallel( this::get, parallelThreads, triesBeforeFail, addresses);
     }
 
@@ -370,11 +378,12 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param <A> address type (String or {@link Address})
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     private <A> GeocodingResponse[] getBatchParallel(
             final GetRequest<A,GeocodingResponse> singleRequest,
             final int parallelThreads, final int triesBeforeFail, final A[] addresses)
-            throws Route360ClientException {
+            throws Route360ClientException, ProcessingException {
 
         if(parallelThreads<1)
             throw new Route360ClientRuntimeException("The number of specified threads has to be equal or greater than one.");
@@ -438,8 +447,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
-    public GeocodingResponse[] getBatchSequential(String... addresses) throws Route360ClientException {
+    public GeocodingResponse[] getBatchSequential(String... addresses) throws Route360ClientException, ProcessingException {
         return getBatchSequential( this::get, addresses);
     }
 
@@ -451,8 +461,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
-    public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException {
+    public GeocodingResponse[] getBatchSequential(Address... addresses) throws Route360ClientException, ProcessingException {
         return getBatchSequential( this::get, addresses);
     }
 
@@ -468,9 +479,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
      * @throws Route360ClientException when error occurs during request
+     * @throws ProcessingException when connection error occurs
      */
     private <A> GeocodingResponse[] getBatchSequential(final GetRequest<A,GeocodingResponse> singleRequest,
-                                                      A[] addresses) throws Route360ClientException {
+                                                      A[] addresses) throws Route360ClientException, ProcessingException {
         if(addresses == null || addresses.length == 0)
             throw new Route360ClientException("The addresses array has to be not null and contain at least one element.");
 
