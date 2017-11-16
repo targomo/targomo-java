@@ -14,9 +14,12 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import java.util.function.ToDoubleFunction;
 
 import static org.mockito.Mockito.when;
@@ -25,6 +28,14 @@ import static org.mockito.Mockito.when;
  * Tests of the Geocoding request methods. This class contains:
  * (1) JUnit tests and
  * (2) System tests (actually calling the REST service)
+ *
+ * In order to run all tests you should include a file "geocodingTest.properties"
+ * in your "src/test/resources/" folder with the following content:
+ * <pre>
+ *     esri.clientId=YOUR_ESRI_CLIENT_KEY_HERE
+ *     esri.clientSecret=YOUR_ESRI_CLIENT_SECRET_HERE
+ * </pre>
+ *
  *
  * TODO test for bad request (e.g. sourcecountry:germany instead of DEU)
  *
@@ -36,10 +47,28 @@ public class GeocodingRequestTest extends RequestTest{
     private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
     private static final double DELTA  = 0.005; //Allowed delta when comparing the coordinates
 
-    private static final ESRIAuthenticationDetails esriAccountInfo = new ESRIAuthenticationDetails(
-            "SQYqryCxHD7E7jSW","f2a3fd52f63947c2b414df41ec40d1aa", 1);
+    private static ESRIAuthenticationDetails esriAccountInfo = null;
 
     private static Client client;
+
+    @BeforeClass
+    public static void setup() {
+        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("geocodingTest.properties");
+        if(stream == null) {
+            LOGGER.warn("No geocodingTest.properties found in src/test/resources : " +
+                    "Tests associated with an ESRI account are skipped");
+        } else {
+            Properties prop = new Properties();
+            try {
+                prop.load(stream);
+                esriAccountInfo = new ESRIAuthenticationDetails(prop.getProperty("esri.clientId"),
+                        prop.getProperty("esri.clientSecret"),1);
+            } catch (IOException | IllegalArgumentException e) {
+                LOGGER.error("geocodingTest.properties not properly formed : " +
+                        "Tests associated with an ESRI account are skipped", e);
+            }
+        }
+    }
 
     /****************************************************************************************************************
      *  JUnit tests
@@ -132,6 +161,12 @@ public class GeocodingRequestTest extends RequestTest{
         new GeocodingRequest(client,options);
     }
 
+    @Test(expected = Route360ClientException.class)
+    public void testAuthorizationFails() throws Route360ClientException {
+        ESRIAuthenticationDetails authFail = new ESRIAuthenticationDetails("abc","abc");
+        new GeocodingRequest(client,authFail).get( "" );
+    }
+
     @Test
     public void testSimpleLineRequestSuccess() throws Route360ClientException {
 
@@ -157,15 +192,22 @@ public class GeocodingRequestTest extends RequestTest{
     }
 
     @Test
-    public void ztestParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
+    public void testParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
         //Tests both with and without credentials (to save some time)
         final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
-        final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client, esriAccountInfo);
+        final GeocodingRequest geocodingRequestWithCredentials = esriAccountInfo == null ? null :
+                new GeocodingRequest(client, esriAccountInfo);
 
-        executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
-        long timeAfterFirstRequest = System.currentTimeMillis();
-        String firstAccessToken = geocodingRequestWithCredentials.getCurrentAccessToken();
+        long timeAfterFirstRequest = 0L;
+        String firstAccessToken = null;
+        if( geocodingRequestWithCredentials != null ) {
+            executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20, 10, batch));
+            timeAfterFirstRequest = System.currentTimeMillis();
+            firstAccessToken = geocodingRequestWithCredentials.getCurrentAccessToken();
+        } else {
+            LOGGER.warn("Parts of testParallelBatchRequestSuccess skipped due to missing ESRI account data");
+        }
 
         //while waiting a minute so that the first token will be invalidated, test the batch process without credentials
         executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
@@ -173,10 +215,12 @@ public class GeocodingRequestTest extends RequestTest{
         executeBatchRequest(coordinates26, batch26, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
         executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestNoCredentials.getBatchParallel(20,10,batch) );
 
-        //wait until we surpassed one minute - token will be invalid
-        Thread.sleep(Math.max(0L,60000L-(System.currentTimeMillis()-timeAfterFirstRequest)));
-        executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
-        Assert.assertNotEquals(firstAccessToken,geocodingRequestWithCredentials.getCurrentAccessToken());
+        if( geocodingRequestWithCredentials != null ) {
+            //wait until we surpassed one minute - token will be invalid
+            Thread.sleep(Math.max(0L, 60000L - (System.currentTimeMillis() - timeAfterFirstRequest)));
+            executeBatchRequest(coordinates104, batch104, batch -> geocodingRequestWithCredentials.getBatchParallel(20, 10, batch));
+            Assert.assertNotEquals(firstAccessToken, geocodingRequestWithCredentials.getCurrentAccessToken());
+        }
     }
 
     @Test
@@ -194,23 +238,29 @@ public class GeocodingRequestTest extends RequestTest{
     @Test
     public void testParallelAddressBatchRequestSuccess() throws Route360ClientException {
 
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo);
-
-        executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
-        executeBatchRequest(coordinatesAdd26, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
+        if(esriAccountInfo == null) {
+            LOGGER.warn("testParallelAddressBatchRequestSuccess skipped due to missing ESRI account data");
+        } else {
+            final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo);
+            executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20, 10, batch));
+            executeBatchRequest(coordinatesAdd18, batchAdd18, batch -> geocodingRequest.getBatchParallel(20, 10, batch));
+            executeBatchRequest(coordinatesAdd26, batchAdd26, batch -> geocodingRequest.getBatchParallel(20, 10, batch));
+        }
     }
 
     @Test
     public void testParallelBatchWithOptionsRequestSuccess() throws Route360ClientException {
 
-        //Add Option source country: Germany
-        EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
-        options.put(GeocodingRequest.Option.SOURCE_COUNTRY,"DEU");
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,esriAccountInfo,options);
+        if(esriAccountInfo == null) {
+            LOGGER.warn("testParallelBatchWithOptionsRequestSuccess skipped due to missing ESRI account data");
+        } else {
+            //Add Option source country: Germany
+            EnumMap<GeocodingRequest.Option, String> options = new EnumMap<>(GeocodingRequest.Option.class);
+            options.put(GeocodingRequest.Option.SOURCE_COUNTRY, "DEU");
+            final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo, options);
 
-        LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
-        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
+            LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
+            executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10, 10, batch));
 //        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
 //        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany");
@@ -218,10 +268,10 @@ public class GeocodingRequestTest extends RequestTest{
 //        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
 
-        //Add option search extent: Berlin
-        options.put(GeocodingRequest.Option.SEARCH_EXTENT,"12.9803466797,52.3420516364,13.8153076172,52.716330936");
-        LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
-        executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
+            //Add option search extent: Berlin
+            options.put(GeocodingRequest.Option.SEARCH_EXTENT, "12.9803466797,52.3420516364,13.8153076172,52.716330936");
+            LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
+            executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10, 10, batch));
 //        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
 //        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
@@ -229,10 +279,11 @@ public class GeocodingRequestTest extends RequestTest{
 //        LOGGER.info("Address batch of 26; 20 Threads; Source Country Germany; Search Extent Berlin");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(20,10,batch) );
 
-        //Other tests excluded since they were only for testing performance of configurations
+            //Other tests excluded since they were only for testing performance of configurations
 
-        //Note: Test results seem to indicate the options don't seem to have a notable effect on the search performance
-        //There seems to be fixed limit from the server about max number of parallel requests from one source
+            //Note: Test results seem to indicate the options don't seem to have a notable effect on the search performance
+            //There seems to be fixed limit from the server about max number of parallel requests from one source
+        }
     }
 
     @Test

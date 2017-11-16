@@ -18,17 +18,17 @@ public final class IOUtil {
 	}
 
     /**
-     * Deep cloning of the TravleOptions.
+     * Deep cloning of an POJO object.
      *
-     * @param travelOptions input travelOptions
-     * @param clazz specified TravelOptions class
-     * @param <T> type of the TravelOptions
-     * @return clone of the travel options
+     * @param object input object
+     * @param clazz specified object class
+     * @param <T> type of the object
+     * @return clone of the object
      */
-	public static <T extends TravelOptions> T cloneTravelOptions(T travelOptions, Class<T> clazz){
+	public static <T> T cloneObjects(T object, Class<T> clazz){
 		try {
 			ObjectMapper om = new ObjectMapper();
-			return om.readValue(om.writeValueAsString(travelOptions), clazz);
+			return om.readValue(om.writeValueAsString(object), clazz);
 		} catch (IOException e) {
 			throw new Route360ClientRuntimeException("Could not duplicate travel options due to: " + e.getMessage());
 		}
