@@ -9,14 +9,14 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.25</version>
+         <version>0.0.26</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
 
-### 0.0.25
+### 0.0.26
 
 - Geocoding with Authorization against the ESRI service (including access token handling) - batch 
 geocoding with authorization is a lot faster
@@ -125,7 +125,6 @@ Return possible route from each source point to each target.
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
 
-
 ## GeocodingService
 
 Return possible geocode(s) for each given address.
@@ -146,3 +145,25 @@ Return possible geocode(s) for each given address.
     DefaultTargetCoordinate[] geocodes = Arrays.stream(manyGeocodes)
                     .map(GeocodingResponse::getRepresentativeGeocodeOfRequest).toArray(DefaultTargetCoordinate[]::new);
 
+## Helper to display geojson
+
+You can also display geojson data directly in your browser with the following routine:
+
+    TravelOptions options = new TravelOptions();
+    options.setPathSerializer(PathSerializerType.GEO_JSON_PATH_SERIALIZER);
+    //set other options
+    
+    Client client = ClientBuilder.newClient();
+    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    RouteResponse routeResponse = new RouteRequest(client, options).get();
+    
+    CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:3857");
+    CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:4326");
+    this.transform = CRS.findMathTransform(sourceCRS, targetCRS);
+    String geometryGeojson = routeResponse.getRoutes().getString(0); //only first one is extracted for the tour to the first target
+    FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(geometryGeojson);
+    List<Feature> transformedResponse = GeojsonUtil.transformGeometry(this.transform, featureCollection.getFeatures());
+    Map<String,FeatureCollection> nameToFeatureCollectionMap = Maps.maps( "testViewer.geojson",
+            new FeatureCollection(transformedResponse.toArray(new Feature[transformedResponse.size()])) );
+    GeojsonUtil.openGeoJsonInBrowserWithGeojsonIO(fileMap);  //Display the route in the browser
+    //alternative method: GeojsonUtil.openGeoJsonInBrowserWithGitHubGist(fileMap);
