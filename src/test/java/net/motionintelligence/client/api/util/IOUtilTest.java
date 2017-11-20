@@ -48,7 +48,7 @@ public class IOUtilTest {
 		original.setServiceUrl("TestURL");
 		original.setServiceKey("TestKey");
 
-		StatisticTravelOptions clone = IOUtil.cloneTravelOptions( original, StatisticTravelOptions.class );
+		StatisticTravelOptions clone = IOUtil.cloneObjects( original, StatisticTravelOptions.class );
 
 		assertThat(clone).isEqualToComparingFieldByFieldRecursively(original);
 	}
