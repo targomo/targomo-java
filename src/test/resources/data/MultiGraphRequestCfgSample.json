@@ -4,7 +4,9 @@
   "multigraph":{
     "serializer":"json",
     "includeEdges": true,
-    "decimalPrecision": 5
+    "decimalPrecision": 5,
+    "aggregation":"none",
+    "srid":3857
   },
   "sources": [
     {

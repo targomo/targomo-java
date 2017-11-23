@@ -3,6 +3,8 @@ package net.motionintelligence.client.api.request.config;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
+import net.motionintelligence.client.api.enums.MultiGraphAggregationType;
+import net.motionintelligence.client.api.enums.MultiGraphSerializerType;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
@@ -21,7 +23,46 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class RequestConfiguratorTest {
+
+    @Test
+    public void testMultiGraphConfig() throws Exception {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            // Generate input
+            TravelOptions options = new TravelOptions();
+            options.addSource(new DefaultSourceCoordinate("POI:0",13.42883045,52.5494892));
+            options.setServiceKey("INSERT_YOUR_KEY_HERE");
+            options.setServiceUrl("http://127.0.0.1:8080/");
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(300);
+            options.setTravelType(TravelType.BIKE);
+            options.setMultiGraphSerializer(MultiGraphSerializerType.JSON);
+            options.setMultiGraphAggregation(MultiGraphAggregationType.NONE);
+            options.setMultiGraphIncludeEdges(true);
+            options.setSrid(3857);
+            options.setDecimalPrecision(5);
+
+            // Run configurator && get object
+            String cfg = RequestConfigurator.getConfig(options);
+            JSONObject actualObject = new JSONObject(cfg);
+
+            // Load sample json & load object
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
+            JSONObject sampleObject = new JSONObject(sampleJson);
+
+            // Compare two objects
+            assertThat(sampleObject.getJSONObject(Constants.MULTI_GRAPH)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONObject(Constants.MULTI_GRAPH));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void getConfig_check_polygons() throws Exception {
 
