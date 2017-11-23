@@ -1,20 +1,14 @@
-package net.motionintelligence.client.api.response;
+package net.motionintelligence.client.api.response.refactored;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import net.motionintelligence.client.api.TravelOptions;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class DefaultResponse<O> {
+/**
+ *
+ * @param <O> this is the type of the data that ou want to be visible from outside the response
+ * @param <I> this is the type of data that Jackson should create and from which you parse the data of type <O>, e.g. usually Map<String,Object> for an object
+ */
+public abstract class DefaultResponse<O,I> {
 
     //Json parsed data
     private String code;
@@ -46,9 +40,11 @@ public abstract class DefaultResponse<O> {
         this.message = message;
     }
 
-    public void setData(O data) {
-        this.data = data;
+    public void setData(I data){
+        this.data = parseData(data);
     }
+
+    protected abstract O parseData(I jacksonData);
 
     /**
      * @return the code
@@ -69,7 +65,7 @@ public abstract class DefaultResponse<O> {
     }
 
     public O getData() {
-        return data;
+        return this.data;
     }
 
     public long getParseTimeMillis() {

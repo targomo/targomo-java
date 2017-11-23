@@ -1,15 +1,15 @@
-package net.motionintelligence.client.api.request;
+package net.motionintelligence.client.api.request.refactored;
 
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.response.DefaultResponse;
-import net.motionintelligence.client.api.response.PolygonResponse;
+import net.motionintelligence.client.api.request.RequestTest;
+import net.motionintelligence.client.api.response.refactored.DefaultResponse;
+import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -33,8 +33,7 @@ public class MultiGraphRequestTest extends RequestTest {
 
 		// Make the call
 		MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
-		DefaultResponse response = request.get();
-		System.out.println(response.getData());
+		MultiGraphResponse response = request.get();
 
 		// Check result
 		assertEquals("ok", response.getCode());
@@ -43,26 +42,23 @@ public class MultiGraphRequestTest extends RequestTest {
 		assertNotNull(response.getData());
 	}
 
-//	@Test
-//	public void get_gateway_timeout() throws Exception {
-//		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
-//
-//		TravelOptions options = getTravelOptions();
-//		PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
-//		polygonRequest.setMethod(HttpMethod.GET);
-//		PolygonResponse polygonResponse = polygonRequest.get();
-//		assertEquals("gateway-time-out", polygonResponse.getCode());
-//	}
-//
-//	@Test(expected = Route360ClientException.class)
-//	public void get_exception() throws Exception {
-//		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-//
-//		TravelOptions options = getTravelOptions();
-//		PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
-//		polygonRequest.setMethod(HttpMethod.GET);
-//		polygonRequest.get();
-//	}
+	@Test
+	public void get_gateway_timeout() throws Exception {
+		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
+
+		MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
+		MultiGraphResponse polygonResponse = request.get();
+
+		assertEquals("gateway-time-out", polygonResponse.getCode());
+	}
+
+	@Test(expected = Route360ClientException.class)
+	public void get_exception() throws Exception {
+		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+        MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
+        request.get();
+	}
 
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();

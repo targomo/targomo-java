@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public abstract class RequestTest {
 	@Mock
-	Client mockClient;
+	protected Client mockClient;
 	@Mock
 	WebTarget mockWebTarget;
 	@Mock
@@ -25,7 +25,7 @@ public abstract class RequestTest {
 	@Mock
 	Invocation mockInvocation;
 	@Mock
-	Response sampleResponse;
+	protected Response sampleResponse;
 
 	@Before
 	public void setUp() throws Exception {
