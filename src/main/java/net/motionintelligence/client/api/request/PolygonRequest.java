@@ -147,7 +147,7 @@ public class PolygonRequest {
 					JsonUtil.getString(result, "code"),
 					JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis, parseTime);
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-			return new PolygonResponse(travelOptions, new JSONObject(), "gateway-time-out", roundTripTimeMillis, -1);
+			return new PolygonResponse(travelOptions, new JSONObject(), "gateway-time-out", -1, roundTripTimeMillis);
 		} else {
 			throw new Route360ClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
 		}

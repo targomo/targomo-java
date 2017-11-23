@@ -1,0 +1,19 @@
+{
+  "edgeWeight": "time",
+  "maxEdgeWeight": "300",
+  "multigraph":{
+    "serializer":"json",
+    "includeEdges": true,
+    "decimalPrecision": 5
+  },
+  "sources": [
+    {
+      "id": "POI:0",
+      "lat": 52.5494892,
+      "lng": 13.42883045,
+      "tm": {
+        "bike": {}
+      }
+    }
+  ]
+}
