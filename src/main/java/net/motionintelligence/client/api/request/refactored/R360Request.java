@@ -34,7 +34,8 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
     private final TravelOptions travelOptions;
 
     /**
-     * Not recommended since a heavy client object is constructed and destroyed with every call.
+     * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
+     * needs to be registered usually to the client to receive results.
      *
      * Example how to call it: MultiGraphResponse r = R360Request.executeRequest(MultiGraphRequest::new,travelOptions);
      *

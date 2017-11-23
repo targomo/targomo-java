@@ -26,7 +26,8 @@ public class MultiGraphRequest extends R360Request<Map<String,Object>,Map<String
     }
 
     /**
-     * Not recommended since a heavy client object is constructed and destroyed with every call.
+     * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
+     * needs to be registered usually to the client to receive results.
      *
      * @param travelOptions
      * @return result of the request
