@@ -1,6 +1,7 @@
 package net.motionintelligence.client.api.request.refactored;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.MultiGraphSerializerType;
@@ -8,21 +9,23 @@ import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.request.RequestTest;
+import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
+import net.motionintelligence.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.wololo.geojson.FeatureCollection;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.util.stream.Stream;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -71,7 +74,7 @@ public class MultiGraphRequestTest extends RequestTest {
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();
         options.addSource(new DefaultSourceCoordinate("POI:0",13.42883045,52.5494892));
-		options.setServiceKey("ETTP3ALRJNEEZ37ZH7OOLKB");
+		options.setServiceKey("YOUR_API_KEY_HERE");
 		options.setServiceUrl("http://127.0.0.1:8080/");
 		options.setEdgeWeightType(EdgeWeightType.TIME);
 		options.setMaxEdgeWeight(300);
@@ -81,7 +84,7 @@ public class MultiGraphRequestTest extends RequestTest {
 	}
 
     @Test
-//    @Ignore("System test - needs local R360 server to run")
+    @Ignore("System test - needs local R360 server to run")
     public void systemTestLocally() throws Exception {
 
         Client client = SslClientGenerator.initClient();
@@ -99,5 +102,30 @@ public class MultiGraphRequestTest extends RequestTest {
         }
     }
 
-    //TODO create files for [1800, 3600, 5400, 7200] * [car, walk, transit, bike]
+    @Test
+    @Ignore("System test - needs local R360 server to run")
+    public void geoJSONGZipped() throws Exception {
+
+        Client client = SslClientGenerator.initClient();
+        TravelOptions travelOptions = getTravelOptions();
+        travelOptions.setTravelType(TravelType.BIKE);
+        travelOptions.setMultiGraphSerializer(MultiGraphSerializerType.GEOJSON);
+        for(int maxEdgeWeight = 1800; maxEdgeWeight <= 7200; maxEdgeWeight += 1800) {
+            travelOptions.setMaxEdgeWeight(maxEdgeWeight);
+
+            WebTarget request = client.target(travelOptions.getServiceUrl())
+                    .path("v1/multigraph")
+                    .queryParam("cb", Constants.CALLBACK)
+                    .queryParam("key", travelOptions.getServiceKey());
+
+            // Execute request
+            Response response;
+            String config = RequestConfigurator.getConfig(travelOptions);
+            response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+
+            try(  PrintWriter out = new PrintWriter( travelOptions.getTravelType() + Integer.toString(maxEdgeWeight) + ".gzip" )  ){
+                out.println( IOUtil.getResultString(response) );
+            }
+        }
+    }
 }
