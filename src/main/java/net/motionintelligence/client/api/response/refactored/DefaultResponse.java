@@ -6,7 +6,8 @@ import net.motionintelligence.client.api.TravelOptions;
 /**
  *
  * @param <O> this is the type of the data that ou want to be visible from outside the response
- * @param <I> this is the type of data that Jackson should create and from which you parse the data of type <O>, e.g. usually Map<String,Object> for an object
+ * @param <I> this is the type of data that Jackson should create and from which you parse the data of type O
+ *           , e.g. usually {@link java.util.Map} from {@link String} to {@link Object} for an object
  */
 public abstract class DefaultResponse<O,I> {
 

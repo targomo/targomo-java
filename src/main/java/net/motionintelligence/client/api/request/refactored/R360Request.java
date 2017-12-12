@@ -25,11 +25,13 @@ import java.util.function.BiFunction;
  *
  * @param <O> Final Type of the output stored in the "data" field of the response
  * @param <I> Type of data that Jackson does create and from which the data of type O is parsed,
- *           e.g. usually Map<String,Object> for an object or List<..> for an array/list
+ *           e.g. usually {@link java.util.Map} of {@link String} to {@link Object} for an
+ *           object or a {@link java.util.List} for an array/list
  * @param <R> The Response type of the request
  */
 public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
 
+    //TODO use logger
     private static final Logger LOGGER      = LoggerFactory.getLogger(R360Request.class);
 
     private final Class<R> clazz;

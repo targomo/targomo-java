@@ -39,7 +39,7 @@ public class PolygonRequest extends R360Request<JSONArray,List<Map<String,?>>,Po
      * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
      * needs to be registered usually to the client to receive results.
      *
-     * @param travelOptions
+     * @param travelOptions the travel options of this request
      * @return result of the request
      */
     public static PolygonResponse executeRequest(TravelOptions travelOptions) throws Route360ClientException {
