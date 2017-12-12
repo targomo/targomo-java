@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.motionintelligence.client.api.enums;
 
 import net.motionintelligence.client.Constants;

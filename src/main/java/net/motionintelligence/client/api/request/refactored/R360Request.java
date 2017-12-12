@@ -22,6 +22,11 @@ import java.util.function.BiFunction;
 
 /**
  * TODO update documentation
+ *
+ * @param <O> Final Type of the output stored in the "data" field of the response
+ * @param <I> Type of data that Jackson does create and from which the data of type O is parsed,
+ *           e.g. usually Map<String,Object> for an object or List<..> for an array/list
+ * @param <R> The Response type of the request
  */
 public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
 
@@ -39,10 +44,17 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      *
      * Example how to call it: MultiGraphResponse r = R360Request.executeRequest(MultiGraphRequest::new,travelOptions);
      *
-     * @param travelOptions
-     * @return
+     * @param constructor the request constructor expecting two parameters: client and traveloptions
+     * @param travelOptions the travel options for this request
+     * @param <O> Final Type of the output stored in the "data" field of the response
+     * @param <I> Type of data that Jackson does create and from which the data of type <O> is parsed,
+     *           e.g. usually Map<String,Object> for an object or List<..> for an array/list
+     * @param <RS> The Response type of the request
+     * @param <RQ> The Request type of this execution
+     * @return the response of the type RS
+     * @throws Route360ClientException when an error occurred during the request call
      */
-    protected static <O,I,RS extends DefaultResponse<O,I>,RQ extends R360Request<O,I,RS>> RS
+    static <O,I,RS extends DefaultResponse<O,I>,RQ extends R360Request<O,I,RS>> RS
                     executeRequest(BiFunction<Client,TravelOptions,RQ> constructor,
                                    TravelOptions travelOptions) throws Route360ClientException {
         Client client = SslClientGenerator.initClient();
@@ -55,10 +67,14 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
 
     /**
      * Use custom client with specified travelOptions
+     *
      * @param client Client to be used
      * @param travelOptions Travel options parameters
+     * @param path path of request (URL is in travel options)
+     * @param httpMethod (HttpMethod.GET or HttpMethod.POST) are options
+     * @param clazz the Response class, e.g. PolygonResponse.class
      */
-    public R360Request(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz) {
+    R360Request(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz) {
         this.client	= client;
         this.travelOptions = travelOptions;
         this.path = path;
@@ -66,9 +82,28 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
         this.clazz = clazz;
     }
 
+//TODO add this method
+//    /**
+//     * For debugging.
+//     *
+//     * @return the request as curl String
+//     * @throws Route360ClientException when error occurred during parsing of the travel options
+//     */
+//    public String toCurl() throws Route360ClientException {
+//        String url = travelOptions.getServiceUrl().endsWith("/") ?
+//                travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
+//        return "curl -X POST '" +
+//                url + "v1/time" +
+//                "?cb=" + CALLBACK +
+//                "&key=" + travelOptions.getServiceKey() + "' " +
+//                "-H 'content-type: application/json' " +
+//                "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
+//    }
+
     /**
-     * Execute request
-     * @return the request's response - preferably a multigraph
+     * Executes the request
+     *
+     * @return the request's response of type R
      * @throws Route360ClientException In case of error other than Gateway Timeout
      */
     public R get() throws Route360ClientException {
@@ -97,22 +132,21 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
     }
 
     /**
-     * Validate HTTP response and return a Response FIXME
-     * /**
+     * Validate HTTP response and return a Response
      * Generated polygons in JSON format. <p>
      * Example: <br>
      * <code> {
-     "requestTime": "2314",
-     "code": "ok",
-     "data": ...
+         "requestTime": "2314",
+         "code": "ok",
+         "data": ...
+         "message": "all good"
      } </code> </p>
-     *
      *
      *
      * @param response HTTP response
      * @param roundTripTimeMillis Execution time in milliseconds
-     * @return PolygonResponse
-     * @throws Route360ClientException In case of errors other than GatewayTimeout
+     * @return the validated reponse of type R
+     * @throws Route360ClientException in case of errors other than GatewayTimeout
      */
     private R validateResponse(final Response response, final long roundTripTimeMillis)
             throws Route360ClientException {

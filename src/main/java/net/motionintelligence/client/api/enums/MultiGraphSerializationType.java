@@ -3,24 +3,20 @@ package net.motionintelligence.client.api.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * @author Daniel Gerber
- *
- */
-public enum MultiGraphSerializerType {
+public enum MultiGraphSerializationType {
 
 	JSON("json"),
 	GEOJSON("geojson");
 
 	private String key;
 
-	MultiGraphSerializerType(String key) {
+	MultiGraphSerializationType(String key) {
 		this.key = key;
 	}
 
 	@JsonCreator
-	public static MultiGraphSerializerType fromString(String key) {
-		return key == null ? null : MultiGraphSerializerType.valueOf(key.toUpperCase());
+	public static MultiGraphSerializationType fromString(String key) {
+		return key == null ? null : MultiGraphSerializationType.valueOf(key.toUpperCase());
 	}
 
 	@JsonValue

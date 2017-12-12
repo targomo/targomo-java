@@ -4,7 +4,7 @@ import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
 import net.motionintelligence.client.api.enums.MultiGraphAggregationType;
-import net.motionintelligence.client.api.enums.MultiGraphSerializerType;
+import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
@@ -40,11 +40,18 @@ public class RequestConfiguratorTest {
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
-            options.setMultiGraphSerializer(MultiGraphSerializerType.JSON);
-            options.setMultiGraphAggregation(MultiGraphAggregationType.NONE);
-            options.setMultiGraphIncludeEdges(true);
-            options.setSrid(3857);
-            options.setDecimalPrecision(5);
+            options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
+            options.setMultiGraphSerializationType(MultiGraphSerializationType.JSON);
+            options.setMultiGraphSerializationDecimalPrecision(5);
+            options.setMultiGraphSerializationSrid(3857);
+            options.setMultiGraphSerializationIncludeEdges(true);
+            options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
+            options.setMultiGraphAggregationIgnoreOutlier(true);
+            options.setMultiGraphAggregationOutlierPenalty(1000);
+            options.setMultiGraphAggregationMinSourcesCount(3);
+            options.setMultiGraphAggregationMinSourcesRatio(0.5);
+            options.setMultiGraphAggregationMaxResultValue(1000);
+            options.setMultiGraphAggregationMaxResultValueRatio(0.6);
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -55,8 +62,8 @@ public class RequestConfiguratorTest {
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTI_GRAPH)).isEqualToComparingFieldByFieldRecursively(
-                    actualObject.getJSONObject(Constants.MULTI_GRAPH));
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONObject(Constants.MULTIGRAPH));
 
         } catch (IOException e) {
             e.printStackTrace();

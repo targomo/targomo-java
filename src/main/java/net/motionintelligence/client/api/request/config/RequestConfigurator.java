@@ -12,6 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+import java.util.stream.Stream;
+
 /**
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
@@ -48,10 +51,15 @@ public final class RequestConfigurator {
             if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty())
                 JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
 
-            if (travelOptions.getMultiGraphAggregation() != null || travelOptions.getMultiGraphSerializer() != null ||
-                    travelOptions.getSrid() != null || travelOptions.getDecimalPrecision() != null ||
-                    travelOptions.getMultiGraphIncludeEdges() != null)
-                JSONBuilder.append(config, Constants.MULTI_GRAPH, getMultiGraphObject(travelOptions));
+            //attention - at least one multiGraph value must be set to create the multigraph hierarchy
+            if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationType(),
+                    travelOptions.getMultiGraphSerializationSrid(), travelOptions.getMultiGraphSerializationDecimalPrecision(),
+                    travelOptions.getMultiGraphSerializationIncludeEdges(), travelOptions.getMultiGraphAggregationType(),
+                    travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
+                    travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
+                    travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio())
+                    .anyMatch(Objects::nonNull))
+                JSONBuilder.append(config, Constants.MULTIGRAPH, getMultiGraphObject(travelOptions));
 
             if (travelOptions.getIntersectionMode() != null)
                 JSONBuilder.appendString(config, Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
@@ -145,20 +153,59 @@ public final class RequestConfigurator {
 
         JSONObject multigraph = new JSONObject();
 
-        if ( travelOptions.getSrid() != null )
-            multigraph.put(Constants.SRID, travelOptions.getSrid());
+        if ( travelOptions.getMultiGraphEdgeClasses() != null )
+            multigraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
-        if ( travelOptions.getDecimalPrecision() != null )
-            multigraph.put(Constants.DECIMAL_PRECISION, travelOptions.getDecimalPrecision());
+        if( Stream.of(travelOptions.getMultiGraphSerializationType(), travelOptions.getMultiGraphSerializationSrid(),
+                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges())
+                .anyMatch(Objects::nonNull) ) {
+            JSONObject multigraphSerialization = new JSONObject();
 
-        if ( travelOptions.getMultiGraphIncludeEdges() != null )
-            multigraph.put(Constants.MULTI_GRAPH_INCLUDE_EDGES, travelOptions.getMultiGraphIncludeEdges());
+            if ( travelOptions.getMultiGraphSerializationType() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_TYPE, travelOptions.getMultiGraphSerializationType().getKey());
 
-        if ( travelOptions.getMultiGraphSerializer() != null )
-            multigraph.put(Constants.SERIALIZER, travelOptions.getMultiGraphSerializer().getKey());
+            if ( travelOptions.getMultiGraphSerializationIncludeEdges() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_EDGES_INCLUDED, travelOptions.getMultiGraphSerializationIncludeEdges());
 
-        if ( travelOptions.getMultiGraphAggregation() != null )
-            multigraph.put(Constants.MULTI_GRAPH_AGGREGATION, travelOptions.getMultiGraphAggregation().getKey());
+            if ( travelOptions.getMultiGraphSerializationSrid() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_SRID, travelOptions.getMultiGraphSerializationSrid());
+
+            if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
+
+            multigraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
+        }
+
+        if( Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
+                travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio()).anyMatch(Objects::nonNull) ) {
+
+            JSONObject multigraphAggregation = new JSONObject();
+
+            if ( travelOptions.getMultiGraphAggregationType() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, travelOptions.getMultiGraphAggregationType().getKey());
+
+            if ( travelOptions.getMultiGraphAggregationIgnoreOutlier() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, travelOptions.getMultiGraphAggregationIgnoreOutlier());
+
+            if ( travelOptions.getMultiGraphAggregationOutlierPenalty() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, travelOptions.getMultiGraphAggregationOutlierPenalty());
+
+            if ( travelOptions.getMultiGraphAggregationMinSourcesCount() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, travelOptions.getMultiGraphAggregationMinSourcesCount());
+
+            if ( travelOptions.getMultiGraphAggregationMinSourcesRatio() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, travelOptions.getMultiGraphAggregationMinSourcesRatio());
+
+            if ( travelOptions.getMultiGraphAggregationMaxResultValueRatio() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, travelOptions.getMultiGraphAggregationMaxResultValueRatio());
+
+            if ( travelOptions.getMultiGraphAggregationMaxResultValue() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, travelOptions.getMultiGraphAggregationMaxResultValue());
+
+            multigraph.put( Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
+        }
 
         return multigraph;
     }

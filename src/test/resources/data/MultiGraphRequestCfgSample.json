@@ -2,11 +2,22 @@
   "edgeWeight": "time",
   "maxEdgeWeight": "300",
   "multigraph":{
-    "serializer":"json",
-    "includeEdges": true,
-    "decimalPrecision": 5,
-    "aggregation":"none",
-    "srid":3857
+    "edgeClasses": [11,12,16,18],
+    "serialization":{
+      "type":"json",
+      "decimalPrecision": 5,
+      "srid": 3857,
+      "includeEdges" : true
+    },
+    "aggregation":{
+      "type": "none",
+      "ignoreOutliers": true,
+      "outlierPenalty": 1000,
+      "minSourcesCount": 3,
+      "minSourcesRatio": 0.5,
+      "maxResultValueRatio": 0.6,
+      "maxResultValue": 1000
+    }
   },
   "sources": [
     {

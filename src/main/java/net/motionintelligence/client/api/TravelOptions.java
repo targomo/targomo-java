@@ -98,9 +98,18 @@ public class TravelOptions implements Serializable {
     @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
     @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
 
-    @Transient private MultiGraphSerializerType  multiGraphSerializer  = null;
-    @Transient private MultiGraphAggregationType multiGraphAggregation = null;
-    @Transient private Boolean multiGraphIncludeEdges = null;
+    @Transient private List<Integer> multiGraphEdgeClasses                      = null;
+    @Transient private MultiGraphSerializationType multiGraphSerializationType  = null;
+    @Transient private Boolean multiGraphSerializationIncludeEdges              = null;
+    @Transient private Integer multiGraphSerializationSrid                      = null;
+    @Transient private Integer multiGraphSerializationDecimalPrecision          = null;
+    @Transient private MultiGraphAggregationType multiGraphAggregationType      = null;
+    @Transient private Boolean multiGraphAggregationIgnoreOutlier               = null;
+    @Transient private Integer multiGraphAggregationOutlierPenalty              = null;
+    @Transient private Double multiGraphAggregationMinSourcesRatio              = null;
+    @Transient private Integer multiGraphAggregationMinSourcesCount             = null;
+    @Transient private Double multiGraphAggregationMaxResultValueRatio          = null;
+    @Transient private Integer multiGraphAggregationMaxResultValue              = null;
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -121,8 +130,6 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-//    "rush_hour" -> "rushHour"
-
     @Transient
     private Format format;
 
@@ -137,14 +144,6 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Set<PoiType> customPois = new HashSet<>();
-
-    public Format getFormat() {
-        return format;
-    }
-
-    public void setFormat(Format format) {
-        this.format = format;
-    }
 
     public String getBoundingBox() {
         return boundingBox;
@@ -584,123 +583,94 @@ public class TravelOptions implements Serializable {
         return builder.toString();
     }
 
+    //excluding id
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof TravelOptions)) return false;
         TravelOptions that = (TravelOptions) o;
-
-        if (Double.compare(that.bikeSpeed, bikeSpeed) != 0) return false;
-        if (Double.compare(that.bikeUphill, bikeUphill) != 0) return false;
-        if (Double.compare(that.bikeDownhill, bikeDownhill) != 0) return false;
-        if (Double.compare(that.walkSpeed, walkSpeed) != 0) return false;
-        if (Double.compare(that.walkUphill, walkUphill) != 0) return false;
-        if (Double.compare(that.walkDownhill, walkDownhill) != 0) return false;
-        if (rushHour != that.rushHour) return false;
-        if (onlyPrintReachablePoints != that.onlyPrintReachablePoints) return false;
-        if (sources != null ? !sources.equals(that.sources) : that.sources != null) return false;
-        if (targets != null ? !targets.equals(that.targets) : that.targets != null) return false;
-        if (travelTimes != null ? !travelTimes.equals(that.travelTimes) : that.travelTimes != null) return false;
-        if (travelType != that.travelType) return false;
-        if (elevationEnabled != null ? !elevationEnabled.equals(that.elevationEnabled) : that.elevationEnabled != null)
-            return false;
-        if (appendTravelTimes != null ? !appendTravelTimes.equals(that.appendTravelTimes) : that.appendTravelTimes != null)
-            return false;
-        if (pointReduction != null ? !pointReduction.equals(that.pointReduction) : that.pointReduction != null)
-            return false;
-        if (reverse != null ? !reverse.equals(that.reverse) : that.reverse != null) return false;
-        if (minPolygonHoleSize != null ? !minPolygonHoleSize.equals(that.minPolygonHoleSize) : that.minPolygonHoleSize != null)
-            return false;
-        if (time != null ? !time.equals(that.time) : that.time != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        if (frame != null ? !frame.equals(that.frame) : that.frame != null) return false;
-        if (recommendations != null ? !recommendations.equals(that.recommendations) : that.recommendations != null)
-            return false;
-        if (srid != null ? !srid.equals(that.srid) : that.srid != null) return false;
-        if (decimalPrecision != null ? !decimalPrecision.equals(that.decimalPrecision) : that.decimalPrecision != null) return false;
-        if (buffer != null ? !buffer.equals(that.buffer) : that.buffer != null)
-            return false;
-        if (simplify != null ? !simplify.equals(that.simplify) : that.simplify != null)
-            return false;
-        if (intersectionMode != that.intersectionMode) return false;
-        if (pathSerializer != that.pathSerializer) return false;
-        if (polygonSerializerType != that.polygonSerializerType) return false;
-        if (multiGraphAggregation != that.multiGraphAggregation) return false;
-        if (multiGraphSerializer != that.multiGraphSerializer) return false;
-        if (multiGraphIncludeEdges != null ? !multiGraphIncludeEdges.equals(that.multiGraphIncludeEdges) : that.multiGraphIncludeEdges != null) return false;
-        if (maxEdgeWeight != null ? !maxEdgeWeight.equals(that.maxEdgeWeight) : that.maxEdgeWeight != null)
-            return false;
-        if (serviceUrl != null ? !serviceUrl.equals(that.serviceUrl) : that.serviceUrl != null) return false;
-        if (fallbackServiceUrl != null ? !fallbackServiceUrl.equals(that.fallbackServiceUrl) : that.fallbackServiceUrl != null)
-            return false;
-        if (serviceKey != null ? !serviceKey.equals(that.serviceKey) : that.serviceKey != null) return false;
-        if (edgeWeightType != that.edgeWeightType) return false;
-        if (statisticIds != null ? !statisticIds.equals(that.statisticIds) : that.statisticIds != null) return false;
-        if (statisticGroupId != null ? !statisticGroupId.equals(that.statisticGroupId) : that.statisticGroupId != null)
-            return false;
-        if (interServiceKey != null ? !interServiceKey.equals(that.interServiceKey) : that.interServiceKey != null) return false;
-        return statisticServiceUrl != null ? statisticServiceUrl.equals(that.statisticServiceUrl) : that.statisticServiceUrl == null;
+        return Double.compare(that.bikeSpeed, bikeSpeed) == 0 &&
+                Double.compare(that.bikeUphill, bikeUphill) == 0 &&
+                Double.compare(that.bikeDownhill, bikeDownhill) == 0 &&
+                Double.compare(that.walkSpeed, walkSpeed) == 0 &&
+                Double.compare(that.walkUphill, walkUphill) == 0 &&
+                Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
+                Objects.equals(sources, that.sources) &&
+                Objects.equals(targets, that.targets) &&
+                Objects.equals(rushHour, that.rushHour) &&
+                Objects.equals(travelTimes, that.travelTimes) &&
+                travelType == that.travelType &&
+                Objects.equals(elevationEnabled, that.elevationEnabled) &&
+                Objects.equals(pointReduction, that.pointReduction) &&
+                Objects.equals(reverse, that.reverse) &&
+                Objects.equals(minPolygonHoleSize, that.minPolygonHoleSize) &&
+                Objects.equals(time, that.time) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(frame, that.frame) &&
+                Objects.equals(recommendations, that.recommendations) &&
+                Objects.equals(srid, that.srid) &&
+                Objects.equals(decimalPrecision, that.decimalPrecision) &&
+                Objects.equals(buffer, that.buffer) &&
+                Objects.equals(simplify, that.simplify) &&
+                intersectionMode == that.intersectionMode &&
+                pathSerializer == that.pathSerializer &&
+                polygonSerializerType == that.polygonSerializerType &&
+                Objects.equals(multiGraphEdgeClasses, that.multiGraphEdgeClasses) &&
+                multiGraphSerializationType == that.multiGraphSerializationType &&
+                Objects.equals(multiGraphSerializationIncludeEdges, that.multiGraphSerializationIncludeEdges) &&
+                Objects.equals(multiGraphSerializationSrid, that.multiGraphSerializationSrid) &&
+                Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
+                multiGraphAggregationType == that.multiGraphAggregationType &&
+                Objects.equals(multiGraphAggregationIgnoreOutlier, that.multiGraphAggregationIgnoreOutlier) &&
+                Objects.equals(multiGraphAggregationOutlierPenalty, that.multiGraphAggregationOutlierPenalty) &&
+                Objects.equals(multiGraphAggregationMinSourcesRatio, that.multiGraphAggregationMinSourcesRatio) &&
+                Objects.equals(multiGraphAggregationMinSourcesCount, that.multiGraphAggregationMinSourcesCount) &&
+                Objects.equals(multiGraphAggregationMaxResultValueRatio, that.multiGraphAggregationMaxResultValueRatio) &&
+                Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
+                Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
+                Objects.equals(serviceUrl, that.serviceUrl) &&
+                Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
+                Objects.equals(serviceKey, that.serviceKey) &&
+                edgeWeightType == that.edgeWeightType &&
+                Objects.equals(statisticIds, that.statisticIds) &&
+                Objects.equals(statisticGroupId, that.statisticGroupId) &&
+                Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
+                Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
+                Objects.equals(overpassQuery, that.overpassQuery) &&
+                Objects.equals(overpassServiceUrl, that.overpassServiceUrl) &&
+                Objects.equals(interServiceKey, that.interServiceKey) &&
+                format == that.format &&
+                Objects.equals(boundingBox, that.boundingBox) &&
+                Objects.equals(travelTypes, that.travelTypes) &&
+                Objects.equals(osmTypes, that.osmTypes) &&
+                Objects.equals(customPois, that.customPois);
     }
 
+    //excluding id
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = sources != null ? sources.hashCode() : 0;
-        result = 31 * result + (targets != null ? targets.hashCode() : 0);
-        temp = Double.doubleToLongBits(bikeSpeed);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(bikeUphill);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(bikeDownhill);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(walkSpeed);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(walkUphill);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(walkDownhill);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (rushHour != null ? rushHour.hashCode() : 0);
-        result = 31 * result + (travelTimes != null ? travelTimes.hashCode() : 0);
-        result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
-        result = 31 * result + (elevationEnabled != null ? elevationEnabled.hashCode() : 0);
-        result = 31 * result + (appendTravelTimes != null ? appendTravelTimes.hashCode() : 0);
-        result = 31 * result + (pointReduction != null ? pointReduction.hashCode() : 0);
-        result = 31 * result + (reverse != null ? reverse.hashCode() : 0);
-        result = 31 * result + (minPolygonHoleSize != null ? minPolygonHoleSize.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (frame != null ? frame.hashCode() : 0);
-        result = 31 * result + (recommendations != null ? recommendations.hashCode() : 0);
-        result = 31 * result + (srid != null ? srid.hashCode() : 0);
-        result = 31 * result + (decimalPrecision != null ? decimalPrecision.hashCode() : 0);
-        result = 31 * result + (buffer != null ? buffer.hashCode() : 0);
-        result = 31 * result + (simplify != null ? simplify.hashCode() : 0);
-        result = 31 * result + (intersectionMode != null ? intersectionMode.hashCode() : 0);
-        result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
-        result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
-        result = 31 * result + (multiGraphSerializer != null ? multiGraphSerializer.hashCode() : 0);
-        result = 31 * result + (multiGraphAggregation != null ? multiGraphAggregation.hashCode() : 0);
-        result = 31 * result + (multiGraphIncludeEdges != null ? multiGraphIncludeEdges.hashCode() : 0);
-        result = 31 * result + (maxEdgeWeight != null ? maxEdgeWeight.hashCode() : 0);
-        result = 31 * result + (serviceUrl != null ? serviceUrl.hashCode() : 0);
-        result = 31 * result + (fallbackServiceUrl != null ? fallbackServiceUrl.hashCode() : 0);
-        result = 31 * result + (serviceKey != null ? serviceKey.hashCode() : 0);
-        result = 31 * result + (onlyPrintReachablePoints ? 1 : 0);
-        result = 31 * result + (edgeWeightType != null ? edgeWeightType.hashCode() : 0);
-        result = 31 * result + (statisticIds != null ? statisticIds.hashCode() : 0);
-        result = 31 * result + (statisticGroupId != null ? statisticGroupId.hashCode() : 0);
-        result = 31 * result + (statisticServiceUrl != null ? statisticServiceUrl.hashCode() : 0);
-        result = 31 * result + (interServiceKey != null ? interServiceKey.hashCode() : 0);
-        return result;
+
+        return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+                rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
+                minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
+                intersectionMode, pathSerializer, polygonSerializerType,
+                multiGraphEdgeClasses, multiGraphSerializationType, multiGraphSerializationIncludeEdges,
+                multiGraphSerializationSrid, multiGraphSerializationDecimalPrecision, multiGraphAggregationType,
+                multiGraphAggregationIgnoreOutlier,  multiGraphAggregationOutlierPenalty,
+                multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
+                multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
+                maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
+                statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
+                overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois);
     }
 
     /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
+
         final int maxLen = 5;
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getName());
@@ -758,19 +728,37 @@ public class TravelOptions implements Serializable {
         builder.append(pathSerializer);
         builder.append("\n\tpolygonSerializerType: ");
         builder.append(polygonSerializerType);
-        builder.append("\n\tmultiGraphAggregation: ");
-        builder.append(multiGraphAggregation);
-        builder.append("\n\tmultiGraphSerializer: ");
-        builder.append(multiGraphSerializer);
-        builder.append("\n\tmultiGraphIncludeEdges: ");
-        builder.append(multiGraphIncludeEdges);
+        builder.append("\n\tmultiGraphEdgeClasses: ");
+        builder.append(multiGraphEdgeClasses);
+        builder.append("\n\tmultiGraphSerializationType: ");
+        builder.append(multiGraphSerializationType);
+        builder.append("\n\tmultiGraphSerializationIncludeEdges: ");
+        builder.append(multiGraphSerializationIncludeEdges);
+        builder.append("\n\tmultiGraphSerializationSrid: ");
+        builder.append(multiGraphSerializationSrid);
+        builder.append("\n\tmultiGraphSerializationDecimalPrecision: ");
+        builder.append(multiGraphSerializationDecimalPrecision);
+        builder.append("\n\tmultiGraphAggregationType: ");
+        builder.append(multiGraphAggregationType);
+        builder.append("\n\tmultiGraphAggregationIgnoreOutlier: ");
+        builder.append(multiGraphAggregationIgnoreOutlier);
+        builder.append("\n\tmultiGraphAggregationOutlierPenalty: ");
+        builder.append(multiGraphAggregationOutlierPenalty);
+        builder.append("\n\tmultiGraphAggregationMinSourcesRatio: ");
+        builder.append(multiGraphAggregationMinSourcesRatio);
+        builder.append("\n\tmultiGraphAggregationMinSourcesCount: ");
+        builder.append(multiGraphAggregationMinSourcesCount);
+        builder.append("\n\tmultiGraphAggregationMaxResultValueRatio: ");
+        builder.append(multiGraphAggregationMaxResultValueRatio);
+        builder.append("\n\tmultiGraphAggregationMaxResultValue: ");
+        builder.append(multiGraphAggregationMaxResultValue);
         builder.append("\n\tmaxEdgeWeight: ");
         builder.append(maxEdgeWeight);
         builder.append("\n\tserviceUrl: ");
         builder.append(serviceUrl);
-        builder.append("\n\tstatisticServiceUrl: ");
-        builder.append(statisticServiceUrl);
         builder.append("\n\tserviceKey: ");
+        builder.append(fallbackServiceUrl);
+        builder.append("\n\tfallbackServiceUrl: ");
         builder.append(serviceKey);
         builder.append("\n\tonlyPrintReachablePoints: ");
         builder.append(onlyPrintReachablePoints);
@@ -780,12 +768,38 @@ public class TravelOptions implements Serializable {
         builder.append(statisticIds != null ? toString(statisticIds, maxLen) : null);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
-        builder.append("\n}\n");
+        builder.append("\n\tstatisticServiceUrl: ");
+        builder.append(statisticServiceUrl);
+        builder.append("\n\tpointOfInterestServiceUrl: ");
+        builder.append(pointOfInterestServiceUrl);
+        builder.append("\n\toverpassQuery: ");
+        builder.append(overpassQuery);
+        builder.append("\n\toverpassServiceUrl: ");
+        builder.append(overpassServiceUrl);
         builder.append("\n\tinterServiceKey: ");
         builder.append(interServiceKey);
+        builder.append("\n\tformat: ");
+        builder.append(format);
+        builder.append("\n\tboundingBox: ");
+        builder.append(boundingBox);
+        builder.append("\n\ttravelTypes: ");
+        builder.append(travelTypes != null ? toString(travelTypes, maxLen) : null );
+        builder.append("\n\tosmTypes: ");
+        builder.append(osmTypes != null ? toString(osmTypes, maxLen) : null);
+        builder.append("\n\tcustomPois: ");
+        builder.append(customPois != null ? toString(customPois, maxLen) : null);
+        builder.append("\n}\n");
         return builder.toString();
     }
-    
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
     /**
      * 
      * @param id ID of source Coordinate
@@ -884,28 +898,100 @@ public class TravelOptions implements Serializable {
         this.decimalPrecision = decimalPrecision;
     }
 
-    public MultiGraphSerializerType getMultiGraphSerializer() {
-        return multiGraphSerializer;
+    public List<Integer> getMultiGraphEdgeClasses() {
+        return multiGraphEdgeClasses;
     }
 
-    public void setMultiGraphSerializer(MultiGraphSerializerType multiGraphSerializer) {
-        this.multiGraphSerializer = multiGraphSerializer;
+    public void setMultiGraphEdgeClasses(List<Integer> multiGraphEdgeClasses) {
+        this.multiGraphEdgeClasses = multiGraphEdgeClasses;
     }
 
-    public MultiGraphAggregationType getMultiGraphAggregation() {
-        return multiGraphAggregation;
+    public MultiGraphSerializationType getMultiGraphSerializationType() {
+        return multiGraphSerializationType;
     }
 
-    public void setMultiGraphAggregation(MultiGraphAggregationType multiGraphAggregation) {
-        this.multiGraphAggregation = multiGraphAggregation;
+    public void setMultiGraphSerializationType(MultiGraphSerializationType multiGraphSerializationType) {
+        this.multiGraphSerializationType = multiGraphSerializationType;
     }
 
-    public Boolean getMultiGraphIncludeEdges() {
-        return multiGraphIncludeEdges;
+    public Boolean getMultiGraphSerializationIncludeEdges() {
+        return multiGraphSerializationIncludeEdges;
     }
 
-    public void setMultiGraphIncludeEdges(Boolean multiGraphIncludeEdges) {
-        this.multiGraphIncludeEdges = multiGraphIncludeEdges;
+    public void setMultiGraphSerializationIncludeEdges(Boolean multiGraphSerializationIncludeEdges) {
+        this.multiGraphSerializationIncludeEdges = multiGraphSerializationIncludeEdges;
+    }
+
+    public Integer getMultiGraphSerializationSrid() {
+        return multiGraphSerializationSrid;
+    }
+
+    public void setMultiGraphSerializationSrid(Integer multiGraphSerializationSrid) {
+        this.multiGraphSerializationSrid = multiGraphSerializationSrid;
+    }
+
+    public Integer getMultiGraphSerializationDecimalPrecision() {
+        return multiGraphSerializationDecimalPrecision;
+    }
+
+    public void setMultiGraphSerializationDecimalPrecision(Integer multiGraphSerializationDecimalPrecision) {
+        this.multiGraphSerializationDecimalPrecision = multiGraphSerializationDecimalPrecision;
+    }
+
+    public MultiGraphAggregationType getMultiGraphAggregationType() {
+        return multiGraphAggregationType;
+    }
+
+    public void setMultiGraphAggregationType(MultiGraphAggregationType multiGraphAggregationType) {
+        this.multiGraphAggregationType = multiGraphAggregationType;
+    }
+
+    public Boolean getMultiGraphAggregationIgnoreOutlier() {
+        return multiGraphAggregationIgnoreOutlier;
+    }
+
+    public void setMultiGraphAggregationIgnoreOutlier(Boolean multiGraphAggregationIgnoreOutlier) {
+        this.multiGraphAggregationIgnoreOutlier = multiGraphAggregationIgnoreOutlier;
+    }
+
+    public Integer getMultiGraphAggregationOutlierPenalty() {
+        return multiGraphAggregationOutlierPenalty;
+    }
+
+    public void setMultiGraphAggregationOutlierPenalty(Integer multiGraphAggregationOutlierPenalty) {
+        this.multiGraphAggregationOutlierPenalty = multiGraphAggregationOutlierPenalty;
+    }
+
+    public Double getMultiGraphAggregationMinSourcesRatio() {
+        return multiGraphAggregationMinSourcesRatio;
+    }
+
+    public void setMultiGraphAggregationMinSourcesRatio(Double multiGraphAggregationMinSourcesRatio) {
+        this.multiGraphAggregationMinSourcesRatio = multiGraphAggregationMinSourcesRatio;
+    }
+
+    public Integer getMultiGraphAggregationMinSourcesCount() {
+        return multiGraphAggregationMinSourcesCount;
+    }
+
+    public void setMultiGraphAggregationMinSourcesCount(Integer multiGraphAggregationMinSourcesCount) {
+        this.multiGraphAggregationMinSourcesCount = multiGraphAggregationMinSourcesCount;
+    }
+
+    public Double getMultiGraphAggregationMaxResultValueRatio() {
+        return multiGraphAggregationMaxResultValueRatio;
+    }
+
+    public void setMultiGraphAggregationMaxResultValueRatio(Double multiGraphAggregationMaxResultValueRatio) {
+        this.multiGraphAggregationMaxResultValueRatio = multiGraphAggregationMaxResultValueRatio;
+    }
+
+    public Integer getMultiGraphAggregationMaxResultValue() {
+        return multiGraphAggregationMaxResultValue;
+    }
+
+    public void setMultiGraphAggregationMaxResultValue(Integer multiGraphAggregationMaxResultValue) {
+        this.multiGraphAggregationMaxResultValue = multiGraphAggregationMaxResultValue;
     }
 
     public EdgeWeightType getEdgeWeightType() {

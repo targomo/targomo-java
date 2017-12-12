@@ -47,9 +47,23 @@ public class Constants {
     public static final String CALLBACK                                                 = "callback";
     public static final String SRID                                                     = "srid";
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
-    public static final String MULTI_GRAPH_AGGREGATION                                  = "aggregation";
-    public static final String MULTI_GRAPH_INCLUDE_EDGES                                = "includeEdges";
-    public static final String MULTI_GRAPH                                              = "multigraph";
+
+    public static final String MULTIGRAPH                                           = "multigraph";
+    public static final String MULTIGRAPH_EDGE_CLASSES                              = "edgeClasses";
+    public static final String MULTIGRAPH_SERIALIZATION                             = "serialization";
+    public static final String MULTIGRAPH_SERIALIZATION_EDGES_INCLUDED              = "includeEdges";
+    public static final String MULTIGRAPH_SERIALIZATION_SRID                        = "srid";
+    public static final String MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION           = "decimalPrecision";
+    public static final String MULTIGRAPH_SERIALIZATION_TYPE                        = "type";
+    public static final String MULTIGRAPH_AGGREGATION                               = "aggregation";
+    public static final String MULTIGRAPH_AGGREGATION_TYPE                          = "type";
+    public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS               = "ignoreOutliers";
+    public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY               = "outlierPenalty";
+    public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO             = "minSourcesRatio";
+    public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT             = "minSourcesCount";
+    public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO        = "maxResultValueRatio";
+    public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE              = "maxResultValue";
+
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGTH                                          = "maxEdgeWeight";
     public static final String STATISTIC_GROUP_ID                                       = "statisticGroupId";

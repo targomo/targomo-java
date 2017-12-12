@@ -29,8 +29,9 @@ public class MultiGraphRequest extends R360Request<Map<String,Object>,Map<String
      * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
      * needs to be registered usually to the client to receive results.
      *
-     * @param travelOptions
+     * @param travelOptions Travel options parameters of this request
      * @return result of the request
+     * @throws Route360ClientException id error occurred during request
      */
     public static MultiGraphResponse executeRequest(TravelOptions travelOptions) throws Route360ClientException {
         return R360Request.executeRequest(MultiGraphRequest::new,travelOptions);
