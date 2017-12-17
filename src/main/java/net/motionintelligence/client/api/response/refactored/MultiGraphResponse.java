@@ -1,11 +1,28 @@
 package net.motionintelligence.client.api.response.refactored;
 
-import java.util.Map;
+import net.motionintelligence.client.api.model.MultiGraph;
+import org.wololo.geojson.FeatureCollection;
 
-public class MultiGraphResponse extends DefaultResponse<Map<String,Object>,Map<String,Object>> {
+/**
+ * Since two options are available both can be used accordingly. <p>
+ * For Geojson
+ * <pre>
+ *     MultiGraphResponse{@literal <}FeatureCollection{@literal >} response = ...
+ * </pre>
+ * For json:
+ * <pre>
+ *     MultiGraphResponse{@literal <}MultiGraph{@literal >} response = ...
+ * </pre>
+ * @param <R>
+ */
+public class MultiGraphResponse<R> extends DefaultResponse<R,R> {
 
     @Override
-    protected Map<String,Object> parseData(Map<String, Object> jacksonData) {
+    protected R parseData(R jacksonData) {
         return jacksonData;
     }
+
+    public static class MultiGraphJsonResponse extends MultiGraphResponse<MultiGraph> {}
+
+    public static class MultiGraphGeoJsonResponse extends MultiGraphResponse<FeatureCollection> {}
 }

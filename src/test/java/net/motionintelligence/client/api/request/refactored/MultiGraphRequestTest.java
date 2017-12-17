@@ -12,6 +12,7 @@ import net.motionintelligence.client.api.request.RequestTest;
 import net.motionintelligence.client.api.request.config.RequestConfigurator;
 import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
+import net.motionintelligence.client.api.response.refactored.MultiGraphResponse.*;
 import net.motionintelligence.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -26,7 +27,9 @@ import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
@@ -43,32 +46,39 @@ public class MultiGraphRequestTest extends RequestTest {
 		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
 		// Make the call
-		MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
-		MultiGraphResponse response = request.get();
+		MultiGraphJsonResponse response = MultiGraphRequest.executeRequestJson(mockClient, getTravelOptions());
 
 		// Check result
 		assertEquals("ok", response.getCode());
-		assertEquals(374, response.getRequestTimeMillis());
+		assertEquals(13, response.getRequestTimeMillis());
 
-		assertNotNull(response.getData());
+        assertNotNull(response.getData());
+		assertNotNull(response.getData().getNodes());
+        assertFalse(response.getData().getNodes().isEmpty());
+        assertNotNull(response.getData().getLayers());
+        assertFalse(response.getData().getLayers().isEmpty());
+        assertNotNull(response.getData().getEdges());
+        assertFalse(response.getData().getEdges().isEmpty());
+        assertNotNull(response.getData().getSupportingPoints());
+        assertFalse(response.getData().getSupportingPoints().isEmpty());
 	}
 
 	@Test
 	public void get_gateway_timeout() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
-		MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
-		MultiGraphResponse response = request.get();
+        // Make the call
+        MultiGraphResponse response = MultiGraphRequest.executeRequestJson(mockClient, getTravelOptions());
 
-		assertEquals("gateway-time-out", response.getCode());
+        assertEquals("gateway-time-out", response.getCode());
 	}
 
 	@Test(expected = Route360ClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
-        MultiGraphRequest request = new MultiGraphRequest(mockClient, getTravelOptions());
-        request.get();
+        // Make the call
+        MultiGraphRequest.executeRequestJson(mockClient, getTravelOptions());
 	}
 
 	private TravelOptions getTravelOptions() {
@@ -79,7 +89,8 @@ public class MultiGraphRequestTest extends RequestTest {
 		options.setEdgeWeightType(EdgeWeightType.TIME);
 		options.setMaxEdgeWeight(300);
 		options.setTravelType(TravelType.BIKE);
-		options.setDecimalPrecision(5);
+		options.setMultiGraphSerializationDecimalPrecision(5);
+        options.setMultiGraphSerializationType(MultiGraphSerializationType.JSON);
 		return options;
 	}
 
@@ -94,8 +105,7 @@ public class MultiGraphRequestTest extends RequestTest {
         travelOptions.setMultiGraphSerializationType(MultiGraphSerializationType.GEOJSON);
         for(int maxEdgeWeight = 1800; maxEdgeWeight <= 7200; maxEdgeWeight += 1800) {
             travelOptions.setMaxEdgeWeight(maxEdgeWeight);
-            MultiGraphRequest request = new MultiGraphRequest(client, travelOptions);
-            MultiGraphResponse response = request.get();
+            MultiGraphGeoJsonResponse response = MultiGraphRequest.executeRequestGeoJson(client, getTravelOptions());
             try(  PrintWriter out = new PrintWriter( travelOptions.getTravelType() + Integer.toString(maxEdgeWeight) + ".geojson" )  ){
                 out.println( new ObjectMapper().writeValueAsString(response.getData()) );
             }

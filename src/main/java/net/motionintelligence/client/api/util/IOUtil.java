@@ -1,5 +1,6 @@
 package net.motionintelligence.client.api.util;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
@@ -28,6 +29,7 @@ public final class IOUtil {
 	public static <T> T cloneObjects(T object, Class<T> clazz){
 		try {
 			ObjectMapper om = new ObjectMapper();
+			om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			return om.readValue(om.writeValueAsString(object), clazz);
 		} catch (IOException e) {
 			throw new Route360ClientRuntimeException("Could not duplicate travel options due to: " + e.getMessage());

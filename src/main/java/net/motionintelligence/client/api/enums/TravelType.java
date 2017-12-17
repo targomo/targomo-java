@@ -14,6 +14,8 @@ public enum TravelType {
 	BIKETRANSIT("biketransit"),
 	CAR("car");
 
+	//TODO EBIKE is missing
+
 	private String key;
 
 	TravelType(String key) {

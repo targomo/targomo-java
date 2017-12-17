@@ -241,7 +241,7 @@ public final class RequestConfigurator {
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
         switch (travelType) {
-            case TRANSIT:
+            case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
                 travelMode.put("frame", new JSONObject()
                         .put("time", travelOptions.getTime())
                         .put("date", travelOptions.getDate())
@@ -264,6 +264,7 @@ public final class RequestConfigurator {
                 break;
         }
 
+        //FIXME probably into TRANSIT
         travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
 
         return travelMode;

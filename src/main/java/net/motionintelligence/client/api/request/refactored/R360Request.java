@@ -1,6 +1,7 @@
 package net.motionintelligence.client.api.request.refactored;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.targomo.jackson.datatype.trove.TroveModule;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.exception.Route360ClientException;
@@ -32,7 +33,12 @@ import java.util.function.BiFunction;
 public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
 
     //TODO use logger
-    private static final Logger LOGGER      = LoggerFactory.getLogger(R360Request.class);
+    private static final Logger       LOGGER = LoggerFactory.getLogger(R360Request.class);
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    static {
+        MAPPER.registerModule(new TroveModule(-1));
+    }
 
     private final Class<R> clazz;
     private final String httpMethod;
@@ -158,7 +164,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
             long startParsing = System.currentTimeMillis();
             String resultString = IOUtil.getResultString(response);
             try {
-                R parsedResponse  = new ObjectMapper().readValue(resultString, clazz);
+                R parsedResponse  = MAPPER.readValue(resultString, clazz);
                 long parseTime = System.currentTimeMillis() - startParsing;
                 final String responseCode = parsedResponse.getCode();
                 if (Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals(responseCode)

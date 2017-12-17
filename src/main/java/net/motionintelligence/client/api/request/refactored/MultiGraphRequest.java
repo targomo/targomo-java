@@ -1,17 +1,18 @@
 package net.motionintelligence.client.api.request.refactored;
 
 import net.motionintelligence.client.api.TravelOptions;
+import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
+import net.motionintelligence.client.api.response.refactored.MultiGraphResponse.*;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
-import java.util.Map;
 
 /**
  * TODO update documentation
  */
-public class MultiGraphRequest extends R360Request<Map<String,Object>,Map<String,Object>,MultiGraphResponse> {
+public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360Request<R,R,MR> {
 
     private static final String HTTP_METHOD = HttpMethod.GET; //could also be HttpMethod.POST
     private static final String PATH = "v1/multigraph";
@@ -21,8 +22,8 @@ public class MultiGraphRequest extends R360Request<Map<String,Object>,Map<String
      * @param client Client to be used
      * @param travelOptions Travel options parameters
      */
-    public MultiGraphRequest(Client client, TravelOptions travelOptions) {
-        super(client,travelOptions,PATH,HTTP_METHOD,MultiGraphResponse.class);
+    public MultiGraphRequest(Client client, TravelOptions travelOptions,Class<MR> responseClass) {
+        super(client,travelOptions,PATH,HTTP_METHOD,responseClass);
     }
 
     /**
@@ -33,7 +34,35 @@ public class MultiGraphRequest extends R360Request<Map<String,Object>,Map<String
      * @return result of the request
      * @throws Route360ClientException id error occurred during request
      */
-    public static MultiGraphResponse executeRequest(TravelOptions travelOptions) throws Route360ClientException {
-        return R360Request.executeRequest(MultiGraphRequest::new,travelOptions);
+    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws Route360ClientException {
+        return R360Request.executeRequest(
+                (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class),
+                travelOptions);
+    }
+
+    /**
+     * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
+     * needs to be registered usually to the client to receive results.
+     *
+     * @param travelOptions Travel options parameters of this request
+     * @return result of the request
+     * @throws Route360ClientException id error occurred during request
+     */
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws Route360ClientException {
+        return R360Request.executeRequest(
+                (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphGeoJsonResponse.class),
+                travelOptions);
+    }
+
+    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws Route360ClientException {
+        if(!MultiGraphSerializationType.JSON.equals( travelOptions.getMultiGraphSerializationType() ))
+            throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
+        return new MultiGraphRequest<>(client,travelOptions,MultiGraphJsonResponse.class).get();
+    }
+
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws Route360ClientException {
+        if(!MultiGraphSerializationType.GEOJSON.equals( travelOptions.getMultiGraphSerializationType() ))
+            throw new IllegalArgumentException("MultiGraph serialization type GEOJSON must be requested to expect MultiGraphGeoJsonResponse");
+        return new MultiGraphRequest<>(client,travelOptions,MultiGraphGeoJsonResponse.class).get();
     }
 }
