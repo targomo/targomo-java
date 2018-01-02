@@ -246,6 +246,7 @@ public final class RequestConfigurator {
                         .put("time", travelOptions.getTime())
                         .put("date", travelOptions.getDate())
                         .put("duration", travelOptions.getFrame()));
+                //FIXME walkspeeds should be able to be defined here too
                 break;
             case WALK:
                 travelMode.put("speed", travelOptions.getWalkSpeed());

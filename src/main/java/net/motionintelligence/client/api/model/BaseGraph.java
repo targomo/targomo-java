@@ -30,6 +30,8 @@ public class BaseGraph implements Serializable {
     protected final TIntObjectMap<int[]> edges;
     protected final TIntObjectMap<double[][]> supportingPoints;
 
+
+
     public BaseGraph(long networkID) {
         this.networkID = networkID;
         this.nodes = new TIntObjectHashMap<>();

@@ -9,6 +9,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Configuration;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -24,15 +25,15 @@ public class SslClientGenerator {
 	 * Generate the default SSL client
 	 * @return Client
 	 */
-    public static Client initClient() {
+    public static Client initClient(Configuration conf) {
         SSLContext ctx;
         
 		try {
 			
 			ctx = SSLContext.getInstance("SSL");
 			ctx.init(null, certs, new SecureRandom());
-			
-			return ClientBuilder.newBuilder()
+
+			return (conf == null ? ClientBuilder.newBuilder() : ClientBuilder.newBuilder().withConfig(conf))
 					.hostnameVerifier(new TrustAllHostNameVerifier())
 					.sslContext(ctx)
 					.build();
@@ -41,6 +42,10 @@ public class SslClientGenerator {
 			
 			throw new Route360ClientRuntimeException("Exception generating SSL context.", e);
 		}
+    }
+
+    public static Client initClient() {
+        return initClient(null);
     }
 
     private static TrustManager[] certs = new TrustManager[]{

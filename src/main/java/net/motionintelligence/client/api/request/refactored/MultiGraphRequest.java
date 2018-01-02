@@ -7,6 +7,7 @@ import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse.*;
 
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 
 /**
@@ -34,7 +35,7 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
      * @return result of the request
      * @throws Route360ClientException id error occurred during request
      */
-    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws Route360ClientException {
+    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
         return R360Request.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class),
                 travelOptions);
@@ -48,19 +49,19 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
      * @return result of the request
      * @throws Route360ClientException id error occurred during request
      */
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws Route360ClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
         return R360Request.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphGeoJsonResponse.class),
                 travelOptions);
     }
 
-    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws Route360ClientException {
+    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
         if(!MultiGraphSerializationType.JSON.equals( travelOptions.getMultiGraphSerializationType() ))
             throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphJsonResponse.class).get();
     }
 
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws Route360ClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
         if(!MultiGraphSerializationType.GEOJSON.equals( travelOptions.getMultiGraphSerializationType() ))
             throw new IllegalArgumentException("MultiGraph serialization type GEOJSON must be requested to expect MultiGraphGeoJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphGeoJsonResponse.class).get();
