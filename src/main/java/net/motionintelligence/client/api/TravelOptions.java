@@ -178,39 +178,39 @@ public class TravelOptions implements Serializable {
     public void setId(Integer id) { this.id = id; }
 
     /**
-	 * 
+	 *
 	 * @return source coordinates array
 	 */
 	@JsonIgnore
 	public double[][] getSourceCoordinates() {
 		return getCoordinates(this.sources);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return target coordinates array
 	 */
 	@JsonIgnore
 	public double[][] getTargetCoordinates(){
 		return getCoordinates(this.targets);
 	}
-	
+
 	/**
 	 * Convert a map of Coordinate ID, Coordinate value into double arrays
 	 * @param points map of coordinates
 	 * @return coordinates array in the form of [[x0, y0], [x1, y1]]
 	 */
 	private double[][] getCoordinates(Map<String, Coordinate> points) {
-		
+
 		Coordinate[] pointList = points.values().toArray(new Coordinate[0]);
-		
+
 		double[][] coordinates = new double[points.size()][];
-		for ( int i = 0 ; i < points.size() ; i ++ ) 
+		for ( int i = 0 ; i < points.size() ; i ++ )
 			coordinates[i] = new double[]{pointList[i].getX(), pointList[i].getY()};
-		
+
 		return coordinates;
 	}
-	
+
 	/**
 	 * @return the sources
 	 */
@@ -235,9 +235,9 @@ public class TravelOptions implements Serializable {
 	public void setTargets(Map<String,Coordinate> targets) {
 		this.targets = targets;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param targets add all specified targets to the target map
 	 */
 	public void addAllTargets(Map<String,Coordinate> targets) {
@@ -247,7 +247,7 @@ public class TravelOptions implements Serializable {
 	public void addAllTargets(Collection<Coordinate> targets) {
 		this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
 	}
-	
+
 	/**
 	 * @return the bikeSpeed
 	 */
@@ -551,21 +551,21 @@ public class TravelOptions implements Serializable {
 	public void setServiceKey(String serviceKey) {
 		this.serviceKey = serviceKey;
 	}
-	
+
 	/**
 	 * @param source Source coordinate
 	 */
 	public void addSource(Coordinate source) {
 		this.sources.put(source.getId(), source);
 	}
-	
+
 	/**
 	 * @param target Target coordinate
 	 */
 	public void addTarget(Coordinate target) {
 		this.targets.put(target.getId(), target);
 	}
-	
+
 	private String toString(Collection<?> collection, int maxLen) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
@@ -764,25 +764,25 @@ public class TravelOptions implements Serializable {
         builder.append(interServiceKey);
 		return builder.toString();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param id ID of source Coordinate
 	 * @return Source coordinate
 	 */
 	public Coordinate getSource(String id) {
 		return this.sources.get(id);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param id ID of source Coordinate
 	 * @return Target coordinate
 	 */
 	public Coordinate getTarget(String id) {
 		return this.targets.get(id);
 	}
-	
+
 	public List<Short> getStatisticIds() {
 		return this.statisticIds;
 	}
@@ -798,7 +798,7 @@ public class TravelOptions implements Serializable {
 	public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
 		this.onlyPrintReachablePoints = onlyPrintReachablePoints;
 	}
-	
+
 	public boolean getOnlyPrintReachablePoints() {
 		return onlyPrintReachablePoints;
 	}
@@ -864,7 +864,7 @@ public class TravelOptions implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Append travel times setting
 	 */
 	public Boolean getAppendTravelTimes() {
