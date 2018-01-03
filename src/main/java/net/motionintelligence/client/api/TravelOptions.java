@@ -379,37 +379,37 @@ public class TravelOptions implements Serializable {
 		this.minPolygonHoleSize = minPolygonHoleSize;
 	}
 	/**
-	 * @return the time
+	 * @return the time as seconds of the day
 	 */
 	public int getTime() {
 		return time;
 	}
 	/**
-	 * @param time the time to set
+	 * @param time seconds of the day
 	 */
 	public void setTime(Integer time) {
 		this.time = time;
 	}
 	/**
-	 * @return the date
+	 * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
 	 */
 	public int getDate() {
 		return date;
 	}
 	/**
-	 * @param date the date to set
+	 * @param date the date to set as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
 	 */
 	public void setDate(Integer date) {
 		this.date = date;
 	}
 	/**
-	 * @return the frame
+	 * @return the frame, which is the length of the time interval to search for transit connections, in seconds
 	 */
 	public int getFrame() {
 		return frame;
 	}
 	/**
-	 * @param frame the frame to set
+	 * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
 	 */
 	public void setFrame(int frame) {
 		this.frame = frame;
