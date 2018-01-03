@@ -212,41 +212,78 @@ public class TravelOptions implements Serializable {
 	}
 
 	/**
-	 * @return the sources
+	 * @return the sources as Map from ID to location
 	 */
 	public Map<String, Coordinate> getSources() {
 		return sources;
 	}
-	/**
-	 * @param sources the sources to set
-	 */
-	public void setSources(Map<String, Coordinate> sources) {
-		this.sources = sources;
-	}
-	/**
-	 * @return the targets
-	 */
-	public Map<String, Coordinate> getTargets() {
-		return targets;
-	}
-	/**
-	 * @param targets the targets to set
-	 */
-	public void setTargets(Map<String,Coordinate> targets) {
-		this.targets = targets;
-	}
 
-	/**
-	 *
-	 * @param targets add all specified targets to the target map
-	 */
-	public void addAllTargets(Map<String,Coordinate> targets) {
-		this.targets.putAll(targets);
-	}
+    /**
+     * <p>
+     * Set sources as Map from IDs to location.
+     * </p>
+     * <p>
+     * When using the Time Service the IDs have to be unique and non-empty,
+     * possibly generated. The same ID has to be used on the Coordinate itself
+     * and as key in the map.
+     * </p>
+     * <p>
+     * The Time Service simply returns the same IDs and doesn't care whether
+     * they are unique or even null. But the answer just contains the IDs and
+     * the time response. To be able to reconstruct a Map containing coordinates
+     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
+     * performed on this map stored in the travel options.
+     * </p>
+     *
+     * @param sources Map from ID to location
+     */
+    public void setSources(Map<String, Coordinate> sources) {
+        this.sources = sources;
+    }
 
-	public void addAllTargets(Collection<Coordinate> targets) {
-		this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
-	}
+    /**
+     * @return the targets as Map from ID to location
+     */
+    public Map<String, Coordinate> getTargets() {
+        return targets;
+    }
+
+    /**
+     * <p>
+     * Set sources as Map from IDs to location.
+     * </p>
+     * <p>
+     * When using the Time Service the IDs have to be unique and non-empty,
+     * possibly generated. The same ID has to be used on the Coordinate itself
+     * and as key in the map.
+     * </p>
+     * <p>
+     * The Time Service simply returns the same IDs and doesn't care whether
+     * they are unique or even null. But the answer just contains the IDs and
+     * the time response. To be able to reconstruct a Map containing coordinates
+     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
+     * performed on this map stored in the travel options.
+     * </p>
+     *
+     * @param targets Map from ID to location
+     */
+    public void setTargets(Map<String,Coordinate> targets) {
+        this.targets = targets;
+    }
+
+    /**
+     * @param targets add all specified targets to the target map
+     */
+    public void addAllTargets(Map<String,Coordinate> targets) {
+        this.targets.putAll(targets);
+    }
+
+   /**
+    * @param targets add all specified targets to the target map using their ID as key
+    */
+    public void addAllTargets(Collection<Coordinate> targets) {
+        this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
+    }
 
 	/**
 	 * @return the bikeSpeed
