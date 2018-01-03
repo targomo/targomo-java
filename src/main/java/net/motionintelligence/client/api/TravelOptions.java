@@ -178,76 +178,113 @@ public class TravelOptions implements Serializable {
     public void setId(Integer id) { this.id = id; }
 
     /**
-	 * 
+	 *
 	 * @return source coordinates array
 	 */
 	@JsonIgnore
 	public double[][] getSourceCoordinates() {
 		return getCoordinates(this.sources);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return target coordinates array
 	 */
 	@JsonIgnore
 	public double[][] getTargetCoordinates(){
 		return getCoordinates(this.targets);
 	}
-	
+
 	/**
 	 * Convert a map of Coordinate ID, Coordinate value into double arrays
 	 * @param points map of coordinates
 	 * @return coordinates array in the form of [[x0, y0], [x1, y1]]
 	 */
 	private double[][] getCoordinates(Map<String, Coordinate> points) {
-		
+
 		Coordinate[] pointList = points.values().toArray(new Coordinate[0]);
-		
+
 		double[][] coordinates = new double[points.size()][];
-		for ( int i = 0 ; i < points.size() ; i ++ ) 
+		for ( int i = 0 ; i < points.size() ; i ++ )
 			coordinates[i] = new double[]{pointList[i].getX(), pointList[i].getY()};
-		
+
 		return coordinates;
 	}
-	
+
 	/**
-	 * @return the sources
+	 * @return the sources as Map from ID to location
 	 */
 	public Map<String, Coordinate> getSources() {
 		return sources;
 	}
-	/**
-	 * @param sources the sources to set
-	 */
-	public void setSources(Map<String, Coordinate> sources) {
-		this.sources = sources;
-	}
-	/**
-	 * @return the targets
-	 */
-	public Map<String, Coordinate> getTargets() {
-		return targets;
-	}
-	/**
-	 * @param targets the targets to set
-	 */
-	public void setTargets(Map<String,Coordinate> targets) {
-		this.targets = targets;
-	}
-	
-	/**
-	 * 
-	 * @param targets add all specified targets to the target map
-	 */
-	public void addAllTargets(Map<String,Coordinate> targets) {
-		this.targets.putAll(targets);
-	}
 
-	public void addAllTargets(Collection<Coordinate> targets) {
-		this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
-	}
-	
+    /**
+     * <p>
+     * Set sources as Map from IDs to location.
+     * </p>
+     * <p>
+     * When using the Time Service the IDs have to be unique and non-empty,
+     * possibly generated. The same ID has to be used on the Coordinate itself
+     * and as key in the map.
+     * </p>
+     * <p>
+     * The Time Service simply returns the same IDs and doesn't care whether
+     * they are unique or even null. But the answer just contains the IDs and
+     * the time response. To be able to reconstruct a Map containing coordinates
+     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
+     * performed on this map stored in the travel options.
+     * </p>
+     *
+     * @param sources Map from ID to location
+     */
+    public void setSources(Map<String, Coordinate> sources) {
+        this.sources = sources;
+    }
+
+    /**
+     * @return the targets as Map from ID to location
+     */
+    public Map<String, Coordinate> getTargets() {
+        return targets;
+    }
+
+    /**
+     * <p>
+     * Set sources as Map from IDs to location.
+     * </p>
+     * <p>
+     * When using the Time Service the IDs have to be unique and non-empty,
+     * possibly generated. The same ID has to be used on the Coordinate itself
+     * and as key in the map.
+     * </p>
+     * <p>
+     * The Time Service simply returns the same IDs and doesn't care whether
+     * they are unique or even null. But the answer just contains the IDs and
+     * the time response. To be able to reconstruct a Map containing coordinates
+     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
+     * performed on this map stored in the travel options.
+     * </p>
+     *
+     * @param targets Map from ID to location
+     */
+    public void setTargets(Map<String,Coordinate> targets) {
+        this.targets = targets;
+    }
+
+    /**
+     * @param targets add all specified targets to the target map
+     */
+    public void addAllTargets(Map<String,Coordinate> targets) {
+        this.targets.putAll(targets);
+    }
+
+   /**
+    * @param targets add all specified targets to the target map using their ID as key
+    */
+    public void addAllTargets(Collection<Coordinate> targets) {
+        this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
+    }
+
 	/**
 	 * @return the bikeSpeed
 	 */
@@ -379,37 +416,37 @@ public class TravelOptions implements Serializable {
 		this.minPolygonHoleSize = minPolygonHoleSize;
 	}
 	/**
-	 * @return the time
+	 * @return the time as seconds of the day
 	 */
 	public int getTime() {
 		return time;
 	}
 	/**
-	 * @param time the time to set
+	 * @param time seconds of the day
 	 */
 	public void setTime(Integer time) {
 		this.time = time;
 	}
 	/**
-	 * @return the date
+	 * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
 	 */
 	public int getDate() {
 		return date;
 	}
 	/**
-	 * @param date the date to set
+	 * @param date the date to set as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
 	 */
 	public void setDate(Integer date) {
 		this.date = date;
 	}
 	/**
-	 * @return the frame
+	 * @return the frame, which is the length of the time interval to search for transit connections, in seconds
 	 */
 	public int getFrame() {
 		return frame;
 	}
 	/**
-	 * @param frame the frame to set
+	 * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
 	 */
 	public void setFrame(int frame) {
 		this.frame = frame;
@@ -551,21 +588,21 @@ public class TravelOptions implements Serializable {
 	public void setServiceKey(String serviceKey) {
 		this.serviceKey = serviceKey;
 	}
-	
+
 	/**
 	 * @param source Source coordinate
 	 */
 	public void addSource(Coordinate source) {
 		this.sources.put(source.getId(), source);
 	}
-	
+
 	/**
 	 * @param target Target coordinate
 	 */
 	public void addTarget(Coordinate target) {
 		this.targets.put(target.getId(), target);
 	}
-	
+
 	private String toString(Collection<?> collection, int maxLen) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
@@ -764,25 +801,25 @@ public class TravelOptions implements Serializable {
         builder.append(interServiceKey);
 		return builder.toString();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param id ID of source Coordinate
 	 * @return Source coordinate
 	 */
 	public Coordinate getSource(String id) {
 		return this.sources.get(id);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param id ID of source Coordinate
 	 * @return Target coordinate
 	 */
 	public Coordinate getTarget(String id) {
 		return this.targets.get(id);
 	}
-	
+
 	public List<Short> getStatisticIds() {
 		return this.statisticIds;
 	}
@@ -798,7 +835,7 @@ public class TravelOptions implements Serializable {
 	public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
 		this.onlyPrintReachablePoints = onlyPrintReachablePoints;
 	}
-	
+
 	public boolean getOnlyPrintReachablePoints() {
 		return onlyPrintReachablePoints;
 	}
@@ -864,7 +901,7 @@ public class TravelOptions implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Append travel times setting
 	 */
 	public Boolean getAppendTravelTimes() {
