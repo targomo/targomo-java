@@ -182,45 +182,45 @@ public class TravelOptions implements Serializable {
     public void setId(Integer id) { this.id = id; }
 
     /**
-	 *
-	 * @return source coordinates array
-	 */
-	@JsonIgnore
-	public double[][] getSourceCoordinates() {
-		return getCoordinates(this.sources);
-	}
+     *
+     * @return source coordinates array
+     */
+    @JsonIgnore
+    public double[][] getSourceCoordinates() {
+        return getCoordinates(this.sources);
+    }
 
-	/**
-	 *
-	 * @return target coordinates array
-	 */
-	@JsonIgnore
-	public double[][] getTargetCoordinates(){
-		return getCoordinates(this.targets);
-	}
+    /**
+     *
+     * @return target coordinates array
+     */
+    @JsonIgnore
+    public double[][] getTargetCoordinates(){
+        return getCoordinates(this.targets);
+    }
 
-	/**
-	 * Convert a map of Coordinate ID, Coordinate value into double arrays
-	 * @param points map of coordinates
-	 * @return coordinates array in the form of [[x0, y0], [x1, y1]]
-	 */
-	private double[][] getCoordinates(Map<String, Coordinate> points) {
+    /**
+     * Convert a map of Coordinate ID, Coordinate value into double arrays
+     * @param points map of coordinates
+     * @return coordinates array in the form of [[x0, y0], [x1, y1]]
+     */
+    private double[][] getCoordinates(Map<String, Coordinate> points) {
 
-		Coordinate[] pointList = points.values().toArray(new Coordinate[0]);
+        Coordinate[] pointList = points.values().toArray(new Coordinate[0]);
 
-		double[][] coordinates = new double[points.size()][];
-		for ( int i = 0 ; i < points.size() ; i ++ )
-			coordinates[i] = new double[]{pointList[i].getX(), pointList[i].getY()};
+        double[][] coordinates = new double[points.size()][];
+        for ( int i = 0 ; i < points.size() ; i ++ )
+            coordinates[i] = new double[]{pointList[i].getX(), pointList[i].getY()};
 
-		return coordinates;
-	}
+        return coordinates;
+    }
 
-	/**
-	 * @return the sources as Map from ID to location
-	 */
-	public Map<String, Coordinate> getSources() {
-		return sources;
-	}
+    /**
+     * @return the sources as Map from ID to location
+     */
+    public Map<String, Coordinate> getSources() {
+        return sources;
+    }
 
     /**
      * <p>
@@ -289,72 +289,72 @@ public class TravelOptions implements Serializable {
         this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
     }
 
-	/**
-	 * @return the bikeSpeed
-	 */
-	public double getBikeSpeed() {
-		return bikeSpeed;
-	}
-	/**
-	 * @param bikeSpeed the bikeSpeed to set
-	 */
-	public void setBikeSpeed(double bikeSpeed) {
-		this.bikeSpeed = bikeSpeed;
-	}
-	/**
-	 * @return the bikeUphill
-	 */
-	public double getBikeUphill() {
-		return bikeUphill;
-	}
-	/**
-	 * @param bikeUphill the bikeUphill to set
-	 */
-	public void setBikeUphill(double bikeUphill) {
-		this.bikeUphill = bikeUphill;
-	}
-	/**
-	 * @return the bikeDownhill
-	 */
-	public double getBikeDownhill() {
-		return bikeDownhill;
-	}
-	/**
-	 * @param bikeDownhill the bikeDownhill to set
-	 */
-	public void setBikeDownhill(double bikeDownhill) {
-		this.bikeDownhill = bikeDownhill;
-	}
-	/**
-	 * @return the walkSpeed
-	 */
-	public double getWalkSpeed() {
-		return walkSpeed;
-	}
-	/**
-	 * @param walkSpeed the walkSpeed to set
-	 */
-	public void setWalkSpeed(double walkSpeed) {
-		this.walkSpeed = walkSpeed;
-	}
-	/**
-	 * @return the walkUphill
-	 */
-	public double getWalkUphill() {
-		return walkUphill;
-	}
-	/**
-	 * @param walkUphill the walkUphill to set
-	 */
-	public void setWalkUphill(double walkUphill) {
-		this.walkUphill = walkUphill;
-	}
-	/**
-	 * @return the walkDownhill
-	 */
-	public double getWalkDownhill() {
-		return walkDownhill;
-	}
+    /**
+     * @return the bikeSpeed
+     */
+    public double getBikeSpeed() {
+        return bikeSpeed;
+    }
+    /**
+     * @param bikeSpeed the bikeSpeed to set
+     */
+    public void setBikeSpeed(double bikeSpeed) {
+        this.bikeSpeed = bikeSpeed;
+    }
+    /**
+     * @return the bikeUphill
+     */
+    public double getBikeUphill() {
+        return bikeUphill;
+    }
+    /**
+     * @param bikeUphill the bikeUphill to set
+     */
+    public void setBikeUphill(double bikeUphill) {
+        this.bikeUphill = bikeUphill;
+    }
+    /**
+     * @return the bikeDownhill
+     */
+    public double getBikeDownhill() {
+        return bikeDownhill;
+    }
+    /**
+     * @param bikeDownhill the bikeDownhill to set
+     */
+    public void setBikeDownhill(double bikeDownhill) {
+        this.bikeDownhill = bikeDownhill;
+    }
+    /**
+     * @return the walkSpeed
+     */
+    public double getWalkSpeed() {
+        return walkSpeed;
+    }
+    /**
+     * @param walkSpeed the walkSpeed to set
+     */
+    public void setWalkSpeed(double walkSpeed) {
+        this.walkSpeed = walkSpeed;
+    }
+    /**
+     * @return the walkUphill
+     */
+    public double getWalkUphill() {
+        return walkUphill;
+    }
+    /**
+     * @param walkUphill the walkUphill to set
+     */
+    public void setWalkUphill(double walkUphill) {
+        this.walkUphill = walkUphill;
+    }
+    /**
+     * @return the walkDownhill
+     */
+    public double getWalkDownhill() {
+        return walkDownhill;
+    }
 
     /**
      * @param walkDownhill the walkDownhill to set
@@ -371,150 +371,150 @@ public class TravelOptions implements Serializable {
         return rushHour;
     }
 
-	/**
-	 * @return the travelTimes
-	 */
-	public List<Integer> getTravelTimes() {
-		return travelTimes;
-	}
-	/**
-	 * @param travelTimes the travelTimes to set
-	 */
-	public void setTravelTimes(List<Integer> travelTimes) {
-		this.travelTimes = travelTimes;
-	}
-	/**
-	 * @return the travelType
-	 */
-	public TravelType getTravelType() {
-		return travelType;
-	}
-	/**
-	 * @param travelType the travelType to set
-	 */
-	public void setTravelType(TravelType travelType) {
-		this.travelType = travelType;
-	}
-	/**
-	 * @return the elevationEnabled
-	 */
-	public Boolean isElevationEnabled() {
-		return elevationEnabled;
-	}
-	/**
-	 * @param elevationEnabled the elevationEnabled to set
-	 */
-	public void setElevationEnabled(Boolean elevationEnabled) {
-		this.elevationEnabled = elevationEnabled;
-	}
-	/**
-	 * @return the minPolygonHoleSize
-	 */
-	public long getMinPolygonHoleSize() {
-		return minPolygonHoleSize;
-	}
-	/**
-	 * @param minPolygonHoleSize the minPolygonHoleSize to set
-	 */
-	public void setMinPolygonHoleSize(long minPolygonHoleSize) {
-		this.minPolygonHoleSize = minPolygonHoleSize;
-	}
-	/**
-	 * @return the time as seconds of the day
-	 */
-	public int getTime() {
-		return time;
-	}
-	/**
-	 * @param time seconds of the day
-	 */
-	public void setTime(Integer time) {
-		this.time = time;
-	}
-	/**
-	 * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
-	 */
-	public int getDate() {
-		return date;
-	}
-	/**
-	 * @param date the date to set as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
-	 */
-	public void setDate(Integer date) {
-		this.date = date;
-	}
-	/**
-	 * @return the frame, which is the length of the time interval to search for transit connections, in seconds
-	 */
-	public int getFrame() {
-		return frame;
-	}
-	/**
-	 * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
-	 */
-	public void setFrame(int frame) {
-		this.frame = frame;
-	}
-	/**
-	 * @return the recommendations
-	 */
-	public int getRecommendations() {
-		return recommendations;
-	}
-	/**
-	 * @param recommendations the recommendations to set
-	 */
-	public void setRecommendations(int recommendations) {
-		this.recommendations = recommendations;
-	}
-	/**
-	 * @return the intersectionMode
-	 */
-	public PolygonIntersectionMode getIntersectionMode() {
-		return intersectionMode;
-	}
-	/**
-	 * @param intersectionMode the intersectionMode to set. Default: UNION
-	 */
-	public void setIntersectionMode(PolygonIntersectionMode intersectionMode) {
-		this.intersectionMode = intersectionMode;
-	}
-	/**
-	 * @return the pathSerializer
-	 */
-	public PathSerializerType getPathSerializer() {
-		return pathSerializer;
-	}
-	/**
-	 * @param pathSerializer the pathSerializer to set. Default: COMPACT
-	 */
-	public void setPathSerializer(PathSerializerType pathSerializer) {
-		this.pathSerializer = pathSerializer;
-	}
-	/**
-	 * @return the polygonSerializerType
-	 */
-	public PolygonSerializerType getPolygonSerializerType() {
-		return polygonSerializerType;
-	}
-	/**
-	 * @param polygonSerializerType the polygonSerializerType to set. Default: JSON
-	 */
-	public void setPolygonSerializerType(PolygonSerializerType polygonSerializerType) {
-		this.polygonSerializerType = polygonSerializerType;
-	}
-	/**
-	 * @return the pointReduction
-	 */
-	public boolean isPointReduction() {
-		return pointReduction;
-	}
-	/**
-	 * @param pointReduction the pointReduction to set. Default: true
-	 */
-	public void setPointReduction(boolean pointReduction) {
-		this.pointReduction = pointReduction;
-	}
+    /**
+     * @return the travelTimes
+     */
+    public List<Integer> getTravelTimes() {
+        return travelTimes;
+    }
+    /**
+     * @param travelTimes the travelTimes to set
+     */
+    public void setTravelTimes(List<Integer> travelTimes) {
+        this.travelTimes = travelTimes;
+    }
+    /**
+     * @return the travelType
+     */
+    public TravelType getTravelType() {
+        return travelType;
+    }
+    /**
+     * @param travelType the travelType to set
+     */
+    public void setTravelType(TravelType travelType) {
+        this.travelType = travelType;
+    }
+    /**
+     * @return the elevationEnabled
+     */
+    public Boolean isElevationEnabled() {
+        return elevationEnabled;
+    }
+    /**
+     * @param elevationEnabled the elevationEnabled to set
+     */
+    public void setElevationEnabled(Boolean elevationEnabled) {
+        this.elevationEnabled = elevationEnabled;
+    }
+    /**
+     * @return the minPolygonHoleSize
+     */
+    public long getMinPolygonHoleSize() {
+        return minPolygonHoleSize;
+    }
+    /**
+     * @param minPolygonHoleSize the minPolygonHoleSize to set
+     */
+    public void setMinPolygonHoleSize(long minPolygonHoleSize) {
+        this.minPolygonHoleSize = minPolygonHoleSize;
+    }
+    /**
+     * @return the time as seconds of the day
+     */
+    public int getTime() {
+        return time;
+    }
+    /**
+     * @param time seconds of the day
+     */
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+    /**
+     * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
+     */
+    public int getDate() {
+        return date;
+    }
+    /**
+     * @param date the date to set as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
+     */
+    public void setDate(Integer date) {
+        this.date = date;
+    }
+    /**
+     * @return the frame, which is the length of the time interval to search for transit connections, in seconds
+     */
+    public int getFrame() {
+        return frame;
+    }
+    /**
+     * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
+     */
+    public void setFrame(int frame) {
+        this.frame = frame;
+    }
+    /**
+     * @return the recommendations
+     */
+    public int getRecommendations() {
+        return recommendations;
+    }
+    /**
+     * @param recommendations the recommendations to set
+     */
+    public void setRecommendations(int recommendations) {
+        this.recommendations = recommendations;
+    }
+    /**
+     * @return the intersectionMode
+     */
+    public PolygonIntersectionMode getIntersectionMode() {
+        return intersectionMode;
+    }
+    /**
+     * @param intersectionMode the intersectionMode to set. Default: UNION
+     */
+    public void setIntersectionMode(PolygonIntersectionMode intersectionMode) {
+        this.intersectionMode = intersectionMode;
+    }
+    /**
+     * @return the pathSerializer
+     */
+    public PathSerializerType getPathSerializer() {
+        return pathSerializer;
+    }
+    /**
+     * @param pathSerializer the pathSerializer to set. Default: COMPACT
+     */
+    public void setPathSerializer(PathSerializerType pathSerializer) {
+        this.pathSerializer = pathSerializer;
+    }
+    /**
+     * @return the polygonSerializerType
+     */
+    public PolygonSerializerType getPolygonSerializerType() {
+        return polygonSerializerType;
+    }
+    /**
+     * @param polygonSerializerType the polygonSerializerType to set. Default: JSON
+     */
+    public void setPolygonSerializerType(PolygonSerializerType polygonSerializerType) {
+        this.polygonSerializerType = polygonSerializerType;
+    }
+    /**
+     * @return the pointReduction
+     */
+    public boolean isPointReduction() {
+        return pointReduction;
+    }
+    /**
+     * @param pointReduction the pointReduction to set. Default: true
+     */
+    public void setPointReduction(boolean pointReduction) {
+        this.pointReduction = pointReduction;
+    }
 
     /**
      * This function will be removed in a future release.
@@ -568,57 +568,57 @@ public class TravelOptions implements Serializable {
         this.edgeWeightType = EdgeWeightType.DISTANCE;
     }
 
-	/**
-	 * @return the serviceUrl
-	 */
-	public String getServiceUrl() {
-		return serviceUrl;
-	}
-	/**
-	 * @param serviceUrl the serviceUrl to set
-	 */
-	public void setServiceUrl(String serviceUrl) {
-		this.serviceUrl = serviceUrl;
-	}
-	/**
-	 * @return the serviceKey
-	 */
-	public String getServiceKey() {
-		return serviceKey;
-	}
-	/**
-	 * @param serviceKey the serviceKey to set
-	 */
-	public void setServiceKey(String serviceKey) {
-		this.serviceKey = serviceKey;
-	}
+    /**
+     * @return the serviceUrl
+     */
+    public String getServiceUrl() {
+        return serviceUrl;
+    }
+    /**
+     * @param serviceUrl the serviceUrl to set
+     */
+    public void setServiceUrl(String serviceUrl) {
+        this.serviceUrl = serviceUrl;
+    }
+    /**
+     * @return the serviceKey
+     */
+    public String getServiceKey() {
+        return serviceKey;
+    }
+    /**
+     * @param serviceKey the serviceKey to set
+     */
+    public void setServiceKey(String serviceKey) {
+        this.serviceKey = serviceKey;
+    }
 
-	/**
-	 * @param source Source coordinate
-	 */
-	public void addSource(Coordinate source) {
-		this.sources.put(source.getId(), source);
-	}
+    /**
+     * @param source Source coordinate
+     */
+    public void addSource(Coordinate source) {
+        this.sources.put(source.getId(), source);
+    }
 
-	/**
-	 * @param target Target coordinate
-	 */
-	public void addTarget(Coordinate target) {
-		this.targets.put(target.getId(), target);
-	}
+    /**
+     * @param target Target coordinate
+     */
+    public void addTarget(Coordinate target) {
+        this.targets.put(target.getId(), target);
+    }
 
-	private String toString(Collection<?> collection, int maxLen) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("[");
-		int i = 0;
-		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
-			if (i > 0)
-				builder.append(", ");
-			builder.append(iterator.next());
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    private String toString(Collection<?> collection, int maxLen) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+            if (i > 0)
+                builder.append(", ");
+            builder.append(iterator.next());
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
     //excluding id
     @Override
@@ -815,71 +815,48 @@ public class TravelOptions implements Serializable {
         builder.append(overpassServiceUrl);
         builder.append("\n\tinterServiceKey: ");
         builder.append(interServiceKey);
-		return builder.toString();
-	}
-
-	/**
-	 *
-	 * @param id ID of source Coordinate
-	 * @return Source coordinate
-	 */
-	public Coordinate getSource(String id) {
-		return this.sources.get(id);
-	}
-
-	/**
-	 *
-	 * @param id ID of source Coordinate
-	 * @return Target coordinate
-	 */
-	public Coordinate getTarget(String id) {
-		return this.targets.get(id);
-	}
-
-	public List<Short> getStatisticIds() {
-		return this.statisticIds;
-	}
-
-    public Format getFormat() {
-        return format;
+        builder.append("\n\tformat: ");
+        builder.append(format);
+        builder.append("\n\tboundingBox: ");
+        builder.append(boundingBox);
+        builder.append("\n\ttravelTypes: ");
+        builder.append(travelTypes != null ? toString(travelTypes, maxLen) : null );
+        builder.append("\n\tosmTypes: ");
+        builder.append(osmTypes != null ? toString(osmTypes, maxLen) : null);
+        builder.append("\n\tcustomPois: ");
+        builder.append(customPois != null ? toString(customPois, maxLen) : null);
+        builder.append("\n}\n");
+        return builder.toString();
     }
 
-	/**
-	 * Determines whether to return only reachable points or all
-	 * @param onlyPrintReachablePoints default: true
-	 */
-	public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
-		this.onlyPrintReachablePoints = onlyPrintReachablePoints;
-	}
-
-	public boolean getOnlyPrintReachablePoints() {
-		return onlyPrintReachablePoints;
-	}
-
     /**
-     * 
+     *
      * @param id ID of source Coordinate
      * @return Source coordinate
      */
     public Coordinate getSource(String id) {
         return this.sources.get(id);
     }
-    
+
     /**
-     * 
+     *
      * @param id ID of source Coordinate
      * @return Target coordinate
      */
     public Coordinate getTarget(String id) {
         return this.targets.get(id);
     }
-    
+
     public List<Short> getStatisticIds() {
         return this.statisticIds;
     }
 
-    public void setStatisticIds(List<Short> statisticIds) {
-        this.statisticIds = statisticIds ;
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
     }
 
     /**
@@ -889,9 +866,13 @@ public class TravelOptions implements Serializable {
     public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
         this.onlyPrintReachablePoints = onlyPrintReachablePoints;
     }
-    
+
     public boolean getOnlyPrintReachablePoints() {
         return onlyPrintReachablePoints;
+    }
+
+    public void setStatisticIds(List<Short> statisticIds) {
+        this.statisticIds = statisticIds ;
     }
 
     /**
@@ -954,13 +935,17 @@ public class TravelOptions implements Serializable {
         this.decimalPrecision = decimalPrecision;
     }
 
-	/**
-	 *
-	 * @return Append travel times setting
-	 */
-	public Boolean getAppendTravelTimes() {
-		return this.appendTravelTimes;
-	}
+    /**
+     *
+     * @return Append travel times setting
+     */
+    public Boolean getAppendTravelTimes() {
+        return this.appendTravelTimes;
+    }
+
+    public List<Integer> getMultiGraphEdgeClasses() {
+        return multiGraphEdgeClasses;
+    }
 
     public void setMultiGraphEdgeClasses(List<Integer> multiGraphEdgeClasses) {
         this.multiGraphEdgeClasses = multiGraphEdgeClasses;
@@ -1060,14 +1045,6 @@ public class TravelOptions implements Serializable {
 
     public void setEdgeWeightType(final EdgeWeightType edgeWeightType) {
         this.edgeWeightType = edgeWeightType;
-    }
-
-    /**
-     * 
-     * @return Append travel times setting
-     */
-    public Boolean getAppendTravelTimes() {
-        return this.appendTravelTimes;
     }
 
     public void setAppendTravelTimes(Boolean appendTravelTimes) {
