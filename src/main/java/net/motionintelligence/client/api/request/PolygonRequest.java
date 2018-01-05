@@ -92,7 +92,7 @@ public class PolygonRequest {
 		long startTimeMillis = System.currentTimeMillis();
 
 		WebTarget request = client.target(travelOptions.getServiceUrl())
-				.path("v1/polygon" + (HttpMethod.POST.equals(method) ? "_post" : ""))
+				.path("v1/polygon")
 				.queryParam("cb", Constants.CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 
