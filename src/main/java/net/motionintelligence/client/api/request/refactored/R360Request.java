@@ -33,12 +33,8 @@ import java.util.function.BiFunction;
 public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
 
     //TODO use logger
-    private static final Logger       LOGGER = LoggerFactory.getLogger(R360Request.class);
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    static {
-        MAPPER.registerModule(new TroveModule(-1));
-    }
+    private static final Logger         LOGGER = LoggerFactory.getLogger(R360Request.class);
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     private final Class<R> clazz;
     private final String httpMethod;

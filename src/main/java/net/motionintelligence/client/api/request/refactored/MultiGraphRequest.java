@@ -1,5 +1,7 @@
 package net.motionintelligence.client.api.request.refactored;
 
+import com.targomo.jackson.datatype.trove.TroveModule;
+import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
@@ -17,6 +19,10 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
 
     private static final String HTTP_METHOD = HttpMethod.GET; //could also be HttpMethod.POST
     private static final String PATH = "v1/multigraph";
+
+    static {
+        MAPPER.registerModule(new TroveModule(Constants.NO_VALUE_ENTRY_TROVE_MAPS)); //required to properly deserialize MultiGraphs
+    }
 
     /**
      * Use custom client with specified travelOptions

@@ -2,6 +2,8 @@ package net.motionintelligence.client;
 
 public class Constants {
 
+    public static final int NO_VALUE_ENTRY_TROVE_MAPS = -1;
+
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
     public static final String MAX_ROUTING_TIME                                         = "maxRoutingTime";
