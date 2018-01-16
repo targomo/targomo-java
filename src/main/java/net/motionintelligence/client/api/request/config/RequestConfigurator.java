@@ -58,7 +58,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
-                    travelOptions.getMultiGraphLayerType())
+                    travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphEdgeAggregationType())
                     .anyMatch(Objects::nonNull))
                 JSONBuilder.append(config, Constants.MULTIGRAPH, getMultiGraphObject(travelOptions));
 
@@ -160,6 +160,8 @@ public final class RequestConfigurator {
         if ( travelOptions.getMultiGraphLayerType() != null )
             multigraph.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
+        if ( travelOptions.getMultiGraphEdgeAggregationType() != null )
+            multigraph.put(Constants.MULTIGRAPH_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphEdgeAggregationType().getKey());
 
         if( Stream.of(travelOptions.getMultiGraphSerializationType(), travelOptions.getMultiGraphSerializationSrid(),
                 travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges())

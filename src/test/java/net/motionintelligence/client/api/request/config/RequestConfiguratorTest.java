@@ -50,6 +50,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMaxResultValue(1000);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
             options.setMultiGraphLayerType(MultiGraphLayerType.PERVERTEX);
+            options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
