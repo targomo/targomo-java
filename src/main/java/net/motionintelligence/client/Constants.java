@@ -52,12 +52,12 @@ public class Constants {
 
     public static final String MULTIGRAPH                                           = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                              = "edgeClasses";
+    public static final String MULTIGRAPH_LAYER_TYPE                                = "layerType";
     public static final String MULTIGRAPH_SERIALIZATION                             = "serialization";
     public static final String MULTIGRAPH_SERIALIZATION_EDGES_INCLUDED              = "includeEdges";
     public static final String MULTIGRAPH_SERIALIZATION_SRID                        = "srid";
     public static final String MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION           = "decimalPrecision";
     public static final String MULTIGRAPH_SERIALIZATION_TYPE                        = "type";
-    public static final String MULTIGRAPH_SERIALIZATION_Layer_TYPE                  = "layerType";
     public static final String MULTIGRAPH_AGGREGATION                               = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                          = "type";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS               = "ignoreOutliers";

@@ -157,9 +157,12 @@ public final class RequestConfigurator {
         if ( travelOptions.getMultiGraphEdgeClasses() != null )
             multigraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
+        if ( travelOptions.getMultiGraphLayerType() != null )
+            multigraph.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
+
+
         if( Stream.of(travelOptions.getMultiGraphSerializationType(), travelOptions.getMultiGraphSerializationSrid(),
-                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges(),
-                travelOptions.getMultiGraphLayerType())
+                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges())
                 .anyMatch(Objects::nonNull) ) {
             JSONObject multigraphSerialization = new JSONObject();
 
@@ -174,9 +177,6 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
                 multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
-
-            if ( travelOptions.getMultiGraphLayerType() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_Layer_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
             multigraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
         }
