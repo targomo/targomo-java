@@ -57,7 +57,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphSerializationIncludeEdges(), travelOptions.getMultiGraphAggregationType(),
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
-                    travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio())
+                    travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
+                    travelOptions.getMultiGraphLayerType())
                     .anyMatch(Objects::nonNull))
                 JSONBuilder.append(config, Constants.MULTIGRAPH, getMultiGraphObject(travelOptions));
 
@@ -157,7 +158,8 @@ public final class RequestConfigurator {
             multigraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
         if( Stream.of(travelOptions.getMultiGraphSerializationType(), travelOptions.getMultiGraphSerializationSrid(),
-                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges())
+                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges(),
+                travelOptions.getMultiGraphLayerType())
                 .anyMatch(Objects::nonNull) ) {
             JSONObject multigraphSerialization = new JSONObject();
 
@@ -172,6 +174,9 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
                 multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
+
+            if ( travelOptions.getMultiGraphLayerType() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_Layer_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
             multigraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
         }
