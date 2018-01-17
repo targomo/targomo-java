@@ -2,10 +2,7 @@ package net.motionintelligence.client.api.request.config;
 
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.EdgeWeightType;
-import net.motionintelligence.client.api.enums.MultiGraphAggregationType;
-import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
-import net.motionintelligence.client.api.enums.TravelType;
+import net.motionintelligence.client.api.enums.*;
 import net.motionintelligence.client.api.geo.Coordinate;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
 import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
@@ -52,6 +49,8 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationMaxResultValue(1000);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
+            options.setMultiGraphLayerType(MultiGraphLayerType.PERVERTEX);
+            options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
