@@ -61,6 +61,13 @@ public class Constants {
     public static final String MULTIGRAPH_SERIALIZATION_TYPE                        = "type";
     public static final String MULTIGRAPH_AGGREGATION                               = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                          = "type";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                 = "none";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM              = "min";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM              = "max";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM                  = "sum";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN                 = "mean";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN               = "median";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST              = "nearest";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS               = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY               = "outlierPenalty";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO             = "minSourcesRatio";

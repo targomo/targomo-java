@@ -110,7 +110,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphAggregationMinSourcesCount             = null;
     @Transient private Double multiGraphAggregationMaxResultValueRatio          = null;
     @Transient private Integer multiGraphAggregationMaxResultValue              = null;
-    @Transient private MultiGraphLayerType multiGraphLayerType                  = null;
+    @Transient private MultiGraphLayerType multiGraphLayerType                  = MultiGraphLayerType.PERVERTEX;
     @Transient private MultiGraphEdgeAggregationType multiGraphEdgeAggregationType = null;
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
