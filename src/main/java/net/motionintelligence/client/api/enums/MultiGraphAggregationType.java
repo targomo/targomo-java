@@ -3,9 +3,8 @@ package net.motionintelligence.client.api.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import net.motionintelligence.client.Constants;
-import sun.plugin.dom.exception.InvalidStateException;
 
-import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 public enum MultiGraphAggregationType {
@@ -28,7 +27,7 @@ public enum MultiGraphAggregationType {
     public static MultiGraphAggregationType fromString(String key) {
         return key == null ? null : Stream.of(MultiGraphAggregationType.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
-                .orElseThrow(() -> new InvalidStateException("Invalid MultiGraphAggregationType specified: " + key + " doesn't exist"));
+                .orElseThrow(() -> new NoSuchElementException("Invalid MultiGraphAggregationType specified: " + key + " doesn't exist"));
     }
 
     @JsonValue
