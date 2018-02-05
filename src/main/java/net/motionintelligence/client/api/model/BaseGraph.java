@@ -37,6 +37,13 @@ public class BaseGraph implements Serializable {
         this.supportingPoints = new TIntObjectHashMap<>();
     }
 
+    public BaseGraph(BaseGraph source) {
+        this(source.getNetworkID(),
+                new TIntObjectHashMap<>(source.getNodes()),
+                new TIntObjectHashMap<>(source.getEdges()),
+                new TIntObjectHashMap<>(source.getSupportingPoints()));
+    }
+
     @JsonCreator
     public BaseGraph(@JsonProperty("networkID") long networkID,
                      @JsonProperty("nodes") TIntObjectMap<double[]> nodes,
