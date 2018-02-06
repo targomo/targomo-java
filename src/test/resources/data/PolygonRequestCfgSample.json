@@ -25,7 +25,8 @@
             "date": 20161020,
             "duration": 18000,
             "time": 55852
-          }
+          },
+          "maxTransfers": 2
         }
       },
       "id": "id1",
