@@ -55,8 +55,6 @@ public class Constants {
     public static final String MULTIGRAPH_LAYER_TYPE                                = "layerType";
     public static final String MULTIGRAPH_EDGE_AGGREGATION_TYPE                     = "edgeAggregationType";
     public static final String MULTIGRAPH_SERIALIZATION                             = "serialization";
-    public static final String MULTIGRAPH_SERIALIZATION_EDGES_INCLUDED              = "includeEdges";
-    public static final String MULTIGRAPH_SERIALIZATION_SRID                        = "srid";
     public static final String MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION           = "decimalPrecision";
     public static final String MULTIGRAPH_SERIALIZATION_TYPE                        = "type";
     public static final String MULTIGRAPH_AGGREGATION                               = "aggregation";

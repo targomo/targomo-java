@@ -53,8 +53,7 @@ public final class RequestConfigurator {
 
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
             if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationType(),
-                    travelOptions.getMultiGraphSerializationSrid(), travelOptions.getMultiGraphSerializationDecimalPrecision(),
-                    travelOptions.getMultiGraphSerializationIncludeEdges(), travelOptions.getMultiGraphAggregationType(),
+                    travelOptions.getMultiGraphSerializationDecimalPrecision(), travelOptions.getMultiGraphAggregationType(),
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
@@ -163,19 +162,12 @@ public final class RequestConfigurator {
         if ( travelOptions.getMultiGraphEdgeAggregationType() != null )
             multigraph.put(Constants.MULTIGRAPH_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphEdgeAggregationType().getKey());
 
-        if( Stream.of(travelOptions.getMultiGraphSerializationType(), travelOptions.getMultiGraphSerializationSrid(),
-                travelOptions.getMultiGraphSerializationDecimalPrecision(),travelOptions.getMultiGraphSerializationIncludeEdges())
-                .anyMatch(Objects::nonNull) ) {
+        if( Stream.of(travelOptions.getMultiGraphSerializationType(),
+                travelOptions.getMultiGraphSerializationDecimalPrecision()).anyMatch(Objects::nonNull) ) {
             JSONObject multigraphSerialization = new JSONObject();
 
             if ( travelOptions.getMultiGraphSerializationType() != null )
                 multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_TYPE, travelOptions.getMultiGraphSerializationType().getKey());
-
-            if ( travelOptions.getMultiGraphSerializationIncludeEdges() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_EDGES_INCLUDED, travelOptions.getMultiGraphSerializationIncludeEdges());
-
-            if ( travelOptions.getMultiGraphSerializationSrid() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_SRID, travelOptions.getMultiGraphSerializationSrid());
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
                 multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());

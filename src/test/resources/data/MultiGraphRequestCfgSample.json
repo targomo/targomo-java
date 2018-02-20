@@ -3,11 +3,11 @@
   "maxEdgeWeight": "300",
   "multigraph":{
     "edgeClasses": [11,12,16,18],
+    "layerType": "perEdge",
+    "edgeAggregationType": "min",
     "serialization":{
       "type":"json",
-      "decimalPrecision": 5,
-      "srid": 3857,
-      "includeEdges" : true
+      "decimalPrecision": 5
     },
     "aggregation":{
       "type": "none",

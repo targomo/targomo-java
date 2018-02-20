@@ -38,10 +38,10 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
+            options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
+            options.setMultiGraphLayerType(MultiGraphLayerType.PEREDGE);
             options.setMultiGraphSerializationType(MultiGraphSerializationType.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
-            options.setMultiGraphSerializationSrid(3857);
-            options.setMultiGraphSerializationIncludeEdges(true);
             options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
             options.setMultiGraphAggregationIgnoreOutlier(true);
             options.setMultiGraphAggregationOutlierPenalty(1000);
@@ -49,8 +49,6 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationMaxResultValue(1000);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
-            options.setMultiGraphLayerType(MultiGraphLayerType.PERVERTEX);
-            options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);

@@ -100,8 +100,6 @@ public class TravelOptions implements Serializable {
 
     @Transient private List<Integer> multiGraphEdgeClasses                      = null;
     @Transient private MultiGraphSerializationType multiGraphSerializationType  = null;
-    @Transient private Boolean multiGraphSerializationIncludeEdges              = null;
-    @Transient private Integer multiGraphSerializationSrid                      = null;
     @Transient private Integer multiGraphSerializationDecimalPrecision          = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType      = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutlier               = null;
@@ -657,8 +655,6 @@ public class TravelOptions implements Serializable {
                 polygonSerializerType == that.polygonSerializerType &&
                 Objects.equals(multiGraphEdgeClasses, that.multiGraphEdgeClasses) &&
                 multiGraphSerializationType == that.multiGraphSerializationType &&
-                Objects.equals(multiGraphSerializationIncludeEdges, that.multiGraphSerializationIncludeEdges) &&
-                Objects.equals(multiGraphSerializationSrid, that.multiGraphSerializationSrid) &&
                 Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
                 multiGraphAggregationType == that.multiGraphAggregationType &&
                 Objects.equals(multiGraphAggregationIgnoreOutlier, that.multiGraphAggregationIgnoreOutlier) &&
@@ -696,8 +692,8 @@ public class TravelOptions implements Serializable {
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType,
-                multiGraphEdgeClasses, multiGraphSerializationType, multiGraphSerializationIncludeEdges,
-                multiGraphSerializationSrid, multiGraphSerializationDecimalPrecision, multiGraphAggregationType,
+                multiGraphEdgeClasses, multiGraphSerializationType,
+                multiGraphSerializationDecimalPrecision, multiGraphAggregationType,
                 multiGraphAggregationIgnoreOutlier,  multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue, multiGraphLayerType,
@@ -774,10 +770,6 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphEdgeClasses);
         builder.append("\n\tmultiGraphSerializationType: ");
         builder.append(multiGraphSerializationType);
-        builder.append("\n\tmultiGraphSerializationIncludeEdges: ");
-        builder.append(multiGraphSerializationIncludeEdges);
-        builder.append("\n\tmultiGraphSerializationSrid: ");
-        builder.append(multiGraphSerializationSrid);
         builder.append("\n\tmultiGraphSerializationDecimalPrecision: ");
         builder.append(multiGraphSerializationDecimalPrecision);
         builder.append("\n\tmultiGraphAggregationType: ");
@@ -966,22 +958,6 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphSerializationType(MultiGraphSerializationType multiGraphSerializationType) {
         this.multiGraphSerializationType = multiGraphSerializationType;
-    }
-
-    public Boolean getMultiGraphSerializationIncludeEdges() {
-        return multiGraphSerializationIncludeEdges;
-    }
-
-    public void setMultiGraphSerializationIncludeEdges(Boolean multiGraphSerializationIncludeEdges) {
-        this.multiGraphSerializationIncludeEdges = multiGraphSerializationIncludeEdges;
-    }
-
-    public Integer getMultiGraphSerializationSrid() {
-        return multiGraphSerializationSrid;
-    }
-
-    public void setMultiGraphSerializationSrid(Integer multiGraphSerializationSrid) {
-        this.multiGraphSerializationSrid = multiGraphSerializationSrid;
     }
 
     public Integer getMultiGraphSerializationDecimalPrecision() {

@@ -16,10 +16,10 @@ public class MultiGraph extends BaseGraph {
     // the type of the layer: values per vertex or per edge
     private final MultiGraphLayerType layerType;
 
-    public MultiGraph(long networkID){
+    public MultiGraph(long networkID, MultiGraphLayerType multiGraphLayerType){
         super(networkID);
+        this.layerType = multiGraphLayerType;
         this.layers = new HashMap<>();
-        layerType = MultiGraphLayerType.PERVERTEX;
     }
 
     @JsonCreator
