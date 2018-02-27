@@ -169,6 +169,9 @@ public final class RequestConfigurator {
 						.put("time", travelOptions.getTime())
 						.put("date", travelOptions.getDate())
 						.put("duration", travelOptions.getFrame()));
+				if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
+				    travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
+                }
 				break;
 			case WALK:
 				travelMode.put("speed", travelOptions.getWalkSpeed());
