@@ -17,7 +17,7 @@ You also need to add a JAX-RS implementation of your choice.
 ## Release Notes
 
 ### 0.0.27
-- adds a small util that rewrites URLs to curl format
+- adds a small util that rewrites URLs to curl format (post or get)
 
 ### 0.0.26
 
