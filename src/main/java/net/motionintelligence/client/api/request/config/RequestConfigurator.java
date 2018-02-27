@@ -245,6 +245,9 @@ public final class RequestConfigurator {
                         .put("time", travelOptions.getTime())
                         .put("date", travelOptions.getDate())
                         .put("duration", travelOptions.getFrame()));
+                if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
+                    travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
+                }
                 //FIXME walkspeeds should be able to be defined here too
                 break;
             case WALK:

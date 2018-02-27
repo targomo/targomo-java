@@ -83,6 +83,7 @@ public class RequestConfiguratorTest {
             options.setTime(55852);
             options.setSrid(25833);
 	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
+            options.setMaxTransfers(2);
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
