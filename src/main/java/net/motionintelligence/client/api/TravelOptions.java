@@ -91,6 +91,9 @@ public class TravelOptions implements Serializable {
 	@Transient private Integer recommendations                      = 0;
 	@Transient private Integer srid                      			= null;
 
+	// maximum number of transfers when using public transportation
+    @Column(name = "max_transfers") private Integer maxTransfers    = null;
+
 	@Transient private Double buffer 								= null;
     @Transient private Double simplify 								= null;
     @Transient private PolygonIntersectionMode intersectionMode 	= PolygonIntersectionMode.UNION;
@@ -1000,5 +1003,13 @@ public class TravelOptions implements Serializable {
 
     public void setInterServiceKey(String interServiceKey) {
         this.interServiceKey = interServiceKey;
+    }
+
+    public Integer getMaxTransfers() {
+        return maxTransfers;
+    }
+
+    public void setMaxTransfers(Integer maxTransfers) {
+        this.maxTransfers = maxTransfers;
     }
 }
