@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
 import net.motionintelligence.client.api.enums.EdgeWeightType;
-import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
+import net.motionintelligence.client.api.enums.MultiGraphSerializationFormat;
 import net.motionintelligence.client.api.enums.TravelType;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
@@ -90,7 +90,7 @@ public class MultiGraphRequestTest extends RequestTest {
 		options.setMaxEdgeWeight(300);
 		options.setTravelType(TravelType.BIKE);
 		options.setMultiGraphSerializationDecimalPrecision(5);
-        options.setMultiGraphSerializationType(MultiGraphSerializationType.JSON);
+        options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
 		return options;
 	}
 
@@ -102,7 +102,7 @@ public class MultiGraphRequestTest extends RequestTest {
         client.register(GZipEncoder.class);
         TravelOptions travelOptions = getTravelOptions();
         travelOptions.setTravelType(TravelType.TRANSIT);
-        travelOptions.setMultiGraphSerializationType(MultiGraphSerializationType.GEOJSON);
+        travelOptions.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.GEOJSON);
         for(int maxEdgeWeight = 1800; maxEdgeWeight <= 7200; maxEdgeWeight += 1800) {
             travelOptions.setMaxEdgeWeight(maxEdgeWeight);
             MultiGraphGeoJsonResponse response = MultiGraphRequest.executeRequestGeoJson(client, getTravelOptions());
@@ -116,10 +116,11 @@ public class MultiGraphRequestTest extends RequestTest {
     @Ignore("System test - needs local R360 server to run - also a valid API_KEY needs to be set")
     public void geoJSONGZipped() throws Exception {
 
+	    //this tests writes the results into files
         Client client = SslClientGenerator.initClient();
         TravelOptions travelOptions = getTravelOptions();
         travelOptions.setTravelType(TravelType.BIKE);
-        travelOptions.setMultiGraphSerializationType(MultiGraphSerializationType.GEOJSON);
+        travelOptions.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.GEOJSON);
         for(int maxEdgeWeight = 1800; maxEdgeWeight <= 7200; maxEdgeWeight += 1800) {
             travelOptions.setMaxEdgeWeight(maxEdgeWeight);
 

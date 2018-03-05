@@ -52,13 +52,15 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
 
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
-            if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationType(),
+            if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(), travelOptions.getMultiGraphAggregationType(),
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphEdgeAggregationType())
-                    .anyMatch(Objects::nonNull))
+                    .anyMatch(Objects::nonNull) ||
+                    Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                            travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
                 JSONBuilder.append(config, Constants.MULTIGRAPH, getMultiGraphObject(travelOptions));
 
             if (travelOptions.getIntersectionMode() != null)
@@ -153,24 +155,37 @@ public final class RequestConfigurator {
 
         JSONObject multigraph = new JSONObject();
 
-        if ( travelOptions.getMultiGraphEdgeClasses() != null )
+        if( travelOptions.getMultiGraphEdgeClasses() != null )
             multigraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
-        if ( travelOptions.getMultiGraphLayerType() != null )
+        if( travelOptions.getMultiGraphLayerType() != null )
             multigraph.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
-        if ( travelOptions.getMultiGraphEdgeAggregationType() != null )
+        if( travelOptions.getMultiGraphEdgeAggregationType() != null )
             multigraph.put(Constants.MULTIGRAPH_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphEdgeAggregationType().getKey());
 
-        if( Stream.of(travelOptions.getMultiGraphSerializationType(),
+        if( Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull)) {
+
+            JSONObject multigraphTile = new JSONObject();
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_ZOOM, travelOptions.getMultiGraphTileZoom());
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_X, travelOptions.getMultiGraphTileX());
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_Y, travelOptions.getMultiGraphTileY());
+            multigraph.put( Constants.MULTIGRAPH_TILE, multigraphTile);
+        }
+
+        if( Stream.of(travelOptions.getMultiGraphSerializationFormat(),
                 travelOptions.getMultiGraphSerializationDecimalPrecision()).anyMatch(Objects::nonNull) ) {
             JSONObject multigraphSerialization = new JSONObject();
 
-            if ( travelOptions.getMultiGraphSerializationType() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_TYPE, travelOptions.getMultiGraphSerializationType().getKey());
+            if ( travelOptions.getMultiGraphSerializationFormat() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_FORMAT, travelOptions.getMultiGraphSerializationFormat().getKey());
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
                 multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
+
+            if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
 
             multigraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
         }

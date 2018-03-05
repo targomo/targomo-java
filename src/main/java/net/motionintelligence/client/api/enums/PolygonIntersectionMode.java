@@ -6,6 +6,8 @@ package net.motionintelligence.client.api.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Locale;
+
 /**
  * @author Daniel Gerber
  *
@@ -25,7 +27,7 @@ public enum PolygonIntersectionMode {
 
 	@JsonCreator
 	public static PolygonIntersectionMode fromString(String key) {
-		return key == null ? null : PolygonIntersectionMode.valueOf(key.toUpperCase());
+		return key == null ? null : PolygonIntersectionMode.valueOf(key.toUpperCase(Locale.ENGLISH));
 	}
 
 	@JsonValue

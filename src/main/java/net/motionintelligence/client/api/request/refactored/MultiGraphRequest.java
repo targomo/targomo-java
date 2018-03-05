@@ -3,7 +3,7 @@ package net.motionintelligence.client.api.request.refactored;
 import com.targomo.jackson.datatype.trove.TroveModule;
 import net.motionintelligence.client.Constants;
 import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.MultiGraphSerializationType;
+import net.motionintelligence.client.api.enums.MultiGraphSerializationFormat;
 import net.motionintelligence.client.api.exception.Route360ClientException;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
 import net.motionintelligence.client.api.response.refactored.MultiGraphResponse.*;
@@ -62,13 +62,13 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
     }
 
     public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
-        if(!MultiGraphSerializationType.JSON.equals( travelOptions.getMultiGraphSerializationType() ))
+        if(!MultiGraphSerializationFormat.JSON.equals( travelOptions.getMultiGraphSerializationFormat() ))
             throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphJsonResponse.class).get();
     }
 
     public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws Route360ClientException, ProcessingException {
-        if(!MultiGraphSerializationType.GEOJSON.equals( travelOptions.getMultiGraphSerializationType() ))
+        if(!MultiGraphSerializationFormat.GEOJSON.equals( travelOptions.getMultiGraphSerializationFormat() ))
             throw new IllegalArgumentException("MultiGraph serialization type GEOJSON must be requested to expect MultiGraphGeoJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphGeoJsonResponse.class).get();
     }

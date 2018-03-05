@@ -39,9 +39,13 @@ public class RequestConfiguratorTest {
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
             options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
-            options.setMultiGraphLayerType(MultiGraphLayerType.PEREDGE);
-            options.setMultiGraphSerializationType(MultiGraphSerializationType.JSON);
+            options.setMultiGraphTileZoom(5);
+            options.setMultiGraphTileX(3);
+            options.setMultiGraphTileY(103);
+            options.setMultiGraphLayerType(MultiGraphLayerType.EDGES);
+            options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
+            options.setMultiGraphSerializationMaxGeometryCount(100000);
             options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
             options.setMultiGraphAggregationIgnoreOutlier(true);
             options.setMultiGraphAggregationOutlierPenalty(1000);
@@ -57,6 +61,19 @@ public class RequestConfiguratorTest {
             // Load sample json & load object
             String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
+
+            // Compare two objects
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONObject(Constants.MULTIGRAPH));
+
+
+            //second test with tile discarded
+            options.setMultiGraphTileY(null); //only setting one value to null should cause the whole tile to be excluded
+            //remove the tile from the json String
+            sampleJson = sampleJson.replaceFirst("(\"tile\")([^<]*?)(\"serialization\")", "\"serialization\"" );
+
+            sampleObject = new JSONObject(sampleJson);
+            actualObject = new JSONObject(RequestConfigurator.getConfig(options));
 
             // Compare two objects
             assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
