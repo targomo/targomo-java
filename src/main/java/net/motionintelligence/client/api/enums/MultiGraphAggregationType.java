@@ -31,7 +31,7 @@ public enum MultiGraphAggregationType {
     public static MultiGraphAggregationType fromString(String key) {
         return key == null ? null : Stream.of(MultiGraphAggregationType.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Invalid " +
+                .orElseThrow(() -> new IllegalArgumentException("Invalid " +
                         MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
