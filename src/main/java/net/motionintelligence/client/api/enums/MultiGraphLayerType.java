@@ -9,16 +9,19 @@ import java.util.Locale;
 
 public enum MultiGraphLayerType {
 
-    NODES(Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODES,false),
-    EDGES(Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGES,true),
-    TILES(Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILES,false);
+    NODE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,      false,  false),
+    EDGE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,      true,   false),
+    TILE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,      false,  true),
+    HEXAGON (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,   false,  true);
 
     private String key;
     private boolean withEdges;
+    private boolean isGeometryMerge;
 
-    MultiGraphLayerType(String key, boolean withEdges) {
-        this.key = key;
-        this.withEdges = withEdges;
+    MultiGraphLayerType(String key, boolean withEdges, boolean isGeometryMerge) {
+        this.key             = key;
+        this.withEdges       = withEdges;
+        this.isGeometryMerge = isGeometryMerge;
     }
 
     @JsonCreator
@@ -34,6 +37,11 @@ public enum MultiGraphLayerType {
     @JsonIgnore
     public boolean isWithEdges() {
         return withEdges;
+    }
+
+    @JsonIgnore
+    public boolean isGeometryMerge() {
+        return isGeometryMerge;
     }
 
 }

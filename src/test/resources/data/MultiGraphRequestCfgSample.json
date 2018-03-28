@@ -3,7 +3,7 @@
   "maxEdgeWeight": "300",
   "multigraph":{
     "edgeClasses": [11,12,16,18],
-    "layerType": "edges",
+    "layerType": "edge",
     "edgeAggregationType": "min",
     "tile":{
       "zoom": 5,

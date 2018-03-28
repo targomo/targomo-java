@@ -53,9 +53,10 @@ public class Constants {
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
     public static final String MULTIGRAPH_LAYER_TYPE                                    = "layerType";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_EDGES                          = "edges";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_NODES                          = "nodes";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILES                          = "tiles";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_EDGE                           = "edge";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_NODE                           = "node";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE                           = "tile";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON                        = "hexagon";
     public static final String MULTIGRAPH_TILE                                          = "tile";
     public static final String MULTIGRAPH_TILE_ZOOM                                     = "zoom";
     public static final String MULTIGRAPH_TILE_X                                        = "x";

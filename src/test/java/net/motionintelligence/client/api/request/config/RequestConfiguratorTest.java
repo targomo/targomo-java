@@ -42,7 +42,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);
-            options.setMultiGraphLayerType(MultiGraphLayerType.EDGES);
+            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
             options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
             options.setMultiGraphSerializationMaxGeometryCount(100000);
