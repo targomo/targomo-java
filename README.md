@@ -9,12 +9,17 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.26</version>
+         <version>0.0.28</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice.
 
 ## Release Notes
+
+### 0.0.28
+- this version adds the possibility to generate statistics for specific statistic
+ ids. this is especially useful if you don't want to/or you already did
+ a travel time analysis and have somehow selected some statistic cell ids client side
 
 ### 0.0.27
 - adds a small util that rewrites URLs to curl format (post or get)
