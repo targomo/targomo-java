@@ -31,6 +31,8 @@ public class StatisticTravelOptions extends TravelOptions {
     @Column(name = "get_closest_sources")
     private boolean getClosestSources = false;
 
+    private List<Integer> cellIds = new ArrayList<>();
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -81,5 +83,13 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public void setGetClosestSources(boolean getClosestSources) {
         this.getClosestSources = getClosestSources;
+    }
+
+    public List<Integer> getCellIds() {
+        return cellIds;
+    }
+
+    public void setCellIds(List<Integer> cellIds) {
+        this.cellIds = cellIds;
     }
 }
