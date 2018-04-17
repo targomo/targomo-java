@@ -1,5 +1,6 @@
 package net.motionintelligence.client.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.motionintelligence.client.api.geo.Coordinate;
@@ -15,6 +16,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "statistic_travel_option")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StatisticTravelOptions extends TravelOptions {
 
     @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
@@ -31,6 +33,7 @@ public class StatisticTravelOptions extends TravelOptions {
     @Column(name = "get_closest_sources")
     private boolean getClosestSources = false;
 
+    @Transient
     private List<Integer> cellIds = new ArrayList<>();
 
     public Map<String,Coordinate> getInactiveSources() {
@@ -66,7 +69,11 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         if (useCache != that.useCache) return false;
-        return inactiveSources != null ? inactiveSources.equals(that.inactiveSources) : that.inactiveSources == null;
+        if (iFeelLucky != that.iFeelLucky) return false;
+        if (getClosestSources != that.getClosestSources) return false;
+        if (inactiveSources != null ? !inactiveSources.equals(that.inactiveSources) : that.inactiveSources != null)
+            return false;
+        return cellIds != null ? cellIds.equals(that.cellIds) : that.cellIds == null;
     }
 
     @Override
@@ -74,6 +81,9 @@ public class StatisticTravelOptions extends TravelOptions {
         int result = super.hashCode();
         result = 31 * result + (inactiveSources != null ? inactiveSources.hashCode() : 0);
         result = 31 * result + (useCache ? 1 : 0);
+        result = 31 * result + (iFeelLucky ? 1 : 0);
+        result = 31 * result + (getClosestSources ? 1 : 0);
+        result = 31 * result + (cellIds != null ? cellIds.hashCode() : 0);
         return result;
     }
 
