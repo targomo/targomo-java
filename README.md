@@ -9,12 +9,25 @@ Get your API key [here](https://developers.route360.net/signup/free).
      <dependency>
          <groupId>net.motionintelligence</groupId>
          <artifactId>r360-java-client</artifactId>
-         <version>0.0.26</version>
+         <version>0.0.28</version>
      </dependency>
 
-You also need to add a JAX-RS implementation of your choice.
+You also need to add a JAX-RS implementation of your choice. For example Jersey:
+
+```
+ <dependency>
+     <groupId>org.glassfish.jersey.core</groupId>
+     <artifactId>jersey-client</artifactId>
+     <version>2.6</version>
+ </dependency>
+```
 
 ## Release Notes
+
+### 0.0.28
+- this version adds the possibility to generate statistics for specific statistic
+ ids. this is especially useful if you don't want to/or you already did
+ a travel time analysis and have somehow selected some statistic cell ids client side
 
 ### 0.0.27
 - adds a small util that rewrites URLs to curl format (post or get)
@@ -22,7 +35,7 @@ You also need to add a JAX-RS implementation of your choice.
 ### 0.0.26
 
 - Geocoding with Authorization against the ESRI service (including access token handling) - batch 
-geocoding with authorization is a lot faster
+  geocoding with authorization is a lot faster
 
 ### 0.0.24
 
@@ -70,6 +83,7 @@ Create polygon from source point.
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    // client.register(GZipEncoder.class); // when using jersey
     PolygonResponse polygonResponse = new PolygonRequest(client, options).get();
     System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
     System.out.println(polygonResponse.getResult());
@@ -88,6 +102,7 @@ Return travel times from each source to each target point.
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    // client.register(GZipEncoder.class); // when using jersey
     TimeResponse timeResponse = new TimeRequest(client, options).get();
     // so the api returns all combinations of source and target with the corresponding travel time, or -1 if not reachable
     Map</*Source*/Coordinate, Map</*Target*/Coordinate, Integer>> travelTimes = timeResponse.getTravelTimes();
@@ -106,6 +121,7 @@ Return total travel time for each source point to all targets.
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    // client.register(GZipEncoder.class); // when using jersey
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
     // source ID, total travel time or -1 if not reachable
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
@@ -125,6 +141,7 @@ Return possible route from each source point to each target.
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    // client.register(GZipEncoder.class); // when using jersey
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
 
@@ -158,6 +175,7 @@ You can also display geojson data directly in your browser with the following ro
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+    // client.register(GZipEncoder.class); // when using jersey
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     
     CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:3857");
