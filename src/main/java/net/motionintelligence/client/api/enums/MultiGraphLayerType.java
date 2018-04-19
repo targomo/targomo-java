@@ -9,10 +9,12 @@ import java.util.Locale;
 
 public enum MultiGraphLayerType {
 
-    NODE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,      false,  false),
-    EDGE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,      true,   false),
-    TILE    (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,      false,  true),
-    HEXAGON (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,   false,  true);
+    NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,          false,  false),
+    EDGE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,          true,   false),
+    TILE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,          true,   true),
+    TILE_NODE   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE,     false,  true),
+    HEXAGON     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,       true,  true),
+    HEXAGON_NODE(Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE,  false,  true);
 
     private String key;
     private boolean withEdges;
