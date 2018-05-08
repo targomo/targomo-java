@@ -57,7 +57,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
-                    travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphEdgeAggregationType())
+                    travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -158,11 +158,33 @@ public final class RequestConfigurator {
         if( travelOptions.getMultiGraphEdgeClasses() != null )
             multigraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
-        if( travelOptions.getMultiGraphLayerType() != null )
-            multigraph.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
+        if( Stream.of(travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                travelOptions.getMultiGraphLayerGeometryDetailPerTile(), travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
+                travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
+                travelOptions.getMultiGraphLayerGeometryDetailLevel()).anyMatch(Objects::nonNull) ) {
 
-        if( travelOptions.getMultiGraphEdgeAggregationType() != null )
-            multigraph.put(Constants.MULTIGRAPH_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphEdgeAggregationType().getKey());
+            JSONObject multigraphLayer = new JSONObject();
+
+            if ( travelOptions.getMultiGraphSerializationFormat() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
+
+            if( travelOptions.getMultiGraphLayerEdgeAggregationType() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphLayerEdgeAggregationType().getKey());
+
+            if ( travelOptions.getMultiGraphLayerGeometryDetailPerTile() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE, travelOptions.getMultiGraphLayerGeometryDetailPerTile());
+
+            if ( travelOptions.getMultiGraphLayerMinGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMinGeometryDetailLevel());
+
+            if ( travelOptions.getMultiGraphLayerMaxGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMaxGeometryDetailLevel());
+
+            if ( travelOptions.getMultiGraphLayerGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
+
+            multigraph.put( Constants.MULTIGRAPH_LAYER, multigraphLayer);
+        }
 
         if( Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                 travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull)) {
@@ -172,6 +194,9 @@ public final class RequestConfigurator {
             multigraphTile.put(Constants.MULTIGRAPH_TILE_X, travelOptions.getMultiGraphTileX());
             multigraphTile.put(Constants.MULTIGRAPH_TILE_Y, travelOptions.getMultiGraphTileY());
             multigraph.put( Constants.MULTIGRAPH_TILE, multigraphTile);
+        } else if (Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                travelOptions.getMultiGraphTileY()).anyMatch(Objects::nonNull)) {
+            throw new IllegalArgumentException("None or all elements in the tile definition have to be set.");
         }
 
         if( Stream.of(travelOptions.getMultiGraphSerializationFormat(),

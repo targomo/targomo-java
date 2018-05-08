@@ -38,11 +38,15 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
-            options.setMultiGraphEdgeAggregationType(MultiGraphEdgeAggregationType.MIN);
+            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
+            options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
+            options.setMultiGraphLayerGeometryDetailPerTile(3);
+            options.setMultiGraphLayerMinGeometryDetailLevel(2);
+            options.setMultiGraphLayerMaxGeometryDetailLevel(10);
+            options.setMultiGraphLayerGeometryDetailLevel(8);
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);
-            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
             options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
             options.setMultiGraphSerializationMaxGeometryCount(100000);
@@ -68,7 +72,10 @@ public class RequestConfiguratorTest {
 
 
             //second test with tile discarded
-            options.setMultiGraphTileY(null); //only setting one value to null should cause the whole tile to be excluded
+            // all values have to be set to null otherwise there will be an illegal argument exception cause
+            options.setMultiGraphTileZoom(null);
+            options.setMultiGraphTileX(null);
+            options.setMultiGraphTileY(null);
             //remove the tile from the json String
             sampleJson = sampleJson.replaceFirst("(\"tile\")([^<]*?)(\"serialization\")", "\"serialization\"" );
 
