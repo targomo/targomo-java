@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import net.motionintelligence.client.Constants;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public enum MultiGraphSerializationFormat {
 
@@ -20,7 +21,10 @@ public enum MultiGraphSerializationFormat {
 
     @JsonCreator
     public static MultiGraphSerializationFormat fromString(String key) {
-        return key == null ? null : MultiGraphSerializationFormat.valueOf(key.toUpperCase(Locale.ENGLISH));
+        return key == null ? null : Stream.of(MultiGraphSerializationFormat.values())
+                .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid " +
+                        MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue

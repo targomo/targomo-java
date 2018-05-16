@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import net.motionintelligence.client.Constants;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public enum MultiGraphLayerType {
 
@@ -28,7 +29,10 @@ public enum MultiGraphLayerType {
 
     @JsonCreator
     public static MultiGraphLayerType fromString(String key) {
-        return key == null ? null : MultiGraphLayerType.valueOf(key.toUpperCase(Locale.ENGLISH));
+        return key == null ? null : Stream.of(MultiGraphLayerType.values())
+                .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid " +
+                        MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue
