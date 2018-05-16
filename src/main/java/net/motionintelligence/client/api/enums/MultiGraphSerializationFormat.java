@@ -24,7 +24,7 @@ public enum MultiGraphSerializationFormat {
         return key == null ? null : Stream.of(MultiGraphSerializationFormat.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid " +
-                        MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
+                        MultiGraphSerializationFormat.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue

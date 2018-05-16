@@ -25,7 +25,7 @@ public enum MultiGraphAggregationType {
     MultiGraphAggregationType(String key, PolygonIntersectionMode associatedRoutingAggregation) {
         this.key = key;
         this.associatedRoutingAggregation = associatedRoutingAggregation;
-	}
+    }
 
     @JsonCreator
     public static MultiGraphAggregationType fromString(String key) {
@@ -37,10 +37,10 @@ public enum MultiGraphAggregationType {
 
     @JsonValue
     public String getKey() {
-		return key;
-	}
+        return key;
+    }
 
-	@JsonIgnore
+    @JsonIgnore
     public PolygonIntersectionMode getAssociatedRoutingAggregation() {
         return associatedRoutingAggregation;
     }

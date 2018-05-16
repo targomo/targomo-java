@@ -16,19 +16,19 @@ public enum MultiGraphLayerEdgeAggregationType {
     private String key;
 
     MultiGraphLayerEdgeAggregationType(String key) {
-		this.key = key;
-	}
+        this.key = key;
+    }
 
     @JsonCreator
     public static MultiGraphLayerEdgeAggregationType fromString(String key) {
         return key == null ? null : Stream.of(MultiGraphLayerEdgeAggregationType.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid " +
-                        MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
+                        MultiGraphLayerEdgeAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue
     public String getKey() {
-		return key;
-	}
+        return key;
+    }
 }

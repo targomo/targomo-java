@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /**
  * @author Daniel Gerber
@@ -14,24 +15,27 @@ import java.util.Locale;
  */
 public enum PolygonIntersectionMode {
 
-	AVERAGE("average"),
-	UNION("union"),
-	INTERSECTION("intersection"),
-	NONE("none");
+    AVERAGE("average"),
+    UNION("union"),
+    INTERSECTION("intersection"),
+    NONE("none");
 
-	private String key;
+    private String key;
 
-	PolygonIntersectionMode(String key) {
+    PolygonIntersectionMode(String key) {
 		this.key = key;
 	}
 
 	@JsonCreator
 	public static PolygonIntersectionMode fromString(String key) {
-		return key == null ? null : PolygonIntersectionMode.valueOf(key.toUpperCase(Locale.ENGLISH));
+        return key == null ? null : Stream.of(PolygonIntersectionMode.values())
+                .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid " +
+                     PolygonIntersectionMode.class.getSimpleName() + " specified: " + key + " doesn't exist"));
 	}
 
-	@JsonValue
-	public String getKey() {
+    @JsonValue
+    public String getKey() {
 		return key;
 	}
 }

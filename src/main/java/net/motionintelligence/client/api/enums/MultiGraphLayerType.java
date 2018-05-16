@@ -32,7 +32,7 @@ public enum MultiGraphLayerType {
         return key == null ? null : Stream.of(MultiGraphLayerType.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid " +
-                        MultiGraphAggregationType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
+                        MultiGraphLayerType.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue
