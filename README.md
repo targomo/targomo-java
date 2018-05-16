@@ -22,6 +22,9 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
  </dependency>
 ```
 
+## Perform Release
+To perform a release simply do: `mvn clean deploy -DperformRelease=true`
+
 ## Release Notes
 
 ### 0.0.28
