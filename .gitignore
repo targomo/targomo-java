@@ -1,5 +1,5 @@
 target/
-src/test/resources/geocodingTest.properties
+src/test/resources/test.properties
 .idea/
 api-java-client.iml
 r360-java-client.iml
