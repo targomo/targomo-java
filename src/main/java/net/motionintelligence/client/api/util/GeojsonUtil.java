@@ -23,10 +23,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -80,10 +78,13 @@ public class GeojsonUtil {
      * All filename-{@link org.wololo.geojson.Feature} pairs will be displayed in your default browser via the
      * geojson.io website. Requires connection to the internet. (Only EPSG:4326 (WGS84) mode tested)
      *
+     * @param gitHubUser valid github account id
+     * @param githubTokenForGistUpload a token created for the user here: https://github.com/settings/tokens (must have gist creation scope)
      * @param featureCollections map of fileNames to their respective contents (i.e. the {@link FeatureCollection})
      * @throws IOException if errors during parsing or execution occurred
      */
-    public static void openGeoJsonInBrowserWithGeojsonIO(Map<String,FeatureCollection> featureCollections) throws IOException {
+    public static void openGeoJsonInBrowserWithGeojsonIO(String gitHubUser, String githubTokenForGistUpload,
+                                                         Map<String,FeatureCollection> featureCollections) throws IOException {
         //(1) Build request
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> fileMap = new HashMap<>(featureCollections.size());
@@ -96,16 +97,19 @@ public class GeojsonUtil {
         //For each tour generate a github gist that can be referenced from geojson.io
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://api.github.com/").path("gists");
+        String authForUploadingGists = Base64.getEncoder().encodeToString((gitHubUser+":"+githubTokenForGistUpload).getBytes());
         for(Map.Entry<String,Object> geojsonFile : fileMap.entrySet()) {
             //(2) Execute Request
             String requestAsString = mapper.writeValueAsString( ImmutableMap.builder().put("public",true).put("files", geojsonFile).build());
-            Response response = target.request().buildPost(Entity.entity(requestAsString, MediaType.APPLICATION_JSON_TYPE)).invoke();
+            Response response = target.request()
+                    .header("Authorization", "Basic " + authForUploadingGists)
+                    .buildPost(Entity.entity(requestAsString, MediaType.APPLICATION_JSON_TYPE)).invoke();
             String responseString = response.readEntity(String.class);
 
             //(3) Show result in browser
             String idString = Stream.of(responseString.split(","))
                     .filter(val -> val.startsWith("\"id\":\""))
-                    .findFirst().orElseThrow(() -> new RuntimeException("Cannot happen"));
+                    .findFirst().orElseThrow(() -> new RuntimeException("Request returned unexpected: " + responseString));
             displayURLInBrowser( "http://geojson.io/#id=gist:anonymous/" + idString.substring(6, idString.length() - 1));
         }
     }
@@ -117,10 +121,13 @@ public class GeojsonUtil {
      * Has sometimes display errors - esp. if multiple FeatureCollections are to be shown in one page. In that case it is
      * suggested to use {@link GeojsonUtil#openGeoJsonInBrowserWithGeojsonIO}.
      *
+     * @param gitHubUser valid github account id
+     * @param githubTokenForGistUpload a token created for the user here: https://github.com/settings/tokens (must have gist creation scope)
      * @param featureCollections map of fileNames and the respective contents (i.e. the {@link FeatureCollection})
      * @throws IOException if errors during parsing or execution occurred
      */
-    public static void openGeoJsonInBrowserWithGitHubGist(Map<String,FeatureCollection> featureCollections) throws IOException {
+    public static void openGeoJsonInBrowserWithGitHubGist(String gitHubUser, String githubTokenForGistUpload,
+                                                          Map<String,FeatureCollection> featureCollections) throws IOException {
         //(1) Build request
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> fileMap = new HashMap<>(featureCollections.size());
@@ -134,13 +141,16 @@ public class GeojsonUtil {
         //(2) Execute Request
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://api.github.com/").path("gists");
-        Response response = target.request().buildPost(Entity.entity(requestAsString, MediaType.APPLICATION_JSON_TYPE) ).invoke();
+        String authForUploadingGists = Base64.getEncoder().encodeToString((gitHubUser+":"+githubTokenForGistUpload).getBytes());
+        Response response = target.request()
+                .header("Authorization", "Basic " + authForUploadingGists)
+                .buildPost(Entity.entity(requestAsString, MediaType.APPLICATION_JSON_TYPE) ).invoke();
         String responseString = response.readEntity(String.class);
 
         //(3) Show result in browser
         String url = Stream.of(responseString.split(","))
                 .filter( val -> val.startsWith("\"html_url\":\"") )
-                .findFirst().orElseThrow(() -> new RuntimeException("Cannot happen"));
+                .findFirst().orElseThrow(() -> new RuntimeException("Request returned unexpected: " + responseString));
         displayURLInBrowser( url.substring(12, url.length()-1) );
     }
 

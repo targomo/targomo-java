@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
  * (1) JUnit tests and
  * (2) System tests (actually calling the REST service)
  *
- * In order to run all tests you should include a file "geocodingTest.properties"
+ * In order to run all tests you should include a file "test.properties"
  * in your "src/test/resources/" folder with the following content:
  * <pre>
  *     esri.clientId=YOUR_ESRI_CLIENT_KEY_HERE
@@ -53,9 +53,9 @@ public class GeocodingRequestTest extends RequestTest{
 
     @BeforeClass
     public static void setup() {
-        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("geocodingTest.properties");
+        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("test.properties");
         if(stream == null) {
-            LOGGER.warn("No geocodingTest.properties found in src/test/resources : " +
+            LOGGER.warn("No test.properties found in src/test/resources : " +
                     "Tests associated with an ESRI account are skipped");
         } else {
             Properties prop = new Properties();
@@ -64,7 +64,7 @@ public class GeocodingRequestTest extends RequestTest{
                 esriAccountInfo = new ESRIAuthenticationDetails(prop.getProperty("esri.clientId"),
                         prop.getProperty("esri.clientSecret"),1);
             } catch (IOException | IllegalArgumentException e) {
-                LOGGER.error("geocodingTest.properties not properly formed : " +
+                LOGGER.error("test.properties not properly formed : " +
                         "Tests associated with an ESRI account are skipped", e);
             }
         }
