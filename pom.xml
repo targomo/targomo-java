@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.targomo</groupId>
 	<artifactId>java-client</artifactId>
-	<version>0.0.29-SNAPSHOT</version>
+	<version>0.0.29</version>
 	<name>Targomo Java Client Library</name>
 	<description>Java client library for easy usage of Targomo web services.</description>
 	<url>https://github.com/targomo/targomo-java</url>
@@ -31,7 +29,8 @@
 		<connection>scm:git:git://github.com/targomo/targomo-java.git</connection>
 		<developerConnection>scm:git:ssh://github.com:targomo/targomo-java.git</developerConnection>
 		<url>http://github.com/targomo/targomo-java/tree/master</url>
-	</scm>
+	  <tag>java-client-0.0.29</tag>
+  </scm>
 
     <repositories>
         <repository>
@@ -198,7 +197,7 @@
 					<localCheckout>true</localCheckout>
 					<pushChanges>false</pushChanges>
 					<mavenExecutorId>forked-path</mavenExecutorId>
-					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+					<!--<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>-->
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -231,22 +230,12 @@
                             <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals />
+                    </execution>
                 </executions>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadoc</id>
-						<goals></goals>
-					</execution>
-				</executions>
-			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
