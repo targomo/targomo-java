@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <servers>
+        <server>
+            <id>ossrh</id>
+            <username>gerber@motionintelligence.net</username>
+            <password>SONATYPE_PASSWORD</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.passphrase>GPG_PASSPHRASE</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+</settings>
