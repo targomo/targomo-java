@@ -7,7 +7,16 @@
             <password>SONATYPE_PASSWORD</password>
         </server>
     </servers>
+    <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
     <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
         <profile>
             <id>ossrh</id>
             <activation>
