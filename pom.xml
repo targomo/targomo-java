@@ -166,6 +166,14 @@
     </dependencies>
 
 	<build>
+        <resources>
+            <resource>
+                <directory>.ci</directory>
+                <excludes>
+                    <exclude>settings.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -194,6 +202,9 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.3</version>
 				<configuration>
+                    <checkModificationExcludes>
+                        <checkModificationExclude>.ci/settings.xml</checkModificationExclude>
+                    </checkModificationExcludes>
 					<localCheckout>true</localCheckout>
 					<pushChanges>false</pushChanges>
 					<mavenExecutorId>forked-path</mavenExecutorId>
