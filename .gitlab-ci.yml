@@ -97,7 +97,7 @@ deploy_feature:
 before_script:
   - *auto_devops
   - setup_docker
-  - sed -i 's/SONATYPE_PASSWORD/$SONATYPE_PASSWORD/g' settings.xml
+  - sed -i 's/SONATYPE_PASSWORD/$SONATYPE_PASSWORD/g' .ci/settings.xml
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN code.route360.net:4567
   ##
   ## Install ssh-agent if not already installed, it is required by Docker.
