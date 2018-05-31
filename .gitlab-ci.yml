@@ -48,7 +48,8 @@ analyse_feature:
        -Dsonar.gitlab.user_token=$GITLAB_TOKEN
        -Dsonar.gitlab.query_max_retry=100
        -Dsonar.gitlab.query_wait=10000
-     - cat target/site/jacoco/index.html
+     - cat target/site/jacoco-ut/index.html
+   when: manual
    only:
      - /^feature.*$/
 
