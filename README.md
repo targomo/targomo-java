@@ -1,14 +1,14 @@
-# r360-java
-Java Client API for Route360° web service
+# targomo-java
+Java Client API for the Targomo web services
 
 ## API-Key
-Get your API key [here](https://developers.route360.net/signup/free).
+Get your API key [here](http://targomo.com/developers/pricing/).
 
 ## Add the library to your Maven configuration
 
      <dependency>
-         <groupId>net.motionintelligence</groupId>
-         <artifactId>r360-java-client</artifactId>
+         <groupId>com.targomo</groupId>
+         <artifactId>java-client</artifactId>
          <version>0.0.28</version>
      </dependency>
 
@@ -21,6 +21,9 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
      <version>2.6</version>
  </dependency>
 ```
+
+## Perform Release
+To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
@@ -64,7 +67,7 @@ runtime dependency.
 This has the downside that some implementation specific set-up has to be
 performed:
 
-* Enabling gzip compression is mandatory when running against Route360°
+* Enabling gzip compression is mandatory when running against Targomo
   servers. A gzip encoder or interceptor has to be registered with the `Client`
   in a library specific way.
 
@@ -79,7 +82,7 @@ Create polygon from source point.
     options.setTravelType(TravelType.TRANSIT);
     options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://service.route360.net/germany/");
+    options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
@@ -98,7 +101,7 @@ Return travel times from each source to each target point.
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://service.route360.net/germany/");
+    options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
@@ -117,7 +120,7 @@ Return total travel time for each source point to all targets.
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://service.route360.net/germany/");
+    options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
@@ -137,7 +140,7 @@ Return possible route from each source point to each target.
     options.setTravelType(TravelType.BIKE);
     options.setElevationEnabled(true);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://service.route360.net/germany/");
+    options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
     client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
