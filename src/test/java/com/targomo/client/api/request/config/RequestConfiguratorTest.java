@@ -1,23 +1,11 @@
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/request/config/RequestConfiguratorTest.java
-package net.motionintelligence.client.api.request.config;
-
-import net.motionintelligence.client.Constants;
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.*;
-import net.motionintelligence.client.api.geo.Coordinate;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.geo.DefaultTargetCoordinate;
-=======
 package com.targomo.client.api.request.config;
 
+import com.targomo.client.api.enums.*;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
->>>>>>> develop:src/test/java/com/targomo/client/api/request/config/RequestConfiguratorTest.java
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -190,8 +178,8 @@ public class RequestConfiguratorTest {
 	        Assert.assertEquals(numOfSources, actualObject.getJSONArray(Constants.SOURCES).length());
 	        Assert.assertEquals(numOfTargets, actualObject.getJSONArray(Constants.TARGETS).length());
 
-            Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGTH),
-                    actualObject.get(Constants.MAX_EDGE_WEIGTH));
+            Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGHT),
+                    actualObject.get(Constants.MAX_EDGE_WEIGHT));
 
             Assert.assertEquals(sampleObject.get(Constants.EDGE_WEIGHT),
                     actualObject.get(Constants.EDGE_WEIGHT));

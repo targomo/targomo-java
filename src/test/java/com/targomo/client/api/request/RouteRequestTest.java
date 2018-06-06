@@ -58,15 +58,9 @@ public class RouteRequestTest extends RequestTest {
         assertEquals("gateway-time-out", routeResponse.getCode());
     }
 
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/request/RouteRequestTest.java
-    @Test(expected = Route360ClientException.class)
-    public void get_exception() throws Exception {
-        when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-=======
 	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
->>>>>>> develop:src/test/java/com/targomo/client/api/request/RouteRequestTest.java
 
         TravelOptions options = getTravelOptions();
         RouteRequest routeRequest = new RouteRequest(mockClient, options);
@@ -81,15 +75,8 @@ public class RouteRequestTest extends RequestTest {
         options.setElevationEnabled(true);
         options.setReverse(false);
 
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/request/RouteRequestTest.java
-        options.setServiceKey("INSERT_YOUR_KEY_HERE");
-        options.setServiceUrl("https://service.route360.net/na_northeast/");
-        return options;
-    }
-=======
 		options.setServiceKey("INSERT_YOUR_KEY_HERE");
 		options.setServiceUrl("https://api.targomo.com/na_northeast/");
 		return options;
 	}
->>>>>>> develop:src/test/java/com/targomo/client/api/request/RouteRequestTest.java
 }

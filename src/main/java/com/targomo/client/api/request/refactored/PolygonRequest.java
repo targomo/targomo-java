@@ -1,8 +1,8 @@
-package net.motionintelligence.client.api.request.refactored;
+package com.targomo.client.api.request.refactored;
 
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.response.refactored.PolygonResponse;
+import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.response.refactored.PolygonResponse;
 import org.json.JSONArray;
 
 import javax.ws.rs.HttpMethod;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Creates polygons for the source points with specified travel times in minutes.
  * In case of GeoJson output, Polygons will be buffered, simplified and transformed
- * according to the respective values in {@link net.motionintelligence.client.api.TravelOptions}.
+ * according to the respective values in {@link com.targomo.client.api.TravelOptions}.
  * Buffer should be given in meters or in degrees, depending on the output CRS's unit.
  */
 public class PolygonRequest extends R360Request<JSONArray,List<Map<String,?>>,PolygonResponse>{
@@ -42,7 +42,7 @@ public class PolygonRequest extends R360Request<JSONArray,List<Map<String,?>>,Po
      * @param travelOptions the travel options of this request
      * @return result of the request
      */
-    public static PolygonResponse executeRequest(TravelOptions travelOptions) throws Route360ClientException {
+    public static PolygonResponse executeRequest(TravelOptions travelOptions) throws TargomoClientException {
         return R360Request.executeRequest(PolygonRequest::new, travelOptions);
     }
 }

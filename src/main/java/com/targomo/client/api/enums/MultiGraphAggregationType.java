@@ -1,11 +1,10 @@
-package net.motionintelligence.client.api.enums;
+package com.targomo.client.api.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
-import net.motionintelligence.client.Constants;
+import com.targomo.client.Constants;
 
-import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 public enum MultiGraphAggregationType {

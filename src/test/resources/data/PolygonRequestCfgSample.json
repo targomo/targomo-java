@@ -2,7 +2,7 @@
   "elevation": false,
   "polygon": {
     "pointReduction": true,
-    "intersectionMode": "union",
+    "intersectionMode": "UNION",
     "values": [
       600,
       1200,

@@ -135,15 +135,6 @@ public class TravelOptions implements Serializable {
     @JsonProperty("edgeWeight")
     @Column(name = "edge_weight_type") private EdgeWeightType edgeWeightType   = EdgeWeightType.TIME;
 
-<<<<<<< HEAD:src/main/java/net/motionintelligence/client/api/TravelOptions.java
-    @Transient private List<Short> statisticIds;
-    @Column(name = "statistic_group_id") private Integer statisticGroupId;
-    @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://service.route360.net/statistics/";
-    @Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://service.route360.net/pointsofinterest/";
-
-    @Column(name = "overpass_query") private String overpassQuery;
-    @Column(name = "overpass_service_url") private String overpassServiceUrl = "https://service.route360.net/overpass/";
-=======
 	@Transient private List<Short> statisticIds;
 	@Column(name = "statistic_group_id") private Integer statisticGroupId;
     @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://api.targomo.com/statistics/";
@@ -151,7 +142,6 @@ public class TravelOptions implements Serializable {
 
 	@Column(name = "overpass_query") private String overpassQuery;
 	@Column(name = "overpass_service_url") private String overpassServiceUrl = "https://api.targomo.com/overpass/";
->>>>>>> develop:src/main/java/com/targomo/client/api/TravelOptions.java
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
@@ -1213,12 +1203,7 @@ public class TravelOptions implements Serializable {
         this.fallbackServiceUrl = fallbackServiceUrl;
     }
 
-
-<<<<<<< HEAD:src/main/java/net/motionintelligence/client/api/TravelOptions.java
-    public static void main(String[] args) throws JsonProcessingException, Route360ClientException {
-=======
 	public static void main(String[] args) throws JsonProcessingException, TargomoClientException {
->>>>>>> develop:src/main/java/com/targomo/client/api/TravelOptions.java
 
         TravelOptions to = new TravelOptions();
         to.addSource(new DefaultSourceCoordinate("sourceid1", 52, 13, TravelType.WALK));

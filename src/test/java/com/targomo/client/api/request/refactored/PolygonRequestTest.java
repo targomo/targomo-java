@@ -1,12 +1,12 @@
-package net.motionintelligence.client.api.request.refactored;
+package com.targomo.client.api.request.refactored;
 
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.request.RequestTest;
-import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
-import net.motionintelligence.client.api.response.refactored.PolygonResponse;
+import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.request.RequestTest;
+import com.targomo.client.api.request.ssl.SslClientGenerator;
+import com.targomo.client.api.response.refactored.PolygonResponse;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.junit.Ignore;
@@ -56,7 +56,7 @@ public class PolygonRequestTest extends RequestTest {
         assertEquals("gateway-time-out", polygonResponse.getCode());
     }
 
-    @Test(expected = Route360ClientException.class)
+    @Test(expected = TargomoClientException.class)
     public void get_exception() throws Exception {
         when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 

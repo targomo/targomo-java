@@ -1,4 +1,4 @@
-package net.motionintelligence.client.api.response.refactored;
+package com.targomo.client.api.response.refactored;
 
 import org.json.JSONArray;
 

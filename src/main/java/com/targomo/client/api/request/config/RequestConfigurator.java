@@ -26,28 +26,8 @@ public final class RequestConfigurator {
 
     private static final Logger LOG = Logger.getLogger(RequestConfigurator.class);
 
-    private RequestConfigurator() {
-    }
+    private RequestConfigurator() { }
 
-<<<<<<< HEAD:src/main/java/net/motionintelligence/client/api/request/config/RequestConfigurator.java
-    /**
-     * Replaces getCfg methods of Request classes.
-     * Output should be encoded as URL if request method will be GET
-     * @param travelOptions Travel options to be parsed into JSON
-     * @return JSON output
-     * @throws Route360ClientException Thrown when JSON cannot be generated
-     */
-    public static String getConfig(final TravelOptions travelOptions) throws Route360ClientException {
-        LOG.trace("Creating configuration...");
-        String config = getCommonConfig(travelOptions);
-        LOG.trace("Configuration created.");
-        return config;
-    }
-
-    private static String getCommonConfig(final TravelOptions travelOptions) throws Route360ClientException {
-
-        StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
-=======
 	/**
 	 * Replaces getCfg methods of Request classes.
 	 * Output should be encoded as URL if request method will be GET
@@ -63,7 +43,8 @@ public final class RequestConfigurator {
     }
 
 	private static String getCommonConfig(final TravelOptions travelOptions) throws TargomoClientException {
->>>>>>> develop:src/main/java/com/targomo/client/api/request/config/RequestConfigurator.java
+
+	    StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
 
         try {
             if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty())
@@ -128,47 +109,15 @@ public final class RequestConfigurator {
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
-<<<<<<< HEAD:src/main/java/net/motionintelligence/client/api/request/config/RequestConfigurator.java
-            JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
+
+            JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGHT, travelOptions.getMaxEdgeWeight());
         }
-        catch (Exception e) {
-            throw new Route360ClientException("Could not generate r360 config object", e);
+		catch (Exception e) {
+            throw new TargomoClientException("Could not generate targomo config object", e);
         }
 
         return config.toString();
     }
-
-    /**
-     * 
-     * @param travelOptions
-     * @return
-     * @throws JSONException
-     */
-    private static JSONObject getPolygonObject(final TravelOptions travelOptions) throws JSONException {
-        
-        JSONObject polygon = new JSONObject();
-        polygon.put(Constants.POLYGON_VALUES,              new JSONArray(travelOptions.getTravelTimes()));
-        polygon.put(Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode().getKey());
-        polygon.put(Constants.POINT_REDUCTION,              travelOptions.isPointReduction());
-        polygon.put(Constants.MIN_POLYGON_HOLE_SIZE,      travelOptions.getMinPolygonHoleSize());
-
-        if ( travelOptions.getSrid() != null )
-            polygon.put(Constants.SRID, travelOptions.getSrid());
-
-        if ( travelOptions.getDecimalPrecision() != null )
-            polygon.put(Constants.DECIMAL_PRECISION, travelOptions.getDecimalPrecision());
-        
-        if ( travelOptions.getBuffer() != null )
-            polygon.put(Constants.BUFFER, travelOptions.getBuffer());
-=======
-			JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
-		}
-		catch (Exception e) {
-			throw new TargomoClientException("Could not generate targomo config object", e);
-		}
-
-		return config.toString();
-	}
 
 	/**
 	 * 
@@ -186,10 +135,12 @@ public final class RequestConfigurator {
 		
 		if ( travelOptions.getSrid() != null )
 			polygon.put(Constants.SRID, travelOptions.getSrid());
+
+        if ( travelOptions.getDecimalPrecision() != null )
+            polygon.put(Constants.DECIMAL_PRECISION, travelOptions.getDecimalPrecision());
 		
 		if ( travelOptions.getBuffer() != null )
 			polygon.put(Constants.BUFFER, travelOptions.getBuffer());
->>>>>>> develop:src/main/java/com/targomo/client/api/request/config/RequestConfigurator.java
 
         if ( travelOptions.getSimplify() != null )
             polygon.put(Constants.SIMPLIFY, travelOptions.getSimplify());

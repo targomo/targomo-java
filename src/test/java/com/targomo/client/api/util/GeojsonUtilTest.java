@@ -51,30 +51,20 @@ public class GeojsonUtilTest {
     @Test
     @Ignore("It is a visual test to executed on a local machine with desktop")
     public void testVisualisationGeojsonIO() throws Exception {
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/util/GeojsonUtilTest.java
-        FeatureCollection featureCollection = buildR360Berlin();
+        FeatureCollection featureCollection = buildBerlin();
         System.out.println(YOUR_GITHUB_USER_ACCOUNT);
         GeojsonUtil.openGeoJsonInBrowserWithGeojsonIO(
                 YOUR_GITHUB_USER_ACCOUNT,YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE,
                 ImmutableMap.of("testGeojson", featureCollection) );
-=======
-        FeatureCollection featureCollection = buildBerlin();
-        GeojsonUtil.openGeoJsonInBrowserWithGeojsonIO(ImmutableMap.of("testGeojson", featureCollection) );
->>>>>>> develop:src/test/java/com/targomo/client/api/util/GeojsonUtilTest.java
     }
 
     @Test
     @Ignore("It is a visual test to executed on a local machine with desktop")
     public void testVisualisationGithubGist() throws Exception {
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/util/GeojsonUtilTest.java
-        FeatureCollection featureCollection = buildR360Berlin();
+        FeatureCollection featureCollection = buildBerlin();
         GeojsonUtil.openGeoJsonInBrowserWithGitHubGist(
                 YOUR_GITHUB_USER_ACCOUNT,YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE,
                 ImmutableMap.of("testGeojson", featureCollection) );
-=======
-        FeatureCollection featureCollection = buildBerlin();
-        GeojsonUtil.openGeoJsonInBrowserWithGitHubGist(ImmutableMap.of("testGeojson", featureCollection) );
->>>>>>> develop:src/test/java/com/targomo/client/api/util/GeojsonUtilTest.java
     }
 
     private static FeatureCollection buildBerlin(){

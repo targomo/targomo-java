@@ -1,6 +1,6 @@
-package net.motionintelligence.client.api.response.refactored;
+package com.targomo.client.api.response.refactored;
 
-import net.motionintelligence.client.api.model.MultiGraph;
+import com.targomo.client.api.model.MultiGraph;
 import org.wololo.geojson.FeatureCollection;
 
 /**

@@ -1,14 +1,13 @@
-package net.motionintelligence.client.api.request.refactored;
+package com.targomo.client.api.request.refactored;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.jackson.datatype.trove.TroveModule;
-import net.motionintelligence.client.Constants;
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
-import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
-import net.motionintelligence.client.api.response.refactored.DefaultResponse;
-import net.motionintelligence.client.api.util.IOUtil;
+import com.targomo.client.Constants;
+import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.request.config.RequestConfigurator;
+import com.targomo.client.api.request.ssl.SslClientGenerator;
+import com.targomo.client.api.response.refactored.DefaultResponse;
+import com.targomo.client.api.util.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +55,11 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * @param <RS> The Response type of the request
      * @param <RQ> The Request type of this execution
      * @return the response of the type RS
-     * @throws Route360ClientException when an error occurred during the request call
+     * @throws TargomoClientException when an error occurred during the request call
      */
     static <O,I,RS extends DefaultResponse<O,I>,RQ extends R360Request<O,I,RS>> RS
                     executeRequest(BiFunction<Client,TravelOptions,RQ> constructor,
-                                   TravelOptions travelOptions) throws Route360ClientException {
+                                   TravelOptions travelOptions) throws TargomoClientException {
         Client client = SslClientGenerator.initClient();
         try{
             return constructor.apply(client,travelOptions).get();
@@ -108,9 +107,9 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * Executes the request
      *
      * @return the request's response of type R
-     * @throws Route360ClientException In case of error other than Gateway Timeout
+     * @throws TargomoClientException In case of error other than Gateway Timeout
      */
-    public R get() throws Route360ClientException {
+    public R get() throws TargomoClientException {
 
         long startTimeMillis = System.currentTimeMillis();
         WebTarget request = client.target(travelOptions.getServiceUrl())
@@ -128,7 +127,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
         else if (HttpMethod.POST.equals(httpMethod)) {
             response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
         } else {
-            throw new Route360ClientException("HTTP Method not supported: " + httpMethod);
+            throw new TargomoClientException("HTTP Method not supported: " + httpMethod);
         }
 
         // Validate & return
@@ -150,10 +149,10 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * @param response HTTP response
      * @param roundTripTimeMillis Execution time in milliseconds
      * @return the validated reponse of type R
-     * @throws Route360ClientException in case of errors other than GatewayTimeout
+     * @throws TargomoClientException in case of errors other than GatewayTimeout
      */
     private R validateResponse(final Response response, final long roundTripTimeMillis)
-            throws Route360ClientException {
+            throws TargomoClientException {
 
         // Check HTTP status
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
@@ -167,21 +166,21 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
                         || Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
                         || Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
                         || Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
-                    throw new Route360ClientException(resultString, null);
+                    throw new TargomoClientException(resultString, null);
                 }
                 parsedResponse.setExtraParameters(travelOptions,roundTripTimeMillis,parseTime);
                 return parsedResponse;
             } catch (IOException e) {
-                throw new Route360ClientException("Exception occurred for result: " + resultString, e);
+                throw new TargomoClientException("Exception occurred for result: " + resultString, e);
             }
         } else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
             return createGatewayTimeoutMultiGraphResponse(roundTripTimeMillis);
         } else {
-            throw new Route360ClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
+            throw new TargomoClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
         }
     }
 
-    private R createGatewayTimeoutMultiGraphResponse(long roundTripTimeMillis) throws Route360ClientException {
+    private R createGatewayTimeoutMultiGraphResponse(long roundTripTimeMillis) throws TargomoClientException {
         try {
             R gateWayTimeoutResponse = clazz.newInstance();
             gateWayTimeoutResponse.setCode("gateway-time-out");
@@ -190,7 +189,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
             gateWayTimeoutResponse.setExtraParameters(travelOptions, roundTripTimeMillis, -1);
             return gateWayTimeoutResponse;
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new Route360ClientException("Response Instantiation failed with error", e);
+            throw new TargomoClientException("Response Instantiation failed with error", e);
         }
     }
 }

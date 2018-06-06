@@ -1,11 +1,4 @@
-<<<<<<< HEAD:src/main/java/net/motionintelligence/client/api/enums/PathSerializerType.java
-package net.motionintelligence.client.api.enums;
-=======
-/**
- * 
- */
 package com.targomo.client.api.enums;
->>>>>>> develop:src/main/java/com/targomo/client/api/enums/PathSerializerType.java
 
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;

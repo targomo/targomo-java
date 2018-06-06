@@ -1,19 +1,19 @@
-package net.motionintelligence.client.api.request.refactored;
+package com.targomo.client.api.request.refactored;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.motionintelligence.client.Constants;
-import net.motionintelligence.client.api.TravelOptions;
-import net.motionintelligence.client.api.enums.EdgeWeightType;
-import net.motionintelligence.client.api.enums.MultiGraphSerializationFormat;
-import net.motionintelligence.client.api.enums.TravelType;
-import net.motionintelligence.client.api.exception.Route360ClientException;
-import net.motionintelligence.client.api.geo.DefaultSourceCoordinate;
-import net.motionintelligence.client.api.request.RequestTest;
-import net.motionintelligence.client.api.request.config.RequestConfigurator;
-import net.motionintelligence.client.api.request.ssl.SslClientGenerator;
-import net.motionintelligence.client.api.response.refactored.MultiGraphResponse;
-import net.motionintelligence.client.api.response.refactored.MultiGraphResponse.*;
-import net.motionintelligence.client.api.util.IOUtil;
+import com.targomo.client.Constants;
+import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.EdgeWeightType;
+import com.targomo.client.api.enums.MultiGraphSerializationFormat;
+import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.request.RequestTest;
+import com.targomo.client.api.request.config.RequestConfigurator;
+import com.targomo.client.api.request.ssl.SslClientGenerator;
+import com.targomo.client.api.response.refactored.MultiGraphResponse;
+import com.targomo.client.api.response.refactored.MultiGraphResponse.*;
+import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.junit.Ignore;
@@ -73,7 +73,7 @@ public class MultiGraphRequestTest extends RequestTest {
         assertEquals("gateway-time-out", response.getCode());
 	}
 
-	@Test(expected = Route360ClientException.class)
+	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 

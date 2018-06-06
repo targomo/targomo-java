@@ -1,7 +1,7 @@
-package net.motionintelligence.client.api.response.refactored;
+package com.targomo.client.api.response.refactored;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.motionintelligence.client.api.TravelOptions;
+import com.targomo.client.api.TravelOptions;
 
 /**
  *

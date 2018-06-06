@@ -1,10 +1,10 @@
-package net.motionintelligence.client.api.model;
+package com.targomo.client.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.TIntObjectMap;
-import net.motionintelligence.client.api.enums.MultiGraphLayerType;
+import com.targomo.client.api.enums.MultiGraphLayerType;
 
 import java.util.HashMap;
 import java.util.Map;

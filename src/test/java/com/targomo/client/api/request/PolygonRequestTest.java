@@ -53,15 +53,9 @@ public class PolygonRequestTest extends RequestTest {
         assertEquals("gateway-time-out", polygonResponse.getCode());
     }
 
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/request/PolygonRequestTest.java
-    @Test(expected = Route360ClientException.class)
-    public void get_exception() throws Exception {
-        when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-=======
 	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
->>>>>>> develop:src/test/java/com/targomo/client/api/request/PolygonRequestTest.java
 
         TravelOptions options = getTravelOptions();
         PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
@@ -69,19 +63,6 @@ public class PolygonRequestTest extends RequestTest {
         polygonRequest.get();
     }
 
-<<<<<<< HEAD:src/test/java/net/motionintelligence/client/api/request/PolygonRequestTest.java
-    private TravelOptions getTravelOptions() {
-        TravelOptions options = new TravelOptions();
-        options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
-        options.setTravelType(TravelType.TRANSIT);
-        options.addSource(new DefaultSourceCoordinate("id1", -73.976636, 40.608155));
-        options.setServiceKey("INSERT_YOUR_KEY_HERE");
-        options.setServiceUrl("https://service.route360.net/na_northeast/");
-        options.setDate(20161020);
-        options.setTime(55852);
-        return options;
-    }
-=======
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();
 		options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
@@ -93,6 +74,5 @@ public class PolygonRequestTest extends RequestTest {
 		options.setTime(55852);
 		return options;
 	}
->>>>>>> develop:src/test/java/com/targomo/client/api/request/PolygonRequestTest.java
 
 }
