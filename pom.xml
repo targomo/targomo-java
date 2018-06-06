@@ -2,21 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<<<<<<< HEAD
-	<groupId>net.motionintelligence</groupId>
-	<artifactId>r360-java-client</artifactId>
-	<version>0.1.1-SNAPSHOTv4</version>
-	<name>Route 360 Java Client</name>
-	<description>Java client library for easy usage of Route 360 services.</description>
-	<url>http://www.route360.net</url>
-=======
 	<groupId>com.targomo</groupId>
 	<artifactId>java-client</artifactId>
-	<version>0.0.29</version>
+	<version>0.1.1-SNAPSHOTv5</version>
 	<name>Targomo Java Client Library</name>
 	<description>Java client library for easy usage of Targomo web services.</description>
 	<url>https://github.com/targomo/targomo-java</url>
->>>>>>> develop
 
 	<licenses>
 		<license>
