@@ -108,6 +108,8 @@ public class RequestConfiguratorTest {
             options.setSrid(25833);
 	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
             options.setMaxTransfers(2);
+            options.getTravelTimeFactors().put("all",0.9);
+            options.getTravelTimeFactors().put("motorway",0.7);
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -126,6 +128,8 @@ public class RequestConfiguratorTest {
             );
             Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
 	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT), actualObject.getString(Constants.EDGE_WEIGHT));
+
+            Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
 
         } catch (IOException e) {
             e.printStackTrace();
