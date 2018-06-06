@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
@@ -94,6 +96,13 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
             }
 
+            if (travelOptions.getTravelTimeFactors() != null && !travelOptions.getTravelTimeFactors().isEmpty()) {
+			    JSONObject travelFactors = new JSONObject();
+			    for(Map.Entry<String,Double> factor : travelOptions.getTravelTimeFactors().entrySet())
+			        travelFactors.put(factor.getKey(),factor.getValue());
+                JSONBuilder.append(config, Constants.TRAVEL_TIME_FACTORS, travelFactors);
+            }
+
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
 			JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
 		}
@@ -105,22 +114,22 @@ public final class RequestConfigurator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param travelOptions
 	 * @return
 	 * @throws JSONException
 	 */
 	private static JSONObject getPolygonObject(final TravelOptions travelOptions) throws JSONException {
-		
+
 		JSONObject polygon = new JSONObject();
 		polygon.put(Constants.POLYGON_VALUES, 			 new JSONArray(travelOptions.getTravelTimes()));
 		polygon.put(Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
 		polygon.put(Constants.POINT_REDUCTION, 			 travelOptions.isPointReduction());
 		polygon.put(Constants.MIN_POLYGON_HOLE_SIZE, 	 travelOptions.getMinPolygonHoleSize());
-		
+
 		if ( travelOptions.getSrid() != null )
 			polygon.put(Constants.SRID, travelOptions.getSrid());
-		
+
 		if ( travelOptions.getBuffer() != null )
 			polygon.put(Constants.BUFFER, travelOptions.getBuffer());
 
