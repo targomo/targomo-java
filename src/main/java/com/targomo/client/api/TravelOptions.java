@@ -711,7 +711,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(travelTypes, that.travelTypes) &&
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
-                Objects.equals(travelTimeFactors, that.travelTimeFactors);;
+                Objects.equals(travelTimeFactors, that.travelTimeFactors);
     }
                 
 
@@ -877,7 +877,7 @@ public class TravelOptions implements Serializable {
         builder.append("\n\tcustomPois: ");
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
         builder.append("\n\ttravelTimeFactors: ");
-        builder.append(travelTimeFactors != null ? toString(travelTimeFactors, maxLen) : null);
+        builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
         builder.append("\n}\n");
         return builder.toString();
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
