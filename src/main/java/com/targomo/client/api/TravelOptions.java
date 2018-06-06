@@ -81,6 +81,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "travel_type")
 	private TravelType travelType                    	            = TravelType.UNSPECIFIED;
 
+	@Transient
+	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
+
     @Column(name = "elevation_enabled")
     private Boolean elevationEnabled                 	            = false;
 
@@ -1016,4 +1019,12 @@ public class TravelOptions implements Serializable {
     public void setMaxTransfers(Integer maxTransfers) {
         this.maxTransfers = maxTransfers;
     }
+
+	public Map<String, Double> getTravelTimeFactors() {
+		return travelTimeFactors;
+	}
+
+	public void setTravelTimeFactors(Map<String, Double> travelTimeFactors) {
+		this.travelTimeFactors = travelTimeFactors;
+	}
 }

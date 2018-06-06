@@ -35,5 +35,6 @@
     }
   ],
   "reverse": false,
-  "edgeWeight": "DISTANCE"
+  "edgeWeight": "DISTANCE",
+  "travelTimeFactors":{"all":0.9,"motorway":0.7}
 }
