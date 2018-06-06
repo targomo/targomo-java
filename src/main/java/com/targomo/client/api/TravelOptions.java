@@ -36,6 +36,9 @@ import java.util.stream.Collectors;
  * {@link TimeRequest},
  * {@link ReachabilityRequest}.
  */
+//TODO this is a horrible mix of hibernate and json: transient is also used by some json deserializers, i.e.
+// all transient options are ignored
+
 @Entity
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
@@ -81,7 +84,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "travel_type")
     private TravelType travelType                                   = TravelType.UNSPECIFIED;
 
-	@Transient
+    @Column(name = "travel_time_factors")
 	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
 
     @Column(name = "elevation_enabled")
@@ -707,8 +710,10 @@ public class TravelOptions implements Serializable {
                 Objects.equals(boundingBox, that.boundingBox) &&
                 Objects.equals(travelTypes, that.travelTypes) &&
                 Objects.equals(osmTypes, that.osmTypes) &&
-                Objects.equals(customPois, that.customPois);
+                Objects.equals(customPois, that.customPois) &&
+                Objects.equals(travelTimeFactors, that.travelTimeFactors);;
     }
+                
 
     //excluding id
     @Override
@@ -728,7 +733,8 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
-                overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois);
+                overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
+                travelTimeFactors);
     }
 
     /* (non-Javadoc)
@@ -870,6 +876,8 @@ public class TravelOptions implements Serializable {
         builder.append(osmTypes != null ? toString(osmTypes, maxLen) : null);
         builder.append("\n\tcustomPois: ");
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
+        builder.append("\n\ttravelTimeFactors: ");
+        builder.append(travelTimeFactors != null ? toString(travelTimeFactors, maxLen) : null);
         builder.append("\n}\n");
         return builder.toString();
     }

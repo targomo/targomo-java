@@ -1,12 +1,14 @@
 package com.targomo.client.api.request.config;
 
-import com.targomo.client.api.enums.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import org.apache.commons.io.IOUtils;
+import org.boon.Maps;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -134,6 +136,23 @@ public class RequestConfiguratorTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void readTravelOptionsWithJackson() throws IOException {
+        StatisticTravelOptions parsed = new ObjectMapper()
+                .readValue( "{\n" +
+                                "            \"travelType\": \"car\",\n" +
+                                "            \"elevationEnabled\": true,\n" +
+                                "            \"maxEdgeWeight\": 7200,\n" +
+                                "            \"travelTimeFactors\":{\"all\":1.5},\n" +
+                                "            \"edgeWeight\": \"time\",\n" +
+                                "            \"serviceUrl\": \"https://api.targomo.com/westcentraleurope/\",\n" +
+                                "            \"serviceKey\": \"{{api-key}}\"\n" +
+                                "        }",
+                        StatisticTravelOptions.class);
+
+        Assert.assertEquals(parsed.getTravelTimeFactors(), Maps.map("all",1.5));
     }
 
     @Test
