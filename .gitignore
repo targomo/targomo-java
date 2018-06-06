@@ -3,3 +3,5 @@ src/test/resources/test.properties
 .idea/
 api-java-client.iml
 r360-java-client.iml
+pom.xml.releaseBackup
+release.properties
