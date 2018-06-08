@@ -15,6 +15,7 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
@@ -133,6 +134,9 @@ public class TravelOptions implements Serializable {
 
 	@Transient
 	private Format format;
+
+	@Transient
+	private Geometry geometry;
 
 	@Transient
 	private String boundingBox;
@@ -1003,5 +1007,13 @@ public class TravelOptions implements Serializable {
 
 	public void setTravelTimeFactors(Map<String, Double> travelTimeFactors) {
 		this.travelTimeFactors = travelTimeFactors;
+	}
+
+	public Geometry getGeometry() {
+		return geometry;
+	}
+
+	public void setGeometry(Geometry geometry) {
+		this.geometry = geometry;
 	}
 }
