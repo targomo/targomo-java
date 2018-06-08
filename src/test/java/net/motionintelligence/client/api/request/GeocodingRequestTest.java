@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeoutException;
 import java.util.function.ToDoubleFunction;
 
 import static org.mockito.Mockito.when;
@@ -130,6 +131,18 @@ public class GeocodingRequestTest extends RequestTest{
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.FOR_STORAGE,"true");
         new GeocodingRequest(client,options);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTimeoutWronglySpecified() throws Route360ClientException {
+        //won't fail if authentication credentials provided
+        new GeocodingRequest(client,0);
+    }
+
+    @Test(expected = Route360ClientException.class)
+    public void testTimeoutExceptionFailed() throws Route360ClientException {
+        //won't fail if authentication credentials provided
+        new GeocodingRequest(client,1).get(batchAdd2[0]);
     }
 
     @Test

@@ -192,6 +192,8 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             Objects.requireNonNull(this.authenticationDetails,
                     "client authorization is required for option " + Option.FOR_STORAGE.name + "=true");
         }
+        if(this.requestTimeoutInMs<1)
+            throw new IllegalArgumentException("requestTimeOutInMs must be greater than 0 but was " + this.requestTimeoutInMs);
     }
 
     /**
