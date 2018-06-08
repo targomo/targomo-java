@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.concurrent.TimeoutException;
 import java.util.function.ToDoubleFunction;
 
 import static org.mockito.Mockito.when;
@@ -163,8 +164,20 @@ public class GeocodingRequestTest extends RequestTest{
 
     @Test(expected = TargomoClientException.class)
     public void testAuthorizationFails() throws TargomoClientException {
-        ESRIAuthenticationDetails authFail = new ESRIAuthenticationDetails("abc","abc");
-        new GeocodingRequest(client,authFail).get( "" );
+        ESRIAuthenticationDetails authFail = new ESRIAuthenticationDetails("abc", "abc");
+        new GeocodingRequest(client, authFail).get("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTimeoutWronglySpecified() throws TargomoClientException {
+        //won't fail if authentication credentials provided
+        new GeocodingRequest(client,0);
+    }
+
+    @Test(expected = TargomoClientException.class)
+    public void testTimeoutExceptionFailed() throws TargomoClientException {
+        //won't fail if authentication credentials provided
+        new GeocodingRequest(client,1).get(batchAdd2[0]);
     }
 
     @Test
@@ -195,7 +208,7 @@ public class GeocodingRequestTest extends RequestTest{
     public void testParallelBatchRequestSuccess() throws TargomoClientException, InterruptedException {
 
         //Tests both with and without credentials (to save some time)
-        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client,100000);
         final GeocodingRequest geocodingRequestWithCredentials = esriAccountInfo == null ? null :
                 new GeocodingRequest(client, esriAccountInfo);
 
@@ -257,10 +270,11 @@ public class GeocodingRequestTest extends RequestTest{
             //Add Option source country: Germany
             EnumMap<GeocodingRequest.Option, String> options = new EnumMap<>(GeocodingRequest.Option.class);
             options.put(GeocodingRequest.Option.SOURCE_COUNTRY, "DEU");
-            final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo, options);
+            final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo, options,60000);
 
             LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
             executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10, 10, batch));
+
 //        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
 //        LOGGER.info("Single Line batch of 26; 20 Threads; Source Country Germany");
