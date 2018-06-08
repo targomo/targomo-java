@@ -81,6 +81,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private static final String URI_AUTHENTICATION  = "https://www.arcgis.com";
     private static final String PATH_AUTHENTICATION = "sharing/oauth2/token";
     private static final Integer ESRI_ERROR_INVALID_TOKEN = 498;
+    private static final int DEFAULT_REQUEST_TIMEOUT_IN_MS  = 60000;
 
     //Class constants
     private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
@@ -90,9 +91,11 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private final Client client;
     private final ESRIAuthenticationDetails authenticationDetails;
     private final Map<Option,String> requestOptions;
+    private final int requestTimeoutInMs;
 
     //currently valid access token
-    private String  currentAccessToken = null;
+    private String currentAccessToken = null;
+    private final Object authSynchObject = new Object();
 
     /**
      * Creation of a default geo coding request without ESRI credentials (for batch requests slower than with credentials)
@@ -125,7 +128,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
      */
     public GeocodingRequest(Client client, Map<Option,String> extraOptions){
-        this(client, null, extraOptions);
+        this(client, null, extraOptions, DEFAULT_REQUEST_TIMEOUT_IN_MS);
     }
 
     /**
@@ -142,7 +145,24 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param authenticationDetails the authentication details with which accessToken will be retrieved
      */
     public GeocodingRequest(Client client, ESRIAuthenticationDetails authenticationDetails){
-        this(client, authenticationDetails, new EnumMap<>(Option.class));
+        this(client, authenticationDetails, new EnumMap<>(Option.class), DEFAULT_REQUEST_TIMEOUT_IN_MS);
+    }
+
+    /**
+     * Creation of a default geo coding request with customizable timeout.
+     *
+     * <p>
+     * Note1: The client's lifecycle is not handled here. Please make sure to properly close the client when not
+     * needed anymore. <br>
+     * Note2: For the parallel batch requests it may be required to set a certain connection pool size when client is
+     * created. (e.g. this was necessary for a JBoss client but not for the Jersey client)
+     * </p>
+     *
+     * @param client specified Client implementation to be used, e.g. Jersey or jBoss client
+     * @param requestTimeOutInMs the timeout before an request fails with {@link Route360ClientException}
+     */
+    public GeocodingRequest(Client client, int requestTimeOutInMs){
+        this(client, null, new EnumMap<>(Option.class), requestTimeOutInMs);
     }
 
     /**
@@ -159,11 +179,14 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param client specified Client implementation to be used, e.g. Jersey or jBoss client
      * @param authenticationDetails the authentication details with which accessToken will be retrieved
      * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
+     * @param requestTimeOutInMs the timeout before an request fails with {@link Route360ClientException}
      */
-    public GeocodingRequest(Client client, ESRIAuthenticationDetails authenticationDetails, Map<Option,String> extraOptions){
+    public GeocodingRequest(Client client, ESRIAuthenticationDetails authenticationDetails, Map<Option,String> extraOptions,
+                            int requestTimeOutInMs){
         this.client	                = client;
         this.requestOptions         = extraOptions;
         this.authenticationDetails  = authenticationDetails;
+        this.requestTimeoutInMs     = requestTimeOutInMs;
         //validation
         if("true".equals(extraOptions.get(Option.FOR_STORAGE))) {
             Objects.requireNonNull(this.authenticationDetails,
@@ -243,19 +266,28 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
                 finalTarget = target;
             //execute request
             LOGGER.debug("Executing geocoding request to URI: " + finalTarget.getUri());
-            Response response = finalTarget.request().buildGet().invoke();
+            WebTarget immutableTarget = finalTarget;
+            Response response = null;
             try {
+                ExecutorService singleThread = Executors.newSingleThreadExecutor();
+                response = singleThread.submit( () -> immutableTarget.request().buildGet().invoke() )
+                        .get(requestTimeoutInMs, TimeUnit.MILLISECONDS);
+                shutdownServiceExecutor(singleThread);
+
                 GeocodingResponse reqResponse = validateGeocodingResponse(response);
                 if (reqResponse.wasErrorResponse() &&
                         reqResponse.getError().getCode().equals(ESRI_ERROR_INVALID_TOKEN)) {
-                    if( tokenIsInvalid ) // do not loop a second time - instead throw an error
-                        throw new Route360ClientException( Thread.currentThread() + "Freshly retrieved token already " +
+                    if (tokenIsInvalid) // do not loop a second time - instead throw an error
+                        throw new Route360ClientException(Thread.currentThread() + "Freshly retrieved token already " +
                                 "invalid - should never happen: \n" + POJOUtil.prettyPrintPOJO(reqResponse.getError()));
                     tokenIsInvalid = true;
                 } else
                     return reqResponse; //successful request with valid response (can also be an error unrelated to the token validity)
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                throw new Route360ClientException( "Error occurred during Geocoding an address", e);
             } finally {
-                response.close();
+                if(response != null)
+                    response.close();
             }
         } while (true);
         // The above while-loop is looping at least once and a maximum of two times - there are three possible outcomes:
@@ -277,7 +309,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private boolean authenticateWithAccountAndRetrieveValidToken() throws Route360ClientException {
 
         this.currentAccessToken = null;
-        synchronized (this.authenticationDetails) {
+        synchronized (this.authSynchObject) {
             //make sure only one authorization is carried out
             if (this.currentAccessToken == null)
                 this.currentAccessToken = retrieveNewTokenViaAuthentication();
@@ -304,15 +336,23 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
         LOGGER.debug("Have to redo authentication for ESRI user with client id: {}",
                 this.authenticationDetails.getClientID());
-        Response response = target.request().buildGet().invoke();
+
+        Response response = null;
         AuthenticationResponse auth;
-        try {
+        try{
+            ExecutorService singleThread = Executors.newSingleThreadExecutor();
+            response = singleThread.submit( () -> target.request().buildGet().invoke() )
+                    .get(requestTimeoutInMs, TimeUnit.MILLISECONDS);
+            shutdownServiceExecutor(singleThread);
             auth = validateAuthenticationResponse(response);
             if (auth.wasErrorResponse())
                 throw new Route360ClientException("Error occurred during authentication with ESRI Service - " +
                         "Response: \n" + POJOUtil.prettyPrintPOJO(auth.getError()));
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new Route360ClientException( "Error occurred during authentication at ESRI for Geocoding", e);
         } finally {
-            response.close();
+            if(response != null)
+                response.close();
         }
         return auth.getAccessToken();
     }

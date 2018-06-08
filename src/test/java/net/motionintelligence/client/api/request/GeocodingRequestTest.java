@@ -160,7 +160,7 @@ public class GeocodingRequestTest extends RequestTest{
     public void ztestParallelBatchRequestSuccess() throws Route360ClientException, InterruptedException {
 
         //Tests both with and without credentials (to save some time)
-        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client);
+        final GeocodingRequest geocodingRequestNoCredentials = new GeocodingRequest(client,100000); //100 seconds
         final GeocodingRequest geocodingRequestWithCredentials = new GeocodingRequest(client, esriAccountInfo);
 
         executeBatchRequest(coordinates2, batch2, batch -> geocodingRequestWithCredentials.getBatchParallel(20,10,batch) );
@@ -207,7 +207,7 @@ public class GeocodingRequestTest extends RequestTest{
         //Add Option source country: Germany
         EnumMap<GeocodingRequest.Option,String> options = new EnumMap<>(GeocodingRequest.Option.class);
         options.put(GeocodingRequest.Option.SOURCE_COUNTRY,"DEU");
-        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,esriAccountInfo,options);
+        final GeocodingRequest geocodingRequest = new GeocodingRequest(client,esriAccountInfo,options,60000);
 
         LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
         executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
