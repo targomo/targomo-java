@@ -320,7 +320,8 @@ public final class RequestConfigurator {
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
-                //FIXME walkspeeds should be able to be defined here too
+                travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
+                //TODO walkspeeds should be able to be defined here too
                 break;
             case WALK:
                 travelMode.put("speed", travelOptions.getWalkSpeed());
@@ -338,9 +339,6 @@ public final class RequestConfigurator {
             default:
                 break;
         }
-
-        //FIXME probably into TRANSIT
-        travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
 
         return travelMode;
     }

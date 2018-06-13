@@ -1,6 +1,7 @@
 package com.targomo.client.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -33,12 +34,13 @@ import java.util.stream.Collectors;
  * {@link TimeRequest},
  * {@link ReachabilityRequest}.
  */
-//TODO this is a horrible mix of hibernate and json: transient is also used by some json deserializers, i.e.
+//TODO this is a dangerous mix of hibernate and json: transient is also used by some json deserializers, i.e.
 // all transient options are ignored
 
 @Entity
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TravelOptions implements Serializable {
 
     @Id
