@@ -3,13 +3,13 @@ image: code.route360.net:4567/docker/general-image/service/psql9.6:latest
 cache:
   key: "mvn"
   paths:
-    - .m2/
+    - .m2/repository
 
 services:
   - docker:dind
 
 variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 stages:
   - analyse
