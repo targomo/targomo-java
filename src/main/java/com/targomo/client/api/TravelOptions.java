@@ -696,7 +696,7 @@ public class TravelOptions implements Serializable {
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(walkDownhill);
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (rushHour != null ? rushHour.hashCode() : 0);
+		result = 31 * result + (rushHour != null ? rushHour.hashCode() : 0);
 		result = 31 * result + (travelTimes != null ? travelTimes.hashCode() : 0);
 		result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
 		result = 31 * result + (elevationEnabled != null ? elevationEnabled.hashCode() : 0);
