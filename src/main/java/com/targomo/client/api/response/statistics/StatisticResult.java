@@ -157,7 +157,7 @@ public class StatisticResult {
 				this.statistics.get(statisticId).entrySet()
 						.parallelStream()
 						.filter(entry -> startMinute >= entry.getKey() && entry.getKey() <= endMinute)
-						.mapToDouble(entry -> entry.getValue()));
+						.mapToDouble(Map.Entry::getValue));
 	}
 
 	public Map<Integer, Map<Integer, Double>> getStatistics() {

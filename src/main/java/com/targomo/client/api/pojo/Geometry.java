@@ -1,7 +1,8 @@
 package com.targomo.client.api.pojo;
 
 import com.targomo.client.Constants;
-import com.targomo.client.api.enums.PolygonSerializerType;
+
+import java.io.Serializable;
 
 /**
  * Created by gerb on 07.06.18.
@@ -12,7 +13,9 @@ import com.targomo.client.api.enums.PolygonSerializerType;
  * The geometry types <b>Polygon</b> and <b>MultiPolygon</b> are supported.
  *
  */
-public class Geometry {
+public class Geometry implements Serializable {
+
+    private static final long serialVersionUID = 196773737265051450L;
 
     private final String type;
     private final String data;
