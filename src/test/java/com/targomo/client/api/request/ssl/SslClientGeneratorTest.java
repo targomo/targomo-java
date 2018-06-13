@@ -3,6 +3,9 @@ package com.targomo.client.api.request.ssl;
 import org.junit.Test;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,7 +17,22 @@ public class SslClientGeneratorTest {
 		Client client = SslClientGenerator.initClient();
 		assertNotNull(client);
 		assertTrue(client.getHostnameVerifier() instanceof SslClientGenerator.TrustAllHostNameVerifier);
-		assertEquals("SSL", client.getSslContext().getProtocol());
+		assertEquals("TLSv1.2", client.getSslContext().getProtocol());
 	}
 
+	@Test
+	public void makeRequest1() throws Exception {
+
+		Client client = SslClientGenerator.initClient();
+		WebTarget request = client.target("https://google.com");
+		request.request().get();
+	}
+
+	@Test
+	public void makeRequest2() throws Exception {
+
+		Client client = SslClientGenerator.initClient();
+		WebTarget request = client.target("https://api.targomo.com/westcentraleurope/v1/polygon");
+		request.request().get();
+	}
 }

@@ -29,7 +29,7 @@ public class SslClientGenerator {
         
 		try {
 			
-			ctx = SSLContext.getInstance("SSL");
+			ctx = SSLContext.getInstance("TLSv1.2");
 			ctx.init(null, certs, new SecureRandom());
 			
 			return ClientBuilder.newBuilder()
