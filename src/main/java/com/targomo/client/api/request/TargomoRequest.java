@@ -43,13 +43,13 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      *
      * @param constructor the request constructor expecting two parameters: client and traveloptions
      * @param travelOptions the travel options for this request
-     * @param <RS> The Response type of the request
-     * @param <RQ> The Request type of this execution
-     * @return the response of the type RS
+     * @param <O> The Response type of the request
+     * @param <C> The Request type of this execution
+     * @return the response of the type O
      * @throws TargomoClientException when an error occurred during the request call
      */
-    static <RS extends DefaultResponse<?,?>,RQ extends TargomoRequest<RS>> RS
-                    executeRequest(BiFunction<Client,TravelOptions,RQ> constructor,
+    static <O extends DefaultResponse<?,?>, C extends TargomoRequest<O>> O
+                    executeRequest(BiFunction<Client,TravelOptions, C> constructor,
                                    TravelOptions travelOptions) throws TargomoClientException {
         Client client = SslClientGenerator.initClient();
         try{

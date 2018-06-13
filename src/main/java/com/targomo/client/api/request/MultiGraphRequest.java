@@ -9,15 +9,14 @@ import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.MultiGraphResponse.*;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 
 /**
  *  Class to create and execute a multigraph request.
  *
- * @param <MR>
+ * @param <R> Response Type of the MultigraphRequest, e.g. {@link MultiGraphJsonResponse}, {@link MultiGraphGeoJsonResponse}
  */
-public class MultiGraphRequest<MR extends MultiGraphResponse<?>> extends TargomoRequest<MR> {
+public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoRequest<R> {
 
     private static final String HTTP_METHOD = HttpMethod.GET; //could also be HttpMethod.POST
     private static final String PATH = "v1/multigraph";
@@ -31,7 +30,7 @@ public class MultiGraphRequest<MR extends MultiGraphResponse<?>> extends Targomo
      * @param client Client to be used
      * @param travelOptions Travel options parameters
      */
-    public MultiGraphRequest(Client client, TravelOptions travelOptions, Class<MR> responseClass) {
+    public MultiGraphRequest(Client client, TravelOptions travelOptions, Class<R> responseClass) {
         super(client,travelOptions,PATH,HTTP_METHOD,responseClass);
 
         //validation check
