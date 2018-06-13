@@ -22,13 +22,9 @@ import java.util.function.BiFunction;
  * Base request to the targomo API. Currently supported requests:
  * - MultiGraph
  *
- * @param <O> Final Type of the output stored in the "data" field of the response
- * @param <I> Type of data that Jackson does create and from which the data of type O is parsed,
- *           e.g. usually {@link java.util.Map} of {@link String} to {@link Object} for an
- *           object or a {@link java.util.List} for an array/list
  * @param <R> The Response type of the request
  */
-public abstract class TargomoRequest<O,I,R extends DefaultResponse<O,I>> {
+public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
 
     protected static final ObjectMapper MAPPER = new ObjectMapper(); //protected so you might add additional parsing modules
     private static final String CALLBACK = "callback";
@@ -47,15 +43,12 @@ public abstract class TargomoRequest<O,I,R extends DefaultResponse<O,I>> {
      *
      * @param constructor the request constructor expecting two parameters: client and traveloptions
      * @param travelOptions the travel options for this request
-     * @param <O> Final Type of the output stored in the "data" field of the response
-     * @param <I> Type of data that Jackson does create and from which the data of type <O> is parsed,
-     *           e.g. usually Map<String,Object> for an object or List<..> for an array/list
      * @param <RS> The Response type of the request
      * @param <RQ> The Request type of this execution
      * @return the response of the type RS
      * @throws TargomoClientException when an error occurred during the request call
      */
-    static <O,I,RS extends DefaultResponse<O,I>,RQ extends TargomoRequest<O,I,RS>> RS
+    static <RS extends DefaultResponse<?,?>,RQ extends TargomoRequest<RS>> RS
                     executeRequest(BiFunction<Client,TravelOptions,RQ> constructor,
                                    TravelOptions travelOptions) throws TargomoClientException {
         Client client = SslClientGenerator.initClient();
@@ -92,7 +85,7 @@ public abstract class TargomoRequest<O,I,R extends DefaultResponse<O,I>> {
     public String toCurl() throws TargomoClientException {
         String url = travelOptions.getServiceUrl().endsWith("/") ?
                 travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
-        return "curl -X " + this.httpMethod + " " +
+        return "curl -X " + this.httpMethod + " '" +
                 url + this.path +
                 "?cb=" + CALLBACK +
                 "&key=" + travelOptions.getServiceKey() + "' " +

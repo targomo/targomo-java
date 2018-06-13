@@ -66,7 +66,7 @@ public class MultiGraphRequestTest extends RequestTest {
     @Ignore("To test this you will have to fill in your API key first")
     public void get_success_API_test() throws Exception {
 
-	    String apiKey = "YOUR_API_KEY";
+	    String apiKey = "YOUR_API_KEY_HERE";
 
 	    //prepare travelOptions
         TravelOptions tO = getTravelOptions();
@@ -76,7 +76,10 @@ public class MultiGraphRequestTest extends RequestTest {
         // Make the call
         Client client = ClientBuilder.newClient();
         client.register(new GZipEncoder());
+        MultiGraphRequest<MultiGraphJsonResponse> request = new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class);
         MultiGraphJsonResponse response = MultiGraphRequest.executeRequestJson(client,tO);
+
+        System.out.println(request.toCurl());
 
         assertNotNull(response.getData());
     }

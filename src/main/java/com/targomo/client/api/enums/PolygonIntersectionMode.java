@@ -6,7 +6,6 @@ package com.targomo.client.api.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.util.Locale;
 import java.util.stream.Stream;
 
 /**
