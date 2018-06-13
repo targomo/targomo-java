@@ -81,7 +81,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "travel_type")
     private TravelType travelType                                   = TravelType.UNSPECIFIED;
 
-    @Column(name = "travel_time_factors")
+    @Transient
 	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
 
     @Column(name = "elevation_enabled")
