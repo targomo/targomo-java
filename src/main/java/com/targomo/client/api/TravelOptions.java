@@ -2,12 +2,9 @@ package com.targomo.client.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
@@ -15,11 +12,11 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
-import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.statistic.PoiType;
 
 import javax.persistence.*;
@@ -36,6 +33,9 @@ import java.util.stream.Collectors;
  * {@link TimeRequest},
  * {@link ReachabilityRequest}.
  */
+//TODO this is a horrible mix of hibernate and json: transient is also used by some json deserializers, i.e.
+// all transient options are ignored
+
 @Entity
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
@@ -81,6 +81,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "travel_type")
 	private TravelType travelType                    	            = TravelType.UNSPECIFIED;
 
+    @Column(name = "travel_time_factors")
+	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
+
     @Column(name = "elevation_enabled")
     private Boolean elevationEnabled                 	            = false;
 
@@ -123,10 +126,11 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-//    "rush_hour" -> "rushHour"
-
 	@Transient
 	private Format format;
+
+	@Transient
+	private Geometry intersectionGeometry;
 
 	@Transient
 	private String boundingBox;
@@ -623,109 +627,71 @@ public class TravelOptions implements Serializable {
 		return builder.toString();
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    //excluding id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TravelOptions)) return false;
+        TravelOptions that = (TravelOptions) o;
+        return Double.compare(that.bikeSpeed, bikeSpeed) == 0 &&
+                Double.compare(that.bikeUphill, bikeUphill) == 0 &&
+                Double.compare(that.bikeDownhill, bikeDownhill) == 0 &&
+                Double.compare(that.walkSpeed, walkSpeed) == 0 &&
+                Double.compare(that.walkUphill, walkUphill) == 0 &&
+                Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
+                Objects.equals(sources, that.sources) &&
+                Objects.equals(targets, that.targets) &&
+                Objects.equals(rushHour, that.rushHour) &&
+                Objects.equals(travelTimes, that.travelTimes) &&
+                travelType == that.travelType &&
+                Objects.equals(elevationEnabled, that.elevationEnabled) &&
+                Objects.equals(pointReduction, that.pointReduction) &&
+                Objects.equals(reverse, that.reverse) &&
+                Objects.equals(minPolygonHoleSize, that.minPolygonHoleSize) &&
+                Objects.equals(time, that.time) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(frame, that.frame) &&
+				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
+                Objects.equals(recommendations, that.recommendations) &&
+                Objects.equals(srid, that.srid) &&
+                Objects.equals(buffer, that.buffer) &&
+                Objects.equals(simplify, that.simplify) &&
+                intersectionMode == that.intersectionMode &&
+                pathSerializer == that.pathSerializer &&
+                polygonSerializerType == that.polygonSerializerType &&
+                Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
+                Objects.equals(serviceUrl, that.serviceUrl) &&
+                Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
+                Objects.equals(serviceKey, that.serviceKey) &&
+                edgeWeightType == that.edgeWeightType &&
+                Objects.equals(statisticIds, that.statisticIds) &&
+                Objects.equals(statisticGroupId, that.statisticGroupId) &&
+                Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
+                Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
+                Objects.equals(overpassQuery, that.overpassQuery) &&
+                Objects.equals(overpassServiceUrl, that.overpassServiceUrl) &&
+                Objects.equals(interServiceKey, that.interServiceKey) &&
+                format == that.format &&
+                Objects.equals(boundingBox, that.boundingBox) &&
+                Objects.equals(travelTypes, that.travelTypes) &&
+                Objects.equals(osmTypes, that.osmTypes) &&
+                Objects.equals(customPois, that.customPois) &&
+                Objects.equals(travelTimeFactors, that.travelTimeFactors);
+    }
 
-		TravelOptions that = (TravelOptions) o;
-
-		if (Double.compare(that.bikeSpeed, bikeSpeed) != 0) return false;
-		if (Double.compare(that.bikeUphill, bikeUphill) != 0) return false;
-		if (Double.compare(that.bikeDownhill, bikeDownhill) != 0) return false;
-		if (Double.compare(that.walkSpeed, walkSpeed) != 0) return false;
-		if (Double.compare(that.walkUphill, walkUphill) != 0) return false;
-		if (Double.compare(that.walkDownhill, walkDownhill) != 0) return false;
-        if (rushHour != that.rushHour) return false;
-		if (onlyPrintReachablePoints != that.onlyPrintReachablePoints) return false;
-		if (sources != null ? !sources.equals(that.sources) : that.sources != null) return false;
-		if (targets != null ? !targets.equals(that.targets) : that.targets != null) return false;
-		if (travelTimes != null ? !travelTimes.equals(that.travelTimes) : that.travelTimes != null) return false;
-		if (travelType != that.travelType) return false;
-		if (elevationEnabled != null ? !elevationEnabled.equals(that.elevationEnabled) : that.elevationEnabled != null)
-			return false;
-		if (appendTravelTimes != null ? !appendTravelTimes.equals(that.appendTravelTimes) : that.appendTravelTimes != null)
-			return false;
-		if (pointReduction != null ? !pointReduction.equals(that.pointReduction) : that.pointReduction != null)
-			return false;
-		if (reverse != null ? !reverse.equals(that.reverse) : that.reverse != null) return false;
-		if (minPolygonHoleSize != null ? !minPolygonHoleSize.equals(that.minPolygonHoleSize) : that.minPolygonHoleSize != null)
-			return false;
-		if (time != null ? !time.equals(that.time) : that.time != null) return false;
-		if (date != null ? !date.equals(that.date) : that.date != null) return false;
-		if (frame != null ? !frame.equals(that.frame) : that.frame != null) return false;
-		if (recommendations != null ? !recommendations.equals(that.recommendations) : that.recommendations != null)
-			return false;
-		if (srid != null ? !srid.equals(that.srid) : that.srid != null) return false;
-		if (buffer != null ? !buffer.equals(that.buffer) : that.buffer != null)
-			return false;
-        if (simplify != null ? !simplify.equals(that.simplify) : that.simplify != null)
-            return false;
-		if (intersectionMode != that.intersectionMode) return false;
-		if (pathSerializer != that.pathSerializer) return false;
-		if (polygonSerializerType != that.polygonSerializerType) return false;
-		if (maxEdgeWeight != null ? !maxEdgeWeight.equals(that.maxEdgeWeight) : that.maxEdgeWeight != null)
-			return false;
-		if (serviceUrl != null ? !serviceUrl.equals(that.serviceUrl) : that.serviceUrl != null) return false;
-		if (fallbackServiceUrl != null ? !fallbackServiceUrl.equals(that.fallbackServiceUrl) : that.fallbackServiceUrl != null)
-			return false;
-		if (serviceKey != null ? !serviceKey.equals(that.serviceKey) : that.serviceKey != null) return false;
-		if (edgeWeightType != that.edgeWeightType) return false;
-		if (statisticIds != null ? !statisticIds.equals(that.statisticIds) : that.statisticIds != null) return false;
-		if (statisticGroupId != null ? !statisticGroupId.equals(that.statisticGroupId) : that.statisticGroupId != null)
-			return false;
-        if (interServiceKey != null ? !interServiceKey.equals(that.interServiceKey) : that.interServiceKey != null) return false;
-		return statisticServiceUrl != null ? statisticServiceUrl.equals(that.statisticServiceUrl) : that.statisticServiceUrl == null;
-	}
-
-	@Override
-	public int hashCode() {
-		int result;
-		long temp;
-		result = sources != null ? sources.hashCode() : 0;
-		result = 31 * result + (targets != null ? targets.hashCode() : 0);
-		temp = Double.doubleToLongBits(bikeSpeed);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(bikeUphill);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(bikeDownhill);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(walkSpeed);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(walkUphill);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(walkDownhill);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		result = 31 * result + (rushHour != null ? rushHour.hashCode() : 0);
-		result = 31 * result + (travelTimes != null ? travelTimes.hashCode() : 0);
-		result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
-		result = 31 * result + (elevationEnabled != null ? elevationEnabled.hashCode() : 0);
-		result = 31 * result + (appendTravelTimes != null ? appendTravelTimes.hashCode() : 0);
-		result = 31 * result + (pointReduction != null ? pointReduction.hashCode() : 0);
-		result = 31 * result + (reverse != null ? reverse.hashCode() : 0);
-		result = 31 * result + (minPolygonHoleSize != null ? minPolygonHoleSize.hashCode() : 0);
-		result = 31 * result + (time != null ? time.hashCode() : 0);
-		result = 31 * result + (date != null ? date.hashCode() : 0);
-		result = 31 * result + (frame != null ? frame.hashCode() : 0);
-		result = 31 * result + (recommendations != null ? recommendations.hashCode() : 0);
-		result = 31 * result + (srid != null ? srid.hashCode() : 0);
-		result = 31 * result + (buffer != null ? buffer.hashCode() : 0);
-        result = 31 * result + (simplify != null ? simplify.hashCode() : 0);
-		result = 31 * result + (intersectionMode != null ? intersectionMode.hashCode() : 0);
-		result = 31 * result + (pathSerializer != null ? pathSerializer.hashCode() : 0);
-		result = 31 * result + (polygonSerializerType != null ? polygonSerializerType.hashCode() : 0);
-		result = 31 * result + (maxEdgeWeight != null ? maxEdgeWeight.hashCode() : 0);
-		result = 31 * result + (serviceUrl != null ? serviceUrl.hashCode() : 0);
-		result = 31 * result + (fallbackServiceUrl != null ? fallbackServiceUrl.hashCode() : 0);
-		result = 31 * result + (serviceKey != null ? serviceKey.hashCode() : 0);
-		result = 31 * result + (onlyPrintReachablePoints ? 1 : 0);
-		result = 31 * result + (edgeWeightType != null ? edgeWeightType.hashCode() : 0);
-		result = 31 * result + (statisticIds != null ? statisticIds.hashCode() : 0);
-		result = 31 * result + (statisticGroupId != null ? statisticGroupId.hashCode() : 0);
-		result = 31 * result + (statisticServiceUrl != null ? statisticServiceUrl.hashCode() : 0);
-        result = 31 * result + (interServiceKey != null ? interServiceKey.hashCode() : 0);
-		return result;
-	}
+	//excluding id
+    @Override
+	public int hashCode(){
+        return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+                rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
+                minPolygonHoleSize, time, date, frame, recommendations, srid, buffer, simplify,
+                intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
+                maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
+                statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
+                overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
+                travelTimeFactors);
+    }
 
 	/* (non-Javadoc)
          * @see java.lang.Object#toString()
@@ -775,6 +741,8 @@ public class TravelOptions implements Serializable {
 		builder.append(frame);
 		builder.append("\n\trecommendations: ");
 		builder.append(recommendations);
+		builder.append("\n\tintersectionGeometry: ");
+		builder.append(intersectionGeometry);
 		builder.append("\n\tsrid: ");
 		builder.append(srid);
 		builder.append("\n\tbuffer: ");
@@ -806,8 +774,21 @@ public class TravelOptions implements Serializable {
 		builder.append("\n}\n");
         builder.append("\n\tinterServiceKey: ");
         builder.append(interServiceKey);
-		return builder.toString();
-	}
+        builder.append("\n\tformat: ");
+        builder.append(format);
+        builder.append("\n\tboundingBox: ");
+        builder.append(boundingBox);
+        builder.append("\n\ttravelTypes: ");
+        builder.append(travelTypes != null ? toString(travelTypes, maxLen) : null );
+        builder.append("\n\tosmTypes: ");
+        builder.append(osmTypes != null ? toString(osmTypes, maxLen) : null);
+        builder.append("\n\tcustomPois: ");
+        builder.append(customPois != null ? toString(customPois, maxLen) : null);
+        builder.append("\n\ttravelTimeFactors: ");
+        builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
+        builder.append("\n}\n");
+        return builder.toString();
+    }
 
 	/**
 	 *
@@ -965,22 +946,6 @@ public class TravelOptions implements Serializable {
 		this.fallbackServiceUrl = fallbackServiceUrl;
 	}
 
-
-	public static void main(String[] args) throws JsonProcessingException, TargomoClientException {
-
-    	TravelOptions to = new TravelOptions();
-    	to.addSource(new DefaultSourceCoordinate("sourceid1", 52, 13, TravelType.WALK));
-        to.addSource(new DefaultSourceCoordinate("sourceid2", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target1", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target2", 52, 13));
-		ObjectMapper mapper = new ObjectMapper();
-
-		System.out.println(String.format("%s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(to)));
-
-
-		System.out.println(String.format("%s", RequestConfigurator.getConfig(to)));
-	}
-
 	public String getPointOfInterestServiceUrl() {
 		return pointOfInterestServiceUrl;
 	}
@@ -1016,4 +981,20 @@ public class TravelOptions implements Serializable {
     public void setMaxTransfers(Integer maxTransfers) {
         this.maxTransfers = maxTransfers;
     }
+
+	public Map<String, Double> getTravelTimeFactors() {
+		return travelTimeFactors;
+	}
+
+	public void setTravelTimeFactors(Map<String, Double> travelTimeFactors) {
+		this.travelTimeFactors = travelTimeFactors;
+	}
+
+	public Geometry getIntersectionGeometry() {
+		return intersectionGeometry;
+	}
+
+	public void setIntersectionGeometry(Geometry intersectionGeometry) {
+		this.intersectionGeometry = intersectionGeometry;
+	}
 }
