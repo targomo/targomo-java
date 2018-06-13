@@ -5,8 +5,8 @@ package com.targomo.client.api.statistic;
  */
 public class PoiType implements Comparable<PoiType> {
 
-    public String key;
-    public String value;
+    private String key;
+    private String value;
 
     // needed for json de/serialization
     public PoiType(){}

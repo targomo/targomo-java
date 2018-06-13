@@ -2,12 +2,9 @@ package com.targomo.client.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
@@ -15,11 +12,11 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
-import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.statistic.PoiType;
 
 import javax.persistence.*;
@@ -151,12 +148,15 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-    @Transient
-    private Format format;
+	@Transient
+	private Format format;
 
-    @Transient
-    private String boundingBox;
+	@Transient
+	private Geometry intersectionGeometry;
 
+	@Transient
+	private String boundingBox;
+	
     @Transient
     private Set<TravelType> travelTypes = new HashSet<>();
 
@@ -666,6 +666,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(time, that.time) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(frame, that.frame) &&
+				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
                 Objects.equals(decimalPrecision, that.decimalPrecision) &&
@@ -722,7 +723,7 @@ public class TravelOptions implements Serializable {
         return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType,
+                intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutlier, multiGraphAggregationOutlierPenalty,
@@ -1214,24 +1215,9 @@ public class TravelOptions implements Serializable {
         this.fallbackServiceUrl = fallbackServiceUrl;
     }
 
-	public static void main(String[] args) throws JsonProcessingException, TargomoClientException {
-
-        TravelOptions to = new TravelOptions();
-        to.addSource(new DefaultSourceCoordinate("sourceid1", 52, 13, TravelType.WALK));
-        to.addSource(new DefaultSourceCoordinate("sourceid2", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target1", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target2", 52, 13));
-        ObjectMapper mapper = new ObjectMapper();
-
-        System.out.println(String.format("%s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(to)));
-
-
-        System.out.println(String.format("%s", RequestConfigurator.getConfig(to)));
-    }
-
-    public String getPointOfInterestServiceUrl() {
-        return pointOfInterestServiceUrl;
-    }
+	public String getPointOfInterestServiceUrl() {
+		return pointOfInterestServiceUrl;
+	}
 
     public String getOverpassServiceUrl() {
         return overpassServiceUrl;
@@ -1271,5 +1257,13 @@ public class TravelOptions implements Serializable {
 
 	public void setTravelTimeFactors(Map<String, Double> travelTimeFactors) {
 		this.travelTimeFactors = travelTimeFactors;
+	}
+
+	public Geometry getIntersectionGeometry() {
+		return intersectionGeometry;
+	}
+
+	public void setIntersectionGeometry(Geometry intersectionGeometry) {
+		this.intersectionGeometry = intersectionGeometry;
 	}
 }

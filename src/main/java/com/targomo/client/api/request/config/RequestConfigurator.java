@@ -157,8 +157,18 @@ public final class RequestConfigurator {
         if ( travelOptions.getPolygonSerializerType() != null )
             polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
-        return polygon;
-    }
+        if ( travelOptions.getIntersectionGeometry() != null ) {
+
+			JSONObject intersectionPolygon = new JSONObject();
+			intersectionPolygon.put("crs",  travelOptions.getIntersectionGeometry().getCrs());
+			intersectionPolygon.put("data", travelOptions.getIntersectionGeometry().getData());
+			// has to be geojson ATM
+			intersectionPolygon.put("type", travelOptions.getIntersectionGeometry().getType());
+            polygon.put("intersectionGeometry", intersectionPolygon);
+		}
+
+		return polygon;
+	}
 
     private static JSONObject getMultiGraphObject(final TravelOptions travelOptions) throws JSONException {
 

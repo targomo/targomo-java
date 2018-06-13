@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.0.28</version>
+         <version>0.0.30</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -26,6 +26,15 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
 To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
+
+### 0.0.30
+- polygon request's HTTP method can now be set via constructor arg
+- statistics request now sets the service url as a url param
+- added geometry for server side geometry intersection, also in request builder
+- statistic results got some convenience methods to aggregate over returned values
+
+### 0.0.29
+- refactored everything to new targomo namespace
 
 ### 0.0.28
 - this version adds the possibility to generate statistics for specific statistic
