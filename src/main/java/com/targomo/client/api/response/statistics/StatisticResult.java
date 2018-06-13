@@ -123,6 +123,7 @@ public class StatisticResult {
 	 * for a statistic and minute.
 	 *
 	 * @param statisticId the id of the statistic
+	 * @param startMinute - the minute of the interval to start from (inclusive)
 	 * @param endMinute - the minute to which we want to aggregate (inclusive)
 	 * @param aggregatorFunction the function that we want to use to aggregate the found values
 	 *
