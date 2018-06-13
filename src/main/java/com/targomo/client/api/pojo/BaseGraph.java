@@ -1,4 +1,4 @@
-package com.targomo.client.api.model;
+package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,18 +8,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import java.io.Serializable;
 
 /**
- *
- * JSON Format:
- * <pre>{@code
- *   {
- *       "networkID": 1,
- *       'nodes' : { 1:[12.345,52.13], 2:[12.345, 52.13], ... , 13534:[12.345,52.13] }, // {id:[x,y]}
- *       'edges' : {1: [n1, n2, ec], 2:[n1, n2, ec], ...,108264:[ n1, n2, ec ]}, // optional: {id: [sourceNodeId, targetNodeId, edgeClass]}
- *       'supportingPoints' : {                                  // optional: edgeId:[[x,y]]
- *           0:[[12.345, 52.13],[ 12.345, 52.13 ]],
- *           ..
- *       }
- *   }}</pre>
+ * The basegraph is a POJO representation of an unweighted directed graph, it consists nodes and directed edges between them.
  */
 public class BaseGraph implements Serializable {
 

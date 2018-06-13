@@ -6,6 +6,9 @@ import com.targomo.client.Constants;
 
 import java.util.stream.Stream;
 
+/**
+ * The currently implemented aggregations for edges that are supported by the multi graph request.
+ */
 public enum MultiGraphLayerEdgeAggregationType {
 
     MIN(Constants.KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MINIMUM),

@@ -6,6 +6,9 @@ import com.targomo.client.Constants;
 
 import java.util.stream.Stream;
 
+/**
+ * The currently implemented serialization formats that are supported by the multi graph request.
+ */
 public enum MultiGraphSerializationFormat {
 
     JSON(Constants.KEY_MULTIGRAPH_SERIALIZATION_FORMAT_JSON),

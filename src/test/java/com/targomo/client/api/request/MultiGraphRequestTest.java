@@ -1,4 +1,4 @@
-package com.targomo.client.api.request.refactored;
+package com.targomo.client.api.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
@@ -8,11 +8,10 @@ import com.targomo.client.api.enums.MultiGraphSerializationFormat;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.request.RequestTest;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.request.ssl.SslClientGenerator;
-import com.targomo.client.api.response.refactored.MultiGraphResponse;
-import com.targomo.client.api.response.refactored.MultiGraphResponse.*;
+import com.targomo.client.api.response.MultiGraphResponse;
+import com.targomo.client.api.response.MultiGraphResponse.*;
 import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -20,6 +19,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -27,7 +27,6 @@ import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -41,7 +40,7 @@ public class MultiGraphRequestTest extends RequestTest {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
 		// Get sample json when success response is queried
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/MultigraphResponseSample.json");
+		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/MultiGraphResponseSample.json");
 		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
 		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
@@ -62,6 +61,25 @@ public class MultiGraphRequestTest extends RequestTest {
         assertNotNull(response.getData().getSupportingPoints());
         assertFalse(response.getData().getSupportingPoints().isEmpty());
 	}
+
+    @Test
+    @Ignore("To test this you will have to fill in your API key first")
+    public void get_success_API_test() throws Exception {
+
+	    String apiKey = "YOUR_API_KEY";
+
+	    //prepare travelOptions
+        TravelOptions tO = getTravelOptions();
+        tO.setServiceKey(apiKey);
+        tO.setServiceUrl("https://service.route360.net/westcentraleurope");
+
+        // Make the call
+        Client client = ClientBuilder.newClient();
+        client.register(new GZipEncoder());
+        MultiGraphJsonResponse response = MultiGraphRequest.executeRequestJson(client,tO);
+
+        assertNotNull(response.getData());
+    }
 
 	@Test
 	public void get_gateway_timeout() throws Exception {

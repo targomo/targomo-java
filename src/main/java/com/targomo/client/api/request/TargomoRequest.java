@@ -1,4 +1,4 @@
-package com.targomo.client.api.request.refactored;
+package com.targomo.client.api.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
@@ -6,10 +6,8 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.request.ssl.SslClientGenerator;
-import com.targomo.client.api.response.refactored.DefaultResponse;
+import com.targomo.client.api.response.DefaultResponse;
 import com.targomo.client.api.util.IOUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -21,7 +19,8 @@ import java.io.IOException;
 import java.util.function.BiFunction;
 
 /**
- * TODO update documentation
+ * Base request to the targomo API. Currently supported requests:
+ * - MultiGraph
  *
  * @param <O> Final Type of the output stored in the "data" field of the response
  * @param <I> Type of data that Jackson does create and from which the data of type O is parsed,
@@ -29,11 +28,10 @@ import java.util.function.BiFunction;
  *           object or a {@link java.util.List} for an array/list
  * @param <R> The Response type of the request
  */
-public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
+public abstract class TargomoRequest<O,I,R extends DefaultResponse<O,I>> {
 
-    //TODO use logger
-    private static final Logger         LOGGER = LoggerFactory.getLogger(R360Request.class);
-    protected static final ObjectMapper MAPPER = new ObjectMapper();
+    protected static final ObjectMapper MAPPER = new ObjectMapper(); //protected so you might add additional parsing modules
+    private static final String CALLBACK = "callback";
 
     private final Class<R> clazz;
     private final String httpMethod;
@@ -45,7 +43,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
      * needs to be registered usually to the client to receive results.
      *
-     * Example how to call it: MultiGraphResponse r = R360Request.executeRequest(MultiGraphRequest::new,travelOptions);
+     * Example how to call it: MultiGraphResponse r = TargomoRequest.executeRequest(MultiGraphRequest::new,travelOptions);
      *
      * @param constructor the request constructor expecting two parameters: client and traveloptions
      * @param travelOptions the travel options for this request
@@ -57,7 +55,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * @return the response of the type RS
      * @throws TargomoClientException when an error occurred during the request call
      */
-    static <O,I,RS extends DefaultResponse<O,I>,RQ extends R360Request<O,I,RS>> RS
+    static <O,I,RS extends DefaultResponse<O,I>,RQ extends TargomoRequest<O,I,RS>> RS
                     executeRequest(BiFunction<Client,TravelOptions,RQ> constructor,
                                    TravelOptions travelOptions) throws TargomoClientException {
         Client client = SslClientGenerator.initClient();
@@ -77,7 +75,7 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
      * @param httpMethod (HttpMethod.GET or HttpMethod.POST) are options
      * @param clazz the Response class, e.g. PolygonResponse.class
      */
-    R360Request(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz) {
+    TargomoRequest(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz) {
         this.client	= client;
         this.travelOptions = travelOptions;
         this.path = path;
@@ -85,23 +83,22 @@ public abstract class R360Request<O,I,R extends DefaultResponse<O,I>> {
         this.clazz = clazz;
     }
 
-//TODO add this method
-//    /**
-//     * For debugging.
-//     *
-//     * @return the request as curl String
-//     * @throws Route360ClientException when error occurred during parsing of the travel options
-//     */
-//    public String toCurl() throws Route360ClientException {
-//        String url = travelOptions.getServiceUrl().endsWith("/") ?
-//                travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
-//        return "curl -X POST '" +
-//                url + "v1/time" +
-//                "?cb=" + CALLBACK +
-//                "&key=" + travelOptions.getServiceKey() + "' " +
-//                "-H 'content-type: application/json' " +
-//                "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
-//    }
+    /**
+     * For debugging.
+     *
+     * @return the request as curl String
+     * @throws TargomoClientException when error occurred during parsing of the travel options
+     */
+    public String toCurl() throws TargomoClientException {
+        String url = travelOptions.getServiceUrl().endsWith("/") ?
+                travelOptions.getServiceUrl() : travelOptions.getServiceUrl() + "/";
+        return "curl -X " + this.httpMethod + " " +
+                url + this.path +
+                "?cb=" + CALLBACK +
+                "&key=" + travelOptions.getServiceKey() + "' " +
+                "-H 'content-type: application/json' " +
+                "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
+    }
 
     /**
      * Executes the request

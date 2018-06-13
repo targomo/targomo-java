@@ -7,6 +7,9 @@ import com.targomo.client.Constants;
 
 import java.util.stream.Stream;
 
+/**
+ * The currently implemented aggregations that are supported by the multi graph request.
+ */
 public enum MultiGraphAggregationType {
 
     NONE                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE,                 null),

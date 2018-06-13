@@ -1,6 +1,6 @@
 package com.targomo.client.api;
 
-import com.targomo.client.api.request.refactored.MultiGraphRequestTest;
+import com.targomo.client.api.request.MultiGraphRequestTest;
 import com.targomo.client.api.request.GeocodingRequestTest;
 import com.targomo.client.api.request.ReachabilityRequestTest;
 import com.targomo.client.api.request.TimeRequestTest;
@@ -17,7 +17,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 		MultiGraphRequestTest.class,
-		com.targomo.client.api.request.refactored.PolygonRequestTest.class,
 		RequestConfiguratorTest.class,
 		PolygonRequestTest.class,
 		ReachabilityRequestTest.class,

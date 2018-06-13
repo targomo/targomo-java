@@ -7,6 +7,9 @@ import com.targomo.client.Constants;
 
 import java.util.stream.Stream;
 
+/**
+ * The currently implemented layer types that are supported by the multi graph request.
+ */
 public enum MultiGraphLayerType {
 
     NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,          false,  false),

@@ -1,4 +1,4 @@
-package com.targomo.client.api.model;
+package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +9,10 @@ import com.targomo.client.api.enums.MultiGraphLayerType;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The multigraph object that is returned when doing a Multigraph request with JSON serialization.
+ * It extends the BaseGraph with values for either the nodes or the edges, depending on the layerType (NODE or EDGE).
+ */
 public class MultiGraph extends BaseGraph {
 
     private final Map<String,TIntIntMap> layers;

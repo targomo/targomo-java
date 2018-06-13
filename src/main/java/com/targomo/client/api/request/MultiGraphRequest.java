@@ -1,21 +1,21 @@
-package com.targomo.client.api.request.refactored;
+package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.jackson.datatype.trove.TroveModule;
 import com.targomo.client.api.enums.MultiGraphSerializationFormat;
-import com.targomo.client.api.response.refactored.MultiGraphResponse;
-import com.targomo.client.api.response.refactored.MultiGraphResponse.*;
+import com.targomo.client.api.response.MultiGraphResponse;
+import com.targomo.client.api.response.MultiGraphResponse.*;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 
 /**
- * TODO update documentation
+ * Class to create the multigraph class
  */
-public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360Request<R,R,MR> {
+public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends TargomoRequest<R,R,MR> {
 
     private static final String HTTP_METHOD = HttpMethod.GET; //could also be HttpMethod.POST
     private static final String PATH = "v1/multigraph";
@@ -31,6 +31,13 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
      */
     public MultiGraphRequest(Client client, TravelOptions travelOptions, Class<MR> responseClass) {
         super(client,travelOptions,PATH,HTTP_METHOD,responseClass);
+
+        //validation check
+        if( (responseClass == MultiGraphJsonResponse.class &&
+                !MultiGraphSerializationFormat.JSON.equals( travelOptions.getMultiGraphSerializationFormat() )) ||
+                (responseClass == MultiGraphGeoJsonResponse.class &&
+                        !MultiGraphSerializationFormat.GEOJSON.equals( travelOptions.getMultiGraphSerializationFormat() )))
+            throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
     }
 
     /**
@@ -42,7 +49,7 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
      * @throws TargomoClientException id error occurred during request
      */
     public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws TargomoClientException, ProcessingException {
-        return R360Request.executeRequest(
+        return TargomoRequest.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class),
                 travelOptions);
     }
@@ -56,7 +63,7 @@ public class MultiGraphRequest<R, MR extends MultiGraphResponse<R>> extends R360
      * @throws TargomoClientException id error occurred during request
      */
     public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws TargomoClientException, ProcessingException {
-        return R360Request.executeRequest(
+        return TargomoRequest.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphGeoJsonResponse.class),
                 travelOptions);
     }
