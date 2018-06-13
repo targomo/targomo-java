@@ -130,13 +130,11 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-//    "rush_hour" -> "rushHour"
-
 	@Transient
 	private Format format;
 
 	@Transient
-	private Geometry geometry;
+	private Geometry intersectionGeometry;
 
 	@Transient
 	private String boundingBox;
@@ -658,6 +656,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(time, that.time) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(frame, that.frame) &&
+				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
                 Objects.equals(buffer, that.buffer) &&
@@ -691,7 +690,7 @@ public class TravelOptions implements Serializable {
         return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType,
+                intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
@@ -746,6 +745,8 @@ public class TravelOptions implements Serializable {
 		builder.append(frame);
 		builder.append("\n\trecommendations: ");
 		builder.append(recommendations);
+		builder.append("\n\tintersectionGeometry: ");
+		builder.append(intersectionGeometry);
 		builder.append("\n\tsrid: ");
 		builder.append(srid);
 		builder.append("\n\tbuffer: ");
@@ -949,22 +950,6 @@ public class TravelOptions implements Serializable {
 		this.fallbackServiceUrl = fallbackServiceUrl;
 	}
 
-
-	public static void main(String[] args) throws JsonProcessingException, TargomoClientException {
-
-    	TravelOptions to = new TravelOptions();
-    	to.addSource(new DefaultSourceCoordinate("sourceid1", 52, 13, TravelType.WALK));
-        to.addSource(new DefaultSourceCoordinate("sourceid2", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target1", 52, 13));
-        to.addTarget(new DefaultTargetCoordinate("target2", 52, 13));
-		ObjectMapper mapper = new ObjectMapper();
-
-		System.out.println(String.format("%s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(to)));
-
-
-		System.out.println(String.format("%s", RequestConfigurator.getConfig(to)));
-	}
-
 	public String getPointOfInterestServiceUrl() {
 		return pointOfInterestServiceUrl;
 	}
@@ -1009,11 +994,11 @@ public class TravelOptions implements Serializable {
 		this.travelTimeFactors = travelTimeFactors;
 	}
 
-	public Geometry getGeometry() {
-		return geometry;
+	public Geometry getIntersectionGeometry() {
+		return intersectionGeometry;
 	}
 
-	public void setGeometry(Geometry geometry) {
-		this.geometry = geometry;
+	public void setIntersectionGeometry(Geometry intersectionGeometry) {
+		this.intersectionGeometry = intersectionGeometry;
 	}
 }

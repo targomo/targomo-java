@@ -66,7 +66,8 @@ public class StatisticsRequest {
 		long requestStart = System.currentTimeMillis();
 
 		WebTarget target = client.target(this.travelOptions.getStatisticServiceUrl()).path(method.getPath())
-				.queryParam("key", travelOptions.getServiceKey());
+				.queryParam("key", travelOptions.getServiceKey())
+				.queryParam("serviceUrl", travelOptions.getServiceUrl());
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 

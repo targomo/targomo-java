@@ -53,4 +53,5 @@ public class Constants {
     public static final String FORMAT 													= "format";
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
+    public static final String GEO_JSON   												= "geojson";
 }

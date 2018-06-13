@@ -6,10 +6,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.DoubleStream;
 
 public class StatisticResult {
 	
@@ -95,6 +95,69 @@ public class StatisticResult {
 		LOGGER.info(String.format("It took %sms to parse the population results!", System.currentTimeMillis() - start));
 		
 		return reachablePersonsByStatistic;
+	}
+
+	/**
+	 * This method returns the aggragtion value for all values for the
+	 * specified statistic and the given minute (starting from 0). So you can use this
+	 * method to generate the sum or the average of the reachable "targets"
+	 * for a statistic and minute.
+	 *
+	 * @param statisticId the id of the statistic
+	 * @param endMinute - the minute to which we want to aggregate (inclusive)
+	 * @param aggregatorFunction the function that we want to use to aggregate the found values
+	 *
+	 * @return the result of the aggregation
+	 *
+	 * @throws NullPointerException if no statistics have been set or there are no
+	 * 	values for the current statistic id
+	 */
+	public OptionalDouble getAggregationToMinute(Integer statisticId, Integer endMinute, ToDoubleFunction<DoubleStream> aggregatorFunction) {
+		return getAggregationToMinute(statisticId, 0, endMinute, aggregatorFunction);
+	}
+
+	/**
+	 * This method returns the aggragtion value for all values for the
+	 * specified statistic and the given minute (starting from 0). So you can use this
+	 * method to generate the sum or the average of the reachable "targets"
+	 * for a statistic and minute.
+	 *
+	 * @param statisticId the id of the statistic
+	 * @param endMinute - the minute to which we want to aggregate (inclusive)
+	 * @param aggregatorFunction the function that we want to use to aggregate the found values
+	 *
+	 * @return the result of the aggregation
+
+	 * @throws NullPointerException if no statistics have been set or there are no
+	 * 	values for the current statistic id
+	 */
+	public OptionalDouble getAggregationToMinute(Integer statisticId, Integer startMinute, Integer endMinute, ToDoubleFunction<DoubleStream> aggregatorFunction) {
+
+		Function<DoubleStream,OptionalDouble> converter = stream -> OptionalDouble.of(aggregatorFunction.applyAsDouble(stream));
+		return getAggToMinute(statisticId, startMinute, endMinute, converter);
+	}
+
+	/**
+	 * Private helper function to make it possible to also use aggregator
+	 * functions which only return a OptionalDouble
+	 *
+	 * @param statisticId - the id of the statistic of a group
+	 * @param startMinute - the minute of the interval to start from (inclusive)
+	 * @param endMinute   - the minute of the interval to end at (inclusive)
+	 * @param aggregatorFunction - the aggeragtion function
+	 *
+	 * @return the result of the aggregation
+	 *
+	 * @throws NullPointerException if no statistics have been set or there are no
+	 * 	values for the current statistic id
+	 */
+	private OptionalDouble getAggToMinute(Integer statisticId, Integer startMinute, Integer endMinute, Function<DoubleStream,OptionalDouble> aggregatorFunction) {
+
+		return aggregatorFunction.apply(
+				this.statistics.get(statisticId).entrySet()
+						.parallelStream()
+						.filter(entry -> startMinute >= entry.getKey() && entry.getKey() <= endMinute)
+						.mapToDouble(entry -> entry.getValue()));
 	}
 
 	public Map<Integer, Map<Integer, Double>> getStatistics() {
