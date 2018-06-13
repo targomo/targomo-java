@@ -75,6 +75,18 @@ public class PolygonRequest {
 	}
 
 	/**
+	 * Use custom client with specified travelOptions and the specified HTTP VERB
+	 * @param client Client to be used
+	 * @param travelOptions Travel options parameters
+	 * @param method the HTTP VERB
+	 */
+	public PolygonRequest(Client client, TravelOptions travelOptions, String method) {
+		this.client	= client;
+		this.travelOptions = travelOptions;
+		this.method = method;
+	}
+
+	/**
 	 *
 	 * @param options Travel options parameters
 	 */
