@@ -1,5 +1,6 @@
 package com.targomo.client.api.util;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.Constants;
@@ -27,6 +28,7 @@ public final class IOUtil {
 	public static <T> T cloneObjects(T object, Class<T> clazz){
 		try {
 			ObjectMapper om = new ObjectMapper();
+			om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			return om.readValue(om.writeValueAsString(object), clazz);
 		} catch (IOException e) {
 			throw new TargomoClientRuntimeException("Could not duplicate travel options due to: " + e.getMessage());

@@ -1,0 +1,44 @@
+{
+  "edgeWeight": "time",
+  "maxEdgeWeight": "300",
+  "multigraph":{
+    "edgeClasses": [11,12,16,18],
+    "layer":{
+      "type": "edge",
+      "edgeAggregationType": "min",
+      "geometryDetailPerTile": 3,
+      "minGeometryDetailLevel": 2,
+      "maxGeometryDetailLevel": 10,
+      "geometryDetailLevel": 8
+    },
+    "tile":{
+      "zoom": 5,
+      "x": 3,
+      "y": 103
+    },
+    "serialization":{
+      "format":"json",
+      "decimalPrecision": 5,
+      "maxGeometryCount": 100000
+    },
+    "aggregation":{
+      "type": "none",
+      "ignoreOutliers": true,
+      "outlierPenalty": 1000,
+      "minSourcesCount": 3,
+      "minSourcesRatio": 0.5,
+      "maxResultValueRatio": 0.6,
+      "maxResultValue": 1000
+    }
+  },
+  "sources": [
+    {
+      "id": "POI:0",
+      "lat": 52.5494892,
+      "lng": 13.42883045,
+      "tm": {
+        "bike": {}
+      }
+    }
+  ]
+}

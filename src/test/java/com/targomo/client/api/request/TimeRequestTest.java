@@ -20,42 +20,43 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 public class TimeRequestTest extends RequestTest {
-	@Test
-	public void get_success() throws Exception {
-		// Mock success response
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+    @Test
+    public void get_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
-		// Get sample json when success response is queried
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/TimeResponse.json");
-		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
-		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/TimeResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		TimeRequest timeRequest = new TimeRequest(mockClient, getTravelOptions());
-		TimeResponse timeResponse = timeRequest.get();
+        TimeRequest timeRequest = new TimeRequest(mockClient, getTravelOptions());
+        TimeResponse timeResponse = timeRequest.get();
 
-		assertEquals("ok", timeResponse.getCode());
-		assertEquals(472, timeResponse.getRequestTimeMillis());
-		assertNotNull(timeResponse.getTravelTimes());
-	}
+        assertEquals("ok", timeResponse.getCode());
+        assertEquals(472, timeResponse.getRequestTimeMillis());
+        assertNotNull(timeResponse.getTravelTimes());
+    }
 
-	@Test
-	public void get_gateway_timeout() throws Exception {
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
+    @Test
+    public void get_gateway_timeout() throws Exception {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		TimeRequest timeRequest = new TimeRequest(mockClient, options);
-		TimeResponse timeResponse = timeRequest.get();
-		assertEquals("gateway-time-out", timeResponse.getCode());
-	}
+        TravelOptions options = getTravelOptions();
+        TimeRequest timeRequest = new TimeRequest(mockClient, options);
+        TimeResponse timeResponse = timeRequest.get();
+        assertEquals("gateway-time-out", timeResponse.getCode());
+    }
 
 	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		TimeRequest timeRequest = new TimeRequest(mockClient, options);
-		timeRequest.get();
-	}
+        TravelOptions options = getTravelOptions();
+        TimeRequest timeRequest = new TimeRequest(mockClient, options);
+        timeRequest.get();
+    }
+
 
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();

@@ -20,42 +20,42 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 public class ReachabilityRequestTest extends RequestTest {
-	@Test
-	public void get_success() throws Exception {
-		// Mock success response
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+    @Test
+    public void get_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
-		// Get sample json when success response is queried
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/ReachabilityResponse.json");
-		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
-		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/ReachabilityResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions());
-		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
+        ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions());
+        ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 
-		assertEquals("ok", reachabilityResponse.getCode());
-		assertEquals(517, reachabilityResponse.getRequestTimeMillis());
-		assertNotNull(reachabilityResponse.getTravelTimes());
-	}
+        assertEquals("ok", reachabilityResponse.getCode());
+        assertEquals(517, reachabilityResponse.getRequestTimeMillis());
+        assertNotNull(reachabilityResponse.getTravelTimes());
+    }
 
-	@Test
-	public void get_gateway_timeout() throws Exception {
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
+    @Test
+    public void get_gateway_timeout() throws Exception {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
-		ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
-		assertEquals("gateway-time-out", reachabilityResponse.getCode());
-	}
+        TravelOptions options = getTravelOptions();
+        ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
+        ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
+        assertEquals("gateway-time-out", reachabilityResponse.getCode());
+    }
 
 	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
-		reachabilityRequest.get();
-	}
+        TravelOptions options = getTravelOptions();
+        ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
+        reachabilityRequest.get();
+    }
 
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();

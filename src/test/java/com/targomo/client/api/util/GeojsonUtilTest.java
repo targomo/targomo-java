@@ -1,28 +1,70 @@
 package com.targomo.client.api.util;
 
 import com.google.common.collect.ImmutableMap;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wololo.geojson.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
+
+/**
+ * In order to run the tests you should include a file "test.properties"
+ * in your "src/test/resources/" folder with the following content:
+ * <pre>
+ *    github.user=abc
+ *    github.gistUploadToken=abc
+ * </pre>
+ */
 
 public class GeojsonUtilTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeojsonUtilTest.class);
+
+    private static String YOUR_GITHUB_USER_ACCOUNT;
+    private static String YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE;
+
+    @BeforeClass
+    public static void setup() {
+        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("test.properties");
+        if(stream == null) {
+            LOGGER.warn("No test.properties found in src/test/resources : Tests are skipped");
+        } else {
+            Properties prop = new Properties();
+            try {
+                prop.load(stream);
+                YOUR_GITHUB_USER_ACCOUNT = prop.getProperty("github.user");
+                YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE = prop.getProperty("github.gistUploadToken");
+            } catch (IOException | IllegalArgumentException e) {
+                LOGGER.error("test.properties not properly formed : Tests are skipped", e);
+            }
+        }
+    }
 
     @Test
     @Ignore("It is a visual test to executed on a local machine with desktop")
     public void testVisualisationGeojsonIO() throws Exception {
         FeatureCollection featureCollection = buildBerlin();
-        GeojsonUtil.openGeoJsonInBrowserWithGeojsonIO(ImmutableMap.of("testGeojson", featureCollection) );
+        System.out.println(YOUR_GITHUB_USER_ACCOUNT);
+        GeojsonUtil.openGeoJsonInBrowserWithGeojsonIO(
+                YOUR_GITHUB_USER_ACCOUNT,YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE,
+                ImmutableMap.of("testGeojson", featureCollection) );
     }
 
     @Test
     @Ignore("It is a visual test to executed on a local machine with desktop")
     public void testVisualisationGithubGist() throws Exception {
         FeatureCollection featureCollection = buildBerlin();
-        GeojsonUtil.openGeoJsonInBrowserWithGitHubGist(ImmutableMap.of("testGeojson", featureCollection) );
+        GeojsonUtil.openGeoJsonInBrowserWithGitHubGist(
+                YOUR_GITHUB_USER_ACCOUNT,YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE,
+                ImmutableMap.of("testGeojson", featureCollection) );
     }
 
     private static FeatureCollection buildBerlin(){

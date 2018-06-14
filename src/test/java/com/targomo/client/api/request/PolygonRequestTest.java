@@ -20,48 +20,48 @@ import static org.mockito.Mockito.when;
 
 public class PolygonRequestTest extends RequestTest {
 
-	@Test
-	public void get_success() throws Exception {
-		// Mock success response
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+    @Test
+    public void get_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
-		// Get sample json when success response is queried
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PolygonResponse.json");
-		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
-		when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PolygonResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
 
-		// Make the call
-		PolygonRequest polygonRequest = new PolygonRequest(mockClient, getTravelOptions());
-		polygonRequest.setMethod(HttpMethod.GET);
-		PolygonResponse polygonResponse = polygonRequest.get();
+        // Make the call
+        PolygonRequest polygonRequest = new PolygonRequest(mockClient, getTravelOptions());
+        polygonRequest.setMethod(HttpMethod.GET);
+        PolygonResponse polygonResponse = polygonRequest.get();
 
-		// Check result
-		assertEquals("ok", polygonResponse.getCode());
-		assertEquals(2314, polygonResponse.getRequestTimeMillis());
+        // Check result
+        assertEquals("ok", polygonResponse.getCode());
+        assertEquals(2314, polygonResponse.getRequestTimeMillis());
 
-		assertNotNull(polygonResponse.getResult());
-	}
+        assertNotNull(polygonResponse.getResult());
+    }
 
-	@Test
-	public void get_gateway_timeout() throws Exception {
-		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
+    @Test
+    public void get_gateway_timeout() throws Exception {
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
-		polygonRequest.setMethod(HttpMethod.GET);
-		PolygonResponse polygonResponse = polygonRequest.get();
-		assertEquals("gateway-time-out", polygonResponse.getCode());
-	}
+        TravelOptions options = getTravelOptions();
+        PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
+        polygonRequest.setMethod(HttpMethod.GET);
+        PolygonResponse polygonResponse = polygonRequest.get();
+        assertEquals("gateway-time-out", polygonResponse.getCode());
+    }
 
 	@Test(expected = TargomoClientException.class)
 	public void get_exception() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
-		TravelOptions options = getTravelOptions();
-		PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
-		polygonRequest.setMethod(HttpMethod.GET);
-		polygonRequest.get();
-	}
+        TravelOptions options = getTravelOptions();
+        PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
+        polygonRequest.setMethod(HttpMethod.GET);
+        polygonRequest.get();
+    }
 
 	private TravelOptions getTravelOptions() {
 		TravelOptions options = new TravelOptions();
