@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
  * {@link TimeRequest},
  * {@link ReachabilityRequest}.
  */
-//TODO this is a dangerous mix of hibernate and json: transient is also used by some json deserializers, i.e.
-// all transient options are ignored
 
 @Entity
 @Table(name = "travel_option")

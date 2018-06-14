@@ -321,7 +321,9 @@ public final class RequestConfigurator {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
-                //TODO walkspeeds should be able to be defined here too
+                travelMode.put("speed", travelOptions.getWalkSpeed());
+                travelMode.put("uphill", travelOptions.getWalkUphill());
+                travelMode.put("downhill", travelOptions.getWalkDownhill());
                 break;
             case WALK:
                 travelMode.put("speed", travelOptions.getWalkSpeed());
