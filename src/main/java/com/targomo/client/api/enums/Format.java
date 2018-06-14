@@ -3,6 +3,8 @@ package com.targomo.client.api.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.stream.Stream;
+
 /**
  * Created by gerb on 27/03/2017.
  */
@@ -19,7 +21,10 @@ public enum Format {
 
     @JsonCreator
     public static Format fromString(String key) {
-        return key == null ? null : Format.valueOf(key.toUpperCase());
+        return key == null ? null : Stream.of(Format.values())
+                .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid " +
+                        Format.class.getSimpleName() + " specified: " + key + " doesn't exist"));
     }
 
     @JsonValue

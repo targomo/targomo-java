@@ -14,6 +14,9 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import java.util.Objects;
+import java.util.stream.Stream;
+
 /**
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
@@ -23,10 +26,9 @@ import java.util.Map;
  */
 public final class RequestConfigurator {
 
-	private static final Logger LOG = Logger.getLogger(RequestConfigurator.class);
+    private static final Logger LOG = Logger.getLogger(RequestConfigurator.class);
 
-    private RequestConfigurator() {
-    }
+    private RequestConfigurator() { }
 
 	/**
 	 * Replaces getCfg methods of Request classes.
@@ -44,53 +46,65 @@ public final class RequestConfigurator {
 
 	private static String getCommonConfig(final TravelOptions travelOptions) throws TargomoClientException {
 
-		StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
+	    StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
 
-		try {
-			if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty())
-				JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
+        try {
+            if (travelOptions.getTravelTimes() != null && !travelOptions.getTravelTimes().isEmpty())
+                JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
 
-			if (travelOptions.getIntersectionMode() != null)
-				JSONBuilder.appendString(config, Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
+            //attention - at least one multiGraph value must be set to create the multigraph hierarchy
+            if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationFormat(),
+                    travelOptions.getMultiGraphSerializationDecimalPrecision(), travelOptions.getMultiGraphAggregationType(),
+                    travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
+                    travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
+                    travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
+                    travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType())
+                    .anyMatch(Objects::nonNull) ||
+                    Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                            travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
+                JSONBuilder.append(config, Constants.MULTIGRAPH, getMultiGraphObject(travelOptions));
 
-			if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
-				JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
+            if (travelOptions.getIntersectionMode() != null)
+                JSONBuilder.appendString(config, Constants.POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
 
-			if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
-				JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
+            if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
+                JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
 
-			if (travelOptions.getPathSerializer() != null)
-				JSONBuilder.appendString(config, Constants.PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
+            if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
+                JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
 
-			if (travelOptions.isElevationEnabled() != null)
-				JSONBuilder.append(config, Constants.ENABLE_ELEVATION, travelOptions.isElevationEnabled());
+            if (travelOptions.getPathSerializer() != null)
+                JSONBuilder.appendString(config, Constants.PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
 
-			if (travelOptions.getReverse() != null)
-				JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
+            if (travelOptions.isElevationEnabled() != null)
+                JSONBuilder.append(config, Constants.ENABLE_ELEVATION, travelOptions.isElevationEnabled());
 
-			if (travelOptions.getEdgeWeightType() != null)
-				JSONBuilder.appendString(config, Constants.EDGE_WEIGHT, travelOptions.getEdgeWeightType());
+            if (travelOptions.getReverse() != null)
+                JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
 
-			if (travelOptions.getStatisticGroupId() != null)
-				JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
+            if (travelOptions.getEdgeWeightType() != null)
+                JSONBuilder.appendString(config, Constants.EDGE_WEIGHT, travelOptions.getEdgeWeightType());
 
-			if (travelOptions.getStatisticIds() != null)
-				JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
+            if (travelOptions.getStatisticGroupId() != null)
+                JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
 
-			if (travelOptions.getServiceUrl() != null)
-				JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");
+            if (travelOptions.getStatisticIds() != null)
+                JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
 
-			if (travelOptions.getServiceKey() != null)
-				JSONBuilder.append(config, "serviceKey", "\"" + travelOptions.getServiceKey() + "\"");
+            if (travelOptions.getServiceUrl() != null)
+                JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");
 
-			if (travelOptions.getFormat() != null)
-				JSONBuilder.append(config, Constants.FORMAT, "\"" + travelOptions.getFormat().toString().toLowerCase() + "\"");
+            if (travelOptions.getServiceKey() != null)
+                JSONBuilder.append(config, "serviceKey", "\"" + travelOptions.getServiceKey() + "\"");
 
-			if (travelOptions.getBoundingBox() != null)
-				JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
+            if (travelOptions.getFormat() != null)
+                JSONBuilder.append(config, Constants.FORMAT, "\"" + travelOptions.getFormat().toString().toLowerCase() + "\"");
+
+            if (travelOptions.getBoundingBox() != null)
+                JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
 
 
-			if (travelOptions.getOsmTypes() != null) {
+            if (travelOptions.getOsmTypes() != null) {
 
                 ObjectMapper mapper = new ObjectMapper();
                 JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
@@ -104,14 +118,15 @@ public final class RequestConfigurator {
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
-			JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGTH, travelOptions.getMaxEdgeWeight());
-		}
-		catch (Exception e) {
-			throw new TargomoClientException("Could not generate targomo config object", e);
-		}
 
-		return config.toString();
-	}
+            JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGHT, travelOptions.getMaxEdgeWeight());
+        }
+		catch (Exception e) {
+            throw new TargomoClientException("Could not generate targomo config object", e);
+        }
+
+        return config.toString();
+    }
 
 	/**
 	 *
@@ -130,6 +145,9 @@ public final class RequestConfigurator {
 		if ( travelOptions.getSrid() != null )
 			polygon.put(Constants.SRID, travelOptions.getSrid());
 
+        if ( travelOptions.getDecimalPrecision() != null )
+            polygon.put(Constants.DECIMAL_PRECISION, travelOptions.getDecimalPrecision());
+		
 		if ( travelOptions.getBuffer() != null )
 			polygon.put(Constants.BUFFER, travelOptions.getBuffer());
 
@@ -137,7 +155,7 @@ public final class RequestConfigurator {
             polygon.put(Constants.SIMPLIFY, travelOptions.getSimplify());
 
         if ( travelOptions.getPolygonSerializerType() != null )
-			polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
+            polygon.put(Constants.SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
         if ( travelOptions.getIntersectionGeometry() != null ) {
 
@@ -152,93 +170,206 @@ public final class RequestConfigurator {
 		return polygon;
 	}
 
-	private static JSONArray getSources(final TravelOptions travelOptions) throws JSONException {
-		JSONArray sources = new JSONArray();
-		for (Coordinate src : travelOptions.getSources().values()) {
-			JSONObject source = getSourceObject(travelOptions, src);
-			sources.put(source);
-		}
-		return sources;
-	}
+    private static JSONObject getMultiGraphObject(final TravelOptions travelOptions) throws JSONException {
 
-	private static StringBuilder getTargets(final TravelOptions travelOptions) {
-		StringBuilder targetsBuilder = new StringBuilder().append("[");
-		for (Coordinate trg : travelOptions.getTargets().values()) {
-			buildTarget(targetsBuilder, trg).append(",");
-		}
-		targetsBuilder.deleteCharAt(targetsBuilder.length() - 1);
-		targetsBuilder.append("]");
-		return targetsBuilder;
-	}
+        JSONObject multiGraph = new JSONObject();
 
-	private static StringBuilder buildTarget(final StringBuilder targetsBuilder, final Coordinate trg) {
-		JSONBuilder.beginJson(targetsBuilder);
-		JSONBuilder.appendString(targetsBuilder, Constants.ID, trg.getId());
-		JSONBuilder.append(targetsBuilder, 		 Constants.LATITUDE, trg.getY());
-		JSONBuilder.appendAndEnd(targetsBuilder, Constants.LONGITUDE, trg.getX());
-		return targetsBuilder;
-	}
+        if( travelOptions.getMultiGraphEdgeClasses() != null )
+            multiGraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
-	private static JSONObject getTravelMode(final TravelOptions travelOptions,
-	                                       final TravelType travelType) throws JSONException {
-		JSONObject travelMode = new JSONObject();
-		switch (travelType) {
-			case TRANSIT:
-				travelMode.put("frame", new JSONObject()
-						.put("time", travelOptions.getTime())
-						.put("date", travelOptions.getDate())
-						.put("duration", travelOptions.getFrame()));
-				if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
-				    travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
+        addMultiGraphLayer(travelOptions, multiGraph);
+        addMultiGraphTile(travelOptions, multiGraph);
+        addMultiGraphSerialization(travelOptions, multiGraph);
+        addMultiGraphAggregation(travelOptions, multiGraph);
+
+        return multiGraph;
+    }
+
+    private static void addMultiGraphLayer(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if( Stream.of(travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                travelOptions.getMultiGraphLayerGeometryDetailPerTile(), travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
+                travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
+                travelOptions.getMultiGraphLayerGeometryDetailLevel()).anyMatch(Objects::nonNull) ) {
+
+            JSONObject multigraphLayer = new JSONObject();
+
+            if ( travelOptions.getMultiGraphSerializationFormat() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
+
+            if( travelOptions.getMultiGraphLayerEdgeAggregationType() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphLayerEdgeAggregationType().getKey());
+
+            if ( travelOptions.getMultiGraphLayerGeometryDetailPerTile() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE, travelOptions.getMultiGraphLayerGeometryDetailPerTile());
+
+            if ( travelOptions.getMultiGraphLayerMinGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMinGeometryDetailLevel());
+
+            if ( travelOptions.getMultiGraphLayerMaxGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMaxGeometryDetailLevel());
+
+            if ( travelOptions.getMultiGraphLayerGeometryDetailLevel() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
+
+            multiGraph.put( Constants.MULTIGRAPH_LAYER, multigraphLayer);
+        }
+    }
+
+    private static void addMultiGraphTile(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if( Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull)) {
+
+            JSONObject multigraphTile = new JSONObject();
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_ZOOM, travelOptions.getMultiGraphTileZoom());
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_X, travelOptions.getMultiGraphTileX());
+            multigraphTile.put(Constants.MULTIGRAPH_TILE_Y, travelOptions.getMultiGraphTileY());
+            multiGraph.put( Constants.MULTIGRAPH_TILE, multigraphTile);
+        } else if (Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
+                travelOptions.getMultiGraphTileY()).anyMatch(Objects::nonNull)) {
+            throw new IllegalArgumentException("None or all elements in the tile definition have to be set.");
+        }
+    }
+
+    private static void addMultiGraphSerialization(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if( Stream.of(travelOptions.getMultiGraphSerializationFormat(),
+                travelOptions.getMultiGraphSerializationDecimalPrecision()).anyMatch(Objects::nonNull) ) {
+            JSONObject multigraphSerialization = new JSONObject();
+
+            if ( travelOptions.getMultiGraphSerializationFormat() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_FORMAT, travelOptions.getMultiGraphSerializationFormat().getKey());
+
+            if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
+
+            if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
+                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
+
+            multiGraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
+        }
+    }
+
+    private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if( Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
+                travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio()).anyMatch(Objects::nonNull) ) {
+
+            JSONObject multigraphAggregation = new JSONObject();
+
+            if ( travelOptions.getMultiGraphAggregationType() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, travelOptions.getMultiGraphAggregationType().getKey());
+
+            if ( travelOptions.getMultiGraphAggregationIgnoreOutlier() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, travelOptions.getMultiGraphAggregationIgnoreOutlier());
+
+            if ( travelOptions.getMultiGraphAggregationOutlierPenalty() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, travelOptions.getMultiGraphAggregationOutlierPenalty());
+
+            if ( travelOptions.getMultiGraphAggregationMinSourcesCount() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, travelOptions.getMultiGraphAggregationMinSourcesCount());
+
+            if ( travelOptions.getMultiGraphAggregationMinSourcesRatio() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, travelOptions.getMultiGraphAggregationMinSourcesRatio());
+
+            if ( travelOptions.getMultiGraphAggregationMaxResultValueRatio() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, travelOptions.getMultiGraphAggregationMaxResultValueRatio());
+
+            if ( travelOptions.getMultiGraphAggregationMaxResultValue() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, travelOptions.getMultiGraphAggregationMaxResultValue());
+
+            multiGraph.put( Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
+        }
+    }
+
+    private static JSONArray getSources(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sources = new JSONArray();
+        for (Coordinate src : travelOptions.getSources().values()) {
+            JSONObject source = getSourceObject(travelOptions, src);
+            sources.put(source);
+        }
+        return sources;
+    }
+
+    private static StringBuilder getTargets(final TravelOptions travelOptions) {
+        StringBuilder targetsBuilder = new StringBuilder().append("[");
+        for (Coordinate trg : travelOptions.getTargets().values()) {
+            buildTarget(targetsBuilder, trg).append(",");
+        }
+        targetsBuilder.deleteCharAt(targetsBuilder.length() - 1);
+        targetsBuilder.append("]");
+        return targetsBuilder;
+    }
+
+    private static StringBuilder buildTarget(final StringBuilder targetsBuilder, final Coordinate trg) {
+        JSONBuilder.beginJson(targetsBuilder);
+        JSONBuilder.appendString(targetsBuilder, Constants.ID, trg.getId());
+        JSONBuilder.append(targetsBuilder,          Constants.LATITUDE, trg.getY());
+        JSONBuilder.appendAndEnd(targetsBuilder, Constants.LONGITUDE, trg.getX());
+        return targetsBuilder;
+    }
+
+    private static JSONObject getTravelMode(final TravelOptions travelOptions,
+                                           final TravelType travelType) throws JSONException {
+        JSONObject travelMode = new JSONObject();
+        switch (travelType) {
+            case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
+                travelMode.put("frame", new JSONObject()
+                        .put("time", travelOptions.getTime())
+                        .put("date", travelOptions.getDate())
+                        .put("duration", travelOptions.getFrame()));
+                if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
+                    travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
-				break;
-			case WALK:
-				travelMode.put("speed", travelOptions.getWalkSpeed());
-				travelMode.put("uphill", travelOptions.getWalkUphill());
-				travelMode.put("downhill", travelOptions.getWalkDownhill());
-				break;
-			case BIKE:
-				travelMode.put("speed", travelOptions.getBikeSpeed());
-				travelMode.put("uphill", travelOptions.getBikeUphill());
-				travelMode.put("downhill", travelOptions.getBikeDownhill());
-				break;
+                travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
+                break;
+            case WALK:
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
+                break;
+            case BIKE:
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
+                break;
             case CAR:
                 travelMode.put("rushHour", travelOptions.getRushHour());
                 break;
-			default:
-				break;
-		}
+            default:
+                break;
+        }
 
-		travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
+        return travelMode;
+    }
 
-		return travelMode;
-	}
+    private static TravelType getTravelType(final TravelOptions travelOptions, Coordinate src) {
+        TravelType travelType = travelOptions.getTravelType();
+        if (src.getTravelType() != null
+                && src.getTravelType() != travelType
+                && src.getTravelType() != TravelType.UNSPECIFIED) {
+            travelType = src.getTravelType();
+        }
+        return travelType;
+    }
 
-	private static TravelType getTravelType(final TravelOptions travelOptions, Coordinate src) {
-		TravelType travelType = travelOptions.getTravelType();
-		if (src.getTravelType() != null
-				&& src.getTravelType() != travelType
-				&& src.getTravelType() != TravelType.UNSPECIFIED) {
-			travelType = src.getTravelType();
-		}
-		return travelType;
-	}
+    private static JSONObject getSourceObject(final TravelOptions travelOptions,
+                                              final Coordinate src) throws JSONException {
+        TravelType travelType = getTravelType(travelOptions, src);
+        JSONObject travelMode = getTravelMode(travelOptions, travelType);
 
-	private static JSONObject getSourceObject(final TravelOptions travelOptions,
-	                                          final Coordinate src) throws JSONException {
-		TravelType travelType = getTravelType(travelOptions, src);
-		JSONObject travelMode = getTravelMode(travelOptions, travelType);
+        JSONObject source = new JSONObject()
+                .put(Constants.ID, src.getId())
+                .put(Constants.LATITUDE, src.getY())
+                .put(Constants.LONGITUDE, src.getX())
+                .put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
-		JSONObject source = new JSONObject()
-				.put(Constants.ID, src.getId())
-				.put(Constants.LATITUDE, src.getY())
-				.put(Constants.LONGITUDE, src.getX())
-				.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
-
-		if (travelOptions.getReverse() != null) {
-			source.put(Constants.REVERSE, travelOptions.getReverse());
-		}
-		return source;
-	}
+        if (travelOptions.getReverse() != null) {
+            source.put(Constants.REVERSE, travelOptions.getReverse());
+        }
+        return source;
+    }
 
 }

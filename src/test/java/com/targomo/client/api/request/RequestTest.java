@@ -16,29 +16,29 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class RequestTest {
-	@Mock
-	Client mockClient;
-	@Mock
-	WebTarget mockWebTarget;
-	@Mock
-	Invocation.Builder mockBuilder;
-	@Mock
-	Invocation mockInvocation;
-	@Mock
-	Response sampleResponse;
+    @Mock
+    protected Client mockClient;
+    @Mock
+    WebTarget mockWebTarget;
+    @Mock
+    Invocation.Builder mockBuilder;
+    @Mock
+    Invocation mockInvocation;
+    @Mock
+    protected Response sampleResponse;
 
-	@Before
-	public void setUp() throws Exception {
-		when(mockClient.target(anyString())).thenReturn(mockWebTarget);
+    @Before
+    public void setUp() throws Exception {
+        when(mockClient.target(anyString())).thenReturn(mockWebTarget);
 
-		when(mockWebTarget.queryParam(anyString(), anyString())).thenReturn(mockWebTarget);
-		when(mockWebTarget.path(anyString())).thenReturn(mockWebTarget);
-		when(mockWebTarget.request()).thenReturn(mockBuilder);
+        when(mockWebTarget.queryParam(anyString(), anyString())).thenReturn(mockWebTarget);
+        when(mockWebTarget.path(anyString())).thenReturn(mockWebTarget);
+        when(mockWebTarget.request()).thenReturn(mockBuilder);
 
-		when(mockBuilder.get()).thenReturn(sampleResponse);
-		when(mockBuilder.post(anyObject())).thenReturn(sampleResponse);
+        when(mockBuilder.get()).thenReturn(sampleResponse);
+        when(mockBuilder.post(anyObject())).thenReturn(sampleResponse);
         when(mockBuilder.buildGet()).thenReturn(mockInvocation);
 
         when(mockInvocation.invoke()).thenReturn(sampleResponse);
-	}
+    }
 }

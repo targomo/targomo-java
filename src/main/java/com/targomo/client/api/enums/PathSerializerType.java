@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.targomo.client.api.enums;
 
 import com.targomo.client.api.exception.TargomoClientException;

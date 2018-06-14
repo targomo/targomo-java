@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
@@ -24,7 +23,77 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class RequestConfiguratorTest {
+
+    @Test
+    public void testMultiGraphConfig() throws Exception {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            // Generate input
+            TravelOptions options = new TravelOptions();
+            options.addSource(new DefaultSourceCoordinate("POI:0",13.42883045,52.5494892));
+            options.setServiceKey("INSERT_YOUR_KEY_HERE");
+            options.setServiceUrl("http://127.0.0.1:8080/");
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(300);
+            options.setTravelType(TravelType.BIKE);
+            options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
+            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
+            options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
+            options.setMultiGraphLayerGeometryDetailPerTile(3);
+            options.setMultiGraphLayerMinGeometryDetailLevel(2);
+            options.setMultiGraphLayerMaxGeometryDetailLevel(10);
+            options.setMultiGraphLayerGeometryDetailLevel(8);
+            options.setMultiGraphTileZoom(5);
+            options.setMultiGraphTileX(3);
+            options.setMultiGraphTileY(103);
+            options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
+            options.setMultiGraphSerializationDecimalPrecision(5);
+            options.setMultiGraphSerializationMaxGeometryCount(100000);
+            options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
+            options.setMultiGraphAggregationIgnoreOutlier(true);
+            options.setMultiGraphAggregationOutlierPenalty(1000);
+            options.setMultiGraphAggregationMinSourcesCount(3);
+            options.setMultiGraphAggregationMinSourcesRatio(0.5);
+            options.setMultiGraphAggregationMaxResultValue(1000);
+            options.setMultiGraphAggregationMaxResultValueRatio(0.6);
+
+            // Run configurator && get object
+            String cfg = RequestConfigurator.getConfig(options);
+            JSONObject actualObject = new JSONObject(cfg);
+
+            // Load sample json & load object
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
+            JSONObject sampleObject = new JSONObject(sampleJson);
+
+            // Compare two objects
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONObject(Constants.MULTIGRAPH));
+
+
+            //second test with tile discarded
+            // all values have to be set to null otherwise there will be an illegal argument exception cause
+            options.setMultiGraphTileZoom(null);
+            options.setMultiGraphTileX(null);
+            options.setMultiGraphTileY(null);
+            //remove the tile from the json String
+            sampleJson = sampleJson.replaceFirst("(\"tile\")([^<]*?)(\"serialization\")", "\"serialization\"" );
+
+            sampleObject = new JSONObject(sampleJson);
+            actualObject = new JSONObject(RequestConfigurator.getConfig(options));
+
+            // Compare two objects
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONObject(Constants.MULTIGRAPH));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void getConfig_check_polygons() throws Exception {
 
@@ -133,8 +202,8 @@ public class RequestConfiguratorTest {
 	        Assert.assertEquals(numOfSources, actualObject.getJSONArray(Constants.SOURCES).length());
 	        Assert.assertEquals(numOfTargets, actualObject.getJSONArray(Constants.TARGETS).length());
 
-            Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGTH),
-                    actualObject.get(Constants.MAX_EDGE_WEIGTH));
+            Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGHT),
+                    actualObject.get(Constants.MAX_EDGE_WEIGHT));
 
             Assert.assertEquals(sampleObject.get(Constants.EDGE_WEIGHT),
                     actualObject.get(Constants.EDGE_WEIGHT));
