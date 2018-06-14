@@ -197,7 +197,7 @@
                     <skipTests>${skip.unit.tests}</skipTests>
                     <!-- Excludes integration tests when unit tests are run. -->
                     <includes>
-                        <include>**/*.java</include>
+						<include>**/TestSuite.class</include>
                     </includes>
                 </configuration>
             </plugin>
