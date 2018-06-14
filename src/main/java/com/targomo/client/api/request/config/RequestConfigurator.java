@@ -321,19 +321,19 @@ public final class RequestConfigurator {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
-                travelMode.put("speed", travelOptions.getWalkSpeed());
-                travelMode.put("uphill", travelOptions.getWalkUphill());
-                travelMode.put("downhill", travelOptions.getWalkDownhill());
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
                 break;
             case WALK:
-                travelMode.put("speed", travelOptions.getWalkSpeed());
-                travelMode.put("uphill", travelOptions.getWalkUphill());
-                travelMode.put("downhill", travelOptions.getWalkDownhill());
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
                 break;
             case BIKE:
-                travelMode.put("speed", travelOptions.getBikeSpeed());
-                travelMode.put("uphill", travelOptions.getBikeUphill());
-                travelMode.put("downhill", travelOptions.getBikeDownhill());
+                travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
+                travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
+                travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
                 break;
             case CAR:
                 travelMode.put("rushHour", travelOptions.getRushHour());

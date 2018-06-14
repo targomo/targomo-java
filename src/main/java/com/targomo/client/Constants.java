@@ -28,6 +28,9 @@ public class Constants {
     public static final String TRAVEL_TYPE_TRANSIT                                      = "transit";
     public static final String TRAVEL_TYPE_WALKTRANSIT                                  = "walktransit";
     public static final String TRAVEL_TYPE_BIKETRANSIT                                  = "biketransit";
+    public static final String TRAVEL_MODE_SPEED                                        = "speed";
+    public static final String TRAVEL_MODE_UPHILL                                       = "uphill";
+    public static final String TRAVEL_MODE_DOWNHILL                                     = "downhill";
     public static final String PATH_SERIALIZER                                          = "pathSerializer";
     public static final String TRAVEL_TIME_PATH_SERIALIZER                              = "travelTime";
     public static final String COMPACT_PATH_SERIALIZER                                  = "compact";
