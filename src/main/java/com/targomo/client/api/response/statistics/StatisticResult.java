@@ -157,7 +157,7 @@ public class StatisticResult {
 		return aggregatorFunction.apply(
 				this.statistics.get(statisticId).entrySet()
 						.parallelStream()
-						.filter(entry -> startMinute >= entry.getKey() && entry.getKey() <= endMinute)
+						.filter(entry -> startMinute <= entry.getKey() && entry.getKey() <= endMinute)
 						.mapToDouble(Map.Entry::getValue));
 	}
 
