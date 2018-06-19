@@ -1,5 +1,7 @@
 package com.targomo.client.api.pojo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.Constants;
 
 import java.io.Serializable;
@@ -27,7 +29,8 @@ public class Geometry implements Serializable {
      * @param crs the coordinate reference system of the geometry
      * @param data the serialized geometry in a specified format
      */
-    public Geometry(Integer crs, String data) {
+    @JsonCreator
+    public Geometry(@JsonProperty("crs") Integer crs, @JsonProperty("data") String data) {
         this.type = Constants.GEO_JSON;
         this.data = data;
         this.crs = crs;
