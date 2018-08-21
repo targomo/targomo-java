@@ -28,7 +28,8 @@
       "minSourcesCount": 3,
       "minSourcesRatio": 0.5,
       "maxResultValueRatio": 0.6,
-      "maxResultValue": 1000
+      "maxResultValue": 1000,
+      "filterValuesForSourceOrigins": ["POI:0"]
     }
   },
   "sources": [
