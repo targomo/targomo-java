@@ -31,7 +31,7 @@ sonarqube:
    tags:
        - kubernetes
    script:
-       - mvn --settings settings.xml --batch-mode verify sonar:sonar
+       - mvn --settings .ci/settings.xml --batch-mode verify sonar:sonar
         -Dsonar.host.url=$SONARQUBE_URL
         -Dsonar.login=$SONARQUBE_TOKEN
         -Dsonar.branch.name=$CI_COMMIT_REF_NAME
@@ -52,7 +52,7 @@ sonarqube:
 deploy_feature:
   stage: deploy
   script:
-    - mvn clean deploy -DperformRelease=true
+    - mvn --settings .ci/settings.xml clean deploy -DperformRelease=true
   when: manual
   artifacts:
        name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
