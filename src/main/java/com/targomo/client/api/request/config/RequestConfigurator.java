@@ -58,7 +58,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
-                    travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType())
+                    travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
+                    travelOptions.getMultiGraphLayerEdgeAggregationType())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -252,7 +253,8 @@ public final class RequestConfigurator {
         if( Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
-                travelOptions.getMultiGraphAggregationMaxResultValueRatio()).anyMatch(Objects::nonNull) ) {
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
+                travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).anyMatch(Objects::nonNull) ) {
 
             JSONObject multigraphAggregation = new JSONObject();
 
@@ -276,6 +278,9 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphAggregationMaxResultValue() != null )
                 multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, travelOptions.getMultiGraphAggregationMaxResultValue());
+
+            if ( travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() != null )
+                multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins());
 
             multiGraph.put( Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
         }

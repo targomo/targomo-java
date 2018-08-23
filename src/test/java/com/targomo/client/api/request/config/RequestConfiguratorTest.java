@@ -10,6 +10,7 @@ import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import org.apache.commons.io.IOUtils;
 import org.boon.Maps;
+import org.boon.Sets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ public class RequestConfiguratorTest {
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
-            options.setMultiGraphEdgeClasses(Arrays.asList(11,12,16,18));
+            options.setMultiGraphEdgeClasses(Sets.safeSortedSet(11,12,16,18));
             options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
             options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
             options.setMultiGraphLayerGeometryDetailPerTile(3);
@@ -60,6 +61,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationMaxResultValue(1000);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
+            options.setMultiGraphAggregationFilterValuesForSourceOrigins(Sets.safeSortedSet("POI:0"));
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
