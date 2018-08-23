@@ -31,19 +31,19 @@ sonarqube:
    tags:
        - kubernetes
    script:
-       - mvn --settings .ci/settings.xml --batch-mode verify sonar:sonar
-           -Dsonar.host.url=$SONARQUBE_URL
-           -Dsonar.login=$SONARQUBE_TOKEN
-           -Dsonar.branch.name=develop
-           -Dsonar.branch.target=master
-           -Dsonar.gitlab.api_version=v4
-           -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA
-           -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
-           -Dsonar.gitlab.project_id=$CI_PROJECT_ID
-           -Dsonar.gitlab.url=$GITLAB_URL
-           -Dsonar.gitlab.user_token=$GITLAB_TOKEN
-           -Dsonar.gitlab.query_max_retry=100
-           -Dsonar.gitlab.query_wait=10000
+       - mvn --settings settings.xml --batch-mode verify sonar:sonar
+        -Dsonar.host.url=$SONARQUBE_URL
+        -Dsonar.login=$SONARQUBE_TOKEN
+        -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+        -Dsonar.branch.target=develop
+        -Dsonar.gitlab.api_version=v4
+        -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA
+        -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
+        -Dsonar.gitlab.project_id=$CI_PROJECT_ID
+        -Dsonar.gitlab.url=$GITLAB_URL
+        -Dsonar.gitlab.user_token=$GITLAB_TOKEN
+        -Dsonar.gitlab.query_max_retry=100
+        -Dsonar.gitlab.query_wait=10000
        - cat target/site/jacoco-ut/index.html
    only:
      - /^feature.*$/
