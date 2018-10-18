@@ -4,7 +4,7 @@
 
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <name>Targomo Java Client Library</name>
     <description>Java client library for easy usage of Targomo web services.</description>
     <url>https://github.com/targomo/targomo-java</url>
@@ -50,7 +50,7 @@
         <jersey.version>2.6</jersey.version>
         <junit.version>4.12</junit.version>
         <geotools.version>16.1</geotools.version>
-        <jackson.version>2.9.1</jackson.version>
+        <jackson.version>2.9.5</jackson.version>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
     </properties>

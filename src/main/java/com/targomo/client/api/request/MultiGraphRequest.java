@@ -18,7 +18,7 @@ import javax.ws.rs.client.Client;
  */
 public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoRequest<R> {
 
-    private static final String HTTP_METHOD = HttpMethod.GET; //could also be HttpMethod.POST
+    private static final String HTTP_METHOD = HttpMethod.POST; //could also be HttpMethod.GET
     private static final String PATH = "v1/multigraph";
 
     static {
