@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.2</version>
+         <version>0.1.3</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -26,6 +26,9 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
 To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
+
+### 0.1.3
+- included multigraph service requests and constants/enums
 
 ### 0.0.30
 - polygon request's HTTP method can now be set via constructor arg
