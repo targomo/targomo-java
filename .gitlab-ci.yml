@@ -65,4 +65,5 @@ before_script:
   - *auto_devops
   - setup_docker
   - sed -i 's/SONATYPE_PASSWORD/$SONATYPE_PASSWORD/g' .ci/settings.xml
+  - sed -i 's/GPG_PASSPHRASE/$GPG_PASSPHRASE/g' .ci/settings.xml
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN code.route360.net:4567
