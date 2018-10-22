@@ -27,6 +27,9 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.4
+- added completeTimeMatrix service request and response
+
 ### 0.1.3
 - included multigraph service requests and constants/enums
 

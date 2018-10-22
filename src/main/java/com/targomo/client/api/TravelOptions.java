@@ -95,6 +95,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "time") private Integer time                     = 9 * 3600;
     @Column(name = "date")  private Integer date                    = 20170214;
     @Column(name = "frame") private Integer frame                   = 18000;
+    @Transient private Integer maxWalkingTime                       = null;
     @Transient private Integer recommendations                      = 0;
     @Transient private Integer srid                                 = null;
     @Transient private Integer decimalPrecision                     = null;
@@ -476,6 +477,20 @@ public class TravelOptions implements Serializable {
      */
     public void setFrame(int frame) {
         this.frame = frame;
+    }
+    /**
+     * @return the maxWalkingTime, which is the maximum time that can be used from the sources to a transit stop and to
+     * the targets from a transit stop (in seconds)
+     */
+    public Integer getMaxWalkingTime() {
+        return maxWalkingTime;
+    }
+    /**
+     * @param maxWalkingTime is the maximum time that can be used from the sources to a transit stop and to the targets
+     *                       from a transit stop (in seconds)
+     */
+    public void setMaxWalkingTime(Integer maxWalkingTime) {
+        this.maxWalkingTime = maxWalkingTime;
     }
     /**
      * @return the recommendations

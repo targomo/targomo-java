@@ -325,6 +325,9 @@ public final class RequestConfigurator {
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
+                if (travelOptions.getMaxWalkingTime() != null && travelOptions.getMaxWalkingTime() >= 0) {
+                    travelMode.put("maxWalkingTime", travelOptions.getMaxWalkingTime());
+                }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
                 travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
                 travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
