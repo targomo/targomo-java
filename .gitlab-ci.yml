@@ -45,6 +45,7 @@ deploy_feature:
   stage: deploy
   script:
     - sed -i 's/SONATYPE_PASSWORD/$SONATYPE_PASSWORD/g' .ci/settings.xml
+    - cat .ci/settings.xml
     - mvn --settings .ci/settings.xml --batch-mode deploy -DperformRelease=true
   when: manual
   artifacts:
