@@ -5,7 +5,8 @@
       "targets": [
         {
           "id": "Home 3",
-          "travelTimes": [
+          "travelTimeWalk": 3600,
+          "travelTimesTransit": [
             [
               40206,
               45110
@@ -102,7 +103,8 @@
         },
         {
           "id": "Home 4",
-          "travelTimes": [
+          "travelTimeWalk": -1,
+          "travelTimesTransit": [
             [
               40297,
               44222
@@ -180,7 +182,8 @@
       "targets": [
         {
           "id": "Home 3",
-          "travelTimes": [
+          "travelTimeWalk": 3600,
+          "travelTimesTransit": [
             [
               40042,
               43370
@@ -305,7 +308,8 @@
         },
         {
           "id": "Home 4",
-          "travelTimes": [
+          "travelTimeWalk": -1,
+          "travelTimesTransit": [
             [
               40020,
               43221

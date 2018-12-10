@@ -10,7 +10,7 @@ import javax.ws.rs.client.Client;
 public class TimeVectorRequest extends TargomoRequest<TimeVectorResponse> {
 
     private static final String HTTP_METHOD = HttpMethod.POST; //could also be HttpMethod.GET
-    private static final String PATH = "v1/completeTimeMatrix"; //FIXME rename when juri updated service
+    private static final String PATH = "v1/timeVector";
 
     /**
      * Use custom client with specified travelOptions

@@ -317,6 +317,7 @@ public final class RequestConfigurator {
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
         switch (travelType) {
+            case WALKTRANSIT:
             case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
                 travelMode.put("frame", new JSONObject()
                         .put("time", travelOptions.getTime())
@@ -325,8 +326,11 @@ public final class RequestConfigurator {
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
-                if (travelOptions.getMaxWalkingTime() != null && travelOptions.getMaxWalkingTime() >= 0) {
-                    travelMode.put("maxWalkingTime", travelOptions.getMaxWalkingTime());
+                if (travelOptions.getMaxWalkingTimeFromSource() != null && travelOptions.getMaxWalkingTimeFromSource() >= 0) {
+                    travelMode.put("maxWalkingTimeFromSource", travelOptions.getMaxWalkingTimeFromSource());
+                }
+                if (travelOptions.getMaxWalkingTimeToTarget() != null && travelOptions.getMaxWalkingTimeToTarget() >= 0) {
+                    travelMode.put("maxWalkingTimeToTarget", travelOptions.getMaxWalkingTimeToTarget());
                 }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
                 travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());

@@ -1,0 +1,48 @@
+{
+  "edgeWeight": "time",
+  "maxEdgeWeight": "7200",
+  "sources": [
+    {
+      "id": "POI:1",
+      "lat":47.384197,
+      "lng":8.620987,
+      "tm": {
+        "transit": {
+          "frame": {
+            "date": "20180815",
+            "time": 40000,
+            "duration": 14400
+          },
+          "maxWalkingTime": 1800
+        }
+      }
+    },
+    {
+      "id": "POI:2",
+      "lat":47.385334,
+      "lng":8.497925,
+      "tm": {
+        "transit": {
+          "frame": {
+            "date": "20180815",
+            "time": 40000,
+            "duration": 14400
+          },
+          "maxWalkingTime": 1800
+        }
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "Home 3",
+      "lat":47.322069,
+      "lng":8.511658
+    },
+    {
+      "id": "Home 4",
+      "lat":47.439235,
+      "lng":8.572083
+    }
+  ]
+}

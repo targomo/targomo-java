@@ -95,7 +95,8 @@ public class TravelOptions implements Serializable {
     @Column(name = "time") private Integer time                     = 9 * 3600;
     @Column(name = "date")  private Integer date                    = 20170214;
     @Column(name = "frame") private Integer frame                   = 18000;
-    @Transient private Integer maxWalkingTime                       = null;
+    @Transient private Integer maxWalkingTimeFromSource             = null;
+    @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
     @Transient private Integer srid                                 = null;
     @Transient private Integer decimalPrecision                     = null;
@@ -445,7 +446,7 @@ public class TravelOptions implements Serializable {
     /**
      * @return the time as seconds of the day
      */
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
     /**
@@ -457,7 +458,7 @@ public class TravelOptions implements Serializable {
     /**
      * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
      */
-    public int getDate() {
+    public Integer getDate() {
         return date;
     }
     /**
@@ -469,28 +470,42 @@ public class TravelOptions implements Serializable {
     /**
      * @return the frame, which is the length of the time interval to search for transit connections, in seconds
      */
-    public int getFrame() {
+    public Integer getFrame() {
         return frame;
     }
     /**
      * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
      */
-    public void setFrame(int frame) {
+    public void setFrame(Integer frame) {
         this.frame = frame;
     }
     /**
-     * @return the maxWalkingTime, which is the maximum time that can be used from the sources to a transit stop and to
-     * the targets from a transit stop (in seconds)
+     * @return the maxWalkingTimeFromSource, which is the maximum time that can be used from the sources to a transit stop
+     * (in seconds)
      */
-    public Integer getMaxWalkingTime() {
-        return maxWalkingTime;
+    public Integer getMaxWalkingTimeFromSource() {
+        return maxWalkingTimeFromSource;
     }
     /**
-     * @param maxWalkingTime is the maximum time that can be used from the sources to a transit stop and to the targets
-     *                       from a transit stop (in seconds)
+     * @param maxWalkingTimeFromSource is the maximum time that can be used from the sources to a transit stop
+     *                                (in seconds)
      */
-    public void setMaxWalkingTime(Integer maxWalkingTime) {
-        this.maxWalkingTime = maxWalkingTime;
+    public void setMaxWalkingTimeFromSource(Integer maxWalkingTimeFromSource) {
+        this.maxWalkingTimeFromSource = maxWalkingTimeFromSource;
+    }
+    /**
+     * @return the maxWalkingTimeFromTarget, which is the maximum time that can be used to the targets from a transit stop (in
+     * seconds)
+     */
+    public Integer getMaxWalkingTimeToTarget() {
+        return maxWalkingTimeToTarget;
+    }
+    /**
+     * @param maxWalkingTimeToTarget is the maximum time that can be used to the targets from a transit stop (in
+     *                               seconds)
+     */
+    public void setMaxWalkingTimeToTarget(Integer maxWalkingTimeToTarget) {
+        this.maxWalkingTimeToTarget = maxWalkingTimeToTarget;
     }
     /**
      * @return the recommendations

@@ -120,7 +120,8 @@ public class TimeVectorRequestTest extends RequestTest {
         options.setDate(20180815);
         options.setTime(40000);
         options.setFrame(14400);
-        options.setMaxWalkingTime(1800);
+        options.setMaxWalkingTimeFromSource(500);
+        options.setMaxWalkingTimeToTarget(500);
         return options;
 	}
 //
