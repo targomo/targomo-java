@@ -17,14 +17,5 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        <profile>
-            <id>ossrh</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.passphrase>GPG_PASSPHRASE</gpg.passphrase>
-            </properties>
-        </profile>
     </profiles>
 </settings>
