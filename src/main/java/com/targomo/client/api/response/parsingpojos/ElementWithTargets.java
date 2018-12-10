@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.List;
 
 @NoArgsConstructor
-public class TargetsObject<A> extends IdObject {
+public class ElementWithTargets<A> extends ElementWithId {
 
     @Getter @Setter
     private List<A> targets;
