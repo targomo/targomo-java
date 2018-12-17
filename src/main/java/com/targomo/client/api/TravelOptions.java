@@ -1236,8 +1236,8 @@ public class TravelOptions implements Serializable {
         this.maxEdgeWeight = maxEdgeWeight;
     }
 
-    public void addAllSources(Map<String, Coordinate> inactiveSources) {
-        this.sources.putAll(inactiveSources);
+    public void addAllSources(Map<String, Coordinate> sources) {
+        this.sources.putAll(sources);
     }
 
     /**
