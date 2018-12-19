@@ -92,6 +92,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN                   = "median";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO                 = "minSourcesRatio";
