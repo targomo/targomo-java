@@ -99,8 +99,8 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
-    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationTravelTimeExponent";
-    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_FACTOR                = "gravitationTravelTimeFactor";
+    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
+    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_FACTOR                = "gravitationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_SOURCE_PARAMETERS     = "gravitationSourceParameters";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
 
