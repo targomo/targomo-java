@@ -89,6 +89,7 @@ public final class RequestConfigurator {
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
 
+            // TODO: It might be a good idea to remove statisticsIds from travelOptions and send to StatisticsTravelOption class as it is not used for core requests
             if (travelOptions.getStatisticIds() != null)
                 JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
 
@@ -119,6 +120,8 @@ public final class RequestConfigurator {
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
+            
+            JSONBuilder.append(config, Constants.DISABLE_CACHE, travelOptions.isDisableCache());
 
             JSONBuilder.appendAndEnd(config, Constants.MAX_EDGE_WEIGHT, travelOptions.getMaxEdgeWeight());
         }

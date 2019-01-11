@@ -8,6 +8,9 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
+
+import antlr.Parser;
+
 import org.apache.commons.io.IOUtils;
 import org.boon.Maps;
 import org.boon.Sets;
@@ -149,6 +152,7 @@ public class RequestConfiguratorTest {
                                 "            \"elevationEnabled\": true,\n" +
                                 "            \"maxEdgeWeight\": 7200,\n" +
                                 "            \"travelTimeFactors\":{\"all\":1.5},\n" +
+                                "            \"disableCache\": true,\n" +
                                 "            \"edgeWeight\": \"time\",\n" +
                                 "            \"serviceUrl\": \"https://api.targomo.com/westcentraleurope/\",\n" +
                                 "            \"serviceKey\": \"{{api-key}}\"\n" +
@@ -156,6 +160,7 @@ public class RequestConfiguratorTest {
                         StatisticTravelOptions.class);
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), Maps.map("all",1.5));
+        Assert.assertTrue(parsed.isDisableCache());
     }
 
     @Test
