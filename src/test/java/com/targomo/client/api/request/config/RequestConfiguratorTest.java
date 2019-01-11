@@ -8,9 +8,6 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
-
-import antlr.Parser;
-
 import org.apache.commons.io.IOUtils;
 import org.boon.Maps;
 import org.boon.Sets;
