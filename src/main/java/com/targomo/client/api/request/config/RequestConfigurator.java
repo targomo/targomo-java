@@ -59,6 +59,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
+                    travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationGravitationFactor(),
+                    travelOptions.getMultiGraphAggregationGravitationSourceParameters(),
                     travelOptions.getMultiGraphLayerEdgeAggregationType())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),

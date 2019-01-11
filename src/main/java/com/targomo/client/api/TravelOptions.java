@@ -14,6 +14,7 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
 import com.targomo.client.api.pojo.Geometry;
+import com.targomo.client.api.pojo.GravitationSourceParameters;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
@@ -122,6 +123,9 @@ public class TravelOptions implements Serializable {
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
     @Transient private Integer multiGraphAggregationMaxResultValue                           = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
+    @Transient private Double multiGraphAggregationGravitationExponent                       = null;
+    @Transient private Double multiGraphAggregationGravitationFactor                         = null;
+    @Transient private Map<String, GravitationSourceParameters> multiGraphAggregationGravitationSourceParameters = null;
     @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
     @Transient private MultiGraphLayerEdgeAggregationType multiGraphLayerEdgeAggregationType = null;
     @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
@@ -718,6 +722,9 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationMaxResultValueRatio, that.multiGraphAggregationMaxResultValueRatio) &&
                 Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
                 Objects.equals(multiGraphAggregationFilterValuesForSourceOrigins, that.multiGraphAggregationFilterValuesForSourceOrigins) &&
+                Objects.equals(multiGraphAggregationGravitationExponent, that.multiGraphAggregationGravitationExponent) &&
+                Objects.equals(multiGraphAggregationGravitationFactor, that.multiGraphAggregationGravitationFactor) &&
+                Objects.equals(multiGraphAggregationGravitationSourceParameters, that.multiGraphAggregationGravitationSourceParameters) &&
                 multiGraphLayerType == that.multiGraphLayerType &&
                 multiGraphLayerEdgeAggregationType == that.multiGraphLayerEdgeAggregationType &&
                 Objects.equals(multiGraphLayerGeometryDetailPerTile, that.multiGraphLayerGeometryDetailPerTile) &&
@@ -761,8 +768,9 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutlier, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
-                multiGraphAggregationFilterValuesForSourceOrigins, multiGraphLayerType,
-                multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
+                multiGraphAggregationGravitationExponent, multiGraphAggregationGravitationFactor,
+                multiGraphAggregationGravitationSourceParameters, multiGraphAggregationFilterValuesForSourceOrigins,
+                multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
@@ -856,6 +864,12 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationMaxResultValueRatio);
         builder.append("\n\tmultiGraphAggregationMaxResultValue: ");
         builder.append(multiGraphAggregationMaxResultValue);
+        builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
+        builder.append(multiGraphAggregationGravitationExponent);
+        builder.append("\n\tmultiGraphAggregationGravitationFactor: ");
+        builder.append(multiGraphAggregationGravitationFactor);
+        builder.append("\n\tmultiGraphAggregationGravitationSourceParameters: ");
+        builder.append(multiGraphAggregationGravitationSourceParameters);
         builder.append("\n\tmultiGraphAggregationFilterValuesForSourceOrigins: ");
         builder.append(multiGraphAggregationFilterValuesForSourceOrigins);
         builder.append("\n\tmultiGraphLayerType: ");
@@ -1118,6 +1132,31 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphAggregationMaxResultValue(Integer multiGraphAggregationMaxResultValue) {
         this.multiGraphAggregationMaxResultValue = multiGraphAggregationMaxResultValue;
+    }
+
+    public Double getMultiGraphAggregationGravitationExponent() {
+        return multiGraphAggregationGravitationExponent;
+    }
+
+    public void setMultiGraphAggregationGravitationExponent(Double multiGraphAggregationGravitationExponent) {
+        this.multiGraphAggregationGravitationExponent = multiGraphAggregationGravitationExponent;
+    }
+
+    public Double getMultiGraphAggregationGravitationFactor() {
+        return multiGraphAggregationGravitationFactor;
+    }
+
+    public void setMultiGraphAggregationGravitationFactor(Double multiGraphAggregationGravitationFactor) {
+        this.multiGraphAggregationGravitationFactor = multiGraphAggregationGravitationFactor;
+    }
+
+    public Map<String, GravitationSourceParameters> getMultiGraphAggregationGravitationSourceParameters() {
+        return multiGraphAggregationGravitationSourceParameters;
+    }
+
+    public void setMultiGraphAggregationGravitationSourceParameters(
+            Map<String, GravitationSourceParameters> multiGraphAggregationGravitationSourceParameters) {
+        this.multiGraphAggregationGravitationSourceParameters = multiGraphAggregationGravitationSourceParameters;
     }
 
     public Set<String> getMultiGraphAggregationFilterValuesForSourceOrigins() {
