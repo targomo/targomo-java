@@ -132,6 +132,8 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphLayerMinGeometryDetailLevel                         = null;
     @Transient private Integer multiGraphLayerMaxGeometryDetailLevel                         = null;
     @Transient private Integer multiGraphLayerGeometryDetailLevel                            = null;
+    @Transient private Integer multiGraphLayerStatisticGroupId                               = null;
+    @Transient private List<Short> multiGraphLayerStatisticsIds                              = null;
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
@@ -731,6 +733,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphLayerMinGeometryDetailLevel, that.multiGraphLayerMinGeometryDetailLevel) &&
                 Objects.equals(multiGraphLayerMaxGeometryDetailLevel, that.multiGraphLayerMaxGeometryDetailLevel) &&
                 Objects.equals(multiGraphLayerGeometryDetailLevel, that.multiGraphLayerGeometryDetailLevel) &&
+                Objects.equals(multiGraphLayerStatisticGroupId, that.multiGraphLayerStatisticGroupId) &&
+                Objects.equals(multiGraphLayerStatisticsIds, that.multiGraphLayerStatisticsIds) &&
                 Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
@@ -772,7 +776,8 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationGravitationSourceParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
-                multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
+                multiGraphLayerGeometryDetailLevel, multiGraphLayerStatisticGroupId, multiGraphLayerStatisticsIds,
+                multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
@@ -884,6 +889,10 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphLayerMaxGeometryDetailLevel);
         builder.append("\n\tmultiGraphLayerGeometryDetailLevel: ");
         builder.append(multiGraphLayerGeometryDetailLevel);
+        builder.append("\n\tmultiGraphLayerStatisticGroupId: ");
+        builder.append(multiGraphLayerStatisticGroupId);
+        builder.append("\n\tmultiGraphLayerStatisticsIds: ");
+        builder.append(multiGraphLayerStatisticsIds);
         builder.append("\n\tmultiGraphTileZoom: ");
         builder.append(multiGraphTileZoom);
         builder.append("\n\tmultiGraphTileX: ");
@@ -1213,6 +1222,22 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphLayerGeometryDetailLevel(Integer multiGraphLayerGeometryDetailLevel) {
         this.multiGraphLayerGeometryDetailLevel = multiGraphLayerGeometryDetailLevel;
+    }
+
+    public Integer getMultiGraphLayerStatisticGroupId() {
+        return multiGraphLayerStatisticGroupId;
+    }
+
+    public void setMultiGraphLayerStatisticGroupId(Integer multiGraphLayerStatisticGroupId) {
+        this.multiGraphLayerStatisticGroupId = multiGraphLayerStatisticGroupId;
+    }
+
+    public List<Short> getMultiGraphLayerStatisticsIds() {
+        return multiGraphLayerStatisticsIds;
+    }
+
+    public void setMultiGraphLayerStatisticsIds(List<Short> multiGraphLayerStatisticsIds) {
+        this.multiGraphLayerStatisticsIds = multiGraphLayerStatisticsIds;
     }
 
     public Integer getMultiGraphTileZoom() {

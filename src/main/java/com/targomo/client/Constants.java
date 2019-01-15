@@ -63,6 +63,8 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE                      = "tile_node";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON                        = "hexagon";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE                   = "hexagon_node";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS            = "geometry_statistics";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS                = "tile_statistics";
     public static final String MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE                   = "edgeAggregationType";
     public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MINIMUM       = "min";
     public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MAXIMUM       = "max";
