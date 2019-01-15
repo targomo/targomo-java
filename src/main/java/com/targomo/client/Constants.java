@@ -52,6 +52,7 @@ public class Constants {
     public static final String CALLBACK                                                 = "callback";
     public static final String SRID                                                     = "srid";
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
+    public static final String DISABLE_CACHE                                            = "disableCache";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
