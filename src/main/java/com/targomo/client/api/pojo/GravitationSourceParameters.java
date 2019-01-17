@@ -1,11 +1,11 @@
 package com.targomo.client.api.pojo;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class GravitationSourceParameters {
 
