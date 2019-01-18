@@ -59,7 +59,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
-                    travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationGravitationFactor(),
+                    travelOptions.getMultiGraphAggregationGravitationExponent(),
                     travelOptions.getMultiGraphAggregationGravitationSourceParameters(),
                     travelOptions.getMultiGraphLayerEdgeAggregationType())
                     .anyMatch(Objects::nonNull) ||
@@ -286,6 +286,8 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() != null )
                 multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins());
+
+            //TODO add new multigraph gravitation parameters
 
             multiGraph.put( Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
         }
