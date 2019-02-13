@@ -56,6 +56,8 @@ public class MultiGraphRequestTest extends RequestTest {
         assertFalse(response.getData().getNodes().isEmpty());
         assertNotNull(response.getData().getLayers());
         assertFalse(response.getData().getLayers().isEmpty());
+        assertNotNull(response.getData().getFloatLayers());
+        assertFalse(response.getData().getFloatLayers().isEmpty());
         assertNotNull(response.getData().getEdges());
         assertFalse(response.getData().getEdges().isEmpty());
         assertNotNull(response.getData().getSupportingPoints());
