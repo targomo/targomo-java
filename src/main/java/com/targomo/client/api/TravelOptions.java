@@ -169,6 +169,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private Set<PoiType> customPois = new HashSet<>();
 
+    @Transient
+    private boolean disableCache;
+    
     public String getBoundingBox() {
         return boundingBox;
     }
@@ -1309,4 +1312,12 @@ public class TravelOptions implements Serializable {
 	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
+	
+    public boolean isDisableCache() {
+        return disableCache;
+    }
+
+    public void setDisableCache(boolean disableCache) {
+        this.disableCache = disableCache;
+    }
 }
