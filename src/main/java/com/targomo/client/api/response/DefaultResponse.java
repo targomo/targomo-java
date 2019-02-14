@@ -2,6 +2,7 @@ package com.targomo.client.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.TargomoClientException;
 
 /**
  *
@@ -22,26 +23,39 @@ public abstract class DefaultResponse<O,I> {
     private long roundTripTimeMillis;
     private TravelOptions travelOptions;
 
-    public void setExtraParameters(TravelOptions travelOptions, long roundTripTimeMillis, long parseTimeMillis) {
+    public static <R extends DefaultResponse> R createGatewayTimeoutResponse(Class<R> clazz) throws TargomoClientException {
+        try {
+            R gateWayTimeoutResponse = clazz.newInstance();
+            gateWayTimeoutResponse.setCode("gateway-time-out");
+            gateWayTimeoutResponse.setMessage("");
+            gateWayTimeoutResponse.setRequestTimeMillis(-1);
+            return gateWayTimeoutResponse;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new TargomoClientException("Response Instantiation failed with error", e);
+        }
+    }
+
+    public void finishDeserialization(TravelOptions travelOptions, long roundTripTimeMillis, long parseTimeMillis) {
         this.travelOptions 	   	 = travelOptions;
         this.roundTripTimeMillis = roundTripTimeMillis;
         this.parseTimeMillis 	 = parseTimeMillis;
     }
 
-    public void setCode(String code) {
+    void setCode(String code) {
         this.code = code;
     }
 
     @JsonProperty("requestTime")
-    public void setRequestTimeMillis(long requestTimeMillis) {
+    void setRequestTimeMillis(long requestTimeMillis) {
         this.requestTimeMillis = requestTimeMillis;
     }
 
-    public void setMessage(String message) {
+    void setMessage(String message) {
         this.message = message;
     }
 
-    public void setData(I data){
+    //private so only json parser will use it
+    private void setData(I data){
         this.data = parseData(data);
     }
 

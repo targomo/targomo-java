@@ -2,11 +2,34 @@
 <settings>
     <servers>
         <server>
+            <id>targomo-nexus-snapshots</id>
+            <username>${env.NEXUS_USERNAME}</username>
+            <password>${env.NEXUS_PASSWORD}</password>
+        </server>
+        <server>
+            <id>targomo-nexus-releases</id>
+            <username>${env.NEXUS_USERNAME}</username>
+            <password>${env.NEXUS_PASSWORD}</password>
+        </server>
+        <server>
+            <id>targomo</id>
+            <username>${env.NEXUS_USERNAME}</username>
+            <password>${env.NEXUS_PASSWORD}</password>
+        </server>
+        <server>
             <id>ossrh</id>
             <username>gerber@motionintelligence.net</username>
             <password>SONATYPE_PASSWORD</password>
         </server>
     </servers>
+    <mirrors>
+        <mirror>
+            <id>targomo</id>
+            <name>targomo</name>
+            <url>https://repository.route360.net/repository/maven-group/</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+    </mirrors>
     <pluginGroups>
         <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
     </pluginGroups>

@@ -12,7 +12,7 @@ public enum TravelType {
     WALK("walk"),
     BIKE("bike"),
     TRANSIT("transit"),
-    WALKTRANSIT("walktransit"),
+    WALKTRANSIT("walktransit"), //also used in fleetplanner to simulate normal transit behaviour (with time service instead of timeVector service)
     BIKETRANSIT("biketransit"),
     CAR("car");
 
