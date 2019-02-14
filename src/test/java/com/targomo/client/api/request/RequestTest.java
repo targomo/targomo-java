@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class RequestTest {
+
     @Mock
     protected Client mockClient;
     @Mock
