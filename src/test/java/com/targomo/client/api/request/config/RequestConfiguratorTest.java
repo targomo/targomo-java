@@ -66,7 +66,7 @@ public class RequestConfiguratorTest {
 
             //assert other elements
             assertThat(sampleObject.getInt(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getInt(Constants.MAX_EDGE_WEIGHT));
-            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualTo(actualObject.getString(Constants.EDGE_WEIGHT));
+            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualToIgnoringCase(actualObject.getString(Constants.EDGE_WEIGHT));
 
         } catch (IOException e) {
             e.printStackTrace();
