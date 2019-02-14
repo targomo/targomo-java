@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import static org.mockito.Mockito.when;
 
 public class TimeRequestTest extends RequestTest {
@@ -36,6 +37,7 @@ public class TimeRequestTest extends RequestTest {
         assertEquals("ok", timeResponse.getCode());
         assertEquals(472, timeResponse.getRequestTimeMillis());
         assertNotNull(timeResponse.getTravelTimes());
+
     }
 
     @Test

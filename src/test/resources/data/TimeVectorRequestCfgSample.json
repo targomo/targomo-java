@@ -1,6 +1,6 @@
 {
   "edgeWeight": "time",
-  "maxEdgeWeight": "7200",
+  "maxEdgeWeight": "720",
   "sources": [
     {
       "id": "POI:1",
@@ -9,13 +9,19 @@
       "tm": {
         "transit": {
           "frame": {
-            "date": "20180815",
+            "date": 20180815,
             "time": 40000,
             "duration": 14400
           },
-          "maxWalkingTime": 1800
+          "downhill":0,
+          "recommendations":0,
+          "speed":5,
+          "uphill":10,
+          "maxWalkingTimeToTarget": 500,
+          "maxWalkingTimeFromSource": 500
         }
-      }
+      },
+      "reverse":false
     },
     {
       "id": "POI:2",
@@ -24,13 +30,19 @@
       "tm": {
         "transit": {
           "frame": {
-            "date": "20180815",
+            "date": 20180815,
             "time": 40000,
             "duration": 14400
           },
-          "maxWalkingTime": 1800
+          "downhill":0,
+          "recommendations":0,
+          "speed":5,
+          "uphill":10,
+          "maxWalkingTimeToTarget": 500,
+          "maxWalkingTimeFromSource": 500
         }
-      }
+      },
+      "reverse":false
     }
   ],
   "targets": [

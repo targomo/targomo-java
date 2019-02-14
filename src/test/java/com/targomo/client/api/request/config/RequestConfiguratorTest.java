@@ -31,66 +31,42 @@ public class RequestConfiguratorTest {
     @Test
     public void testTimeVectorConfig() throws Exception {
 
-        //TODO
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             // Generate input
             TravelOptions options = new TravelOptions();
-            options.addSource(new DefaultSourceCoordinate("POI:0",13.42883045,52.5494892));
-            options.setServiceKey("INSERT_YOUR_KEY_HERE");
+            options.addSource(new DefaultSourceCoordinate("POI:1",8.620987,47.384197));
+            options.addSource(new DefaultSourceCoordinate("POI:2",8.497925,47.385334));
+            options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
+            options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
+            options.setServiceKey("YOUR_API_KEY_HERE");
             options.setServiceUrl("http://127.0.0.1:8080/");
             options.setEdgeWeightType(EdgeWeightType.TIME);
-            options.setMaxEdgeWeight(300);
-            options.setTravelType(TravelType.BIKE);
-            options.setMultiGraphEdgeClasses(Sets.safeSortedSet(11,12,16,18));
-            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
-            options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
-            options.setMultiGraphLayerGeometryDetailPerTile(3);
-            options.setMultiGraphLayerMinGeometryDetailLevel(2);
-            options.setMultiGraphLayerMaxGeometryDetailLevel(10);
-            options.setMultiGraphLayerGeometryDetailLevel(8);
-            options.setMultiGraphTileZoom(5);
-            options.setMultiGraphTileX(3);
-            options.setMultiGraphTileY(103);
-            options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
-            options.setMultiGraphSerializationDecimalPrecision(5);
-            options.setMultiGraphSerializationMaxGeometryCount(100000);
-            options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
-            options.setMultiGraphAggregationIgnoreOutlier(true);
-            options.setMultiGraphAggregationOutlierPenalty(1000);
-            options.setMultiGraphAggregationMinSourcesCount(3);
-            options.setMultiGraphAggregationMinSourcesRatio(0.5);
-            options.setMultiGraphAggregationMaxResultValue(1000);
-            options.setMultiGraphAggregationMaxResultValueRatio(0.6);
-            options.setMultiGraphAggregationFilterValuesForSourceOrigins(Sets.safeSortedSet("POI:0"));
+            options.setMaxEdgeWeight(720);
+            options.setTravelType(TravelType.TRANSIT);
+            options.setDate(20180815);
+            options.setTime(40000);
+            options.setFrame(14400);
+            options.setMaxWalkingTimeFromSource(500);
+            options.setMaxWalkingTimeToTarget(500);
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
 
-            // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
-                    actualObject.getJSONObject(Constants.MULTIGRAPH));
+            // Compare source and target objects
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.SOURCES));
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.TARGETS));
 
-
-            //second test with tile discarded
-            // all values have to be set to null otherwise there will be an illegal argument exception cause
-            options.setMultiGraphTileZoom(null);
-            options.setMultiGraphTileX(null);
-            options.setMultiGraphTileY(null);
-            //remove the tile from the json String
-            sampleJson = sampleJson.replaceFirst("(\"tile\")([^<]*?)(\"serialization\")", "\"serialization\"" );
-
-            sampleObject = new JSONObject(sampleJson);
-            actualObject = new JSONObject(RequestConfigurator.getConfig(options));
-
-            // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
-                    actualObject.getJSONObject(Constants.MULTIGRAPH));
+            //assert other elements
+            assertThat(sampleObject.getInt(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getInt(Constants.MAX_EDGE_WEIGHT));
+            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualTo(actualObject.getString(Constants.EDGE_WEIGHT));
 
         } catch (IOException e) {
             e.printStackTrace();

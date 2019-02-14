@@ -15,7 +15,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         TimeVectorRequestTest.class,
-        TimeVectorRequestIntegrationTest.class,
         MultiGraphRequestTest.class,
         RequestConfiguratorTest.class,
         PolygonRequestTest.class,
