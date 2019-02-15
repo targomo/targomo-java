@@ -77,9 +77,9 @@ public class MultiGraphRequestTest extends RequestTest {
         Client client = ClientBuilder.newClient();
         client.register(new GZipEncoder());
         MultiGraphRequest<MultiGraphJsonResponse> request = new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class);
-        MultiGraphJsonResponse response = MultiGraphRequest.executeRequestJson(client,tO);
-
         System.out.println(request.toCurl());
+
+        MultiGraphJsonResponse response = request.get();
 
         assertNotNull(response.getData());
     }

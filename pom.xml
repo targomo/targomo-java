@@ -4,7 +4,7 @@
 
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <name>Targomo Java Client Library</name>
     <description>Java client library for easy usage of Targomo web services.</description>
     <url>https://github.com/targomo/targomo-java</url>
@@ -29,8 +29,8 @@
         <connection>scm:git:git://github.com/targomo/targomo-java.git</connection>
         <developerConnection>scm:git:ssh://github.com:targomo/targomo-java.git</developerConnection>
         <url>http://github.com/targomo/targomo-java/tree/master</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>
@@ -50,7 +50,7 @@
         <jersey.version>2.6</jersey.version>
         <junit.version>4.12</junit.version>
         <geotools.version>16.1</geotools.version>
-        <jackson.version>2.9.5</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
     </properties>
@@ -81,6 +81,11 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -249,12 +254,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>targomo-nexus-snapshots</id>
+            <url>https://repository.route360.net/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>targomo-nexus-releases</id>
+            <url>https://repository.route360.net/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 

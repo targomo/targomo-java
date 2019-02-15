@@ -29,6 +29,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RequestConfiguratorTest {
 
     @Test
+    public void testTimeVectorConfig() throws Exception {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            // Generate input
+            TravelOptions options = new TravelOptions();
+            options.addSource(new DefaultSourceCoordinate("POI:1",8.620987,47.384197));
+            options.addSource(new DefaultSourceCoordinate("POI:2",8.497925,47.385334));
+            options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
+            options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
+            options.setServiceKey("YOUR_API_KEY_HERE");
+            options.setServiceUrl("http://127.0.0.1:8080/");
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(720);
+            options.setTravelType(TravelType.TRANSIT);
+            options.setDate(20180815);
+            options.setTime(40000);
+            options.setFrame(14400);
+            options.setMaxWalkingTimeFromSource(500);
+            options.setMaxWalkingTimeToTarget(500);
+
+            // Run configurator && get object
+            String cfg = RequestConfigurator.getConfig(options);
+            JSONObject actualObject = new JSONObject(cfg);
+
+            // Load sample json & load object
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"));
+            JSONObject sampleObject = new JSONObject(sampleJson);
+
+            // Compare source and target objects
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.SOURCES));
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.TARGETS));
+
+            //assert other elements
+            assertThat(sampleObject.getInt(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getInt(Constants.MAX_EDGE_WEIGHT));
+            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualToIgnoringCase(actualObject.getString(Constants.EDGE_WEIGHT));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testMultiGraphConfig() throws Exception {
 
         ClassLoader classLoader = getClass().getClassLoader();
@@ -149,6 +194,7 @@ public class RequestConfiguratorTest {
                                 "            \"elevationEnabled\": true,\n" +
                                 "            \"maxEdgeWeight\": 7200,\n" +
                                 "            \"travelTimeFactors\":{\"all\":1.5},\n" +
+                                "            \"disableCache\": true,\n" +
                                 "            \"edgeWeight\": \"time\",\n" +
                                 "            \"serviceUrl\": \"https://api.targomo.com/westcentraleurope/\",\n" +
                                 "            \"serviceKey\": \"{{api-key}}\"\n" +
@@ -156,6 +202,7 @@ public class RequestConfiguratorTest {
                         StatisticTravelOptions.class);
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), Maps.map("all",1.5));
+        Assert.assertTrue(parsed.isDisableCache());
     }
 
     @Test

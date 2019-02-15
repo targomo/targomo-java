@@ -138,19 +138,19 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      *
      * @param response HTTP response
      * @param roundTripTimeMillis Execution time in milliseconds
-     * @return the validated reponse of type R
+     * @return the validated response of type R
      * @throws TargomoClientException in case of errors other than GatewayTimeout
      */
     private R validateResponse(final Response response, final long roundTripTimeMillis)
             throws TargomoClientException {
 
         // Check HTTP status
+        R parsedResponse = null;
+        long startParsing = System.currentTimeMillis();
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-            long startParsing = System.currentTimeMillis();
             String resultString = IOUtil.getResultString(response);
             try {
-                R parsedResponse  = MAPPER.readValue(resultString, clazz);
-                long parseTime = System.currentTimeMillis() - startParsing;
+                parsedResponse  = MAPPER.readValue(resultString, clazz);
                 final String responseCode = parsedResponse.getCode();
                 if (Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals(responseCode)
                         || Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
@@ -158,28 +158,18 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
                         || Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
                     throw new TargomoClientException(resultString, null);
                 }
-                parsedResponse.setExtraParameters(travelOptions,roundTripTimeMillis,parseTime);
-                return parsedResponse;
             } catch (IOException e) {
                 throw new TargomoClientException("Exception occurred for result: " + resultString, e);
             }
         } else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-            return createGatewayTimeoutMultiGraphResponse(roundTripTimeMillis);
+            parsedResponse = DefaultResponse.createGatewayTimeoutResponse(clazz);
+        }
+
+        if(parsedResponse != null) {
+            parsedResponse.finishDeserialization(travelOptions, roundTripTimeMillis, System.currentTimeMillis() - startParsing);
+            return parsedResponse;
         } else {
             throw new TargomoClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
-        }
-    }
-
-    private R createGatewayTimeoutMultiGraphResponse(long roundTripTimeMillis) throws TargomoClientException {
-        try {
-            R gateWayTimeoutResponse = clazz.newInstance();
-            gateWayTimeoutResponse.setCode("gateway-time-out");
-            gateWayTimeoutResponse.setMessage("");
-            gateWayTimeoutResponse.setRequestTimeMillis(-1);
-            gateWayTimeoutResponse.setExtraParameters(travelOptions, roundTripTimeMillis, -1);
-            return gateWayTimeoutResponse;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new TargomoClientException("Response Instantiation failed with error", e);
         }
     }
 }
