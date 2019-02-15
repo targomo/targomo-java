@@ -27,6 +27,9 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.5
+- to be added
+
 ### 0.1.4
 - added completeTimeMatrix service request and response
 - added lombok library to project
