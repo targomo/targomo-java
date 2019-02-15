@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.3</version>
+         <version>0.1.4</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -27,8 +27,14 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.5
+- to be added
+
 ### 0.1.4
 - added completeTimeMatrix service request and response
+- added lombok library to project
+- fixed security warnings + updated build script
+- added disable cache parameter to TravelOptions
 
 ### 0.1.3
 - included multigraph service requests and constants/enums
