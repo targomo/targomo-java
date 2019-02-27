@@ -335,6 +335,9 @@ public final class RequestConfigurator {
                 if (travelOptions.getMaxWalkingTimeToTarget() != null && travelOptions.getMaxWalkingTimeToTarget() >= 0) {
                     travelMode.put("maxWalkingTimeToTarget", travelOptions.getMaxWalkingTimeToTarget());
                 }
+                if (travelOptions.getAvoidTransitRouteTypes() != null && !travelOptions.getAvoidTransitRouteTypes().isEmpty()) {
+                    travelMode.put("avoidTransitRouteTypes", travelOptions.getAvoidTransitRouteTypes());
+                }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
                 travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
                 travelMode.put(Constants.TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());

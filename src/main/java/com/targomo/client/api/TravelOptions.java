@@ -104,6 +104,9 @@ public class TravelOptions implements Serializable {
     // maximum number of transfers when using public transportation
     @Column(name = "max_transfers") private Integer maxTransfers    = null;
 
+    // Transit route types that should not be used for routing
+    private List<Integer> avoidTransitRouteTypes                    = Collections.emptyList();
+
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
@@ -747,7 +750,9 @@ public class TravelOptions implements Serializable {
                 Objects.equals(travelTypes, that.travelTypes) &&
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
-                Objects.equals(travelTimeFactors, that.travelTimeFactors);
+                Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
+                Objects.equals(maxTransfers, that.maxTransfers) &&
+                Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes);
     }
                 
 
@@ -771,7 +776,7 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes);
     }
 
     /* (non-Javadoc)
@@ -917,6 +922,10 @@ public class TravelOptions implements Serializable {
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
+        builder.append("\n\tmaxTransfers: ");
+        builder.append(maxTransfers);
+        builder.append("\n\tavoidTransitRouteTypes: ");
+        builder.append(avoidTransitRouteTypes != null ? toString(avoidTransitRouteTypes, maxLen) : null);
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -1319,5 +1328,13 @@ public class TravelOptions implements Serializable {
 
     public void setDisableCache(boolean disableCache) {
         this.disableCache = disableCache;
+    }
+
+    public List<Integer> getAvoidTransitRouteTypes() {
+        return avoidTransitRouteTypes;
+    }
+
+    public void setAvoidTransitRouteTypes(List<Integer> avoidTransitRouteTypes) {
+        this.avoidTransitRouteTypes = avoidTransitRouteTypes;
     }
 }
