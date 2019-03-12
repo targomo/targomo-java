@@ -2,7 +2,7 @@ package com.targomo.client;
 
 public class Constants {
 
-    public static final int NO_VALUE_ENTRY_TROVE_MAPS = -1;
+    public static final int NO_VALUE_ENTRY_TROVE_MAPS = Integer.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
@@ -109,4 +109,5 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
+    public static final String MULTIGRAPH_CONFIG_SOURCES								= "sources";
 }
