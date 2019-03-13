@@ -100,6 +100,9 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS	        		= "sourceParameters";
+    public static final String MULTIGRAPH_AGGREGATION_FACTOR	        		        = "factor";
+    public static final String MULTIGRAPH_PREAGGREGATION_PIPELINE						= "preAggregationPipeline";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";
@@ -109,5 +112,4 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
-    public static final String MULTIGRAPH_CONFIG_SOURCES								= "sources";
 }
