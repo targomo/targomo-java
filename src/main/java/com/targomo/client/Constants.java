@@ -87,7 +87,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
-    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                     = "none";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE                      = "one";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM                  = "min";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM                  = "max";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM                      = "sum";
@@ -103,9 +103,9 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
-    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_FACTOR                = "gravitationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_SOURCE_PARAMETERS     = "gravitationSourceParameters";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
+    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_ACCURACY              = "accuracy";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";

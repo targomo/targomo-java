@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString(includeFieldNames=true)
 public class GravitationSourceParameters {
 
     private boolean positiveInfluence = false;
