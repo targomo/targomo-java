@@ -117,11 +117,11 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutlier                            = null;
-    @Transient private Integer multiGraphAggregationOutlierPenalty                           = null;
+    @Transient private Float multiGraphAggregationOutlierPenalty                           = null;
     @Transient private Double multiGraphAggregationMinSourcesRatio                           = null;
     @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
-    @Transient private Integer multiGraphAggregationMaxResultValue                           = null;
+    @Transient private Float multiGraphAggregationMaxResultValue                           = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
     @Transient private Map<String, GravitationSourceParameters> multiGraphAggregationGravitationSourceParameters = null;
@@ -1106,11 +1106,11 @@ public class TravelOptions implements Serializable {
         this.multiGraphAggregationIgnoreOutlier = multiGraphAggregationIgnoreOutlier;
     }
 
-    public Integer getMultiGraphAggregationOutlierPenalty() {
+    public Float getMultiGraphAggregationOutlierPenalty() {
         return multiGraphAggregationOutlierPenalty;
     }
 
-    public void setMultiGraphAggregationOutlierPenalty(Integer multiGraphAggregationOutlierPenalty) {
+    public void setMultiGraphAggregationOutlierPenalty(Float multiGraphAggregationOutlierPenalty) {
         this.multiGraphAggregationOutlierPenalty = multiGraphAggregationOutlierPenalty;
     }
 
@@ -1138,11 +1138,11 @@ public class TravelOptions implements Serializable {
         this.multiGraphAggregationMaxResultValueRatio = multiGraphAggregationMaxResultValueRatio;
     }
 
-    public Integer getMultiGraphAggregationMaxResultValue() {
+    public Float getMultiGraphAggregationMaxResultValue() {
         return multiGraphAggregationMaxResultValue;
     }
 
-    public void setMultiGraphAggregationMaxResultValue(Integer multiGraphAggregationMaxResultValue) {
+    public void setMultiGraphAggregationMaxResultValue(Float multiGraphAggregationMaxResultValue) {
         this.multiGraphAggregationMaxResultValue = multiGraphAggregationMaxResultValue;
     }
 

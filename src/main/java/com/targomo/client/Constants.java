@@ -2,7 +2,8 @@ package com.targomo.client;
 
 public class Constants {
 
-    public static final int NO_VALUE_ENTRY_TROVE_MAPS = -1;
+    public static final float NO_VALUE_ENTRY_FLOAT_TROVE_MAPS = -Float.MAX_VALUE;
+    public static final int NO_VALUE_ENTRY_INT_TROVE_MAPS = Integer.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
