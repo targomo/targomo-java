@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public enum MultiGraphAggregationType {
 
-    NONE                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE,                 false, null),
+    ONE                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE,                  false, null),
     MINIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM,              false, null),
     MAXIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM,              false, null),
     SUM                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM,                  false, null),
