@@ -296,7 +296,7 @@ public final class RequestConfigurator {
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfig.isIgnoreOutlier());
 
         if (aggregationConfig.getOutlierPenalty() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfig.isIgnoreOutlier());
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfig.getOutlierPenalty());
 
         if (aggregationConfig.getMinSourcesCount() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfig.getMinSourcesCount());
@@ -308,7 +308,7 @@ public final class RequestConfigurator {
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfig.getMaxResultValueRatio());
 
         if (aggregationConfig.getMaxResultValueRatio() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfig.getMaxResultValueRatio());
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfig.getMaxResultValue());
 
         if (aggregationConfig.getFilterValuesForSourceOrigins() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfig.getFilterValuesForSourceOrigins());
