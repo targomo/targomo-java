@@ -128,7 +128,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphAggregationMaxResultValue                           = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Map<String, SourceParameter> multiGraphSourceParameters               = null;
-    @Transient private Map<String, AggregationConfig> multigraphPreAggregationPipeline       = null;
+    @Transient private Map<String, AggregationConfig> multiGraphPreAggregationPipeline       = null;
     @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
     @Transient private MultiGraphLayerEdgeAggregationType multiGraphLayerEdgeAggregationType = null;
     @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
@@ -677,12 +677,12 @@ public class TravelOptions implements Serializable {
         this.multiGraphSourceParameters = multiGraphSourceParameters;
     }
 
-    public Map<String, AggregationConfig> getMultigraphPreAggregationPipeline() {
-        return multigraphPreAggregationPipeline;
+    public Map<String, AggregationConfig> getMultiGraphPreAggregationPipeline() {
+        return multiGraphPreAggregationPipeline;
     }
 
-    public void setMultigraphPreAggregationPipeline(Map<String, AggregationConfig> multigraphPreAggregationPipeline) {
-        this.multigraphPreAggregationPipeline = multigraphPreAggregationPipeline;
+    public void setMultiGraphPreAggregationPipeline(Map<String, AggregationConfig> multiGraphPreAggregationPipeline) {
+        this.multiGraphPreAggregationPipeline = multiGraphPreAggregationPipeline;
     }
 
     private String toString(Collection<?> collection, int maxLen) {
@@ -773,7 +773,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
                 Objects.equals(maxTransfers, that.maxTransfers) &&
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
-                Objects.equals(multigraphPreAggregationPipeline, that.multigraphPreAggregationPipeline) &&
+                Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
                 Objects.equals(multiGraphSourceParameters, that.multiGraphSourceParameters);
     }
                 
@@ -798,7 +798,7 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, multigraphPreAggregationPipeline, multiGraphSourceParameters);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, multiGraphPreAggregationPipeline, multiGraphSourceParameters);
     }
 
     /* (non-Javadoc)

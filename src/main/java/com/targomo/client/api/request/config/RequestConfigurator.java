@@ -186,7 +186,7 @@ public final class RequestConfigurator {
         addMultiGraphTile(travelOptions, multiGraph);
         addMultiGraphSerialization(travelOptions, multiGraph);
         addMultiGraphAggregation(travelOptions, multiGraph);
-        addMultiGraphPreaggregationPipeline(travelOptions, multiGraph);
+        addMultiGraphPreAggregationPipeline(travelOptions, multiGraph);
         return multiGraph;
     }
 
@@ -274,17 +274,17 @@ public final class RequestConfigurator {
                 .sourceParameters(travelOptions.getMultiGraphSourceParameters()).filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).build();
     }
 
-    private static void addMultiGraphPreaggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
-        if (travelOptions.getMultigraphPreAggregationPipeline() != null) {
-            JSONObject multiGraphPreaggregation = new JSONObject();
-            for (Map.Entry<String, AggregationConfig> entry : travelOptions.getMultigraphPreAggregationPipeline().entrySet()) {
+    private static void addMultiGraphPreAggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if (travelOptions.getMultiGraphPreAggregationPipeline() != null) {
+            JSONObject multiGraphPreAggregation = new JSONObject();
+            for (Map.Entry<String, AggregationConfig> entry : travelOptions.getMultiGraphPreAggregationPipeline().entrySet()) {
                 String aggregationName = entry.getKey();
                 AggregationConfig aggregationConfig = entry.getValue();
                 JSONObject multigraphAggregation = new JSONObject();
                 fillJsonAggregationConfig(aggregationConfig, multigraphAggregation);
-                multiGraphPreaggregation.put(aggregationName, multigraphAggregation);
+                multiGraphPreAggregation.put(aggregationName, multigraphAggregation);
             }
-            multiGraph.put(Constants.MULTIGRAPH_PREAGGREGATION_PIPELINE, multiGraphPreaggregation);
+            multiGraph.put(Constants.MULTIGRAPH_PREAGGREGATION_PIPELINE, multiGraphPreAggregation);
         }
     }
 
@@ -307,7 +307,7 @@ public final class RequestConfigurator {
         if (aggregationConfig.getMaxResultValueRatio() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfig.getMaxResultValueRatio());
 
-        if (aggregationConfig.getMaxResultValueRatio() != null)
+        if (aggregationConfig.getMaxResultValue() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfig.getMaxResultValue());
 
         if (aggregationConfig.getFilterValuesForSourceOrigins() != null)
@@ -324,7 +324,7 @@ public final class RequestConfigurator {
                 String name = entry.getKey();
                 SourceParameter param = entry.getValue();
                 JSONObject sourceParam = new JSONObject();
-                sourceParam.put("factor", param.getFactor());
+                sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_FACTOR, param.getFactor());
                 sourceParams.put(name, sourceParam);
             }
         }
