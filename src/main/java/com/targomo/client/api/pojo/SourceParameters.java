@@ -8,8 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString(includeFieldNames=true)
-public class GravitationSourceParameters {
+public class SourceParameters {
 
-    private boolean positiveInfluence = false;
-    private double attractionStrength = 1.0;
+    private Float inputFactor;
+    private Boolean gravitationPositiveInfluence;
+    private Double gravitationAttractionStrength;
 }

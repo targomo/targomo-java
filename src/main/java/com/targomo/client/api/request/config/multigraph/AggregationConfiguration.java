@@ -3,7 +3,8 @@ package com.targomo.client.api.request.config.multigraph;
 import com.targomo.client.api.enums.MultiGraphAggregationType;
 import com.targomo.client.api.pojo.SourceParameters;
 import lombok.*;
-import java.util.Map;
+
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 /**
@@ -16,16 +17,18 @@ import java.util.Set;
 @EqualsAndHashCode
 @Builder
 @ToString(includeFieldNames=true)
-public class AggregationConfig {
+public class AggregationConfiguration {
 
     private MultiGraphAggregationType type;
     private Boolean ignoreOutlier;
-    private Integer outlierPenalty;
+    private Float outlierPenalty;
     private Double minSourcesRatio;
     private Integer minSourcesCount;
     private Double maxResultValueRatio;
-    private Integer maxResultValue;
+    private Float maxResultValue;
+    private Float accuracy;
+    private Double gravitationalExponent;
     private Set<String> filterValuesForSourceOrigins;
-    private Map<String, SourceParameters> sourceParameters;
+    private LinkedHashMap<String, SourceParameters> sourceParameters;
 }
 
