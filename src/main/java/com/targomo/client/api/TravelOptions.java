@@ -78,8 +78,8 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
-    @Transient private int trafficJunctionPenalty        = 4;
-    @Transient private int trafficSignalPenalty        = 7;
+    @Transient private Integer trafficJunctionPenalty        = null;
+    @Transient private Integer trafficSignalPenalty        = null;
 
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
 
@@ -365,25 +365,25 @@ public class TravelOptions implements Serializable {
     /**
      * @return the trafficJunctionPenalty
      */
-    public int getTrafficJunctionPenalty() {
+    public Integer getTrafficJunctionPenalty() {
         return trafficJunctionPenalty;
     }
     /**
      * @param trafficJunctionPenalty the trafficJunctionPenalty to set
      */
-    public void setTrafficJunctionPenalty(int trafficJunctionPenalty) {
+    public void setTrafficJunctionPenalty(Integer trafficJunctionPenalty) {
         this.trafficJunctionPenalty = trafficJunctionPenalty;
     }
     /**
      * @return the trafficSignalPenalty
      */
-    public int getTrafficSignalPenalty() {
+    public Integer getTrafficSignalPenalty() {
         return trafficSignalPenalty;
     }
     /**
      * @param trafficSignalPenalty the trafficSignalPenalty to set
      */
-    public void setTrafficSignalPenalty(int trafficSignalPenalty) {
+    public void setTrafficSignalPenalty(Integer trafficSignalPenalty) {
         this.trafficSignalPenalty = trafficSignalPenalty;
     }
     /**
