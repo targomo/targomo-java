@@ -78,6 +78,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
+    @Transient private Integer trafficJunctionPenalty        = null;
+    @Transient private Integer trafficSignalPenalty        = null;
+
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
 
     @Column(name = "travel_type")
@@ -358,6 +361,30 @@ public class TravelOptions implements Serializable {
      */
     public void setBikeDownhill(double bikeDownhill) {
         this.bikeDownhill = bikeDownhill;
+    }
+    /**
+     * @return the trafficJunctionPenalty
+     */
+    public Integer getTrafficJunctionPenalty() {
+        return trafficJunctionPenalty;
+    }
+    /**
+     * @param trafficJunctionPenalty the trafficJunctionPenalty to set
+     */
+    public void setTrafficJunctionPenalty(Integer trafficJunctionPenalty) {
+        this.trafficJunctionPenalty = trafficJunctionPenalty;
+    }
+    /**
+     * @return the trafficSignalPenalty
+     */
+    public Integer getTrafficSignalPenalty() {
+        return trafficSignalPenalty;
+    }
+    /**
+     * @param trafficSignalPenalty the trafficSignalPenalty to set
+     */
+    public void setTrafficSignalPenalty(Integer trafficSignalPenalty) {
+        this.trafficSignalPenalty = trafficSignalPenalty;
     }
     /**
      * @return the walkSpeed
@@ -710,6 +737,8 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                Integer.compare(that.trafficJunctionPenalty, trafficJunctionPenalty) == 0 &&
+                Integer.compare(that.trafficSignalPenalty, trafficSignalPenalty) == 0 &&
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(targets, that.targets) &&
@@ -798,7 +827,8 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, multiGraphPreAggregationPipeline, multiGraphSourceParameters);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty,
+                multiGraphPreAggregationPipeline, multiGraphSourceParameters);
     }
 
     /* (non-Javadoc)
@@ -826,6 +856,10 @@ public class TravelOptions implements Serializable {
         builder.append(walkUphill);
         builder.append("\n\twalkDownhill: ");
         builder.append(walkDownhill);
+        builder.append("\n\ttrafficJunctionPenalty: ");
+        builder.append(trafficJunctionPenalty);
+        builder.append("\n\ttrafficSignalPenalty: ");
+        builder.append(trafficSignalPenalty);
         builder.append("\n\trushHour: ");
         builder.append(rushHour);
         builder.append("\n\ttravelTimes: ");
