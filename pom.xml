@@ -4,7 +4,7 @@
 
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <name>Targomo Java Client Library</name>
     <description>Java client library for easy usage of Targomo web services.</description>
     <url>https://github.com/targomo/targomo-java</url>
@@ -204,6 +204,7 @@
                     <includes>
                         <include>**/TestSuite.class</include>
                     </includes>
+                   <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
             <plugin>

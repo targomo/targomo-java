@@ -2,7 +2,7 @@ package com.targomo.client;
 
 public class Constants {
 
-    public static final int NO_VALUE_ENTRY_TROVE_MAPS = -1;
+    public static final int NO_VALUE_ENTRY_TROVE_MAPS = Integer.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
@@ -40,6 +40,8 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_TIME                        = "time";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DURATION                    = "duration";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DATE                        = "date";
+    public static final String TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY                  = "trafficJunctionPenalty";
+    public static final String TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY                    = "trafficSignalPenalty";
     public static final String EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND                      = "no-route-found";
     public static final String EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED                = "travel-time-exceeded";
     public static final String EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK  = "could-not-connect-point-to-network";
@@ -100,6 +102,9 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS                 = "sourceParameters";
+    public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
+    public static final String MULTIGRAPH_PREAGGREGATION_PIPELINE                       = "preAggregationPipeline";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";
