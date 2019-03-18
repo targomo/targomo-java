@@ -19,6 +19,8 @@ import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
+import com.targomo.client.api.request.config.multigraph.AggregationConfig;
+import com.targomo.client.api.request.config.multigraph.SourceParameter;
 import com.targomo.client.api.statistic.PoiType;
 
 import javax.persistence.*;
@@ -77,6 +79,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
+    @Transient private Integer trafficJunctionPenalty        = null;
+    @Transient private Integer trafficSignalPenalty        = null;
+
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
 
     @Column(name = "travel_type")
@@ -105,6 +110,9 @@ public class TravelOptions implements Serializable {
     // maximum number of transfers when using public transportation
     @Column(name = "max_transfers") private Integer maxTransfers    = null;
 
+    // Transit route types that should not be used for routing
+    private List<Integer> avoidTransitRouteTypes                    = Collections.emptyList();
+
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
@@ -125,6 +133,8 @@ public class TravelOptions implements Serializable {
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
     @Transient private Map<String, GravitationSourceParameters> multiGraphAggregationGravitationSourceParameters = null;
+    @Transient private Map<String, SourceParameter> multiGraphSourceParameters               = null;
+    @Transient private Map<String, AggregationConfig> multiGraphPreAggregationPipeline       = null;
     @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
     @Transient private MultiGraphLayerEdgeAggregationType multiGraphLayerEdgeAggregationType = null;
     @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
@@ -357,6 +367,30 @@ public class TravelOptions implements Serializable {
      */
     public void setBikeDownhill(double bikeDownhill) {
         this.bikeDownhill = bikeDownhill;
+    }
+    /**
+     * @return the trafficJunctionPenalty
+     */
+    public Integer getTrafficJunctionPenalty() {
+        return trafficJunctionPenalty;
+    }
+    /**
+     * @param trafficJunctionPenalty the trafficJunctionPenalty to set
+     */
+    public void setTrafficJunctionPenalty(Integer trafficJunctionPenalty) {
+        this.trafficJunctionPenalty = trafficJunctionPenalty;
+    }
+    /**
+     * @return the trafficSignalPenalty
+     */
+    public Integer getTrafficSignalPenalty() {
+        return trafficSignalPenalty;
+    }
+    /**
+     * @param trafficSignalPenalty the trafficSignalPenalty to set
+     */
+    public void setTrafficSignalPenalty(Integer trafficSignalPenalty) {
+        this.trafficSignalPenalty = trafficSignalPenalty;
     }
     /**
      * @return the walkSpeed
@@ -668,6 +702,22 @@ public class TravelOptions implements Serializable {
         this.targets.put(target.getId(), target);
     }
 
+    public Map<String, SourceParameter> getMultiGraphSourceParameters() {
+        return multiGraphSourceParameters;
+    }
+
+    public void setMultiGraphSourceParameters(Map<String, SourceParameter> multiGraphSourceParameters) {
+        this.multiGraphSourceParameters = multiGraphSourceParameters;
+    }
+
+    public Map<String, AggregationConfig> getMultiGraphPreAggregationPipeline() {
+        return multiGraphPreAggregationPipeline;
+    }
+
+    public void setMultiGraphPreAggregationPipeline(Map<String, AggregationConfig> multiGraphPreAggregationPipeline) {
+        this.multiGraphPreAggregationPipeline = multiGraphPreAggregationPipeline;
+    }
+
     private String toString(Collection<?> collection, int maxLen) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
@@ -693,6 +743,8 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                Integer.compare(that.trafficJunctionPenalty, trafficJunctionPenalty) == 0 &&
+                Integer.compare(that.trafficSignalPenalty, trafficSignalPenalty) == 0 &&
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(targets, that.targets) &&
@@ -758,7 +810,11 @@ public class TravelOptions implements Serializable {
                 Objects.equals(travelTypes, that.travelTypes) &&
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
-                Objects.equals(travelTimeFactors, that.travelTimeFactors);
+                Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
+                Objects.equals(maxTransfers, that.maxTransfers) &&
+                Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
+                Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
+                Objects.equals(multiGraphSourceParameters, that.multiGraphSourceParameters);
     }
                 
 
@@ -784,7 +840,8 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty,
+                multiGraphPreAggregationPipeline, multiGraphSourceParameters);
     }
 
     /* (non-Javadoc)
@@ -812,6 +869,10 @@ public class TravelOptions implements Serializable {
         builder.append(walkUphill);
         builder.append("\n\twalkDownhill: ");
         builder.append(walkDownhill);
+        builder.append("\n\ttrafficJunctionPenalty: ");
+        builder.append(trafficJunctionPenalty);
+        builder.append("\n\ttrafficSignalPenalty: ");
+        builder.append(trafficSignalPenalty);
         builder.append("\n\trushHour: ");
         builder.append(rushHour);
         builder.append("\n\ttravelTimes: ");
@@ -940,6 +1001,10 @@ public class TravelOptions implements Serializable {
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
+        builder.append("\n\tmaxTransfers: ");
+        builder.append(maxTransfers);
+        builder.append("\n\tavoidTransitRouteTypes: ");
+        builder.append(avoidTransitRouteTypes != null ? toString(avoidTransitRouteTypes, maxLen) : null);
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -1383,5 +1448,13 @@ public class TravelOptions implements Serializable {
 
     public void setDisableCache(boolean disableCache) {
         this.disableCache = disableCache;
+    }
+
+    public List<Integer> getAvoidTransitRouteTypes() {
+        return avoidTransitRouteTypes;
+    }
+
+    public void setAvoidTransitRouteTypes(List<Integer> avoidTransitRouteTypes) {
+        this.avoidTransitRouteTypes = avoidTransitRouteTypes;
     }
 }
