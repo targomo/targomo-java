@@ -7,6 +7,9 @@ import com.targomo.client.Constants;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * With objects of this class certain parameters for a single source can be defined for the multigraph aggregations.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceParameter {
     private Float factor;
