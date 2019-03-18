@@ -18,6 +18,8 @@ import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
+import com.targomo.client.api.request.config.multigraph.AggregationConfig;
+import com.targomo.client.api.request.config.multigraph.SourceParameter;
 import com.targomo.client.api.statistic.PoiType;
 
 import javax.persistence.*;
@@ -125,6 +127,8 @@ public class TravelOptions implements Serializable {
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
     @Transient private Integer multiGraphAggregationMaxResultValue                           = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
+    @Transient private Map<String, SourceParameter> multiGraphSourceParameters               = null;
+    @Transient private Map<String, AggregationConfig> multiGraphPreAggregationPipeline       = null;
     @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
     @Transient private MultiGraphLayerEdgeAggregationType multiGraphLayerEdgeAggregationType = null;
     @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
@@ -665,6 +669,22 @@ public class TravelOptions implements Serializable {
         this.targets.put(target.getId(), target);
     }
 
+    public Map<String, SourceParameter> getMultiGraphSourceParameters() {
+        return multiGraphSourceParameters;
+    }
+
+    public void setMultiGraphSourceParameters(Map<String, SourceParameter> multiGraphSourceParameters) {
+        this.multiGraphSourceParameters = multiGraphSourceParameters;
+    }
+
+    public Map<String, AggregationConfig> getMultiGraphPreAggregationPipeline() {
+        return multiGraphPreAggregationPipeline;
+    }
+
+    public void setMultiGraphPreAggregationPipeline(Map<String, AggregationConfig> multiGraphPreAggregationPipeline) {
+        this.multiGraphPreAggregationPipeline = multiGraphPreAggregationPipeline;
+    }
+
     private String toString(Collection<?> collection, int maxLen) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
@@ -752,7 +772,9 @@ public class TravelOptions implements Serializable {
                 Objects.equals(customPois, that.customPois) &&
                 Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
                 Objects.equals(maxTransfers, that.maxTransfers) &&
-                Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes);
+                Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
+                Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
+                Objects.equals(multiGraphSourceParameters, that.multiGraphSourceParameters);
     }
                 
 
@@ -776,7 +798,7 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, multiGraphPreAggregationPipeline, multiGraphSourceParameters);
     }
 
     /* (non-Javadoc)

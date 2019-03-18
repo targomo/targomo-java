@@ -2,7 +2,7 @@ package com.targomo.client;
 
 public class Constants {
 
-    public static final int NO_VALUE_ENTRY_TROVE_MAPS = -1;
+    public static final int NO_VALUE_ENTRY_TROVE_MAPS = Integer.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
@@ -100,6 +100,9 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS                 = "sourceParameters";
+    public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
+    public static final String MULTIGRAPH_PREAGGREGATION_PIPELINE                       = "preAggregationPipeline";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";
