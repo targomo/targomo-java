@@ -12,6 +12,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * POJO to define pipeline aggregations for the multigraph.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AggregationConfig {
     private MultiGraphAggregationType type;
