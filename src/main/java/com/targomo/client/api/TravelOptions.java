@@ -827,8 +827,8 @@ public class TravelOptions implements Serializable {
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty);
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, multiGraphPreAggregationPipeline, multiGraphSourceParameters);
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty,
+                multiGraphPreAggregationPipeline, multiGraphSourceParameters);
     }
 
     /* (non-Javadoc)
