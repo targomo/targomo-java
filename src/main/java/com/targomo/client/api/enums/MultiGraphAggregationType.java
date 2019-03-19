@@ -24,14 +24,14 @@ public enum MultiGraphAggregationType {
 
     private final String key;
     private final PolygonIntersectionMode associatedRoutingAggregation;
-    private final boolean requiresGravitationalParameters;
+    private final boolean requiresGravitationParameters;
 
     MultiGraphAggregationType(String key,
-                              boolean requiresGravitationalParameters,
+                              boolean requiresGravitationParameters,
                               PolygonIntersectionMode associatedRoutingAggregation) {
         this.key = key;
         this.associatedRoutingAggregation = associatedRoutingAggregation;
-        this.requiresGravitationalParameters = requiresGravitationalParameters;
+        this.requiresGravitationParameters = requiresGravitationParameters;
     }
 
     @JsonCreator
@@ -53,7 +53,7 @@ public enum MultiGraphAggregationType {
     }
 
     @JsonIgnore
-    public boolean getRequiresGravitationalParameters() {
-        return requiresGravitationalParameters;
+    public boolean getRequiresGravitationParameters() {
+        return requiresGravitationParameters;
     }
 }

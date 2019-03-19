@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @EqualsAndHashCode
 @ToString(includeFieldNames=true)
 public class SourceParameters {

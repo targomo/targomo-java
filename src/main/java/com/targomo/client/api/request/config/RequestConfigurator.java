@@ -8,7 +8,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.SourceParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
-import com.targomo.client.api.request.config.multigraph.AggregationConfiguration;
+import com.targomo.client.api.pojo.AggregationConfiguration;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -269,7 +269,7 @@ public final class RequestConfigurator {
     }
 
     private static AggregationConfiguration buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
-        return AggregationConfiguration.builder()
+        return new AggregationConfiguration.AggregationConfigurationBuilder()
                 .ignoreOutlier(travelOptions.getMultiGraphAggregationIgnoreOutlier())
                 .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue())
                 .maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
@@ -321,8 +321,8 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getAccuracy() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_ACCURACY, aggregationConfiguration.getAccuracy());
 
-        if (aggregationConfiguration.getGravitationalExponent() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationalExponent());
+        if (aggregationConfiguration.getGravitationExponent() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
 
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());

@@ -19,7 +19,7 @@ import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
-import com.targomo.client.api.request.config.multigraph.AggregationConfiguration;
+import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.statistic.PoiType;
 
 import javax.persistence.*;
@@ -144,7 +144,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    @Transient private Integer multiGraphAggregationAccuracy = 1000000;
+    @Transient private Float multiGraphAggregationAccuracy                                   = null;
     
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -1314,11 +1314,11 @@ public class TravelOptions implements Serializable {
         this.multiGraphTileY = multiGraphTileY;
     }
     
-    public Integer getMultiGraphAggregationAccuracy() {
+    public Float getMultiGraphAggregationAccuracy() {
         return multiGraphAggregationAccuracy;
     }
 
-    public void setMultiGraphAggregationAccuracy(Integer multiGraphAggregationAccuracy) {
+    public void setMultiGraphAggregationAccuracy(Float multiGraphAggregationAccuracy) {
         this.multiGraphAggregationAccuracy = multiGraphAggregationAccuracy;
     }
 
