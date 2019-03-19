@@ -30,6 +30,13 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 ### 0.1.6
 - to be added
 
+### 0.1.5.2
+- made avoidTransitRouteTypes in TravelOptions transient
+- added maxWalkingTimeFromSource and maxWalkingTimeToTarget to `TravelOptions.equals()` and `TravelOptions.hashCode()`
+
+### 0.1.5.1
+- fixed traffic penalty comparison in `TravelOptions.equals()`
+
 ### 0.1.5
 - added parameter "avoidTransitRouteTypes"
 - added parameters for multigraph aggregation pipeline
