@@ -110,7 +110,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "max_transfers") private Integer maxTransfers    = null;
 
     // Transit route types that should not be used for routing
-    private List<Integer> avoidTransitRouteTypes                    = Collections.emptyList();
+    @Transient private List<Integer> avoidTransitRouteTypes                    = Collections.emptyList();
 
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
@@ -803,7 +803,9 @@ public class TravelOptions implements Serializable {
                 Objects.equals(maxTransfers, that.maxTransfers) &&
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
                 Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
-                Objects.equals(multiGraphSourceParameters, that.multiGraphSourceParameters);
+                Objects.equals(multiGraphSourceParameters, that.multiGraphSourceParameters) &&
+                Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
+                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget);
     }
                 
 
@@ -828,7 +830,7 @@ public class TravelOptions implements Serializable {
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty,
-                multiGraphPreAggregationPipeline, multiGraphSourceParameters);
+                multiGraphPreAggregationPipeline, multiGraphSourceParameters, maxWalkingTimeFromSource, maxWalkingTimeToTarget);
     }
 
     /* (non-Javadoc)
@@ -982,6 +984,10 @@ public class TravelOptions implements Serializable {
         builder.append(maxTransfers);
         builder.append("\n\tavoidTransitRouteTypes: ");
         builder.append(avoidTransitRouteTypes != null ? toString(avoidTransitRouteTypes, maxLen) : null);
+        builder.append("\n\tmaxWalkingTimeFromSource: ");
+        builder.append(maxWalkingTimeFromSource);
+        builder.append("\n\tmaxWalkingTimeToTarget: ");
+        builder.append(maxWalkingTimeToTarget);
         builder.append("\n}\n");
         return builder.toString();
     }

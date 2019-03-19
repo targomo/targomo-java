@@ -27,6 +27,10 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.5.2
+- made avoidTransitRouteTypes in TravelOptions transient
+- added maxWalkingTimeFromSource and maxWalkingTimeToTarget to `TravelOptions.equals()` and `TravelOptions.hashCode()`
+
 ### 0.1.5.1
 - fixed traffic penalty comparison in `TravelOptions.equals()`
 
