@@ -105,7 +105,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
-    public static final String MULTIGRAPH_AGGREGATION_ACCURACY                          = "accuracy";
+    public static final String MULTIGRAPH_POST_AGGREGATION_FACTOR                       = "postAggregationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS                 = "sourceParameters";
@@ -122,4 +122,6 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
+    public static final Integer MULTIGRAPH_DEFAULT_MIN_SOURCES_COUNT                    = 1;
+    public static final Boolean MULTIGRAPH_DEFAULT_IGNORE_OUTLIER                       = Boolean.FALSE;
 }

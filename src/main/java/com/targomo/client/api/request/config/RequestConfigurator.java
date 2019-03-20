@@ -318,8 +318,8 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getMaxResultValue() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfiguration.getMaxResultValue());
 
-        if (aggregationConfiguration.getAccuracy() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_ACCURACY, aggregationConfiguration.getAccuracy());
+        if (aggregationConfiguration.getPostAggregationFactor() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_POST_AGGREGATION_FACTOR, aggregationConfiguration.getPostAggregationFactor());
 
         if (aggregationConfiguration.getGravitationExponent() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());

@@ -144,7 +144,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    @Transient private Float multiGraphAggregationAccuracy                                   = null;
+    @Transient private Float multiGraphPostAggregationFactor                                   = null;
     
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -790,7 +790,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
-                Objects.equals(multiGraphAggregationAccuracy, that.multiGraphAggregationAccuracy) &&
+                Objects.equals(multiGraphPostAggregationFactor, that.multiGraphPostAggregationFactor) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
                 Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
@@ -834,7 +834,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphLayerStatisticGroupId, multiGraphLayerStatisticsIds,
-                multiGraphTileZoom, multiGraphTileX, multiGraphTileY, multiGraphAggregationAccuracy,
+                multiGraphTileZoom, multiGraphTileX, multiGraphTileY, multiGraphPostAggregationFactor,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
@@ -931,7 +931,7 @@ public class TravelOptions implements Serializable {
         builder.append("\n\tmultiGraphAggregationMaxResultValue: ");
         builder.append(multiGraphAggregationMaxResultValue);
         builder.append("\n\tmultiGraphAggregationAccuracy: ");
-        builder.append(multiGraphAggregationAccuracy);
+        builder.append(multiGraphPostAggregationFactor);
         builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
         builder.append(multiGraphAggregationGravitationExponent);
         builder.append("\n\tmultiGraphAggregationSourceParameters: ");
@@ -1314,12 +1314,12 @@ public class TravelOptions implements Serializable {
         this.multiGraphTileY = multiGraphTileY;
     }
     
-    public Float getMultiGraphAggregationAccuracy() {
-        return multiGraphAggregationAccuracy;
+    public Float getMultiGraphPostAggregationFactor() {
+        return multiGraphPostAggregationFactor;
     }
 
-    public void setMultiGraphAggregationAccuracy(Float multiGraphAggregationAccuracy) {
-        this.multiGraphAggregationAccuracy = multiGraphAggregationAccuracy;
+    public void setMultiGraphPostAggregationFactor(Float multiGraphPostAggregationFactor) {
+        this.multiGraphPostAggregationFactor = multiGraphPostAggregationFactor;
     }
 
     public EdgeWeightType getEdgeWeightType() {
