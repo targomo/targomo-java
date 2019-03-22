@@ -108,7 +108,7 @@ public class Constants {
     public static final String MULTIGRAPH_POST_AGGREGATION_FACTOR                       = "postAggregationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
-    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS                 = "sourceParameters";
+    public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS                  = "aggregationInputParameters";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_FACTOR          = "inputFactor";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";

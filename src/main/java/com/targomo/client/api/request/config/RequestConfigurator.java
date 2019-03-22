@@ -6,7 +6,7 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.pojo.SourceParameters;
+import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import org.apache.log4j.Logger;
@@ -61,7 +61,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
-                    travelOptions.getMultiGraphAggregationSourceParameters(),
+                    travelOptions.getMultiGraphAggregationInputParameters(),
                     travelOptions.getMultiGraphLayerEdgeAggregationType())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
@@ -277,7 +277,7 @@ public final class RequestConfigurator {
                 .minSourcesRatio(travelOptions.getMultiGraphAggregationMinSourcesRatio())
                 .outlierPenalty(travelOptions.getMultiGraphAggregationOutlierPenalty())
                 .type(travelOptions.getMultiGraphAggregationType())
-                .sourceParameters(travelOptions.getMultiGraphAggregationSourceParameters())
+                .aggregationInputParameters(travelOptions.getMultiGraphAggregationInputParameters())
                 .filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
                 .build();
     }
@@ -327,16 +327,16 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
 
-        if (aggregationConfiguration.getSourceParameters() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS, buildSourceParameters(aggregationConfiguration.getSourceParameters()));
+        if (aggregationConfiguration.getAggregationInputParameters() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
     }
 
-    private static JSONObject buildSourceParameters(Map<String, SourceParameters> sourceParameters) throws JSONException {
-        JSONObject sourceParams = new JSONObject();
-        if (sourceParameters != null) {
-            for (Map.Entry<String, SourceParameters> entry : sourceParameters.entrySet()) {
+    private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {
+        JSONObject aggregationInputParams = new JSONObject();
+        if (aggregationInputParameters != null) {
+            for (Map.Entry<String, AggregationInputParameters> entry : aggregationInputParameters.entrySet()) {
                 String name = entry.getKey();
-                SourceParameters param = entry.getValue();
+                AggregationInputParameters param = entry.getValue();
                 JSONObject sourceParam = new JSONObject();
 
                 if (param.getInputFactor() != null)
@@ -348,10 +348,10 @@ public final class RequestConfigurator {
                 if (param.getGravitationPositiveInfluence() != null)
                     sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, param.getGravitationPositiveInfluence());
 
-                sourceParams.put(name, sourceParam);
+                aggregationInputParams.put(name, sourceParam);
             }
         }
-        return sourceParams;
+        return aggregationInputParams;
     }
 
     private static JSONArray getSources(final TravelOptions travelOptions) throws JSONException {

@@ -37,7 +37,7 @@ public class AggregationConfiguration {
     // will be included in the aggregation. If null, the elements are not filtered by source origin.
     private Set<String> filterValuesForSourceOrigins;
     private Double gravitationExponent;
-    private Map<String, SourceParameters> sourceParameters;
+    private Map<String, AggregationInputParameters> aggregationInputParameters;
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
@@ -50,7 +50,7 @@ public class AggregationConfiguration {
         private Float postAggregationFactor;
         private Set<String> filterValuesForSourceOrigins;
         private Double gravitationExponent;
-        private Map<String, SourceParameters> sourceParameters;
+        private Map<String, AggregationInputParameters> aggregationInputParameters;
 
         public AggregationConfigurationBuilder() {}
 
@@ -65,11 +65,11 @@ public class AggregationConfiguration {
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
             this.gravitationExponent = toCopy.gravitationExponent;
             this.postAggregationFactor = toCopy.postAggregationFactor;
-            this.sourceParameters = Optional.ofNullable(toCopy.sourceParameters)
+            this.aggregationInputParameters = Optional.ofNullable(toCopy.aggregationInputParameters)
                     .map(map -> map.entrySet().stream()
                             .collect(Collectors.toMap(
                                     Map.Entry::getKey,
-                                    entry -> new SourceParameters(
+                                    entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
                                             entry.getValue().getGravitationPositiveInfluence(),
                                             entry.getValue().getGravitationAttractionStrength()))))
@@ -88,11 +88,11 @@ public class AggregationConfiguration {
             this.filterValuesForSourceOrigins = Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
                     .map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
-            this.sourceParameters = Optional.ofNullable(travelOptions.getMultiGraphAggregationSourceParameters())
+            this.aggregationInputParameters = Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters())
                     .map(map -> map.entrySet().stream()
                             .collect(Collectors.toMap(
                                     Map.Entry::getKey,
-                                    entry -> new SourceParameters(
+                                    entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
                                             entry.getValue().getGravitationPositiveInfluence(),
                                             entry.getValue().getGravitationAttractionStrength()))))
@@ -144,8 +144,8 @@ public class AggregationConfiguration {
             return this;
         }
 
-        public AggregationConfigurationBuilder sourceParameters(Map<String, SourceParameters> sourceParameters) {
-            this.sourceParameters = sourceParameters;
+        public AggregationConfigurationBuilder aggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) {
+            this.aggregationInputParameters = aggregationInputParameters;
             return this;
         }
 
@@ -157,7 +157,7 @@ public class AggregationConfiguration {
         public AggregationConfiguration build() {
             return new AggregationConfiguration(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount,
                     maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
-                    sourceParameters);
+                    aggregationInputParameters);
         }
     }
 }
