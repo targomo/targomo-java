@@ -2,14 +2,15 @@ package com.targomo.client.api.pojo;
 
 import lombok.*;
 
-@Getter()
+@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
 @ToString(includeFieldNames=true)
-public class SourceParameters {
+public class AggregationInputParameters {
+
     private Float inputFactor;
     private Boolean gravitationPositiveInfluence;
     private Double gravitationAttractionStrength;
