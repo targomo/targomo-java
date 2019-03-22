@@ -19,6 +19,7 @@ public enum MultiGraphAggregationType {
     MEAN                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,                 null),
     MEDIAN              (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,               null),
     NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,              null),
+    MATHS               (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATHS,                null),
     ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,        PolygonIntersectionMode.UNION);
 
     private final String key;

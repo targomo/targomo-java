@@ -26,6 +26,7 @@ public class AggregationConfig {
     private Integer maxResultValue;
     private Set<String> filterValuesForSourceOrigins;
     private Map<String, SourceParameter> sourceParameters = new LinkedHashMap<>();
+    private String mathExpression;
 
     public AggregationConfig() {
     }
@@ -39,7 +40,8 @@ public class AggregationConfig {
                              @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO) Double maxResultValueRatio,
                              @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE) Integer maxResultValue,
                              @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS) Map<String, SourceParameter> sourceParameters,
-                             @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS) Set<String> filterValuesForSourceOrigins) {
+                             @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS) Set<String> filterValuesForSourceOrigins,
+                             @JsonProperty(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION) String mathExpression) {
         this.type = type;
         this.ignoreOutlier = ignoreOutlier;
         this.outlierPenalty = outlierPenalty;
@@ -49,6 +51,7 @@ public class AggregationConfig {
         this.maxResultValue = maxResultValue;
         this.sourceParameters = sourceParameters;
         this.filterValuesForSourceOrigins = filterValuesForSourceOrigins;
+        this.mathExpression = mathExpression;
     }
 
     public static AggregationConfigBuilder builder() {
@@ -127,6 +130,18 @@ public class AggregationConfig {
         this.filterValuesForSourceOrigins = filterValuesForSourceOrigins;
     }
 
+    public Boolean getIgnoreOutlier() {
+        return ignoreOutlier;
+    }
+
+    public String getMathExpression() {
+        return mathExpression;
+    }
+
+    public void setMathExpression(String mathExpression) {
+        this.mathExpression = mathExpression;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -175,6 +190,7 @@ public class AggregationConfig {
                 ", maxResultValue=" + maxResultValue +
                 ", filterValuesForSourceOrigins=" + filterValuesForSourceOrigins +
                 ", sourceParameters=" + sourceParameters +
+                ", mathExpression=" + mathExpression +
                 '}';
     }
 
@@ -188,6 +204,7 @@ public class AggregationConfig {
         private Integer maxResultValue;
         private Set<String> filterValuesForSourceOrigins;
         private Map<String, SourceParameter> sourceParameters = new LinkedHashMap<>();
+        private String mathExpression;
 
         private AggregationConfigBuilder() {
         }
@@ -237,8 +254,13 @@ public class AggregationConfig {
             return this;
         }
 
+        public AggregationConfigBuilder mathExpression(String mathExpression) {
+            this.mathExpression = mathExpression;
+            return this;
+        }
+
         public AggregationConfig build() {
-            return new AggregationConfig(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount, maxResultValueRatio, maxResultValue, sourceParameters, filterValuesForSourceOrigins);
+            return new AggregationConfig(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount, maxResultValueRatio, maxResultValue, sourceParameters, filterValuesForSourceOrigins, mathExpression);
         }
     }
 }
