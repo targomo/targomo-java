@@ -340,13 +340,13 @@ public final class RequestConfigurator {
                 JSONObject sourceParam = new JSONObject();
 
                 if (param.getInputFactor() != null)
-                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_FACTOR, param.getInputFactor());
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, param.getInputFactor());
 
                 if (param.getGravitationAttractionStrength() != null)
-                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, param.getGravitationAttractionStrength());
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, param.getGravitationAttractionStrength());
 
                 if (param.getGravitationPositiveInfluence() != null)
-                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, param.getGravitationPositiveInfluence());
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, param.getGravitationPositiveInfluence());
 
                 aggregationInputParams.put(name, sourceParam);
             }

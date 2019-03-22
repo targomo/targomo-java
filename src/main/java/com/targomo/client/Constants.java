@@ -110,9 +110,9 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS                  = "aggregationInputParameters";
-    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_FACTOR          = "inputFactor";
-    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
-    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
+    public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR           = "inputFactor";
+    public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
+    public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathsExpression";
