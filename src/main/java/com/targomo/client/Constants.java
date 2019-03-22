@@ -2,7 +2,8 @@ package com.targomo.client;
 
 public class Constants {
 
-    public static final int NO_VALUE_ENTRY_TROVE_MAPS = Integer.MIN_VALUE;
+    public static final float NO_VALUE_ENTRY_FLOAT_TROVE_MAPS = -Float.MAX_VALUE;
+    public static final int NO_VALUE_ENTRY_INT_TROVE_MAPS = Integer.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
@@ -66,6 +67,8 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE                      = "tile_node";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON                        = "hexagon";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE                   = "hexagon_node";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS            = "geometry_statistics";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS                = "tile_statistics";
     public static final String MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE                   = "edgeAggregationType";
     public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MINIMUM       = "min";
     public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MAXIMUM       = "max";
@@ -87,7 +90,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
-    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                     = "none";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE                      = "one";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM                  = "min";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM                  = "max";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM                      = "sum";
@@ -95,6 +98,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN                   = "median";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATHS                    = "maths";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
@@ -102,11 +106,16 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
+    public static final String MULTIGRAPH_POST_AGGREGATION_FACTOR                       = "postAggregationFactor";
+    public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS                 = "sourceParameters";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_FACTOR          = "inputFactor";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
+    public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathsExpression";
-    public static final String MULTIGRAPH_PREAGGREGATION_PIPELINE                       = "preAggregationPipeline";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";
@@ -116,4 +125,6 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
+    public static final Integer MULTIGRAPH_DEFAULT_MIN_SOURCES_COUNT                    = 1;
+    public static final Boolean MULTIGRAPH_DEFAULT_IGNORE_OUTLIER                       = Boolean.FALSE;
 }

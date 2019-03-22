@@ -1,4 +1,4 @@
-image: code.route360.net:4567/docker/general-image/service/psql9.6:0.0.3
+image: code.route360.net:4567/docker/general-image/service/psql9.6:0.0.4
 
 cache:
   key: "mvn"

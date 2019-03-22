@@ -33,7 +33,7 @@ public final class JacksonRequestConfigurator {
 		}
 		catch (Exception ex) {
 
-			throw new TargomoClientException("Error parsing traveltOptions", ex);
+			throw new TargomoClientException("Error parsing travelOptions", ex);
 		}
     }
 }
