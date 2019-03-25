@@ -930,7 +930,7 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationMaxResultValueRatio);
         builder.append("\n\tmultiGraphAggregationMaxResultValue: ");
         builder.append(multiGraphAggregationMaxResultValue);
-        builder.append("\n\tmultiGraphAggregationAccuracy: ");
+        builder.append("\n\tmultiGraphPostAggregationFactor: ");
         builder.append(multiGraphPostAggregationFactor);
         builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
         builder.append(multiGraphAggregationGravitationExponent);
