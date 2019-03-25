@@ -99,7 +99,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
-    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATHS                    = "maths";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO                 = "minSourcesRatio";
@@ -115,7 +115,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
-    public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathsExpression";
+    public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathExpression";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";

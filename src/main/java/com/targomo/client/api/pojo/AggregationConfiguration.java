@@ -38,7 +38,7 @@ public class AggregationConfiguration {
     private Set<String> filterValuesForSourceOrigins;
     private Double gravitationExponent;
     private Map<String, AggregationInputParameters> aggregationInputParameters;
-    private String mathsExpression;
+    private String mathExpression;
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
@@ -52,7 +52,7 @@ public class AggregationConfiguration {
         private Set<String> filterValuesForSourceOrigins;
         private Double gravitationExponent;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
-        private String mathsExpression;
+        private String mathExpression;
 
         public AggregationConfigurationBuilder() {}
 
@@ -76,7 +76,7 @@ public class AggregationConfiguration {
                                             entry.getValue().getGravitationPositiveInfluence(),
                                             entry.getValue().getGravitationAttractionStrength()))))
                     .orElse(null);
-            this.mathsExpression = toCopy.mathsExpression;
+            this.mathExpression = toCopy.mathExpression;
         }
 
         public AggregationConfigurationBuilder(TravelOptions travelOptions) {
@@ -157,15 +157,15 @@ public class AggregationConfiguration {
             return this;
         }
 
-        public AggregationConfigurationBuilder mathsExpression(String mathsExpression) {
-            this.mathsExpression = mathsExpression;
+        public AggregationConfigurationBuilder mathExpression(String mathExpression) {
+            this.mathExpression = mathExpression;
             return this;
         }
 
         public AggregationConfiguration build() {
             return new AggregationConfiguration(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount,
                     maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
-                    aggregationInputParameters, mathsExpression);
+                    aggregationInputParameters, mathExpression);
         }
     }
 }
