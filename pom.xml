@@ -176,7 +176,7 @@
         <dependency>
             <groupId>com.targomo</groupId>
             <artifactId>jackson-datatype-trove</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.5</version>
         </dependency>
     </dependencies>
 

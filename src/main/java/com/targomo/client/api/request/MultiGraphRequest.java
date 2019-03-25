@@ -22,7 +22,8 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
     private static final String PATH = "v1/multigraph";
 
     static {
-        MAPPER.registerModule(new TroveModule(Constants.NO_VALUE_ENTRY_TROVE_MAPS)); //required to properly deserialize MultiGraphs
+        MAPPER.registerModule(new TroveModule(Constants.NO_VALUE_ENTRY_INT_TROVE_MAPS,
+                Constants.NO_VALUE_ENTRY_FLOAT_TROVE_MAPS)); //required to properly deserialize MultiGraphs
     }
 
     /**
