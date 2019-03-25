@@ -114,7 +114,6 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
-    public static final String MULTIGRAPH_AGGREGATION_FACTOR                            = "factor";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathExpression";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";

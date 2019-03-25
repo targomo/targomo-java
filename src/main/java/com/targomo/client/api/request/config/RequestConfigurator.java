@@ -279,6 +279,7 @@ public final class RequestConfigurator {
                 .type(travelOptions.getMultiGraphAggregationType())
                 .aggregationInputParameters(travelOptions.getMultiGraphAggregationInputParameters())
                 .filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
+                .mathExpression(travelOptions.getMultiGraphAggregationMathExpression())
                 .build();
     }
 

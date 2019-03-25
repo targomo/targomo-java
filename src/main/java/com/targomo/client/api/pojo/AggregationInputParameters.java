@@ -14,8 +14,4 @@ public class AggregationInputParameters {
     private Float inputFactor;
     private Boolean gravitationPositiveInfluence;
     private Double gravitationAttractionStrength;
-
-    public Float getInputFactor(){
-        return inputFactor == null ? 1.0f : inputFactor;
-    }
 }
