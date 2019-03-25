@@ -329,6 +329,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getAggregationInputParameters() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
+
+        if (aggregationConfiguration.getMathExpression() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
     }
 
     private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {
