@@ -1326,7 +1326,7 @@ public class TravelOptions implements Serializable {
         return multiGraphAggregationPostAggregationFactor;
     }
 
-    public void setMultiGraphPostAggregationFactor(Float multiGraphAggregationPostAggregationFactor) {
+    public void setMultiGraphAggregationPostAggregationFactor(Float multiGraphAggregationPostAggregationFactor) {
         this.multiGraphAggregationPostAggregationFactor = multiGraphAggregationPostAggregationFactor;
     }
 
