@@ -28,11 +28,12 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 ## Release Notes
 
 ### 0.1.6
-Added attributes for gravitational multigraph and multigraph aggregation pipeline
+Added attributes for gravitational multigraph, multigraph aggregation pipeline and multigraph math aggregation
 - multiGraphAggregationGravitationExponent (exponent to be used on gravitation attraction function)
 - multiGraphAggregationPostAggregationFactor (multiplier applied over the multigraph aggregation value)
 - multiGraphAggregationInputParameters (set of aggregation input attributes to be used on aggregation pipeline)
 - multiGraphPreAggregationPipeline (map containing named aggregations, to be used on multigraph aggregation pipeline. These aggregations should be stored in order of insertion to not affect the pipeline execution) 
+- multiGraphAggregationMathExpression (set math expression when using math aggregation to perform math operations on points or pipeline pre-aggregations values)
 
 ### 0.1.5.2
 - made avoidTransitRouteTypes in TravelOptions transient
