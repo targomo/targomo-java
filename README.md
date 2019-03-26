@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.5</version>
+         <version>0.1.6</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,7 +28,18 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 ## Release Notes
 
 ### 0.1.6
-- to be added
+Added attributes for gravitational multigraph and multigraph aggregation pipeline
+- multiGraphAggregationGravitationExponent (exponent to be used on gravitation attraction function)
+- multiGraphAggregationPostAggregationFactor (multiplier applied over the multigraph aggregation value)
+- multiGraphAggregationInputParameters (set of aggregation input attributes to be used on aggregation pipeline)
+- multiGraphPreAggregationPipeline (map containing named aggregations, to be used on multigraph aggregation pipeline. These aggregations should be stored in order of insertion to not affect the pipeline execution) 
+
+### 0.1.5.2
+- made avoidTransitRouteTypes in TravelOptions transient
+- added maxWalkingTimeFromSource and maxWalkingTimeToTarget to `TravelOptions.equals()` and `TravelOptions.hashCode()`
+
+### 0.1.5.1
+- fixed traffic penalty comparison in `TravelOptions.equals()`
 
 ### 0.1.5
 - added parameter "avoidTransitRouteTypes"

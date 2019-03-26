@@ -42,15 +42,15 @@ public class AggregationConfiguration {
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
-        private Boolean ignoreOutlier = Constants.MULTIGRAPH_DEFAULT_IGNORE_OUTLIER;
+        private Boolean ignoreOutlier;
         private Float outlierPenalty;
         private Double minSourcesRatio;
-        private Integer minSourcesCount = Constants.MULTIGRAPH_DEFAULT_MIN_SOURCES_COUNT;
+        private Integer minSourcesCount;
         private Double maxResultValueRatio;
         private Float maxResultValue;
+        private Double gravitationExponent;
         private Float postAggregationFactor;
         private Set<String> filterValuesForSourceOrigins;
-        private Double gravitationExponent;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
         private String mathExpression;
 
@@ -87,7 +87,7 @@ public class AggregationConfiguration {
             this.minSourcesCount = Optional.ofNullable(travelOptions.getMultiGraphAggregationMinSourcesCount()).orElse(1);
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
             this.maxResultValue = travelOptions.getMultiGraphAggregationMaxResultValue();
-            this.postAggregationFactor = travelOptions.getMultiGraphPostAggregationFactor();
+            this.postAggregationFactor = travelOptions.getMultiGraphAggregationPostAggregationFactor();
             this.filterValuesForSourceOrigins = Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
                     .map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();

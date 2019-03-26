@@ -21,12 +21,6 @@ public enum MultiGraphLayerType {
     GEOMETRY_STATISTICS (Constants.KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS,   false,  false,  true),
     TILE_STATISTICS     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS,       false,  true,   true);
 
-    //TODO we should differentiate between input and output layers - for instance NODE, EDGE, GEOMETRY can be input layers
-    // (saved in the multigraph) and NODE, EDGE, TILE, HEXAGON, GEOMETRY can be output layers (for serializations)
-    //TODO not all combinations are valid, e.g. invalid examples:
-    // - node -> edge
-    // - anything other than geometry -> geometry
-
     private String key;
     private boolean withEdges;
     private boolean geometryMerge;
