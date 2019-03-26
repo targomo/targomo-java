@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.5</version>
+         <version>0.1.6</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -26,6 +26,14 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
 To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
+
+### 0.1.6
+Added attributes for gravitational multigraph, multigraph aggregation pipeline and multigraph math aggregation
+- multiGraphAggregationGravitationExponent (exponent to be used on gravitation attraction function)
+- multiGraphAggregationPostAggregationFactor (multiplier applied over the multigraph aggregation value)
+- multiGraphAggregationInputParameters (set of aggregation input attributes to be used on aggregation pipeline)
+- multiGraphPreAggregationPipeline (map containing named aggregations, to be used on multigraph aggregation pipeline. These aggregations should be stored in order of insertion to not affect the pipeline execution) 
+- new aggregation type: MATH. To use this new aggregation, one should also define `multiGraphAggregationMathExpression`. An example of mathExpression would be `({POI:00} - {POI:10}) * 2 -  {POI:20}`, where inside `{}` are defined ids of sources (or pre-aggregation ids). Since all the values should be present when calculating the expression, minSourceCount will by default be equal to the number of parameters in the expression (minSourceCount will be 3 by default in the aforementioned example).
 
 ### 0.1.5.2
 - made avoidTransitRouteTypes in TravelOptions transient

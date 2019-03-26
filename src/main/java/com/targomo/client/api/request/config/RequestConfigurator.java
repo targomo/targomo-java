@@ -6,9 +6,9 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
-import com.targomo.client.api.request.config.multigraph.AggregationConfig;
-import com.targomo.client.api.request.config.multigraph.SourceParameter;
+import com.targomo.client.api.pojo.AggregationConfiguration;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +60,12 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
-                    travelOptions.getMultiGraphLayerEdgeAggregationType())
+                    travelOptions.getMultiGraphAggregationGravitationExponent(),
+                    travelOptions.getMultiGraphAggregationInputParameters(),
+                    travelOptions.getMultiGraphAggregationPostAggregationFactor(),
+                    travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                    travelOptions.getMultiGraphPreAggregationPipeline(),
+                    travelOptions.getMultiGraphAggregationMathExpression())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -257,78 +262,106 @@ public final class RequestConfigurator {
         if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
-                travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
-                travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).anyMatch(Objects::nonNull)) {
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
+                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
+                .anyMatch(Objects::nonNull)) {
             JSONObject multigraphAggregation = new JSONObject();
-            AggregationConfig aggregationConfig = buildAggregationConfigFromTravelOptions(travelOptions);
-            fillJsonAggregationConfig(aggregationConfig, multigraphAggregation);
+            AggregationConfiguration aggregationConfiguration = buildAggregationConfigFromTravelOptions(travelOptions);
+            fillJsonAggregationConfig(aggregationConfiguration, multigraphAggregation);
             multiGraph.put(Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
         }
     }
 
-    private static AggregationConfig buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
-        return AggregationConfig.builder().ignoreOutlier(travelOptions.getMultiGraphAggregationIgnoreOutlier())
-                .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue()).maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
-                .minSourcesCount(travelOptions.getMultiGraphAggregationMinSourcesCount()).minSourcesRatio(travelOptions.getMultiGraphAggregationMinSourcesRatio())
-                .outlierPenalty(travelOptions.getMultiGraphAggregationOutlierPenalty()).type(travelOptions.getMultiGraphAggregationType())
-                .sourceParameters(travelOptions.getMultiGraphSourceParameters()).filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).build();
+    private static AggregationConfiguration buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
+        return new AggregationConfiguration.AggregationConfigurationBuilder()
+                .ignoreOutlier(travelOptions.getMultiGraphAggregationIgnoreOutlier())
+                .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue())
+                .maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
+                .minSourcesCount(travelOptions.getMultiGraphAggregationMinSourcesCount())
+                .minSourcesRatio(travelOptions.getMultiGraphAggregationMinSourcesRatio())
+                .outlierPenalty(travelOptions.getMultiGraphAggregationOutlierPenalty())
+                .gravitationExponent(travelOptions.getMultiGraphAggregationGravitationExponent())
+                .postAggregationFactor(travelOptions.getMultiGraphAggregationPostAggregationFactor())
+                .type(travelOptions.getMultiGraphAggregationType())
+                .aggregationInputParameters(travelOptions.getMultiGraphAggregationInputParameters())
+                .filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
+                .mathExpression(travelOptions.getMultiGraphAggregationMathExpression())
+                .build();
     }
 
     private static void addMultiGraphPreAggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (travelOptions.getMultiGraphPreAggregationPipeline() != null) {
             JSONObject multiGraphPreAggregation = new JSONObject();
-            for (Map.Entry<String, AggregationConfig> entry : travelOptions.getMultiGraphPreAggregationPipeline().entrySet()) {
+            for (Map.Entry<String, AggregationConfiguration> entry : travelOptions.getMultiGraphPreAggregationPipeline().entrySet()) {
                 String aggregationName = entry.getKey();
-                AggregationConfig aggregationConfig = entry.getValue();
+                AggregationConfiguration aggregationConfiguration = entry.getValue();
                 JSONObject multigraphAggregation = new JSONObject();
-                fillJsonAggregationConfig(aggregationConfig, multigraphAggregation);
+                fillJsonAggregationConfig(aggregationConfiguration, multigraphAggregation);
                 multiGraphPreAggregation.put(aggregationName, multigraphAggregation);
             }
-            multiGraph.put(Constants.MULTIGRAPH_PREAGGREGATION_PIPELINE, multiGraphPreAggregation);
+            multiGraph.put(Constants.MULTIGRAPH_PRE_AGGREGATION_PIPELINE, multiGraphPreAggregation);
         }
     }
 
-    private static void fillJsonAggregationConfig(AggregationConfig aggregationConfig, JSONObject multigraphAggregation) throws JSONException {
-        if (aggregationConfig.getType() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfig.getType().getKey());
+    private static void fillJsonAggregationConfig(AggregationConfiguration aggregationConfiguration, JSONObject multigraphAggregation) throws JSONException {
+        if (aggregationConfiguration.getType() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
 
-        if (aggregationConfig.isIgnoreOutlier() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfig.isIgnoreOutlier());
+        if (aggregationConfiguration.getIgnoreOutlier() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutlier());
 
-        if (aggregationConfig.getOutlierPenalty() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfig.getOutlierPenalty());
+        if (aggregationConfiguration.getOutlierPenalty() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
 
-        if (aggregationConfig.getMinSourcesCount() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfig.getMinSourcesCount());
+        if (aggregationConfiguration.getMinSourcesCount() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
 
-        if (aggregationConfig.getMinSourcesRatio() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfig.getMinSourcesRatio());
+        if (aggregationConfiguration.getMinSourcesRatio() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
 
-        if (aggregationConfig.getMaxResultValueRatio() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfig.getMaxResultValueRatio());
+        if (aggregationConfiguration.getMaxResultValueRatio() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfiguration.getMaxResultValueRatio());
 
-        if (aggregationConfig.getMaxResultValue() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfig.getMaxResultValue());
+        if (aggregationConfiguration.getMaxResultValue() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfiguration.getMaxResultValue());
 
-        if (aggregationConfig.getFilterValuesForSourceOrigins() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfig.getFilterValuesForSourceOrigins());
+        if (aggregationConfiguration.getPostAggregationFactor() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR, aggregationConfiguration.getPostAggregationFactor());
 
-        if (aggregationConfig.getSourceParameters() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_PARAMETERS, buildSourceParameters(aggregationConfig.getSourceParameters()));
+        if (aggregationConfiguration.getGravitationExponent() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
+
+        if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
+
+        if (aggregationConfiguration.getAggregationInputParameters() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
+
+        if (aggregationConfiguration.getMathExpression() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
     }
 
-    private static JSONObject buildSourceParameters(Map<String, SourceParameter> sourceParameters) throws JSONException {
-        JSONObject sourceParams = new JSONObject();
-        if (sourceParameters != null) {
-            for (Map.Entry<String, SourceParameter> entry : sourceParameters.entrySet()) {
+    private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {
+        JSONObject aggregationInputParams = new JSONObject();
+        if (aggregationInputParameters != null) {
+            for (Map.Entry<String, AggregationInputParameters> entry : aggregationInputParameters.entrySet()) {
                 String name = entry.getKey();
-                SourceParameter param = entry.getValue();
+                AggregationInputParameters param = entry.getValue();
                 JSONObject sourceParam = new JSONObject();
-                sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_FACTOR, param.getFactor());
-                sourceParams.put(name, sourceParam);
+
+                if (param.getInputFactor() != null)
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, param.getInputFactor());
+
+                if (param.getGravitationAttractionStrength() != null)
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, param.getGravitationAttractionStrength());
+
+                if (param.getGravitationPositiveInfluence() != null)
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, param.getGravitationPositiveInfluence());
+
+                aggregationInputParams.put(name, sourceParam);
             }
         }
-        return sourceParams;
+        return aggregationInputParams;
     }
 
     private static JSONArray getSources(final TravelOptions travelOptions) throws JSONException {

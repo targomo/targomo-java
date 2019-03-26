@@ -12,21 +12,25 @@ import java.util.stream.Stream;
  */
 public enum MultiGraphLayerType {
 
-    NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,          false,  false),
-    EDGE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,          true,   false),
-    TILE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,          true,   true),
-    TILE_NODE   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE,     false,  true),
-    HEXAGON     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,       true,   true),
-    HEXAGON_NODE(Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE,  false,  true);
+    NODE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,                  false,  false,  false),
+    EDGE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,                  true,   false,  false),
+    TILE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,                  true,   true,   false),
+    TILE_NODE           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE,             false,  true,   false),
+    HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,               true,   true,   false),
+    HEXAGON_NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE,          false,  true,   false),
+    GEOMETRY_STATISTICS (Constants.KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS,   false,  false,  true),
+    TILE_STATISTICS     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS,       false,  true,   true);
 
     private String key;
     private boolean withEdges;
-    private boolean isGeometryMerge;
+    private boolean geometryMerge;
+    private boolean basedOnStatistics;
 
-    MultiGraphLayerType(String key, boolean withEdges, boolean isGeometryMerge) {
+    MultiGraphLayerType(String key, boolean withEdges, boolean geometryMerge, boolean basedOnStatistics) {
         this.key             = key;
         this.withEdges       = withEdges;
-        this.isGeometryMerge = isGeometryMerge;
+        this.geometryMerge = geometryMerge;
+        this.basedOnStatistics = basedOnStatistics;
     }
 
     @JsonCreator
@@ -49,7 +53,12 @@ public enum MultiGraphLayerType {
 
     @JsonIgnore
     public boolean isGeometryMerge() {
-        return isGeometryMerge;
+        return geometryMerge;
+    }
+
+    @JsonIgnore
+    public boolean isBasedOnStatistics() {
+        return basedOnStatistics;
     }
 
 }

@@ -33,6 +33,7 @@ public class SslClientGeneratorTest {
     public void makeRequest2() throws Exception {
 
         Client client = SslClientGenerator.initClient();
+//        Client client = JerseyClientBuilder.createClient();
         WebTarget request = client.target("https://api.targomo.com/westcentraleurope/v1/polygon");
         request.request().get();
     }

@@ -99,12 +99,12 @@ public class RequestConfiguratorTest {
             options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
             options.setMultiGraphSerializationMaxGeometryCount(100000);
-            options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
+            options.setMultiGraphAggregationType(MultiGraphAggregationType.ONE);
             options.setMultiGraphAggregationIgnoreOutlier(true);
-            options.setMultiGraphAggregationOutlierPenalty(1000);
+            options.setMultiGraphAggregationOutlierPenalty(1000.0f);
             options.setMultiGraphAggregationMinSourcesCount(3);
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
-            options.setMultiGraphAggregationMaxResultValue(1000);
+            options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
             options.setMultiGraphAggregationFilterValuesForSourceOrigins(Sets.safeSortedSet("POI:0"));
 
