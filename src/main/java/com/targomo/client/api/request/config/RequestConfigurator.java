@@ -63,7 +63,9 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
                     travelOptions.getMultiGraphAggregationInputParameters(),
                     travelOptions.getMultiGraphAggregationPostAggregationFactor(),
-                    travelOptions.getMultiGraphLayerEdgeAggregationType())
+                    travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                    travelOptions.getMultiGraphPreAggregationPipeline(),
+                    travelOptions.getMultiGraphAggregationMathExpression())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -283,6 +285,7 @@ public final class RequestConfigurator {
                 .type(travelOptions.getMultiGraphAggregationType())
                 .aggregationInputParameters(travelOptions.getMultiGraphAggregationInputParameters())
                 .filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
+                .mathExpression(travelOptions.getMultiGraphAggregationMathExpression())
                 .build();
     }
 
@@ -333,6 +336,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getAggregationInputParameters() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
+
+        if (aggregationConfiguration.getMathExpression() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
     }
 
     private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {

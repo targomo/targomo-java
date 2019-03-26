@@ -20,7 +20,8 @@ public enum MultiGraphAggregationType {
     MEDIAN              (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,               false, null),
     NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,              false, null),
     ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,        false, PolygonIntersectionMode.UNION),
-    GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,     true , null);
+    GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,     true , null),
+    MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                 false, null);
 
     private final String key;
     private final PolygonIntersectionMode associatedRoutingAggregation;

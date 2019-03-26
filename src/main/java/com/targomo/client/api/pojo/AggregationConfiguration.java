@@ -38,6 +38,7 @@ public class AggregationConfiguration {
     private Set<String> filterValuesForSourceOrigins;
     private Double gravitationExponent;
     private Map<String, AggregationInputParameters> aggregationInputParameters;
+    private String mathExpression;
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
@@ -51,6 +52,7 @@ public class AggregationConfiguration {
         private Float postAggregationFactor;
         private Set<String> filterValuesForSourceOrigins;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
+        private String mathExpression;
 
         public AggregationConfigurationBuilder() {}
 
@@ -74,6 +76,7 @@ public class AggregationConfiguration {
                                             entry.getValue().getGravitationPositiveInfluence(),
                                             entry.getValue().getGravitationAttractionStrength()))))
                     .orElse(null);
+            this.mathExpression = toCopy.mathExpression;
         }
 
         public AggregationConfigurationBuilder(TravelOptions travelOptions) {
@@ -154,10 +157,15 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder mathExpression(String mathExpression) {
+            this.mathExpression = mathExpression;
+            return this;
+        }
+
         public AggregationConfiguration build() {
             return new AggregationConfiguration(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount,
                     maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
-                    aggregationInputParameters);
+                    aggregationInputParameters, mathExpression);
         }
     }
 }
