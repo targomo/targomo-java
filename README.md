@@ -33,7 +33,6 @@ Added attributes for gravitational multigraph, multigraph aggregation pipeline a
 - multiGraphAggregationPostAggregationFactor (multiplier applied over the multigraph aggregation value)
 - multiGraphAggregationInputParameters (set of aggregation input attributes to be used on aggregation pipeline)
 - multiGraphPreAggregationPipeline (map containing named aggregations, to be used on multigraph aggregation pipeline. These aggregations should be stored in order of insertion to not affect the pipeline execution) 
-- multiGraphAggregationMathExpression (set math expression when using math aggregation to perform math operations on points or pipeline pre-aggregations values)
 - new aggregation type: MATH. To use this new aggregation, one should also define `multiGraphAggregationMathExpression`. An example of mathExpression would be `({POI:00} - {POI:10}) * 2 -  {POI:20}`, where inside `{}` are defined ids of sources (or pre-aggregation ids). Since all the values should be present when calculating the expression, minSourceCount will by default be equal to the number of parameters in the expression (minSourceCount will be 3 by default in the aforementioned example).
 
 ### 0.1.5.2
