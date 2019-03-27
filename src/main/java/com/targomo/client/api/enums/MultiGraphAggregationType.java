@@ -12,26 +12,30 @@ import java.util.stream.Stream;
  */
 public enum MultiGraphAggregationType {
 
-    ONE                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE,                  false, null),
-    MINIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM,              false, null),
-    MAXIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM,              false, null),
-    SUM                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM,                  false, null),
-    MEAN                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,                 false, null),
-    MEDIAN              (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,               false, null),
-    NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,              false, null),
-    ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,        false, PolygonIntersectionMode.UNION),
-    GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,     true , null),
-    MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                 false, null);
+    NONE                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE,                 false, false, false),
+    ONE                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE,                  false, false, false),
+    MINIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM,              false, false, false),
+    MAXIMUM             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM,              false, false, false),
+    SUM                 (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM,                  false, false, false),
+    MEAN                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,                 false, false, false),
+    MEDIAN              (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,               false, false, false),
+    NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,              true, false, false),
+    ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,        false, false, true),
+    GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,     true, true , false),
+    MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                 true, false, false);
 
     private final String key;
-    private final PolygonIntersectionMode associatedRoutingAggregation;
+    private final boolean requireValuesForAllInputs;
     private final boolean requiresGravitationParameters;
+    private final boolean aggregationInRouting;
 
     MultiGraphAggregationType(String key,
+                              boolean requireValuesForAllInputs,
                               boolean requiresGravitationParameters,
-                              PolygonIntersectionMode associatedRoutingAggregation) {
+                              boolean aggregationInRouting) {
         this.key = key;
-        this.associatedRoutingAggregation = associatedRoutingAggregation;
+        this.requireValuesForAllInputs = requireValuesForAllInputs;
+        this.aggregationInRouting = aggregationInRouting;
         this.requiresGravitationParameters = requiresGravitationParameters;
     }
 
@@ -49,8 +53,13 @@ public enum MultiGraphAggregationType {
     }
 
     @JsonIgnore
-    public PolygonIntersectionMode getAssociatedRoutingAggregation() {
-        return associatedRoutingAggregation;
+    public boolean isRequireValuesForAllInputs() {
+        return requireValuesForAllInputs;
+    }
+
+    @JsonIgnore
+    public boolean isAggregationInRouting() {
+        return aggregationInRouting;
     }
 
     @JsonIgnore
