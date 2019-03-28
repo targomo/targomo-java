@@ -90,6 +90,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                     = "none";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE                      = "one";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM                  = "min";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM                  = "max";

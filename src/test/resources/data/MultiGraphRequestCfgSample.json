@@ -22,7 +22,7 @@
       "maxGeometryCount": 100000
     },
     "aggregation":{
-      "type": "one",
+      "type": "none",
       "ignoreOutliers": true,
       "outlierPenalty": 1000,
       "minSourcesCount": 3,
