@@ -123,7 +123,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphSerializationDecimalPrecision                       = null;
     @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
-    @Transient private Boolean multiGraphAggregationIgnoreOutlier                            = null;
+    @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
     @Transient private Float multiGraphAggregationOutlierPenalty                             = null;
     @Transient private Double multiGraphAggregationMinSourcesRatio                           = null;
     @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
@@ -705,7 +705,7 @@ public class TravelOptions implements Serializable {
         return multiGraphAggregationInputParameters;
     }
 
-    public void setMultiGraphAggregationInputParameters(LinkedHashMap<String, AggregationInputParameters> multiGraphAggregationInputParameters) {
+    public void setMultiGraphAggregationInputParameters(Map<String, AggregationInputParameters> multiGraphAggregationInputParameters) {
         this.multiGraphAggregationInputParameters = multiGraphAggregationInputParameters;
     }
 
@@ -779,7 +779,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
                 Objects.equals(multiGraphSerializationMaxGeometryCount, that.multiGraphSerializationMaxGeometryCount) &&
                 multiGraphAggregationType == that.multiGraphAggregationType &&
-                Objects.equals(multiGraphAggregationIgnoreOutlier, that.multiGraphAggregationIgnoreOutlier) &&
+                Objects.equals(multiGraphAggregationIgnoreOutliers, that.multiGraphAggregationIgnoreOutliers) &&
                 Objects.equals(multiGraphAggregationOutlierPenalty, that.multiGraphAggregationOutlierPenalty) &&
                 Objects.equals(multiGraphAggregationMinSourcesRatio, that.multiGraphAggregationMinSourcesRatio) &&
                 Objects.equals(multiGraphAggregationMinSourcesCount, that.multiGraphAggregationMinSourcesCount) &&
@@ -838,7 +838,7 @@ public class TravelOptions implements Serializable {
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
-                multiGraphAggregationType, multiGraphAggregationIgnoreOutlier, multiGraphAggregationOutlierPenalty,
+                multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
                 multiGraphAggregationGravitationExponent,
@@ -932,8 +932,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphSerializationMaxGeometryCount);
         builder.append("\n\tmultiGraphAggregationType: ");
         builder.append(multiGraphAggregationType);
-        builder.append("\n\tmultiGraphAggregationIgnoreOutlier: ");
-        builder.append(multiGraphAggregationIgnoreOutlier);
+        builder.append("\n\tmultiGraphAggregationIgnoreOutliers: ");
+        builder.append(multiGraphAggregationIgnoreOutliers);
         builder.append("\n\tmultiGraphAggregationOutlierPenalty: ");
         builder.append(multiGraphAggregationOutlierPenalty);
         builder.append("\n\tmultiGraphAggregationMinSourcesRatio: ");
@@ -1182,12 +1182,12 @@ public class TravelOptions implements Serializable {
         this.multiGraphAggregationType = multiGraphAggregationType;
     }
 
-    public Boolean getMultiGraphAggregationIgnoreOutlier() {
-        return multiGraphAggregationIgnoreOutlier;
+    public Boolean getMultiGraphAggregationIgnoreOutliers() {
+        return multiGraphAggregationIgnoreOutliers;
     }
 
-    public void setMultiGraphAggregationIgnoreOutlier(Boolean multiGraphAggregationIgnoreOutlier) {
-        this.multiGraphAggregationIgnoreOutlier = multiGraphAggregationIgnoreOutlier;
+    public void setMultiGraphAggregationIgnoreOutliers(Boolean multiGraphAggregationIgnoreOutliers) {
+        this.multiGraphAggregationIgnoreOutliers = multiGraphAggregationIgnoreOutliers;
     }
 
     public Float getMultiGraphAggregationOutlierPenalty() {

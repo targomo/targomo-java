@@ -1,6 +1,5 @@
 package com.targomo.client.api.pojo;
 
-import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.MultiGraphAggregationType;
 import lombok.*;
@@ -22,7 +21,7 @@ public class AggregationConfiguration {
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
-    private Boolean ignoreOutlier;
+    private Boolean ignoreOutliers;
     private Float outlierPenalty;
     private Double minSourcesRatio;
     private Integer minSourcesCount;
@@ -42,7 +41,7 @@ public class AggregationConfiguration {
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
-        private Boolean ignoreOutlier;
+        private Boolean ignoreOutliers;
         private Float outlierPenalty;
         private Double minSourcesRatio;
         private Integer minSourcesCount;
@@ -58,7 +57,7 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder(AggregationConfiguration toCopy) {
             this.type = toCopy.type;
-            this.ignoreOutlier = toCopy.ignoreOutlier;
+            this.ignoreOutliers = toCopy.ignoreOutliers;
             this.outlierPenalty = toCopy.outlierPenalty;
             this.minSourcesRatio = toCopy.minSourcesRatio;
             this.minSourcesCount = toCopy.minSourcesCount;
@@ -81,7 +80,7 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder(TravelOptions travelOptions) {
             this.type = travelOptions.getMultiGraphAggregationType();
-            this.ignoreOutlier = Optional.ofNullable(travelOptions.getMultiGraphAggregationIgnoreOutlier()).orElse(false);
+            this.ignoreOutliers = Optional.ofNullable(travelOptions.getMultiGraphAggregationIgnoreOutliers()).orElse(false);
             this.outlierPenalty = travelOptions.getMultiGraphAggregationOutlierPenalty();
             this.minSourcesRatio = travelOptions.getMultiGraphAggregationMinSourcesRatio();
             this.minSourcesCount = Optional.ofNullable(travelOptions.getMultiGraphAggregationMinSourcesCount()).orElse(1);
@@ -100,6 +99,7 @@ public class AggregationConfiguration {
                                             entry.getValue().getGravitationPositiveInfluence(),
                                             entry.getValue().getGravitationAttractionStrength()))))
                     .orElse(null);
+            this.mathExpression = travelOptions.getMultiGraphAggregationMathExpression();
         }
 
         public AggregationConfigurationBuilder type(MultiGraphAggregationType type) {
@@ -107,8 +107,8 @@ public class AggregationConfiguration {
             return this;
         }
 
-        public AggregationConfigurationBuilder ignoreOutlier(Boolean ignoreOutlier) {
-            this.ignoreOutlier = ignoreOutlier;
+        public AggregationConfigurationBuilder ignoreOutliers(Boolean ignoreOutliers) {
+            this.ignoreOutliers = ignoreOutliers;
             return this;
         }
 
@@ -163,7 +163,7 @@ public class AggregationConfiguration {
         }
 
         public AggregationConfiguration build() {
-            return new AggregationConfiguration(type, ignoreOutlier, outlierPenalty, minSourcesRatio, minSourcesCount,
+            return new AggregationConfiguration(type, ignoreOutliers, outlierPenalty, minSourcesRatio, minSourcesCount,
                     maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
                     aggregationInputParameters, mathExpression);
         }

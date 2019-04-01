@@ -56,7 +56,7 @@ public final class RequestConfigurator {
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
             if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(), travelOptions.getMultiGraphAggregationType(),
-                    travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
+                    travelOptions.getMultiGraphAggregationIgnoreOutliers(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
@@ -259,7 +259,7 @@ public final class RequestConfigurator {
     }
 
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
-        if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
+        if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
@@ -274,7 +274,7 @@ public final class RequestConfigurator {
 
     private static AggregationConfiguration buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
         return new AggregationConfiguration.AggregationConfigurationBuilder()
-                .ignoreOutlier(travelOptions.getMultiGraphAggregationIgnoreOutlier())
+                .ignoreOutliers(travelOptions.getMultiGraphAggregationIgnoreOutliers())
                 .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue())
                 .maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
                 .minSourcesCount(travelOptions.getMultiGraphAggregationMinSourcesCount())
@@ -307,8 +307,8 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getType() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
 
-        if (aggregationConfiguration.getIgnoreOutlier() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutlier());
+        if (aggregationConfiguration.getIgnoreOutliers() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutliers());
 
         if (aggregationConfiguration.getOutlierPenalty() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
