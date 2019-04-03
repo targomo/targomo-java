@@ -22,7 +22,7 @@ public enum MultiGraphAggregationType {
     NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,          false, false, false),
     ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,    false, false, true),
     GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF, true,  true,  false),
-    MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,             true, false, false);
+    MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,             false, false, false);
 
     private final String key;
     private final boolean mayIgnoreOutliers;
