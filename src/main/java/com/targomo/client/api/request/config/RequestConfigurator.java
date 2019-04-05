@@ -65,7 +65,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationPostAggregationFactor(),
                     travelOptions.getMultiGraphLayerEdgeAggregationType(),
                     travelOptions.getMultiGraphPreAggregationPipeline(),
-                    travelOptions.getMultiGraphAggregationMathExpression())
+                    travelOptions.getMultiGraphAggregationMathExpression(),
+                    travelOptions.getMultigraphLayerCustomGeometryMergeAggregation())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
