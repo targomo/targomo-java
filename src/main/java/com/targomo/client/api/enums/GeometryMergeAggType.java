@@ -2,7 +2,10 @@ package com.targomo.client.api.enums;
 
 import java.util.stream.Stream;
 
-public enum MultiGraphGeometryMergeAggregationType {
+/**
+ * Enumeration for custom geometry layers aggregation on MultiGraph requests
+ */
+public enum GeometryMergeAggType {
     MAX ("max"),
     MEAN("mean"),
     MIN("min"),
@@ -10,12 +13,12 @@ public enum MultiGraphGeometryMergeAggregationType {
 
     private String name;
 
-    private MultiGraphGeometryMergeAggregationType(String name){
+    private GeometryMergeAggType(String name){
         this.name = name;
     }
 
-    public static MultiGraphGeometryMergeAggregationType fromString(String key) {
-        return key == null ? null : Stream.of(MultiGraphGeometryMergeAggregationType.values())
+    public static GeometryMergeAggType fromString(String key) {
+        return key == null ? null : Stream.of(GeometryMergeAggType.values())
                 .filter( enu -> key.equalsIgnoreCase(enu.name))
                 .findFirst()
                 .orElse(null);

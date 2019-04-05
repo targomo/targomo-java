@@ -93,6 +93,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphLayerMinGeometryDetailLevel(2);
             options.setMultiGraphLayerMaxGeometryDetailLevel(10);
             options.setMultiGraphLayerGeometryDetailLevel(8);
+            options.setMultigraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType.SUM);
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);

@@ -9,7 +9,8 @@
       "geometryDetailPerTile": 3,
       "minGeometryDetailLevel": 2,
       "maxGeometryDetailLevel": 10,
-      "geometryDetailLevel": 8
+      "geometryDetailLevel": 8,
+      "multigraphLayerCustomGeometryMergeAggregation": "sum"
     },
     "tile":{
       "zoom": 5,
