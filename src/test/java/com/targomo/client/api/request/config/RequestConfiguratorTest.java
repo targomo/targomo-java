@@ -93,6 +93,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphLayerMinGeometryDetailLevel(2);
             options.setMultiGraphLayerMaxGeometryDetailLevel(10);
             options.setMultiGraphLayerGeometryDetailLevel(8);
+            options.setMultiGraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType.SUM);
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);
@@ -100,7 +101,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphSerializationDecimalPrecision(5);
             options.setMultiGraphSerializationMaxGeometryCount(100000);
             options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
-            options.setMultiGraphAggregationIgnoreOutlier(true);
+            options.setMultiGraphAggregationIgnoreOutliers(true);
             options.setMultiGraphAggregationOutlierPenalty(1000.0f);
             options.setMultiGraphAggregationMinSourcesCount(3);
             options.setMultiGraphAggregationMinSourcesRatio(0.5);

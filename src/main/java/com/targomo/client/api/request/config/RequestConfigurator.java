@@ -54,18 +54,34 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.POLYGON, getPolygonObject(travelOptions));
 
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
-            if ( Stream.of(travelOptions.getMultiGraphEdgeClasses(), travelOptions.getMultiGraphSerializationFormat(),
-                    travelOptions.getMultiGraphSerializationDecimalPrecision(), travelOptions.getMultiGraphAggregationType(),
-                    travelOptions.getMultiGraphAggregationIgnoreOutlier(), travelOptions.getMultiGraphAggregationOutlierPenalty(),
-                    travelOptions.getMultiGraphAggregationMinSourcesCount(), travelOptions.getMultiGraphAggregationMinSourcesRatio(),
-                    travelOptions.getMultiGraphAggregationMaxResultValue(), travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
-                    travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), travelOptions.getMultiGraphLayerType(),
+            if ( Stream.of(
+                    travelOptions.getMultiGraphReferencedStatisticIds(),
+                    travelOptions.getMultiGraphEdgeClasses(),
+                    travelOptions.getMultiGraphSerializationFormat(),
+                    travelOptions.getMultiGraphSerializationDecimalPrecision(),
+                    travelOptions.getMultiGraphSerializationMaxGeometryCount(),
+                    travelOptions.getMultiGraphAggregationType(),
+                    travelOptions.getMultiGraphAggregationIgnoreOutliers(),
+                    travelOptions.getMultiGraphAggregationOutlierPenalty(),
+                    travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                    travelOptions.getMultiGraphAggregationMinSourcesRatio(),
+                    travelOptions.getMultiGraphAggregationMaxResultValue(),
+                    travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
+                    travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
                     travelOptions.getMultiGraphAggregationInputParameters(),
                     travelOptions.getMultiGraphAggregationPostAggregationFactor(),
-                    travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                    travelOptions.getMultiGraphAggregationMathExpression(),
                     travelOptions.getMultiGraphPreAggregationPipeline(),
-                    travelOptions.getMultiGraphAggregationMathExpression())
+                    travelOptions.getMultiGraphLayerType(),
+                    travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                    travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation(),
+                    travelOptions.getMultiGraphLayerGeometryDetailLevel(),
+                    travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
+                    travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
+                    travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
+                    travelOptions.getMultiGraphLayerStatisticGroupId(),
+                    travelOptions.getMultiGraphLayerStatisticsIds())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -199,7 +215,8 @@ public final class RequestConfigurator {
         if( Stream.of(travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType(),
                 travelOptions.getMultiGraphLayerGeometryDetailPerTile(), travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
-                travelOptions.getMultiGraphLayerGeometryDetailLevel()).anyMatch(Objects::nonNull) ) {
+                travelOptions.getMultiGraphLayerGeometryDetailLevel(),
+                travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation()).anyMatch(Objects::nonNull) ) {
 
             JSONObject multigraphLayer = new JSONObject();
 
@@ -220,6 +237,9 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphLayerGeometryDetailLevel() != null )
                 multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
+
+            if ( travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION, travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation().getName());
 
             multiGraph.put( Constants.MULTIGRAPH_LAYER, multigraphLayer);
         }
@@ -259,7 +279,7 @@ public final class RequestConfigurator {
     }
 
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
-        if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutlier(),
+        if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
@@ -274,7 +294,7 @@ public final class RequestConfigurator {
 
     private static AggregationConfiguration buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
         return new AggregationConfiguration.AggregationConfigurationBuilder()
-                .ignoreOutlier(travelOptions.getMultiGraphAggregationIgnoreOutlier())
+                .ignoreOutliers(travelOptions.getMultiGraphAggregationIgnoreOutliers())
                 .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue())
                 .maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
                 .minSourcesCount(travelOptions.getMultiGraphAggregationMinSourcesCount())
@@ -307,8 +327,8 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getType() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
 
-        if (aggregationConfiguration.getIgnoreOutlier() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutlier());
+        if (aggregationConfiguration.getIgnoreOutliers() != null)
+            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutliers());
 
         if (aggregationConfiguration.getOutlierPenalty() != null)
             multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());

@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.7</version>
+         <version>0.1.8</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -27,6 +27,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.8
+- Added the multigraph attribute multiGraphLayerCustomGeometryMergeAggregation which allows using custom layer aggregation types for tiled serializations. The possible values are defined on MultiGraphGeometryMergeAggregationType.
+- New multiGraphReferencedStatisticIds parameter in TravelOptions used in Statistics service
+- Updated parameters for MultiGraphAggregationType.MATH
+- Renaming all references of ignoreOutlier to ignoreOutliers to make it consistent with the RequestConfigurationParser of the core service
 
 ### 0.1.7
 - Added the multigraph aggregation type "NONE" for the cases that the response layers aren't merged into one
