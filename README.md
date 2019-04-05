@@ -28,7 +28,7 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 ## Release Notes
 
 ### 0.1.8
-- 
+- Added the multigraph attribute multigraphLayerCustomGeometryMergeAggregation which allows using custom layer aggregation types for tiled serializations. The possible values are defined on MultiGraphGeometryMergeAggregationType.
 
 ### 0.1.7
 - Added the multigraph aggregation type "NONE" for the cases that the response layers aren't merged into one
