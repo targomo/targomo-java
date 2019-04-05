@@ -77,6 +77,7 @@ public class Constants {
     public static final String MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL               = "minGeometryDetailLevel";
     public static final String MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL               = "maxGeometryDetailLevel";
     public static final String MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL                   = "geometryDetailLevel";
+    public static final String MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE                   = "multigraphLayerCustomGeometryMergeAggregation";
     public static final String MULTIGRAPH_TILE                                          = "tile";
     public static final String MULTIGRAPH_TILE_ZOOM                                     = "zoom";
     public static final String MULTIGRAPH_TILE_X                                        = "x";
