@@ -130,7 +130,7 @@ public class TravelOptions implements Serializable {
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMaxResultValue                             = null;
     @Transient private String multiGraphAggregationMathExpression                            = null;
-    @Transient private GeometryMergeAggType multiGraphLayerCustomGeometryMergeAggregation = null;
+    @Transient private GeometryMergeAggType multiGraphLayerCustomGeometryMergeAggregation    = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
