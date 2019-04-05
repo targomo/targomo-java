@@ -75,7 +75,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphPreAggregationPipeline(),
                     travelOptions.getMultiGraphLayerType(),
                     travelOptions.getMultiGraphLayerEdgeAggregationType(),
-                    travelOptions.getMultigraphLayerCustomGeometryMergeAggregation(),
+                    travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation(),
                     travelOptions.getMultiGraphLayerGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
                     travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
@@ -216,7 +216,7 @@ public final class RequestConfigurator {
                 travelOptions.getMultiGraphLayerGeometryDetailPerTile(), travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerGeometryDetailLevel(),
-                travelOptions.getMultigraphLayerCustomGeometryMergeAggregation()).anyMatch(Objects::nonNull) ) {
+                travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation()).anyMatch(Objects::nonNull) ) {
 
             JSONObject multigraphLayer = new JSONObject();
 
@@ -238,8 +238,8 @@ public final class RequestConfigurator {
             if ( travelOptions.getMultiGraphLayerGeometryDetailLevel() != null )
                 multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
 
-            if ( travelOptions.getMultigraphLayerCustomGeometryMergeAggregation() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION, travelOptions.getMultigraphLayerCustomGeometryMergeAggregation().getName());
+            if ( travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation() != null )
+                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION, travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation().getName());
 
             multiGraph.put( Constants.MULTIGRAPH_LAYER, multigraphLayer);
         }

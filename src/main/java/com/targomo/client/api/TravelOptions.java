@@ -130,7 +130,7 @@ public class TravelOptions implements Serializable {
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMaxResultValue                             = null;
     @Transient private String multiGraphAggregationMathExpression                            = null;
-    @Transient private GeometryMergeAggType multigraphLayerCustomGeometryMergeAggregation    = null;
+    @Transient private GeometryMergeAggType multiGraphLayerCustomGeometryMergeAggregation = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
@@ -735,12 +735,12 @@ public class TravelOptions implements Serializable {
         this.multiGraphAggregationMathExpression = multiGraphAggregationMathExpression;
     }
 
-    public GeometryMergeAggType getMultigraphLayerCustomGeometryMergeAggregation() {
-        return multigraphLayerCustomGeometryMergeAggregation;
+    public GeometryMergeAggType getMultiGraphLayerCustomGeometryMergeAggregation() {
+        return multiGraphLayerCustomGeometryMergeAggregation;
     }
 
-    public void setMultigraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType multigraphLayerCustomGeometryMergeAggregation) {
-        this.multigraphLayerCustomGeometryMergeAggregation = multigraphLayerCustomGeometryMergeAggregation;
+    public void setMultiGraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType multiGraphLayerCustomGeometryMergeAggregation) {
+        this.multiGraphLayerCustomGeometryMergeAggregation = multiGraphLayerCustomGeometryMergeAggregation;
     }
 
     private String toString(Collection<?> collection, int maxLen) {
@@ -807,7 +807,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationGravitationExponent, that.multiGraphAggregationGravitationExponent) &&
                 Objects.equals(multiGraphAggregationInputParameters, that.multiGraphAggregationInputParameters) &&
                 Objects.equals(multiGraphAggregationMathExpression, that.multiGraphAggregationMathExpression) &&
-                Objects.equals(multigraphLayerCustomGeometryMergeAggregation, that.multigraphLayerCustomGeometryMergeAggregation) &&
+                Objects.equals(multiGraphLayerCustomGeometryMergeAggregation, that.multiGraphLayerCustomGeometryMergeAggregation) &&
                 Objects.equals(multiGraphAggregationPostAggregationFactor, that.multiGraphAggregationPostAggregationFactor) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphLayerType == that.multiGraphLayerType &&
@@ -860,7 +860,7 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
-                multiGraphAggregationGravitationExponent, multigraphLayerCustomGeometryMergeAggregation,
+                multiGraphAggregationGravitationExponent, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphReferencedStatisticIds,
                 multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
@@ -965,8 +965,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationMaxResultValue);
         builder.append("\n\tmultiGraphAggregationMathExpression: ");
         builder.append(multiGraphAggregationMathExpression);
-        builder.append("\n\tmultigraphLayerCustomGeometryMergeAggregation: ");
-        builder.append(multigraphLayerCustomGeometryMergeAggregation);
+        builder.append("\n\tmultiGraphLayerCustomGeometryMergeAggregation: ");
+        builder.append(multiGraphLayerCustomGeometryMergeAggregation);
         builder.append("\n\tmultiGraphAggregationPostAggregationFactor: ");
         builder.append(multiGraphAggregationPostAggregationFactor);
         builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
