@@ -414,6 +414,12 @@ public final class RequestConfigurator {
     private static JSONObject getTravelMode(final TravelOptions travelOptions,
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
+
+        if (travelOptions.getTrafficJunctionPenalty() != null)
+            travelMode.put("trafficJunctionPenalty", travelOptions.getTrafficJunctionPenalty());
+        if (travelOptions.getTrafficSignalPenalty() != null)
+            travelMode.put("trafficSignalPenalty", travelOptions.getTrafficSignalPenalty());
+
         switch (travelType) {
             case WALKTRANSIT:
             case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
