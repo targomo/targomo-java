@@ -1,6 +1,8 @@
 package com.targomo.client.api.util;
 
-import org.boon.primitive.CharBuf;
+        import com.fasterxml.jackson.core.JsonProcessingException;
+        import com.fasterxml.jackson.databind.ObjectMapper;
+        import com.targomo.client.api.exception.TargomoClientRuntimeException;
 
 public class POJOUtil {
 
@@ -12,8 +14,11 @@ public class POJOUtil {
      * @return the pretty print String
      */
     public static String prettyPrintPOJO(Object plainOldJavaObject) {
-        try (CharBuf buf = CharBuf.createCharBuf()) {
-            return buf.prettyPrintBean(plainOldJavaObject).toString();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(plainOldJavaObject);
+        } catch (JsonProcessingException e) {
+            throw new TargomoClientRuntimeException(e.getMessage(), e);
         }
     }
 }

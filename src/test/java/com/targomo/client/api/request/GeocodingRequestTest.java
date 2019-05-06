@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
-import java.util.concurrent.TimeoutException;
 import java.util.function.ToDoubleFunction;
 
 import static org.mockito.Mockito.when;
