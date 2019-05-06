@@ -290,8 +290,7 @@ public class RequestConfiguratorTest {
 		Assert.assertEquals(samplePolygon.get(Constants.SRID),
 				actualPolygon.get(Constants.SRID));
 	}
-
-
+	
     @SafeVarargs
     private static <V> NavigableSet<V> safeSortedSet(V... array) {
         NavigableSet<V> set = new ConcurrentSkipListSet();

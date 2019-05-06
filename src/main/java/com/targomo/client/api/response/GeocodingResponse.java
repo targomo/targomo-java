@@ -54,7 +54,6 @@ public class GeocodingResponse implements Iterable<Candidate>{
      */
     public static GeocodingResponse createFromJson(String jsonString) {
         GeocodingResponse ret = null;
-
         try {
             ret = JSON_PARSER.readValue(jsonString, GeocodingResponse.class);
         } catch (IOException e) {

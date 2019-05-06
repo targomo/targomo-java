@@ -23,11 +23,8 @@ public class ErrorDescription {
      */
     @JsonCreator
     public ErrorDescription(
-            @JsonProperty("code") Integer code,
-            @JsonProperty("error") String error,
-            @JsonProperty("error_description") String errorDescription,
-            @JsonProperty("message") String message,
-            @JsonProperty("details")List<String> details) {
+            @JsonProperty("code") Integer code, @JsonProperty("error") String error, @JsonProperty("error_description") String errorDescription,
+            @JsonProperty("message") String message, @JsonProperty("details") List<String> details) {
         this.code = code;
         this.error = error;
         this.errorDescription = errorDescription;

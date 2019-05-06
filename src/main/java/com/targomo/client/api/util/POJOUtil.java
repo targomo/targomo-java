@@ -1,8 +1,7 @@
 package com.targomo.client.api.util;
 
-        import com.fasterxml.jackson.core.JsonProcessingException;
-        import com.fasterxml.jackson.databind.ObjectMapper;
-        import com.targomo.client.api.exception.TargomoClientRuntimeException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class POJOUtil {
 
@@ -18,7 +17,7 @@ public class POJOUtil {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(plainOldJavaObject);
         } catch (JsonProcessingException e) {
-            throw new TargomoClientRuntimeException(e.getMessage(), e);
+            return "";
         }
     }
 }

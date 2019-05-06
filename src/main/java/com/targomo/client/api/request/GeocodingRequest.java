@@ -93,10 +93,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
 
     //"Immutable" Object values
-    private Client client;
-    private ESRIAuthenticationDetails authenticationDetails;
-    private Map<Option,String> requestOptions;
-    private int requestTimeoutInMs;
+    private final Client client;
+    private final ESRIAuthenticationDetails authenticationDetails;
+    private final Map<Option,String> requestOptions;
+    private final int requestTimeoutInMs;
 
     //currently valid access token
     private String currentAccessToken = null;
