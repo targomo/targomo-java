@@ -8,7 +8,7 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
-import com.targomo.client.api.util.MapsUtil;
+import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,8 +21,6 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NavigableSet;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,7 +85,7 @@ public class RequestConfiguratorTest {
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
-            options.setMultiGraphEdgeClasses(safeSortedSet(11,12,16,18));
+            options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
             options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
             options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
             options.setMultiGraphLayerGeometryDetailPerTile(3);
@@ -108,7 +106,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
-            options.setMultiGraphAggregationFilterValuesForSourceOrigins(safeSortedSet("POI:0"));
+            options.setMultiGraphAggregationFilterValuesForSourceOrigins(CollectionUtils.safeSortedSet("POI:0"));
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -203,7 +201,7 @@ public class RequestConfiguratorTest {
                                 "        }",
                         StatisticTravelOptions.class);
 
-        Assert.assertEquals(parsed.getTravelTimeFactors(), MapsUtil.map("all",1.5));
+        Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
         Assert.assertTrue(parsed.isDisableCache());
     }
 
@@ -290,14 +288,4 @@ public class RequestConfiguratorTest {
 		Assert.assertEquals(samplePolygon.get(Constants.SRID),
 				actualPolygon.get(Constants.SRID));
 	}
-	
-    @SafeVarargs
-    private static <V> NavigableSet<V> safeSortedSet(V... array) {
-        NavigableSet<V> set = new ConcurrentSkipListSet();
-        for (int i = 0; i < array.length; i++) {
-            V v = array[i];
-            set.add(v);
-        }
-        return set;
-    }
 }

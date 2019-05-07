@@ -4,8 +4,10 @@ import com.targomo.client.api.exception.TargomoClientRuntimeException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NavigableSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
-public class MapsUtil {
+public class CollectionUtils {
     public static <K, V> Map<K, V> map(Object... objects) {
         if (objects == null || objects.length % 2 != 0) {
             throw new TargomoClientRuntimeException("Key or value is missing");
@@ -30,5 +32,15 @@ public class MapsUtil {
             index++;
         }
         return map;
+    }
+
+    @SafeVarargs
+    public static <V> NavigableSet<V> safeSortedSet(V... array) {
+        NavigableSet<V> set = new ConcurrentSkipListSet();
+        for (int i = 0; i < array.length; i++) {
+            V v = array[i];
+            set.add(v);
+        }
+        return set;
     }
 }
