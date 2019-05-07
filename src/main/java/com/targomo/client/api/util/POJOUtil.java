@@ -17,7 +17,7 @@ public class POJOUtil {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(plainOldJavaObject);
         } catch (JsonProcessingException e) {
-            return "";
+            return e.getMessage();
         }
     }
 }
