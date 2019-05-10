@@ -1,12 +1,15 @@
 package com.targomo.client.api.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
-import com.targomo.client.api.response.esri.ErrorDescription;
 import com.targomo.client.api.response.esri.Candidate;
+import com.targomo.client.api.response.esri.ErrorDescription;
 import com.targomo.client.api.util.POJOUtil;
-import org.boon.json.JsonFactory;
-import org.boon.json.ObjectMapper;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,9 +29,9 @@ import java.util.NoSuchElementException;
  * </p>
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodingResponse implements Iterable<Candidate>{
-
-    private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
+    private static final ObjectMapper JSON_PARSER   = new ObjectMapper();
 
     private final List<Candidate> candidates;
     private final ErrorDescription error;
@@ -37,7 +40,7 @@ public class GeocodingResponse implements Iterable<Candidate>{
     /**
      * private - not used since this is a POJO only created from a json String
      */
-    private GeocodingResponse(List<Candidate> candidates, ErrorDescription error, String jsonString) {
+    public GeocodingResponse(@JsonProperty("candidates") List<Candidate> candidates, @JsonProperty("error") ErrorDescription error, @JsonProperty("jsonString") String jsonString) {
         this.completeJsonResponse = jsonString;
         this.error = error;
         this.candidates = candidates;
@@ -50,7 +53,12 @@ public class GeocodingResponse implements Iterable<Candidate>{
      * @return the resulting POJO GeocodingResponse
      */
     public static GeocodingResponse createFromJson(String jsonString) {
-        GeocodingResponse ret = JSON_PARSER.fromJson(jsonString, GeocodingResponse.class);
+        GeocodingResponse ret = null;
+        try {
+            ret = JSON_PARSER.readValue(jsonString, GeocodingResponse.class);
+        } catch (IOException e) {
+            throw new TargomoClientRuntimeException(e.getMessage(), e);
+        }
         return new GeocodingResponse(ret.candidates, ret.error, jsonString);
     }
 

@@ -1,5 +1,6 @@
 package com.targomo.client.api.response.esri;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.response.GeocodingResponse;
 
@@ -13,7 +14,6 @@ public class ErrorDescription {
 
     private final Integer code;
     private final String error;
-    @JsonProperty("error_description")
     private final String errorDescription;
     private final String message;
     private final List<String> details;
@@ -21,7 +21,10 @@ public class ErrorDescription {
     /**
      * private - not used since this is a POJO only created from a json String
      */
-    private ErrorDescription(Integer code, String error, String errorDescription, String message, List<String> details) {
+    @JsonCreator
+    public ErrorDescription(
+            @JsonProperty("code") Integer code, @JsonProperty("error") String error, @JsonProperty("error_description") String errorDescription,
+            @JsonProperty("message") String message, @JsonProperty("details") List<String> details) {
         this.code = code;
         this.error = error;
         this.errorDescription = errorDescription;
