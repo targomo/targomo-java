@@ -28,7 +28,9 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 ## Release Notes
 
 ### 0.1.9
-- 
+- Update to RequestConfigurator to correctly parse trafficJunctionPenalty and trafficSignalPenalty
+- Removed unused travel options parameter
+- Updated dependencies
 
 ### 0.1.8
 - Added the multigraph attribute multiGraphLayerCustomGeometryMergeAggregation which allows using custom layer aggregation types for tiled serializations. The possible values are defined on MultiGraphGeometryMergeAggregationType.
