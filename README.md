@@ -27,6 +27,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`
 
 ## Release Notes
 
+### 0.1.11
+- to be filled
+
+### 0.1.10 skipped
+
 ### 0.1.9
 - Update to RequestConfigurator to correctly parse trafficJunctionPenalty and trafficSignalPenalty
 - Removed unused travel options parameter
