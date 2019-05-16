@@ -1,16 +1,15 @@
 package com.targomo.client.api.request.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.Constants;
+import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
-import org.boon.Maps;
-import org.boon.Sets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -86,7 +85,7 @@ public class RequestConfiguratorTest {
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
-            options.setMultiGraphEdgeClasses(Sets.safeSortedSet(11,12,16,18));
+            options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
             options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
             options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
             options.setMultiGraphLayerGeometryDetailPerTile(3);
@@ -107,7 +106,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
-            options.setMultiGraphAggregationFilterValuesForSourceOrigins(Sets.safeSortedSet("POI:0"));
+            options.setMultiGraphAggregationFilterValuesForSourceOrigins(CollectionUtils.safeSortedSet("POI:0"));
 
             // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -202,7 +201,7 @@ public class RequestConfiguratorTest {
                                 "        }",
                         StatisticTravelOptions.class);
 
-        Assert.assertEquals(parsed.getTravelTimeFactors(), Maps.map("all",1.5));
+        Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
         Assert.assertTrue(parsed.isDisableCache());
     }
 

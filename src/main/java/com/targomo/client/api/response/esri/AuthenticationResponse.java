@@ -1,5 +1,6 @@
 package com.targomo.client.api.response.esri;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -12,17 +13,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </ul>
  */
 public class AuthenticationResponse {
-
-    @JsonProperty("access_token")
     private final String accessToken;
-    @JsonProperty("expires_in")
     private final Integer expiresIn;
     private final ErrorDescription error;
 
     /**
      * private - not used since this is a POJO only created from a json String
      */
-    private AuthenticationResponse(String accessToken, Integer expiresIn, ErrorDescription error) {
+    @JsonCreator
+    public AuthenticationResponse(@JsonProperty("access_token") String accessToken, @JsonProperty("expires_in") Integer expiresIn,
+                                      @JsonProperty("error") ErrorDescription error) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.error = error;

@@ -80,8 +80,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
                     travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
-                    travelOptions.getMultiGraphLayerStatisticGroupId(),
-                    travelOptions.getMultiGraphLayerStatisticsIds())
+                    travelOptions.getMultiGraphLayerStatisticGroupId())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -414,6 +413,12 @@ public final class RequestConfigurator {
     private static JSONObject getTravelMode(final TravelOptions travelOptions,
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
+
+        if (travelOptions.getTrafficJunctionPenalty() != null)
+            travelMode.put("trafficJunctionPenalty", travelOptions.getTrafficJunctionPenalty());
+        if (travelOptions.getTrafficSignalPenalty() != null)
+            travelMode.put("trafficSignalPenalty", travelOptions.getTrafficSignalPenalty());
+
         switch (travelType) {
             case WALKTRANSIT:
             case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)

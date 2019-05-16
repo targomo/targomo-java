@@ -1,21 +1,23 @@
 package com.targomo.client.api.response.esri;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 
 /**
  * Geocoding candidate for a requested address. It is immutable with a private constructor since it is only
  * meant to be created from a json object (as a REST response).
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Candidate {
     private final double score;
     private final DefaultTargetCoordinate location;
 
-    /**
-     * private - not used since this is a POJO only created from a json String
-     */
-    private Candidate(double score, DefaultTargetCoordinate df){
+    @JsonCreator
+    public Candidate(@JsonProperty("score") double score, @JsonProperty("location") DefaultTargetCoordinate location){
         this.score = score;
-        this.location = df;
+        this.location = location;
     }
 
     /**

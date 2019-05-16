@@ -1,5 +1,8 @@
 package com.targomo.client.api.geo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 
@@ -7,6 +10,7 @@ import com.targomo.client.api.exception.TargomoClientRuntimeException;
  * Default implementation for storing target coordinates.
  * Basically a {@link AbstractCoordinate} specialized to be used as a target.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultTargetCoordinate extends AbstractCoordinate {
 
 	/**
@@ -15,7 +19,8 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	 * @param x X value of target
 	 * @param y Y value of target
 	 */
-	public DefaultTargetCoordinate(final String id, final double x, final double y) {
+	@JsonCreator
+	public DefaultTargetCoordinate(@JsonProperty("id") final String id, @JsonProperty("x") final double x, @JsonProperty("y") final double y) {
 		super(id, x, y);
 	}
 

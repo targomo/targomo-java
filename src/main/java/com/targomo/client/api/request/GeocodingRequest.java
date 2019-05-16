@@ -1,14 +1,16 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.targomo.client.api.Address;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
-import com.targomo.client.api.Address;
 import com.targomo.client.api.request.esri.ESRIAuthenticationDetails;
 import com.targomo.client.api.response.GeocodingResponse;
 import com.targomo.client.api.response.esri.AuthenticationResponse;
 import com.targomo.client.api.util.POJOUtil;
-import org.boon.json.JsonFactory;
-import org.boon.json.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,7 @@ import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
@@ -28,6 +31,7 @@ import java.util.function.Function;
  *
  * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
     /**
@@ -85,7 +89,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     private static final int DEFAULT_REQUEST_TIMEOUT_IN_MS  = 60000;
 
     //Class constants
-    private static final ObjectMapper JSON_PARSER   = JsonFactory.create();
+    private static final ObjectMapper JSON_PARSER   = new ObjectMapper();
     private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
 
     //"Immutable" Object values
@@ -182,8 +186,9 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param extraOptions see {@link Option} for possibilities - null pointer and empty strings will be ignored
      * @param requestTimeOutInMs the timeout before an request fails with {@link TargomoClientException}
      */
-    public GeocodingRequest(Client client, ESRIAuthenticationDetails authenticationDetails, Map<Option,String> extraOptions,
-                            int requestTimeOutInMs){
+    @JsonCreator
+    public GeocodingRequest(@JsonProperty("client") Client client, @JsonProperty("authenticationDetails") ESRIAuthenticationDetails authenticationDetails,
+                            @JsonProperty("extraOptions") Map<Option,String> extraOptions,@JsonProperty("requestTimeOutInMs") int requestTimeOutInMs){
         this.client	                = client;
         this.requestOptions         = extraOptions;
         this.authenticationDetails  = authenticationDetails;
@@ -552,8 +557,14 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @return interpreted {@link AuthenticationResponse}
      * @throws TargomoClientException when error occurs during request
      */
-    private AuthenticationResponse validateAuthenticationResponse(final Response response) throws TargomoClientException {
-        return validateResponse(response, jsonString -> JSON_PARSER.fromJson(jsonString, AuthenticationResponse.class) );
+    private AuthenticationResponse validateAuthenticationResponse(final Response response) throws TargomoClientException{
+        return validateResponse(response, jsonString -> {
+            try {
+                return JSON_PARSER.readValue(jsonString, AuthenticationResponse.class);
+            } catch (IOException e) {
+                throw new TargomoClientRuntimeException(e.getMessage(), e);
+            }
+        });
     }
 
     /**
