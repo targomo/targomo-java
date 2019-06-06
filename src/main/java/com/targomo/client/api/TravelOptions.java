@@ -147,7 +147,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    @Transient private Boolean multigraphLayerUnboundedStatistics                            = false;
+    @Transient private Boolean multiGraphLayerUnboundedStatistics                            = null;
     
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -820,7 +820,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
-                Objects.equals(multigraphLayerUnboundedStatistics, that.multigraphLayerUnboundedStatistics) &&
+                Objects.equals( multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics ) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
                 Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
@@ -866,7 +866,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphLayerStatisticGroupId,
-                multiGraphTileZoom, multiGraphTileX, multiGraphTileY, multigraphLayerUnboundedStatistics, multiGraphAggregationPostAggregationFactor,
+                multiGraphTileZoom, multiGraphTileX, multiGraphTileY, multiGraphLayerUnboundedStatistics, multiGraphAggregationPostAggregationFactor,
                 maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
                 statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
                 overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
@@ -999,8 +999,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphTileX);
         builder.append("\n\tmultiGraphTileY: ");
         builder.append(multiGraphTileY);
-        builder.append("\n\tmultigraphLayerUnboundedStatistics: ");
-        builder.append(multigraphLayerUnboundedStatistics);
+        builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
+        builder.append( multiGraphLayerUnboundedStatistics );
         builder.append("\n\tmaxEdgeWeight: ");
         builder.append(maxEdgeWeight);
         builder.append("\n\tserviceUrl: ");
@@ -1346,8 +1346,13 @@ public class TravelOptions implements Serializable {
         this.multiGraphTileY = multiGraphTileY;
     }
 
-    public Boolean isMultigraphLayerUnboundedStatistics() { return multigraphLayerUnboundedStatistics;}
-    public void setMultigraphLayerUnboundedStatistics(Boolean multigraphLayerUnboundedStatistics) {this.multigraphLayerUnboundedStatistics = multigraphLayerUnboundedStatistics;}
+    public Boolean getMultiGraphLayerUnboundedStatistics() {
+        return multiGraphLayerUnboundedStatistics;
+    }
+
+    public void setMultiGraphLayerUnboundedStatistics(Boolean multiGraphLayerUnboundedStatistics) {
+        this.multiGraphLayerUnboundedStatistics = multiGraphLayerUnboundedStatistics;
+    }
 
     public Float getMultiGraphAggregationPostAggregationFactor() {
         return multiGraphAggregationPostAggregationFactor;

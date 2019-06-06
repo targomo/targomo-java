@@ -81,7 +81,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerStatisticGroupId(),
-                    travelOptions.isMultigraphLayerUnboundedStatistics())
+                    travelOptions.getMultiGraphLayerUnboundedStatistics())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))

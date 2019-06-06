@@ -133,7 +133,7 @@ public class JsonUtil {
 		}
 	}
 	
-public static JSONArray parseArray(String config) throws TargomoClientRuntimeException {
+	public static JSONArray parseArray(String config) throws TargomoClientRuntimeException {
 		
 		try {
 			
