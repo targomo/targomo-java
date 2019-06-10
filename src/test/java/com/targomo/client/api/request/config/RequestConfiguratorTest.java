@@ -177,7 +177,8 @@ public class RequestConfiguratorTest {
                     actualObject.getString(Constants.ENABLE_ELEVATION)
             );
             Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
-	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT), actualObject.getString(Constants.EDGE_WEIGHT));
+	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
+                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
             Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
 
@@ -254,8 +255,8 @@ public class RequestConfiguratorTest {
             Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGHT),
                     actualObject.get(Constants.MAX_EDGE_WEIGHT));
 
-            Assert.assertEquals(sampleObject.get(Constants.EDGE_WEIGHT),
-                    actualObject.get(Constants.EDGE_WEIGHT));
+            Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
+                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase()); //but shit but the POI service doesn't understand the request otherwise
 
             Assert.assertEquals(sampleObject.get(Constants.POLYGON_INTERSECTION_MODE),
 			        actualObject.get(Constants.POLYGON_INTERSECTION_MODE));
