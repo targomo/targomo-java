@@ -1,5 +1,7 @@
 package com.targomo.client.api.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.stream.Stream;
 
 /**
@@ -13,10 +15,11 @@ public enum GeometryMergeAggType {
 
     private String name;
 
-    private GeometryMergeAggType(String name){
+    GeometryMergeAggType(String name){
         this.name = name;
     }
 
+    @JsonCreator
     public static GeometryMergeAggType fromString(String key) {
         return key == null ? null : Stream.of(GeometryMergeAggType.values())
                 .filter( enu -> key.equalsIgnoreCase(enu.name))

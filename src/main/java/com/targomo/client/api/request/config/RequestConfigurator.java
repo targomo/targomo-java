@@ -106,7 +106,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.REVERSE, travelOptions.getReverse());
 
             if (travelOptions.getEdgeWeightType() != null)
-                JSONBuilder.appendString(config, Constants.EDGE_WEIGHT, travelOptions.getEdgeWeightType());
+                JSONBuilder.appendString(config, Constants.EDGE_WEIGHT, travelOptions.getEdgeWeightType().getKey());
 
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
