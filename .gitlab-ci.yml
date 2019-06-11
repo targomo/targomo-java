@@ -22,7 +22,8 @@ build:
 sonarqube:
    stage: test
    script:
-     - mvn -e verify sonar:sonar
+     - sleep inf
+     - mvn -e --settings /.ci/settings.xml verify sonar:sonar
       -Dsonar.host.url=$SONARQUBE_URL
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
