@@ -160,7 +160,7 @@ public class TravelOptions implements Serializable {
 	@Transient private List<Short> statisticIds;
 	@Column(name = "statistic_group_id") private Integer statisticGroupId;
     @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://api.targomo.com/statistics/";
-	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://api.targomo.com/pointsofinterest/";
+	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://api.targomo.com/pointofinterest/";
 
 	@Column(name = "overpass_query") private String overpassQuery;
 	@Column(name = "overpass_service_url") private String overpassServiceUrl = "https://api.targomo.com/overpass/";
