@@ -6,6 +6,7 @@ import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.Format;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.json.JSONArray;
@@ -112,6 +113,7 @@ public class PointOfInterestResponse {
     static class POIResponse extends HashMap<String,POI> {}
 
     @Setter
+    @Getter
     @ToString
     public static class POI {
         String type;
@@ -121,29 +123,5 @@ public class PointOfInterestResponse {
         Map<String,String> tags;
         String osmType;
         int edgeWeight;
-
-        public long getId() {
-            return id;
-        }
-
-        public double getLat() {
-            return lat;
-        }
-
-        public double getLng() {
-            return lng;
-        }
-
-        public String getOsmType() {
-            return osmType;
-        }
-
-        public int getEdgeWeight() {
-            return edgeWeight;
-        }
-
-        public Map<String, String> getTags(){
-            return tags;
-        }
     }
 }
