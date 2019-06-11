@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.api.enums.Format;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.PointOfInterestResponse;
@@ -64,12 +65,12 @@ public class PointOfInterestRequest {
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 
-		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
-
+		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
 		LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+		String config = RequestConfigurator.getConfig(travelOptions);
+		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 
 		Response response = target.request().post(entity);
-
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
 		return validateResponse(response, requestStart, roundTripTime);
