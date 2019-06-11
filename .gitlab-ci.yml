@@ -23,10 +23,10 @@ sonarqube:
    stage: test
    script:
      - mvn -e verify sonar:sonar
-     -Dsonar.host.url=$SONARQUBE_URL
-     -Dsonar.login=$SONARQUBE_TOKEN
-     -Dsonar.branch.name=$CI_COMMIT_REF_NAME
-     -Dsonar.branch.target=develop
+      -Dsonar.host.url=$SONARQUBE_URL
+      -Dsonar.login=$SONARQUBE_TOKEN
+      -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+      -Dsonar.branch.target=develop
      - cat target/site/jacoco-ut/index.html
    only:
      - /^feature.*$/
