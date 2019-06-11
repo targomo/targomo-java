@@ -22,7 +22,7 @@ build:
 sonarqube:
    stage: test
    script:
-     - mvn verify sonar:sonar
+     - mvn -X verify sonar:sonar
      - cat target/site/jacoco-ut/index.html
    only:
      - /^feature.*$/
