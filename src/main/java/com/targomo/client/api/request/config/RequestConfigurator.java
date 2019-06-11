@@ -220,7 +220,7 @@ public final class RequestConfigurator {
 
             JSONObject multigraphLayer = new JSONObject();
 
-            if ( travelOptions.getMultiGraphSerializationFormat() != null )
+            if ( travelOptions.getMultiGraphLayerType() != null )
                 multigraphLayer.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
             if( travelOptions.getMultiGraphLayerEdgeAggregationType() != null )
