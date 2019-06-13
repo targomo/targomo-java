@@ -256,7 +256,7 @@ public class RequestConfiguratorTest {
                     actualObject.get(Constants.MAX_EDGE_WEIGHT));
 
             Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
-                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase()); //but shit but the POI service doesn't understand the request otherwise
+                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
             Assert.assertEquals(sampleObject.get(Constants.POLYGON_INTERSECTION_MODE),
 			        actualObject.get(Constants.POLYGON_INTERSECTION_MODE));
