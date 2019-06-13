@@ -62,7 +62,6 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path("/reachability")
-				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey());
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
