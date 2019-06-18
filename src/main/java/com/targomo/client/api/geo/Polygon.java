@@ -5,6 +5,8 @@ import org.json.JSONObject;
 /**
  * Polygons act in a similar manner to {@link Coordinate} except they represent geometries
  * (Polygons, MultiPolygons or LineStrings As Geojson with CRS) rather than points
+ *
+ * @author gideon
  */
 public abstract class Polygon implements Location {
 

@@ -8,6 +8,8 @@ import javax.persistence.*;
 /**
  * Default implementation for storing source polygons.
  * Basically a {@link AbstractPolygon} with TravelType, specialized to be used as a source.
+ *
+ * @author gideon
  */
 @Entity
 @Table(name="source_polygon")

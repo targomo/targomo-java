@@ -9,6 +9,9 @@ import com.targomo.client.api.geo.DefaultSourcePolygon;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @author gideon
+ */
 public class DefaultSourcePolygonMapSerializer extends JsonSerializer {
     @Override
     public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
@@ -20,7 +23,7 @@ public class DefaultSourcePolygonMapSerializer extends JsonSerializer {
             jsonGenerator.writeStartObject(); // {
             jsonGenerator.writeStringField("id", entry.getKey());
             if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
-            jsonGenerator.writeStringField("geojson", entry.getValue().getGeojson());
+            jsonGenerator.writeObjectField("geojson", entry.getValue().getGeojson());
             jsonGenerator.writeNumberField("crs", entry.getValue().getCrs());
             jsonGenerator.writeEndObject(); // {
         }

@@ -5,6 +5,10 @@ import org.json.JSONObject;
 
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Simple abstract class to use for storing coordinates with IDs and travel types.
+ * @author gideon
+ */
 @MappedSuperclass
 public abstract class AbstractPolygon extends Polygon{
     private String id;
