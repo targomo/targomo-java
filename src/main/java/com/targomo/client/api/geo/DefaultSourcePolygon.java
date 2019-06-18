@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 
@@ -30,7 +31,7 @@ public class DefaultSourcePolygon extends AbstractPolygon {
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
      */
-    public DefaultSourcePolygon(String id, String geojson, int crs, TravelType travelType) {
+    public DefaultSourcePolygon(String id, JSONObject geojson, int crs, TravelType travelType) {
         super(id, geojson, crs);
         this.travelType = travelType;
     }
@@ -42,7 +43,7 @@ public class DefaultSourcePolygon extends AbstractPolygon {
      * @param geojson Geojson String of the source geometry
      * @param crs CRS value used for the geometry
      */
-    public DefaultSourcePolygon(String id, String geojson, int crs) {
+    public DefaultSourcePolygon(String id, JSONObject geojson, int crs) {
         this(id, geojson, crs, null);
     }
 

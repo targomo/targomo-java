@@ -3,7 +3,7 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.enums.TravelType;
 
 /**
- * Contains ID and Travel type for both coordinates and polygons
+ * Contains ID and Travel type for both Coordinates and Polygons
  */
 public interface Location {
 

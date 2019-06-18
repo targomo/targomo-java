@@ -2,6 +2,10 @@ package com.targomo.client.api.geo;
 
 import org.json.JSONObject;
 
+/**
+ * Polygons act in a similar manner to {@link Coordinate} except they represent geometries
+ * (Polygons, MultiPolygons or LineStrings As Geojson with CRS) rather than points
+ */
 public abstract class Polygon implements Location {
 
     /**
