@@ -1,14 +1,15 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import org.json.JSONObject;
 
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class AbstractPolygon implements Polygon{
+public abstract class AbstractPolygon extends Polygon{
     private String id;
 
-    private String geojson;
+    private JSONObject geojson;
 
     private int crs;
 
@@ -16,12 +17,12 @@ public abstract class AbstractPolygon implements Polygon{
     public AbstractPolygon(){}
 
     /**
-     * Generate a Polygon with an ID along with a geojson string and a crs value.
+     * Generate a Polygon with an ID along with geojson and a crs value.
      * @param id ID to associate with the target coordinate
      * @param geojson Geometry geojson String
      * @param crs Coordinate Reference System used in the geojson
      */
-    public AbstractPolygon(final String id, final String geojson, final int crs) {
+    public AbstractPolygon(final String id, final JSONObject geojson, final int crs) {
         this.id = id;
         this.geojson = geojson;
         this.crs = crs;
@@ -56,18 +57,18 @@ public abstract class AbstractPolygon implements Polygon{
     }
 
     /**
-     * Get the geometry as a geojson string
-     * @return Geojson string of a geometry
+     * Get the geometry as geojson
+     * @return Geojson of a geometry
      */
-    public String getGeojson() {
+    public JSONObject getGeojson() {
         return geojson;
     }
 
     /**
-     * Set the geometry as a geojson string
-     * @param geojson Geojson string of a geometry
+     * Set the geometry as geojson
+     * @param geojson Geojson of a geometry
      */
-    public void setGeojson(final String geojson) {
+    public void setGeojson(final JSONObject geojson) {
         this.geojson = geojson;
     }
 
@@ -112,7 +113,7 @@ public abstract class AbstractPolygon implements Polygon{
 
         AbstractPolygon that = (AbstractPolygon) o;
 
-        if (!that.geojson.equals(geojson)) return false;
+        if (!that.geojson.toString().equals(geojson.toString())) return false;
         if (that.crs != crs) return false;
         return id != null ? id.equals(that.id) : that.id == null;
     }

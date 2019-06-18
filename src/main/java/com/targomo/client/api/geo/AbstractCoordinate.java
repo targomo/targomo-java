@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Simple abstract class to use for storing coordinates with IDs and travel types.
  */
 @MappedSuperclass
-public abstract class AbstractCoordinate implements Coordinate {
+public abstract class AbstractCoordinate extends Coordinate {
 
 	private String id;
 
