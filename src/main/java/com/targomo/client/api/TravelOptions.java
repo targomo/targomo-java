@@ -6,13 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
+import com.targomo.client.api.geo.*;
+import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.PolygonRequest;
@@ -51,6 +46,11 @@ public class TravelOptions implements Serializable {
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
     @Transient
     private Map<String,Coordinate> sources  = new HashMap<>();
+
+    @JsonDeserialize(contentAs= DefaultSourcePolygon.class, using= DefaultSourcePolygonMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourcePolygon.class, using=DefaultSourcePolygonMapSerializer.class)
+    @Transient
+    private Map<String,Polygon> sourcePolygons  = new HashMap<>();
 
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
@@ -235,6 +235,15 @@ public class TravelOptions implements Serializable {
 
     /**
      *
+     * @return source polygons array
+     */
+    @JsonIgnore
+    public Map<String, Integer> getPolygonSources() {
+        return getPolygons(this.sourcePolygons);
+    }
+
+    /**
+     *
      * @return target coordinates array
      */
     @JsonIgnore
@@ -259,10 +268,33 @@ public class TravelOptions implements Serializable {
     }
 
     /**
+     * TODO
+     * @param polygons map of polygons
+     * @return coordinates array in the form of [[x0, y0], [x1, y1]]
+     */
+    private Map<String, Integer> getPolygons(Map<String, Polygon> polygons) {
+
+        Map<String, Integer> polygonCrsMap = new HashMap<>();
+
+        for (Polygon polygon : polygons.values() ) {
+            polygonCrsMap.put(polygon.getGeojson(), polygon.getCrs());
+        }
+
+        return polygonCrsMap;
+    }
+
+    /**
      * @return the sources as Map from ID to location
      */
     public Map<String, Coordinate> getSources() {
         return sources;
+    }
+
+    /**
+     * @return the polygons as Map from ID to location
+     */
+    public Map<String, Polygon> getSourcePolygons() {
+        return sourcePolygons;
     }
 
     /**
@@ -286,6 +318,14 @@ public class TravelOptions implements Serializable {
      */
     public void setSources(Map<String, Coordinate> sources) {
         this.sources = sources;
+    }
+
+    /**
+     * TODO
+     * @param sourcePolygons
+     */
+    public void setSourcePolygons(Map<String, Polygon> sourcePolygons) {
+        this.sourcePolygons = sourcePolygons;
     }
 
     /**
@@ -696,6 +736,13 @@ public class TravelOptions implements Serializable {
     }
 
     /**
+     * @param source Source polygon
+     */
+    public void addSourcePolygon(Polygon source) {
+        this.sourcePolygons.put(source.getId(), source);
+    }
+
+    /**
      * @param target Target coordinate
      */
     public void addTarget(Coordinate target) {
@@ -771,6 +818,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
+                Objects.equals(sourcePolygons, that.sourcePolygons) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
@@ -849,7 +897,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourcePolygons, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
@@ -883,6 +931,8 @@ public class TravelOptions implements Serializable {
         builder.append(getClass().getName());
         builder.append(" {\n\tsources: ");
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
+        builder.append(" {\n\tsourcePolygons: ");
+        builder.append(sourcePolygons != null ? toString(sourcePolygons.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
@@ -1054,6 +1104,15 @@ public class TravelOptions implements Serializable {
      */
     public Coordinate getSource(String id) {
         return this.sources.get(id);
+    }
+
+    /**
+     *
+     * @param id ID of source polygon
+     * @return Source polygon
+     */
+    public Polygon getSourcePolygon(String id) {
+        return this.sourcePolygons.get(id);
     }
 
     /**
@@ -1393,6 +1452,10 @@ public class TravelOptions implements Serializable {
         this.sources.putAll(sources);
     }
 
+    public void addAllSourcePolygon(Map<String, Polygon> sourcePolygons) {
+        this.sourcePolygons.putAll(sourcePolygons);
+    }
+
     /**
      * Clear sources and add new one
      * @param id ID for the new source
@@ -1401,6 +1464,16 @@ public class TravelOptions implements Serializable {
     public void clearAndAddSource(String id, Coordinate source) {
         this.sources.clear();
         this.sources.put(id, source);
+    }
+
+    /**
+     * Clear sourcePolygons and add new one
+     * @param id ID for the new source
+     * @param source New source polygon
+     */
+    public void clearAndAddSource(String id, Polygon source) {
+        this.sourcePolygons.clear();
+        this.sourcePolygons.put(id, source);
     }
 
     public String getFallbackServiceUrl() {

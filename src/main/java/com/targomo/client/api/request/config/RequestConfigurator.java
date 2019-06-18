@@ -6,6 +6,7 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.Polygon;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import com.targomo.client.api.pojo.AggregationConfiguration;
@@ -91,6 +92,9 @@ public final class RequestConfigurator {
 
             if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
+
+            if (travelOptions.getSourcePolygons() != null && !travelOptions.getSourcePolygons().isEmpty())
+                JSONBuilder.append(config, Constants.SOURCE_POLYGONS, get(travelOptions));
 
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
@@ -392,6 +396,15 @@ public final class RequestConfigurator {
         return sources;
     }
 
+    private static JSONArray getSourcePolygons(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sources = new JSONArray();
+        for (Polygon src : travelOptions.getSourcePolygons().values()) {
+            JSONObject source = getSourceObject(travelOptions, src);
+            sources.put(source);
+        }
+        return sources;
+    }
+
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
         for (Coordinate trg : travelOptions.getTargets().values()) {
@@ -473,6 +486,17 @@ public final class RequestConfigurator {
         return travelType;
     }
 
+    private static TravelType getTravelType(final TravelOptions travelOptions, Polygon src) {
+        TravelType travelType = travelOptions.getTravelType();
+        if (src.getTravelType() != null
+                && src.getTravelType() != travelType
+                && src.getTravelType() != TravelType.UNSPECIFIED) {
+            travelType = src.getTravelType();
+        }
+        return travelType;
+    }
+
+
     private static JSONObject getSourceObject(final TravelOptions travelOptions,
                                               final Coordinate src) throws JSONException {
         TravelType travelType = getTravelType(travelOptions, src);
@@ -482,6 +506,23 @@ public final class RequestConfigurator {
                 .put(Constants.ID, src.getId())
                 .put(Constants.LATITUDE, src.getY())
                 .put(Constants.LONGITUDE, src.getX())
+                .put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+
+        if (travelOptions.getReverse() != null) {
+            source.put(Constants.REVERSE, travelOptions.getReverse());
+        }
+        return source;
+    }
+
+    private static JSONObject getSourcePolygonObject(final TravelOptions travelOptions,
+                                              final Polygon src) throws JSONException {
+        TravelType travelType = getTravelType(travelOptions, src);
+        JSONObject travelMode = getTravelMode(travelOptions, travelType);
+
+        JSONObject source = new JSONObject()
+                .put(Constants.ID, src.getId())
+                .put(Constants.CRS, src.getCrs())
+                .put(Constants.GEO_JSON, src.getGeojson())
                 .put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
         if (travelOptions.getReverse() != null) {
