@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.*;
 
 /**
@@ -115,4 +118,23 @@ public class StatisticTravelOptions extends TravelOptions {
     public void setOmitIndividualStatistics(boolean omitIndividualStatistics) {
         this.omitIndividualStatistics = omitIndividualStatistics;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder(super.toString());
+        builder.append(getClass().getName());
+        builder.append("\n\tinactiveSources: ");
+        builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
+        builder.append("\n\tuseCache: ");
+        builder.append(useCache);
+        builder.append("\n\tiFeelLucky: ");
+        builder.append(iFeelLucky);
+        builder.append("\n\tomitIndividualStatistics: ");
+        builder.append(omitIndividualStatistics);
+        builder.append("\n\tcellIds: ");
+        builder.append(Arrays.toString(cellIds.toArray()));
+        builder.append("\n}\n");
+        return builder.toString();
+    }
+
 }
