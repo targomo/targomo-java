@@ -18,8 +18,7 @@ public enum MultiGraphLayerType {
     TILE_NODE           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE,             false,  true,   false),
     HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,               true,   true,   false),
     HEXAGON_NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE,          false,  true,   false),
-    GEOMETRY_STATISTICS (Constants.KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS,   false,  false,  true),
-    TILE_STATISTICS     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS,       false,  true,   true);
+    GEOMETRY_STATISTICS (Constants.KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS,   false,  false,  true);
 
     private String key;
     private boolean withEdges;
