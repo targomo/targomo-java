@@ -16,6 +16,7 @@ import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.statistic.PoiType;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -238,7 +239,7 @@ public class TravelOptions implements Serializable {
      * @return source polygons array
      */
     @JsonIgnore
-    public Map<String, Integer> getPolygonSources() {
+    public Map<JSONObject, Integer> getPolygonSources() {
         return getPolygons(this.sourcePolygons);
     }
 
@@ -272,9 +273,9 @@ public class TravelOptions implements Serializable {
      * @param polygons map of polygons
      * @return coordinates array in the form of [[x0, y0], [x1, y1]]
      */
-    private Map<String, Integer> getPolygons(Map<String, Polygon> polygons) {
+    private Map<JSONObject, Integer> getPolygons(Map<String, Polygon> polygons) {
 
-        Map<String, Integer> polygonCrsMap = new HashMap<>();
+        Map<JSONObject, Integer> polygonCrsMap = new HashMap<>();
 
         for (Polygon polygon : polygons.values() ) {
             polygonCrsMap.put(polygon.getGeojson(), polygon.getCrs());
