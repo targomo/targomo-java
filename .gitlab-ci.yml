@@ -14,6 +14,7 @@ stages:
 build:
    stage: build
    script:
+     - cat /builds/targomo/github/targomo-java/.mvn/settings.xml
      - mvn --settings settings.xml clean compile
    only:
      - /^feature.*$/
