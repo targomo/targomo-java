@@ -4,7 +4,7 @@ include:
     ref: v1.0
     file: '.global-configuration.yml'
 
-image: code.route360.net:4567/docker/general-image/service/psql9.6:0.0.4
+image: docker.eu.targomo.com/docker/general-image/service/psql9.6:0.0.4
 
 stages:
   - build
