@@ -14,7 +14,7 @@ stages:
 build:
    stage: build
    script:
-     - mvn clean compile
+     - mvn --settings settings.xml clean compile
    only:
      - /^feature.*$/
      - develop
