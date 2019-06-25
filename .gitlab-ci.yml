@@ -1,7 +1,7 @@
 # Include Global Configurations
 include:
   - project: 'api-server/gitlab-ci-scripts'
-    ref: v1.0
+    ref: v1.3
     file: '.global-configuration.yml'
 
 image: docker.eu.targomo.com/docker/general-image/service/psql9.6:0.0.4
