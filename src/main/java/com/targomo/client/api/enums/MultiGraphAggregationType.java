@@ -20,6 +20,7 @@ public enum MultiGraphAggregationType {
     MEAN                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,             true,  false, false),
     MEDIAN              (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,           true,  false, false),
     NEAREST             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,          false, false, false),
+    COUNT               (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT,            true,  false, false),
     ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,    false, false, true),
     GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF, true,  true,  false),
     MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,             false, false, false);
