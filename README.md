@@ -77,7 +77,7 @@ Added attributes for gravitational multigraph, multigraph aggregation pipeline a
 - included multigraph service requests and constants/enums
 
 ### 0.0.30
-- polygon request's HTTP method can now be set via constructor arg
+- geometry request's HTTP method can now be set via constructor arg
 - statistics request now sets the service url as a url param
 - added geometry for server side geometry intersection, also in request builder
 - statistic results got some convenience methods to aggregate over returned values
@@ -133,7 +133,7 @@ performed:
 
 ## PolygonService
 
-Create polygon from source point.
+Create geometry from source point.
 
     TravelOptions options = new TravelOptions();
     options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));

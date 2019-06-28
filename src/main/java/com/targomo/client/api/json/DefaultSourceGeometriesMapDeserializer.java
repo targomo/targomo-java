@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.client.api.geo.DefaultSourcePolygon;
-import com.targomo.client.api.geo.Polygon;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
+import com.targomo.client.api.geo.Geometry;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,22 +16,22 @@ import java.util.Map;
 /**
  * @author gideon
  */
-public class DefaultSourcePolygonMapDeserializer extends JsonDeserializer<Map<String, Polygon>> {
+public class DefaultSourceGeometriesMapDeserializer extends JsonDeserializer<Map<String, Geometry>> {
     private ObjectMapper mapper = new ObjectMapper();
 
-    public DefaultSourcePolygonMapDeserializer() {}
+    public DefaultSourceGeometriesMapDeserializer() {}
 
     @Override
-    public Map<String, Polygon> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+    public Map<String, Geometry> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws JsonProcessingException, IOException {
 
         JsonNode polygonsArray = jsonParser.getCodec().readTree(jsonParser);
 
-        Map<String,Polygon> polygons = new HashMap<>();
+        Map<String, Geometry> polygons = new HashMap<>();
 
         for (JsonNode polygonNode : polygonsArray) {
             polygons.put(polygonNode.get("id").asText(),
-                    mapper.readValue(polygonNode.toString(), DefaultSourcePolygon.class));
+                    mapper.readValue(polygonNode.toString(), DefaultSourceGeometry.class));
         }
 
         return polygons;

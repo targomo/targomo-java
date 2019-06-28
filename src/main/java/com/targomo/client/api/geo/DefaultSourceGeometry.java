@@ -6,14 +6,14 @@ import org.json.JSONObject;
 import javax.persistence.*;
 
 /**
- * Default implementation for storing source polygons.
- * Basically a {@link AbstractPolygon} with TravelType, specialized to be used as a source.
+ * Default implementation for storing source geometries.
+ * Basically a {@link AbstractGeometry} with TravelType, specialized to be used as a source.
  *
  * @author gideon
  */
 @Entity
-@Table(name="source_polygon")
-public class DefaultSourcePolygon extends AbstractPolygon {
+@Table(name="source_geometry")
+public class DefaultSourceGeometry extends AbstractGeometry {
 
     @Id
     @Column(name = "identifier")
@@ -24,33 +24,33 @@ public class DefaultSourcePolygon extends AbstractPolygon {
     private TravelType travelType;
 
     // needed for jackson
-    public DefaultSourcePolygon(){}
+    public DefaultSourceGeometry(){}
 
     /**
-     * Generate Source polygon with a TravelType as well as ID, geojson and crs values.
+     * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
      * @param id ID to associate with the target coordinate
      * @param geojson Geojson String of the source geometry
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
      */
-    public DefaultSourcePolygon(String id, JSONObject geojson, int crs, TravelType travelType) {
+    public DefaultSourceGeometry(String id, JSONObject geojson, int crs, TravelType travelType) {
         super(id, geojson, crs);
         this.travelType = travelType;
     }
 
     /**
-     * Generate Source polygon with ID, geojson and crs values with no travel type.
+     * Generate Source geometry with ID, geojson and crs values with no travel type.
      * Travel type will be set to null.
      * @param id ID to associate with the target coordinate
      * @param geojson Geojson String of the source geometry
      * @param crs CRS value used for the geometry
      */
-    public DefaultSourcePolygon(String id, JSONObject geojson, int crs) {
+    public DefaultSourceGeometry(String id, JSONObject geojson, int crs) {
         this(id, geojson, crs, null);
     }
 
     /**
-     * Get travel type configuration for the source polygon.
+     * Get travel type configuration for the source geometry.
      * @return Travel type
      */
     @Override
@@ -60,8 +60,8 @@ public class DefaultSourcePolygon extends AbstractPolygon {
 
     /**
      * The main problem with this identifier is that we need it for hibernate
-     * since it's not able to work without an ID. But source polygons have
-     * per se no real identifier since the same polygon could come from multiple
+     * since it's not able to work without an ID. But source geometries have
+     * per se no real identifier since the same geometry could come from multiple
      * clients and have different lat/lng/traveltype.
      *
      * @return this database unique identifier of this source point
@@ -71,8 +71,8 @@ public class DefaultSourcePolygon extends AbstractPolygon {
     public void setIdentifier(long id) { this.identifier = id; }
 
     /**
-     * Specify a travel type for the source polygon.
-     * @param travelType TravelType to be associated with the source polygon.
+     * Specify a travel type for the source geometry.
+     * @param travelType TravelType to be associated with the source geometry.
      */
     @Override
     public void setTravelType(final TravelType travelType) {
@@ -101,7 +101,7 @@ public class DefaultSourcePolygon extends AbstractPolygon {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        DefaultSourcePolygon that = (DefaultSourcePolygon) o;
+        DefaultSourceGeometry that = (DefaultSourceGeometry) o;
 
         return travelType == that.travelType;
     }

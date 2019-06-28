@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.targomo.client.api.geo.DefaultSourcePolygon;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,13 +12,13 @@ import java.util.Map;
 /**
  * @author gideon
  */
-public class DefaultSourcePolygonMapSerializer extends JsonSerializer {
+public class DefaultSourceGeometriesMapSerializer extends JsonSerializer {
     @Override
     public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
 
         jsonGenerator.writeStartArray(); // [
 
-        for ( Map.Entry<String, DefaultSourcePolygon> entry : ((Map<String, DefaultSourcePolygon>) o).entrySet())  {
+        for ( Map.Entry<String, DefaultSourceGeometry> entry : ((Map<String, DefaultSourceGeometry>) o).entrySet())  {
 
             jsonGenerator.writeStartObject(); // {
             jsonGenerator.writeStringField("id", entry.getKey());

@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractPolygon extends Polygon{
+public abstract class AbstractGeometry implements Geometry {
     private String id;
 
     private JSONObject geojson;
@@ -18,42 +18,42 @@ public abstract class AbstractPolygon extends Polygon{
     private int crs;
 
     // needed for jackson
-    public AbstractPolygon(){}
+    public AbstractGeometry(){}
 
     /**
-     * Generate a Polygon with an ID along with geojson and a crs value.
+     * Generate a Geometry with an ID along with geojson and a crs value.
      * @param id ID to associate with the target coordinate
      * @param geojson Geometry geojson String
      * @param crs Coordinate Reference System used in the geojson
      */
-    public AbstractPolygon(final String id, final JSONObject geojson, final int crs) {
+    public AbstractGeometry(final String id, final JSONObject geojson, final int crs) {
         this.id = id;
         this.geojson = geojson;
         this.crs = crs;
     }
 
     /**
-     * Get TravelType of polygon.
-     * @return Travel type associated with the polygon
+     * Get TravelType of geometry.
+     * @return Travel type associated with the geometry
      */
     public abstract TravelType getTravelType();
 
     /**
-     * Set a travel type for the polygon.
-     * @param travelType Travel type to be associated with the polygon.
+     * Set a travel type for the geometry.
+     * @param travelType Travel type to be associated with the geometry.
      */
     public abstract void setTravelType(final TravelType travelType);
 
     /**
-     * Get the ID associated with the polygon.
-     * @return Polygon ID
+     * Get the ID associated with the geometry.
+     * @return Geometry ID
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Assign an ID to the polygon
+     * Assign an ID to the geometry
      * @param id ID to be assigned
      */
     public void setId(final String id) {
@@ -93,8 +93,8 @@ public abstract class AbstractPolygon extends Polygon{
     }
 
     /**
-     * Returns a JSON String representation of the Polygon with ID, geojson and crs values.
-     * @return JSON representation of the polygon
+     * Returns a JSON String representation of the Geometry with ID, geojson and crs values.
+     * @return JSON representation of the geometry
      */
     @Override
     public String toString() {
@@ -115,7 +115,7 @@ public abstract class AbstractPolygon extends Polygon{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractPolygon that = (AbstractPolygon) o;
+        AbstractGeometry that = (AbstractGeometry) o;
 
         if (!that.geojson.toString().equals(geojson.toString())) return false;
         if (that.crs != crs) return false;

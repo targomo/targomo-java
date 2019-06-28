@@ -6,8 +6,8 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.Geometry;
 import com.targomo.client.api.geo.Location;
-import com.targomo.client.api.geo.Polygon;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import com.targomo.client.api.pojo.AggregationConfiguration;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
  * Targets are generated using StringBuilders for faster generation.
- * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
+ * Geometry, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
 public final class RequestConfigurator {
@@ -94,7 +94,7 @@ public final class RequestConfigurator {
             if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
 
-            if (travelOptions.getSourcePolygons() != null && !travelOptions.getSourcePolygons().isEmpty())
+            if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCE_POLYGONS, getSourcePolygons(travelOptions));
 
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
@@ -399,7 +399,7 @@ public final class RequestConfigurator {
 
     private static JSONArray getSourcePolygons(final TravelOptions travelOptions) throws JSONException {
         JSONArray sourcePolygons = new JSONArray();
-        for (Polygon src : travelOptions.getSourcePolygons().values()) {
+        for (Geometry src : travelOptions.getSourceGeometries().values()) {
             JSONObject source = getSourceObject(travelOptions, src);
             sourcePolygons.put(source);
         }
@@ -506,10 +506,10 @@ public final class RequestConfigurator {
             Coordinate coordinate = (Coordinate) src;
             source.put(Constants.LATITUDE, coordinate.getY())
                     .put(Constants.LONGITUDE, coordinate.getX());
-        } else if (src instanceof  Polygon) {
-            Polygon polygon = (Polygon) src;
-            source.put(Constants.CRS, polygon.getCrs())
-                    .put(Constants.GEO_JSON, polygon.getGeojson());
+        } else if (src instanceof Geometry) {
+            Geometry geometry = (Geometry) src;
+            source.put(Constants.CRS, geometry.getCrs())
+                    .put(Constants.GEO_JSON, geometry.getGeojson());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
