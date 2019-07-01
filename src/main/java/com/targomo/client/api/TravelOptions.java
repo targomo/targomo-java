@@ -49,7 +49,7 @@ public class TravelOptions implements Serializable {
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
     @Transient
-    private Map<String, Geometry> sourceGeometries = new HashMap<>();
+    private Map<String, AbstractGeometry> sourceGeometries = new HashMap<>();
 
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
@@ -267,7 +267,7 @@ public class TravelOptions implements Serializable {
     /**
      * @return the geometries as Map from ID to location
      */
-    public Map<String, Geometry> getSourceGeometries() {
+    public Map<String, AbstractGeometry> getSourceGeometries() {
         return sourceGeometries;
     }
 
@@ -298,7 +298,7 @@ public class TravelOptions implements Serializable {
      * Set the source
      * @param sourceGeometries
      */
-    public void setSourceGeometries(Map<String, Geometry> sourceGeometries) {
+    public void setSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
         this.sourceGeometries = sourceGeometries;
     }
 
@@ -712,7 +712,7 @@ public class TravelOptions implements Serializable {
     /**
      * @param source Source geometry
      */
-    public void addSourceGeometry(Geometry source) {
+    public void addSourceGeometry(AbstractGeometry source) {
         this.sourceGeometries.put(source.getId(), source);
     }
 
@@ -1085,7 +1085,7 @@ public class TravelOptions implements Serializable {
      * @param id ID of source geometry
      * @return Source geometry
      */
-    public Geometry getSourcegeometry(String id) {
+    public AbstractGeometry getSourcegeometry(String id) {
         return this.sourceGeometries.get(id);
     }
 
@@ -1426,7 +1426,7 @@ public class TravelOptions implements Serializable {
         this.sources.putAll(sources);
     }
 
-    public void addAllSourceGeometries(Map<String, Geometry> sourceGeometries) {
+    public void addAllSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
         this.sourceGeometries.putAll(sourceGeometries);
     }
 
@@ -1445,7 +1445,7 @@ public class TravelOptions implements Serializable {
      * @param id ID for the new source
      * @param source New source geometry
      */
-    public void clearAndAddSource(String id, Geometry source) {
+    public void clearAndAddSource(String id, AbstractGeometry source) {
         this.sourceGeometries.clear();
         this.sourceGeometries.put(id, source);
     }

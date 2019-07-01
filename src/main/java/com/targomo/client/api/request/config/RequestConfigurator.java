@@ -5,8 +5,8 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.Geometry;
 import com.targomo.client.api.geo.Location;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
@@ -95,7 +95,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
 
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
-                JSONBuilder.append(config, Constants.SOURCE_POLYGONS, getSourcePolygons(travelOptions));
+                JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourcePolygons(travelOptions));
 
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
@@ -399,7 +399,7 @@ public final class RequestConfigurator {
 
     private static JSONArray getSourcePolygons(final TravelOptions travelOptions) throws JSONException {
         JSONArray sourcePolygons = new JSONArray();
-        for (Geometry src : travelOptions.getSourceGeometries().values()) {
+        for (AbstractGeometry src : travelOptions.getSourceGeometries().values()) {
             JSONObject source = getSourceObject(travelOptions, src);
             sourcePolygons.put(source);
         }
@@ -506,10 +506,8 @@ public final class RequestConfigurator {
             Coordinate coordinate = (Coordinate) src;
             source.put(Constants.LATITUDE, coordinate.getY())
                     .put(Constants.LONGITUDE, coordinate.getX());
-        } else if (src instanceof Geometry) {
-            Geometry geometry = (Geometry) src;
-            source.put(Constants.CRS, geometry.getCrs())
-                    .put(Constants.GEO_JSON, geometry.getGeojson());
+        } else if (src instanceof AbstractGeometry) {
+            source.put(Constants.GEO_JSON, ((AbstractGeometry) src).getGeojson());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 

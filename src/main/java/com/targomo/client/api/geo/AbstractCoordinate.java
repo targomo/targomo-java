@@ -32,18 +32,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 	}
 
 	/**
-	 * Get TravelType of coordinate.
-	 * @return Travel type associated with the coordinate
-	 */
-	public abstract TravelType getTravelType();
-
-	/**
-	 * Set a travel type for the coordinate.
-	 * @param travelType Travel type to be associated with the coordinate.
-	 */
-	public abstract void setTravelType(final TravelType travelType);
-
-	/**
 	 * Get the ID associated with the coordinate.
 	 * @return Coordinate ID
 	 */
