@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
-import com.targomo.client.api.enums.TravelType;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.pojo.Geometry;
 import org.json.JSONObject;
 
@@ -12,23 +13,13 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class AbstractGeometry extends Geometry implements Location {
+
     private String id;
 
-    private JSONObject geojson;
-
-    public AbstractGeometry() {
-        super(4326, "");
-    }
-
-    /**
-     * Generate a LocationGeometry with an ID along with geojson and a crs value.
-     * @param id ID to associate with the target coordinate
-     * @param geojson LocationGeometry geojson String
-     */
-    public AbstractGeometry(final String id, final JSONObject geojson) {
-        super(4326, geojson.toString());
+    @JsonCreator
+    public AbstractGeometry(@JsonProperty("id") String id, @JsonProperty("crs") Integer crs, @JsonProperty("data") String data) {
+        super(crs, data);
         this.id = id;
-        this.geojson = geojson;
     }
 
     /**
@@ -48,22 +39,6 @@ public abstract class AbstractGeometry extends Geometry implements Location {
     }
 
     /**
-     * Get the geometry as geojson
-     * @return Geojson of a geometry
-     */
-    public JSONObject getGeojson() {
-        return geojson;
-    }
-
-    /**
-     * Set the geometry as geojson
-     * @param geojson Geojson of a geometry
-     */
-    public void setGeojson(final JSONObject geojson) {
-        this.geojson = geojson;
-    }
-
-    /**
      * Returns a JSON String representation of the LocationGeometry with ID, geojson and crs values.
      * @return JSON representation of the geometry
      */
@@ -73,8 +48,10 @@ public abstract class AbstractGeometry extends Geometry implements Location {
         builder.append(getClass().getName());
         builder.append(" {\n\tid: ");
         builder.append(id);
-        builder.append("\n\tgeojson: ");
-        builder.append(geojson);
+        builder.append("\n\tdata: ");
+        builder.append(getData());
+        builder.append("\n\tcrs: ");
+        builder.append(getCrs());
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -86,7 +63,8 @@ public abstract class AbstractGeometry extends Geometry implements Location {
 
         AbstractGeometry that = (AbstractGeometry) o;
 
-        if (!that.geojson.toString().equals(geojson.toString())) return false;
+        if (!that.getData().equals(getData())) return false;
+        if (that.getCrs() != getCrs()) return false;
         return id != null ? id.equals(that.id) : that.id == null;
     }
 
@@ -94,9 +72,11 @@ public abstract class AbstractGeometry extends Geometry implements Location {
     public int hashCode() {
         int result;
         int temp;
+        int crs;
         result = id != null ? id.hashCode() : 0;
-        temp = geojson != null ? geojson.hashCode() : 0;
-        result = 31 * result + temp ;
+        temp = getData() != null ? getData().hashCode() : 0;
+        crs = getCrs() != null ? getCrs() : 0;
+        result = 31 * result + temp + crs;
         return result;
     }
 }

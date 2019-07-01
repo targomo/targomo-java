@@ -26,11 +26,12 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     /**
      * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
      * @param id ID to associate with the target coordinate
-     * @param geojson Geojson String of the source geometry
+     * @param geojson String of the geojson of the object
+     * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
      */
-    public DefaultSourceGeometry(String id, JSONObject geojson, TravelType travelType) {
-        super(id, geojson);
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType) {
+        super(id, crs, geojson);
         this.travelType = travelType;
     }
 
@@ -41,8 +42,8 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param geojson Geojson String of the source geometry
      * @param crs CRS value used for the geometry
      */
-    public DefaultSourceGeometry(String id, JSONObject geojson, int crs) {
-        this(id, geojson, null);
+    public DefaultSourceGeometry(String id, String geojson, int crs) {
+        this(id, geojson, crs,null);
     }
 
     /**
@@ -81,8 +82,10 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         builder.append(getClass().getSimpleName());
         builder.append(" { id: ");
         builder.append(getId());
-        builder.append(", geojson: ");
-        builder.append(getGeojson());
+        builder.append(", data: ");
+        builder.append(getData());
+        builder.append(", crs: ");
+        builder.append(getCrs());
         builder.append(", travelType: ");
         builder.append(travelType);
         builder.append("}");

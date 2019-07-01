@@ -9,6 +9,7 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
@@ -170,7 +171,7 @@ public class TravelOptions implements Serializable {
 	private Format format;
 
 	@Transient
-	private com.targomo.client.api.pojo.Geometry intersectionGeometry;
+	private Geometry intersectionGeometry;
 
 	@Transient
 	private String boundingBox;
@@ -1502,11 +1503,11 @@ public class TravelOptions implements Serializable {
 		this.travelTimeFactors = travelTimeFactors;
 	}
 
-	public com.targomo.client.api.pojo.Geometry getIntersectionGeometry() {
+	public Geometry getIntersectionGeometry() {
 		return intersectionGeometry;
 	}
 
-	public void setIntersectionGeometry(com.targomo.client.api.pojo.Geometry intersectionGeometry) {
+	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
 	

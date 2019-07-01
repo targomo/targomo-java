@@ -507,7 +507,9 @@ public final class RequestConfigurator {
             source.put(Constants.LATITUDE, coordinate.getY())
                     .put(Constants.LONGITUDE, coordinate.getX());
         } else if (src instanceof AbstractGeometry) {
-            source.put(Constants.GEO_JSON, ((AbstractGeometry) src).getGeojson());
+            AbstractGeometry geometry = (AbstractGeometry) src;
+            source.put(Constants.CRS, geometry.getCrs())
+                    .put(Constants.DATA, geometry.getData());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 

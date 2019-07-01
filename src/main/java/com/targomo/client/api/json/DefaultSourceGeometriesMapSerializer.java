@@ -23,7 +23,7 @@ public class DefaultSourceGeometriesMapSerializer extends JsonSerializer {
             jsonGenerator.writeStartObject(); // {
             jsonGenerator.writeStringField("id", entry.getKey());
             if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
-            jsonGenerator.writeObjectField("geojson", entry.getValue().getGeojson());
+            jsonGenerator.writeStringField("data", entry.getValue().getData());
             jsonGenerator.writeNumberField("crs", entry.getValue().getCrs());
             jsonGenerator.writeEndObject(); // {
         }

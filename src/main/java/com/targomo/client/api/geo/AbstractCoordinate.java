@@ -1,7 +1,5 @@
 package com.targomo.client.api.geo;
 
-import com.targomo.client.api.enums.TravelType;
-
 import javax.persistence.*;
 
 /**
