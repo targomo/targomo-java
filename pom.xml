@@ -293,11 +293,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>targomo-nexus-snapshots</id>
-            <url>https://repository.route360.net/repository/maven-snapshots/</url>
+            <url>https://repo.eu.targomo.com/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>targomo-nexus-releases</id>
-            <url>https://repository.route360.net/repository/maven-releases/</url>
+            <url>https://repo.eu.targomo.com/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
