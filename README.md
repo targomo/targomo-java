@@ -23,12 +23,13 @@ You also need to add a JAX-RS implementation of your choice. For example Jersey:
 ```
 
 ## Perform Release
-To perform a release simply do: `mvn clean deploy -DperformRelease=true`
+To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There is also manually triggerable jobs to deploy to our 
+nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
 ### 0.1.11
-- to be filled
+- new aggregation type "count" for multigraph 
 
 ### 0.1.10 skipped
 
