@@ -95,7 +95,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
 
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
-                JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourcePolygons(travelOptions));
+                JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
@@ -397,13 +397,13 @@ public final class RequestConfigurator {
         return sources;
     }
 
-    private static JSONArray getSourcePolygons(final TravelOptions travelOptions) throws JSONException {
-        JSONArray sourcePolygons = new JSONArray();
+    private static JSONArray getSourceGeometries(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sourceGeometries = new JSONArray();
         for (AbstractGeometry src : travelOptions.getSourceGeometries().values()) {
             JSONObject source = getSourceObject(travelOptions, src);
-            sourcePolygons.put(source);
+            sourceGeometries.put(source);
         }
-        return sourcePolygons;
+        return sourceGeometries;
     }
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
