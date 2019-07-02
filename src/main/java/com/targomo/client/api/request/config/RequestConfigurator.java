@@ -14,8 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -311,15 +313,18 @@ public final class RequestConfigurator {
 
     private static void addMultiGraphPreAggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (travelOptions.getMultiGraphPreAggregationPipeline() != null) {
-            JSONObject multiGraphPreAggregation = new JSONObject();
+
+            Map<String, JSONObject> preAggregationPipelineMap = new LinkedHashMap<>();
+
             for (Map.Entry<String, AggregationConfiguration> entry : travelOptions.getMultiGraphPreAggregationPipeline().entrySet()) {
                 String aggregationName = entry.getKey();
                 AggregationConfiguration aggregationConfiguration = entry.getValue();
                 JSONObject multigraphAggregation = new JSONObject();
                 fillJsonAggregationConfig(aggregationConfiguration, multigraphAggregation);
-                multiGraphPreAggregation.put(aggregationName, multigraphAggregation);
+                preAggregationPipelineMap.put(aggregationName, multigraphAggregation);
             }
-            multiGraph.put(Constants.MULTIGRAPH_PRE_AGGREGATION_PIPELINE, multiGraphPreAggregation);
+
+            multiGraph.put(Constants.MULTIGRAPH_PRE_AGGREGATION_PIPELINE, preAggregationPipelineMap);
         }
     }
 
