@@ -21,7 +21,7 @@
         <mirror>
             <id>targomo</id>
             <name>targomo</name>
-            <url>https://repository.route360.net/repository/maven-group/</url>
+            <url>${env.NEXUS_URL}/repository/maven-group/</url>
             <mirrorOf>*</mirrorOf>
         </mirror>
     </mirrors>
