@@ -36,7 +36,7 @@
             </activation>
             <properties>
                 <!-- Optional URL to server. Default value is http://localhost:9000 -->
-                <sonar.host.url>https://quality.route360.net</sonar.host.url>
+                <sonar.host.url>${env.SONARQUBE_URL}</sonar.host.url>
             </properties>
         </profile>
     </profiles>
