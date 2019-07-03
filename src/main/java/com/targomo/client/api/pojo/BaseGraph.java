@@ -12,6 +12,12 @@ import java.io.Serializable;
  */
 public class BaseGraph implements Serializable {
 
+    private static BaseGraph emptyImmutableBaseGraph = new BaseGraph(0L);
+
+    public static BaseGraph getEmptyImmutableBaseGraph() {
+        return emptyImmutableBaseGraph;
+    }
+
     private final long networkID;
     protected final TIntObjectMap<double[]> nodes;
     protected final TIntObjectMap<int[]> edges;
