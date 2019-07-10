@@ -3,14 +3,17 @@
   "maxEdgeWeight": "300",
   "multigraph":{
     "edgeClasses": [11,12,16,18],
+    "domain":{
+      "type":"edge",
+      "edgeAggregationType": "min"
+    },
     "layer":{
-      "type": "edge",
-      "edgeAggregationType": "min",
+      "type": "identity",
       "geometryDetailPerTile": 3,
       "minGeometryDetailLevel": 2,
       "maxGeometryDetailLevel": 10,
       "geometryDetailLevel": 8,
-      "multigraphLayerCustomGeometryMergeAggregation": "sum"
+      "customGeometryMergeAggregation": "sum"
     },
     "tile":{
       "zoom": 5,
