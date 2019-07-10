@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.response.StatisticsResponse;
 import com.targomo.client.Constants;
@@ -103,7 +104,7 @@ public class StatisticsRequest {
 
 	public static void main(String[] args) throws TargomoClientException, JSONException {
 
-		TravelOptions options = new TravelOptions();
+		StatisticTravelOptions options = new StatisticTravelOptions();
 		options.setMaxRoutingTime(1800);
 		options.setTravelType(TravelType.WALK);
 		options.addSource(new DefaultSourceCoordinate("1asda", 13.405, 52.52));
@@ -117,7 +118,7 @@ public class StatisticsRequest {
 		options.setStatisticIds(Arrays.asList((short) 0, (short) 1));
 		options.setStatisticGroupId(1);
 
-		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDET);
+		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDENT);
 		System.out.println(response.getStatisticResult());
 	}
 

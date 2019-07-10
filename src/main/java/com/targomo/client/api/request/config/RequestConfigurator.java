@@ -57,7 +57,6 @@ public final class RequestConfigurator {
 
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
             if ( Stream.of(
-                    travelOptions.getMultiGraphReferencedStatisticIds(),
                     travelOptions.getMultiGraphEdgeClasses(),
                     travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(),
@@ -81,9 +80,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphLayerGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
                     travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
-                    travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
-                    travelOptions.getMultiGraphLayerStatisticGroupId(),
-                    travelOptions.getMultiGraphLayerUnboundedStatistics())
+                    travelOptions.getMultiGraphLayerMinGeometryDetailLevel())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -112,10 +109,6 @@ public final class RequestConfigurator {
 
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
-
-            // TODO: It might be a good idea to remove statisticsIds from travelOptions and send to StatisticsTravelOption class as it is not used for core requests
-            if (travelOptions.getStatisticIds() != null)
-                JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
 
             if (travelOptions.getServiceUrl() != null)
                 JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");

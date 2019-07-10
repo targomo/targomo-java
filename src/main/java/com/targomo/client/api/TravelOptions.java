@@ -136,19 +136,17 @@ public class TravelOptions implements Serializable {
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
     @Transient private Map<String, AggregationInputParameters> multiGraphAggregationInputParameters = null;
     @Transient private LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline = null;
-    @Transient private Map<String,Short> multiGraphReferencedStatisticIds                    = null;
+
     @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
     @Transient private MultiGraphLayerEdgeAggregationType multiGraphLayerEdgeAggregationType = null;
     @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
     @Transient private Integer multiGraphLayerMinGeometryDetailLevel                         = null;
     @Transient private Integer multiGraphLayerMaxGeometryDetailLevel                         = null;
     @Transient private Integer multiGraphLayerGeometryDetailLevel                            = null;
-    @Transient private Integer multiGraphLayerStatisticGroupId                               = null;
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    @Transient private Boolean multiGraphLayerUnboundedStatistics                            = null;
-    
+
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
     @Column(name = "fallback_service_url") private String fallbackServiceUrl   = "";
@@ -158,7 +156,6 @@ public class TravelOptions implements Serializable {
     @JsonProperty("edgeWeight")
     @Column(name = "edge_weight_type") private EdgeWeightType edgeWeightType   = EdgeWeightType.TIME;
 
-	@Transient private List<Short> statisticIds;
 	@Column(name = "statistic_group_id") private Integer statisticGroupId;
     @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://api.targomo.com/statistics/";
 	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://api.targomo.com/pointofinterest/";
@@ -703,14 +700,6 @@ public class TravelOptions implements Serializable {
         this.targets.put(target.getId(), target);
     }
 
-    public Map<String, Short> getMultiGraphReferencedStatisticIds() {
-        return multiGraphReferencedStatisticIds;
-    }
-
-    public void setMultiGraphReferencedStatisticIds(Map<String, Short> multiGraphReferencedStatisticIds) {
-        this.multiGraphReferencedStatisticIds = multiGraphReferencedStatisticIds;
-    }
-
     public Map<String, AggregationInputParameters> getMultiGraphAggregationInputParameters() {
         return multiGraphAggregationInputParameters;
     }
@@ -809,24 +798,20 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationMathExpression, that.multiGraphAggregationMathExpression) &&
                 Objects.equals(multiGraphLayerCustomGeometryMergeAggregation, that.multiGraphLayerCustomGeometryMergeAggregation) &&
                 Objects.equals(multiGraphAggregationPostAggregationFactor, that.multiGraphAggregationPostAggregationFactor) &&
-                Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphLayerType == that.multiGraphLayerType &&
                 multiGraphLayerEdgeAggregationType == that.multiGraphLayerEdgeAggregationType &&
                 Objects.equals(multiGraphLayerGeometryDetailPerTile, that.multiGraphLayerGeometryDetailPerTile) &&
                 Objects.equals(multiGraphLayerMinGeometryDetailLevel, that.multiGraphLayerMinGeometryDetailLevel) &&
                 Objects.equals(multiGraphLayerMaxGeometryDetailLevel, that.multiGraphLayerMaxGeometryDetailLevel) &&
                 Objects.equals(multiGraphLayerGeometryDetailLevel, that.multiGraphLayerGeometryDetailLevel) &&
-                Objects.equals(multiGraphLayerStatisticGroupId, that.multiGraphLayerStatisticGroupId) &&
                 Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
-                Objects.equals( multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics ) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
                 Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
-                Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
                 Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
                 Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
@@ -862,16 +847,15 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
                 multiGraphAggregationGravitationExponent, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
-                multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphReferencedStatisticIds,
-                multiGraphLayerType, multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
+                multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
+                multiGraphLayerEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
-                multiGraphLayerGeometryDetailLevel, multiGraphLayerStatisticGroupId,
-                multiGraphTileZoom, multiGraphTileX, multiGraphTileY, multiGraphLayerUnboundedStatistics, multiGraphAggregationPostAggregationFactor,
-                maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey, onlyPrintReachablePoints, edgeWeightType,
-                statisticIds, statisticGroupId, statisticServiceUrl, pointOfInterestServiceUrl, overpassQuery,
-                overpassServiceUrl, interServiceKey, format, boundingBox, travelTypes, osmTypes, customPois,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, trafficJunctionPenalty, trafficSignalPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget);
+                multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
+                multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
+                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
+                pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, format, boundingBox,
+                travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                trafficJunctionPenalty, trafficSignalPenalty, maxWalkingTimeFromSource, maxWalkingTimeToTarget);
     }
 
     /* (non-Javadoc)
@@ -983,8 +967,6 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationFilterValuesForSourceOrigins);
         builder.append("\n\tmultiGraphPreAggregationPipeline: ");
         builder.append(multiGraphPreAggregationPipeline);
-        builder.append("\n\tmultiGraphReferencedStatisticIds: ");
-        builder.append(multiGraphReferencedStatisticIds);
         builder.append("\n\tmultiGraphLayerType: ");
         builder.append(multiGraphLayerType);
         builder.append("\n\tmultiGraphLayerEdgeAggregationType: ");
@@ -997,16 +979,12 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphLayerMaxGeometryDetailLevel);
         builder.append("\n\tmultiGraphLayerGeometryDetailLevel: ");
         builder.append(multiGraphLayerGeometryDetailLevel);
-        builder.append("\n\tmultiGraphLayerStatisticGroupId: ");
-        builder.append(multiGraphLayerStatisticGroupId);
         builder.append("\n\tmultiGraphTileZoom: ");
         builder.append(multiGraphTileZoom);
         builder.append("\n\tmultiGraphTileX: ");
         builder.append(multiGraphTileX);
         builder.append("\n\tmultiGraphTileY: ");
         builder.append(multiGraphTileY);
-        builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
-        builder.append( multiGraphLayerUnboundedStatistics );
         builder.append("\n\tmaxEdgeWeight: ");
         builder.append(maxEdgeWeight);
         builder.append("\n\tserviceUrl: ");
@@ -1019,8 +997,6 @@ public class TravelOptions implements Serializable {
         builder.append(onlyPrintReachablePoints);
         builder.append("\n\tedgeWeightType: ");
         builder.append(edgeWeightType);
-        builder.append("\n\tstatisticIds: ");
-        builder.append(statisticIds != null ? toString(statisticIds, maxLen) : null);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
         builder.append("\n\tstatisticServiceUrl: ");
@@ -1075,10 +1051,6 @@ public class TravelOptions implements Serializable {
         return this.targets.get(id);
     }
 
-    public List<Short> getStatisticIds() {
-        return this.statisticIds;
-    }
-
     public Format getFormat() {
         return format;
     }
@@ -1097,10 +1069,6 @@ public class TravelOptions implements Serializable {
 
     public boolean getOnlyPrintReachablePoints() {
         return onlyPrintReachablePoints;
-    }
-
-    public void setStatisticIds(List<Short> statisticIds) {
-        this.statisticIds = statisticIds ;
     }
 
     /**
@@ -1323,13 +1291,7 @@ public class TravelOptions implements Serializable {
         this.multiGraphLayerGeometryDetailLevel = multiGraphLayerGeometryDetailLevel;
     }
 
-    public Integer getMultiGraphLayerStatisticGroupId() {
-        return multiGraphLayerStatisticGroupId;
-    }
 
-    public void setMultiGraphLayerStatisticGroupId(Integer multiGraphLayerStatisticGroupId) {
-        this.multiGraphLayerStatisticGroupId = multiGraphLayerStatisticGroupId;
-    }
 
     public Integer getMultiGraphTileZoom() {
         return multiGraphTileZoom;
@@ -1350,14 +1312,6 @@ public class TravelOptions implements Serializable {
     public Integer getMultiGraphTileY() { return multiGraphTileY; }
     public void setMultiGraphTileY(Integer multiGraphTileY) {
         this.multiGraphTileY = multiGraphTileY;
-    }
-
-    public Boolean getMultiGraphLayerUnboundedStatistics() {
-        return multiGraphLayerUnboundedStatistics;
-    }
-
-    public void setMultiGraphLayerUnboundedStatistics(Boolean multiGraphLayerUnboundedStatistics) {
-        this.multiGraphLayerUnboundedStatistics = multiGraphLayerUnboundedStatistics;
     }
 
     public Float getMultiGraphAggregationPostAggregationFactor() {
