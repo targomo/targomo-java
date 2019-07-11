@@ -240,6 +240,14 @@ public final class RequestConfigurator {
         }
     }
 
+    /**
+     * Parse the MultiGraph tile attributes. This is used for tiled requests, so it's needed to have
+     * all attributes defined (zoom, x and y). If it is partially define (either x, y or zoom), an
+     * exception is thrown
+     * @param travelOptions
+     * @param multiGraph
+     * @throws JSONException
+     */
     private static void addMultiGraphTile(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if( Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                 travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull)) {
@@ -251,7 +259,7 @@ public final class RequestConfigurator {
             multiGraph.put( Constants.MULTIGRAPH_TILE, multigraphTile);
         } else if (Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                 travelOptions.getMultiGraphTileY()).anyMatch(Objects::nonNull)) {
-            throw new IllegalArgumentException("None or all elements in the tile definition have to be set.");
+            throw new IllegalArgumentException("None or all elements in the multiGraphTile definition have to be set (zoom, x and y).");
         }
     }
 
