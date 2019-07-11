@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.targomo.client.Constants;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static com.targomo.client.api.enums.MultiGraphDomainType.*;
@@ -20,18 +22,16 @@ public enum MultiGraphLayerType {
     CUSTOM_GEOMETRIES   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES, false, MultiGraphDomainType.values());
 
     private final String key;
-    private final boolean geometryMerge; //TODO probably needs to be renamed -
-    // TODO only applicable to tile and hexagon? only for tiled requests? what's with customGeometries
-    // TODO basically all of them can have a customGeometryAggregation - is the default one chosen for all of them as well?
-    private final MultiGraphDomainType[] supportedDomainTypes;
+    private final boolean requiresFixedPrecisionOrTile;
+    private final List<MultiGraphDomainType> supportedDomainTypes;
 
     MultiGraphLayerType(String key,
-                        boolean geometryMerge,
+                        boolean requiresFixedPrecisionOrTile,
                         MultiGraphDomainType... supportedDomainTypes) {
 
-        this.key                         = key;
-        this.geometryMerge               = geometryMerge;
-        this.supportedDomainTypes = supportedDomainTypes;
+        this.key                          = key;
+        this.requiresFixedPrecisionOrTile = requiresFixedPrecisionOrTile;
+        this.supportedDomainTypes         = Arrays.asList(supportedDomainTypes);
     }
 
     @JsonCreator
@@ -48,12 +48,12 @@ public enum MultiGraphLayerType {
     }
 
     @JsonIgnore
-    public boolean isGeometryMerge() {
-        return geometryMerge;
+    public boolean isRequiresFixedPrecisionOrTile() {
+        return requiresFixedPrecisionOrTile;
     }
 
     @JsonIgnore
-    public MultiGraphDomainType[] getSupportedDomainTypes() {
+    public List<MultiGraphDomainType> getSupportedDomainTypes() {
         return supportedDomainTypes;
     }
 

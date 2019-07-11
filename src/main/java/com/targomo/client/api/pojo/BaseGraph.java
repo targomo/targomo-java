@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class BaseGraph implements Serializable {
 
-    private static BaseGraph emptyImmutableBaseGraph = new BaseGraph(0L);
+    private static final BaseGraph emptyImmutableBaseGraph = new BaseGraph(0L);
 
     public static BaseGraph getEmptyImmutableBaseGraph() {
         return emptyImmutableBaseGraph;
