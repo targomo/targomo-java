@@ -46,7 +46,7 @@ public class StatisticTravelOptions extends TravelOptions {
     private Map<String,Short> multiGraphReferencedStatisticIds = null;
 
     @Transient
-    private Integer multiGraphLayerStatisticGroupId = null;
+    private Integer multiGraphDomainStatisticGroupId = null;
 
     @Transient
     private Boolean multiGraphLayerUnboundedStatistics = null;
@@ -83,17 +83,18 @@ public class StatisticTravelOptions extends TravelOptions {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TravelOptions)) return false;
+        if (!(o instanceof StatisticTravelOptions)) return false;
 
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
-        return Objects.equals(useCache, that.useCache) &&
+        return super.equals(o) &&
+                Objects.equals(useCache, that.useCache) &&
                 Objects.equals(iFeelLucky, that.iFeelLucky) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
                 Objects.equals(cellIds, that.cellIds) &&
-                Objects.equals(multiGraphLayerStatisticGroupId, that.multiGraphLayerStatisticGroupId) &&
+                Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 Objects.equals(statisticIds, that.statisticIds);
@@ -101,8 +102,9 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(inactiveSources, useCache, iFeelLucky, getClosestSources, omitIndividualStatistics, cellIds,
-                multiGraphLayerStatisticGroupId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
+        return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
+                omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
+                multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 statisticIds);
     }
 
@@ -138,12 +140,12 @@ public class StatisticTravelOptions extends TravelOptions {
         this.multiGraphReferencedStatisticIds = multiGraphReferencedStatisticIds;
     }
 
-    public Integer getMultiGraphLayerStatisticGroupId() {
-        return multiGraphLayerStatisticGroupId;
+    public Integer getMultiGraphDomainStatisticGroupId() {
+        return multiGraphDomainStatisticGroupId;
     }
 
-    public void setMultiGraphLayerStatisticGroupId(Integer multiGraphLayerStatisticGroupId) {
-        this.multiGraphLayerStatisticGroupId = multiGraphLayerStatisticGroupId;
+    public void setMultiGraphDomainStatisticGroupId(Integer multiGraphDomainStatisticGroupId) {
+        this.multiGraphDomainStatisticGroupId = multiGraphDomainStatisticGroupId;
     }
 
     public Boolean getMultiGraphLayerUnboundedStatistics() {
@@ -178,8 +180,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(cellIds!= null ? cellIds.toString() : "[]");
         builder.append("\n\tmultiGraphReferencedStatisticIds: ");
         builder.append(multiGraphReferencedStatisticIds != null ? multiGraphReferencedStatisticIds.toString() : "[]");
-        builder.append("\n\tmultiGraphLayerStatisticGroupId: ");
-        builder.append(multiGraphLayerStatisticGroupId);
+        builder.append("\n\tmultiGraphDomainStatisticGroupId: ");
+        builder.append(multiGraphDomainStatisticGroupId);
         builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
         builder.append( multiGraphLayerUnboundedStatistics );
         builder.append("\n\tstatisticIds: ");
