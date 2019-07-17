@@ -28,6 +28,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.1.12
+- to be filled
+
 ### 0.1.11
 - new aggregation type "count" for multigraph 
 - Update to prepare for use of geometries (LineStrings, Polygons and MultiPolygons) as sources.
