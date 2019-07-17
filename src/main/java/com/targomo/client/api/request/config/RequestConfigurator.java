@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
  * Targets are generated using StringBuilders for faster generation.
- * Geometry, sources array and other properties are created as JSONObjects, then appended as Strings.
+ * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
 public final class RequestConfigurator {

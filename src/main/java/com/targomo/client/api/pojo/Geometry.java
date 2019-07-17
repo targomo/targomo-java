@@ -12,7 +12,7 @@ import java.io.Serializable;
  * This class is purposefully created very generally. Currently (13.06.2018) the targomo
  * backend only supports geojson objects. See the
  * <a href="https://tools.ietf.org/html/rfc7946">GeoJSON specification</a> for further details.
- * The geometry types <b>Geometry</b> and <b>MultiPolygon</b> are supported.
+ * The geometry types <b>Polygon</b> and <b>MultiPolygon</b> are supported.
  *
  */
 public class Geometry implements Serializable {

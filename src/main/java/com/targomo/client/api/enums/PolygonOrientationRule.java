@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum PolygonOrientationRule {
+
     RIGHT_HAND("right_hand"),
     LEFT_HAND("left_hand");
 

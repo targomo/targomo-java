@@ -3,18 +3,15 @@ package com.targomo.client.api.request.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
-import org.apache.log4j.Logger;
 
 /**
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
  * Targets are generated using StringBuilders for faster generation.
- * Geometry, sources array and other properties are created as JSONObjects, then appended as Strings.
+ * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
 public final class JacksonRequestConfigurator {
-
-	private static final Logger LOG = Logger.getLogger(JacksonRequestConfigurator.class);
 
     private JacksonRequestConfigurator() {
     }

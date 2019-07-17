@@ -32,6 +32,10 @@ nexus and to the maven repo (last is only possibly from master).
 - new aggregation type "count" for multigraph 
 - Update to prepare for use of geometries (LineStrings, Polygons and MultiPolygons) as sources.
 - added `polygonOrientationRule` parameter to polygon requests
+- Updated POIRequest Implementation
+- Updated Jackson version to 2.9.9
+- Updated the layer type handling - now it is differentiated between layer type and domain type - IMPORTANT: this will only work once a new Targomo core service has been released
+- moved elements for statistics requests from TravelOptions into StatisticTravelOptions
 
 ### 0.1.10 skipped
 
@@ -80,7 +84,7 @@ Added attributes for gravitational multigraph, multigraph aggregation pipeline a
 - included multigraph service requests and constants/enums
 
 ### 0.0.30
-- geometry request's HTTP method can now be set via constructor arg
+- polygon request's HTTP method can now be set via constructor arg
 - statistics request now sets the service url as a url param
 - added geometry for server side geometry intersection, also in request builder
 - statistic results got some convenience methods to aggregate over returned values
@@ -136,7 +140,7 @@ performed:
 
 ## PolygonService
 
-Create geometry from source point.
+Create polygon from source point.
 
     TravelOptions options = new TravelOptions();
     options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));

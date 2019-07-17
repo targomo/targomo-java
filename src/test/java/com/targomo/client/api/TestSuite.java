@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
         TimeVectorRequestTest.class,
         MultiGraphRequestTest.class,
         RequestConfiguratorTest.class,
-        GeometryRequestTest.class,
+        PolygonRequestTest.class,
         ReachabilityRequestTest.class,
         RouteRequestTest.class,
         TimeRequestTest.class,

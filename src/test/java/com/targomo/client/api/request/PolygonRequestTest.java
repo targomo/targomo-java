@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
-public class GeometryRequestTest extends RequestTest {
+public class PolygonRequestTest extends RequestTest {
 
     @Test
     public void get_success() throws Exception {
