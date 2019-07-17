@@ -104,7 +104,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
     @Transient private Integer srid                                 = null;
-    @Transient private Boolean forceRightHandOrientation            = null;
+    @Transient private PolygonOrientation polygonOrientation        = null;
     @Transient private Integer decimalPrecision                     = null;
 
     // maximum number of transfers when using public transportation
@@ -809,7 +809,7 @@ public class TravelOptions implements Serializable {
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
-                Objects.equals(forceRightHandOrientation, that.forceRightHandOrientation) &&
+                Objects.equals(polygonOrientation, that.polygonOrientation) &&
                 Objects.equals(decimalPrecision, that.decimalPrecision) &&
                 Objects.equals(buffer, that.buffer) &&
                 Objects.equals(simplify, that.simplify) &&
@@ -876,7 +876,7 @@ public class TravelOptions implements Serializable {
 
         return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
-                minPolygonHoleSize, time, date, frame, recommendations, srid, forceRightHandOrientation, decimalPrecision, buffer, simplify,
+                minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientation, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
@@ -954,8 +954,8 @@ public class TravelOptions implements Serializable {
         builder.append(recommendations);
         builder.append("\n\tsrid: ");
         builder.append(srid);
-        builder.append("\n\tforceRightHandOrientation: ");
-        builder.append(forceRightHandOrientation);
+        builder.append("\n\tpolygonOrientation: ");
+        builder.append(polygonOrientation);
         builder.append("\n\tdecimalPrecision: ");
         builder.append(decimalPrecision);
         builder.append("\n\tbuffer: ");
@@ -1183,12 +1183,12 @@ public class TravelOptions implements Serializable {
         this.srid = srid;
     }
 
-    public Boolean getForceRightHandOrientation() {
-        return forceRightHandOrientation;
+    public PolygonOrientation getPolygonOrientation() {
+        return polygonOrientation;
     }
 
-    public void setForceRightHandOrientation(Boolean forceRightHandOrientation) {
-        this.forceRightHandOrientation = forceRightHandOrientation;
+    public void setPolygonOrientation(PolygonOrientation polygonOrientation) {
+        this.polygonOrientation = polygonOrientation;
     }
 
     public Integer getDecimalPrecision() {
