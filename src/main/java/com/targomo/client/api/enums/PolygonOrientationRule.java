@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.stream.Stream;
 
-public enum PolygonOrientation {
+public enum PolygonOrientationRule {
     RIGHT_HAND("right_hand"),
     LEFT_HAND("left_hand");
 
     private String key;
 
-    PolygonOrientation(String key) {
+    PolygonOrientationRule(String key) {
         this.key = key;
     }
 
     @JsonCreator
-    public static PolygonOrientation fromString(String key) {
-        return key == null ? null : Stream.of(PolygonOrientation.values())
+    public static PolygonOrientationRule fromString(String key) {
+        return key == null ? null : Stream.of(PolygonOrientationRule.values())
                 .filter( enu -> enu.key.equalsIgnoreCase(key)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid " +
                         Format.class.getSimpleName() + " specified: " + key + " doesn't exist"));
