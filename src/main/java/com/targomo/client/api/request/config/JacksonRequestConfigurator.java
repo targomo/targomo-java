@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
  * Targets are generated using StringBuilders for faster generation.
- * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
+ * Geometry, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
 public final class JacksonRequestConfigurator {

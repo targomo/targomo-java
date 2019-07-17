@@ -6,15 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.json.DefaultTargetCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultTargetCoordinateMapSerializer;
-import com.targomo.client.api.pojo.Geometry;
+import com.targomo.client.api.geo.*;
+import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
@@ -51,6 +46,11 @@ public class TravelOptions implements Serializable {
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
     @Transient
     private Map<String,Coordinate> sources  = new HashMap<>();
+
+    @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
+    @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
+    @Transient
+    private Map<String, AbstractGeometry> sourceGeometries = new HashMap<>();
 
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
@@ -266,6 +266,13 @@ public class TravelOptions implements Serializable {
     }
 
     /**
+     * @return the geometries as Map from ID to location
+     */
+    public Map<String, AbstractGeometry> getSourceGeometries() {
+        return sourceGeometries;
+    }
+
+    /**
      * <p>
      * Set sources as Map from IDs to location.
      * </p>
@@ -286,6 +293,14 @@ public class TravelOptions implements Serializable {
      */
     public void setSources(Map<String, Coordinate> sources) {
         this.sources = sources;
+    }
+
+    /**
+     * Set the source
+     * @param sourceGeometries
+     */
+    public void setSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
+        this.sourceGeometries = sourceGeometries;
     }
 
     /**
@@ -696,6 +711,13 @@ public class TravelOptions implements Serializable {
     }
 
     /**
+     * @param source Source geometry
+     */
+    public void addSourceGeometry(AbstractGeometry source) {
+        this.sourceGeometries.put(source.getId(), source);
+    }
+
+    /**
      * @param target Target coordinate
      */
     public void addTarget(Coordinate target) {
@@ -771,6 +793,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
+                Objects.equals(sourceGeometries, that.sourceGeometries) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
@@ -849,7 +872,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
@@ -883,6 +906,8 @@ public class TravelOptions implements Serializable {
         builder.append(getClass().getName());
         builder.append(" {\n\tsources: ");
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
+        builder.append(" {\n\tsourceGeometries: ");
+        builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
@@ -1054,6 +1079,15 @@ public class TravelOptions implements Serializable {
      */
     public Coordinate getSource(String id) {
         return this.sources.get(id);
+    }
+
+    /**
+     *
+     * @param id ID of source geometry
+     * @return Source geometry
+     */
+    public AbstractGeometry getSourcegeometry(String id) {
+        return this.sourceGeometries.get(id);
     }
 
     /**
@@ -1393,6 +1427,10 @@ public class TravelOptions implements Serializable {
         this.sources.putAll(sources);
     }
 
+    public void addAllSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
+        this.sourceGeometries.putAll(sourceGeometries);
+    }
+
     /**
      * Clear sources and add new one
      * @param id ID for the new source
@@ -1401,6 +1439,16 @@ public class TravelOptions implements Serializable {
     public void clearAndAddSource(String id, Coordinate source) {
         this.sources.clear();
         this.sources.put(id, source);
+    }
+
+    /**
+     * Clear sourceGeometries and add new one
+     * @param id ID for the new source
+     * @param source New source geometry
+     */
+    public void clearAndAddSource(String id, AbstractGeometry source) {
+        this.sourceGeometries.clear();
+        this.sourceGeometries.put(id, source);
     }
 
     public String getFallbackServiceUrl() {
