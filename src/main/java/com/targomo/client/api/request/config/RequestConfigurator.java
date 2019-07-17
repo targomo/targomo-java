@@ -5,7 +5,9 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.Location;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import com.targomo.client.api.pojo.AggregationConfiguration;
@@ -22,7 +24,7 @@ import java.util.stream.Stream;
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
  * Targets are generated using StringBuilders for faster generation.
- * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
+ * Geometry, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
 public final class RequestConfigurator {
@@ -91,6 +93,9 @@ public final class RequestConfigurator {
 
             if (travelOptions.getSources() != null && !travelOptions.getSources().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCES, getSources(travelOptions));
+
+            if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
+                JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
@@ -395,6 +400,15 @@ public final class RequestConfigurator {
         return sources;
     }
 
+    private static JSONArray getSourceGeometries(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sourceGeometries = new JSONArray();
+        for (AbstractGeometry src : travelOptions.getSourceGeometries().values()) {
+            JSONObject source = getSourceObject(travelOptions, src);
+            sourceGeometries.put(source);
+        }
+        return sourceGeometries;
+    }
+
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
         for (Coordinate trg : travelOptions.getTargets().values()) {
@@ -466,7 +480,13 @@ public final class RequestConfigurator {
         return travelMode;
     }
 
-    private static TravelType getTravelType(final TravelOptions travelOptions, Coordinate src) {
+    /**
+     * Get the travel type for a location (Either a coordinate or a polygon)
+     * @param travelOptions
+     * @param src
+     * @return
+     */
+    private static TravelType getTravelType(final TravelOptions travelOptions, Location src) {
         TravelType travelType = travelOptions.getTravelType();
         if (src.getTravelType() != null
                 && src.getTravelType() != travelType
@@ -476,21 +496,29 @@ public final class RequestConfigurator {
         return travelType;
     }
 
+
+
     private static JSONObject getSourceObject(final TravelOptions travelOptions,
-                                              final Coordinate src) throws JSONException {
+                                              final Location src) throws JSONException {
         TravelType travelType = getTravelType(travelOptions, src);
         JSONObject travelMode = getTravelMode(travelOptions, travelType);
 
         JSONObject source = new JSONObject()
-                .put(Constants.ID, src.getId())
-                .put(Constants.LATITUDE, src.getY())
-                .put(Constants.LONGITUDE, src.getX())
-                .put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+                .put(Constants.ID, src.getId());
+        if (src instanceof Coordinate) {
+            Coordinate coordinate = (Coordinate) src;
+            source.put(Constants.LATITUDE, coordinate.getY())
+                    .put(Constants.LONGITUDE, coordinate.getX());
+        } else if (src instanceof AbstractGeometry) {
+            AbstractGeometry geometry = (AbstractGeometry) src;
+            source.put(Constants.CRS, geometry.getCrs())
+                    .put(Constants.DATA, geometry.getData());
+        }
+        source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
         if (travelOptions.getReverse() != null) {
             source.put(Constants.REVERSE, travelOptions.getReverse());
         }
         return source;
     }
-
 }

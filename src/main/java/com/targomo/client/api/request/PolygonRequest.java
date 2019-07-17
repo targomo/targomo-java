@@ -96,7 +96,7 @@ public class PolygonRequest {
 
 	/**
 	 * Execute request
-	 * @return Polygon response
+	 * @return Geometry response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
 	public PolygonResponse get() throws TargomoClientException {

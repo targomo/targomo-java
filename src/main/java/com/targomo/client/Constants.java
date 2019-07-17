@@ -19,6 +19,7 @@ public class Constants {
     public static final String LONGITUDE                                                = "lng";
     public static final String TRANSPORT_MODE                                           = "tm";
     public static final String SOURCES                                                  = "sources";
+    public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
     public static final String TARGETS                                                  = "targets";
     public static final String ENABLE_ELEVATION                                         = "elevation";
     public static final String JSON_POLYGON_SERIALIZER                                  = "json";
@@ -128,5 +129,8 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
+    public static final String DATA   												    = "data";
+    public static final String CRS                                                      = "crs";
+
 
 }
