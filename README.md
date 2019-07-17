@@ -31,6 +31,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.1.11
 - new aggregation type "count" for multigraph 
 - Update to prepare for use of geometries (LineStrings, Polygons and MultiPolygons) as sources.
+- added `polygonOrientationRule` parameter to polygon requests
 
 ### 0.1.10 skipped
 

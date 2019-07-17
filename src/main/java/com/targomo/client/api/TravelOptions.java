@@ -104,6 +104,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
     @Transient private Integer srid                                 = null;
+    @Transient private PolygonOrientationRule polygonOrientationRule = null;
     @Transient private Integer decimalPrecision                     = null;
 
     // maximum number of transfers when using public transportation
@@ -799,6 +800,7 @@ public class TravelOptions implements Serializable {
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
+                Objects.equals(polygonOrientationRule, that.polygonOrientationRule) &&
                 Objects.equals(decimalPrecision, that.decimalPrecision) &&
                 Objects.equals(buffer, that.buffer) &&
                 Objects.equals(simplify, that.simplify) &&
@@ -863,7 +865,7 @@ public class TravelOptions implements Serializable {
 
         return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
-                minPolygonHoleSize, time, date, frame, recommendations, srid, decimalPrecision, buffer, simplify,
+                minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
@@ -946,6 +948,8 @@ public class TravelOptions implements Serializable {
         builder.append(recommendations);
         builder.append("\n\tsrid: ");
         builder.append(srid);
+        builder.append("\n\tpolygonOrientationRule: ");
+        builder.append(polygonOrientationRule);
         builder.append("\n\tdecimalPrecision: ");
         builder.append(decimalPrecision);
         builder.append("\n\tbuffer: ");
@@ -1159,6 +1163,14 @@ public class TravelOptions implements Serializable {
 
     public void setSrid(Integer srid) {
         this.srid = srid;
+    }
+
+    public PolygonOrientationRule getPolygonOrientationRule() {
+        return polygonOrientationRule;
+    }
+
+    public void setPolygonOrientationRule(PolygonOrientationRule polygonOrientationRule) {
+        this.polygonOrientationRule = polygonOrientationRule;
     }
 
     public Integer getDecimalPrecision() {
