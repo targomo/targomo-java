@@ -30,6 +30,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.11
 - new aggregation type "count" for multigraph 
+- added `forceRightHandOrientation` parameter to polygon requests
 
 ### 0.1.10 skipped
 
