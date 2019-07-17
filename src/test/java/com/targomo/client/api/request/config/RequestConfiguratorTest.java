@@ -86,13 +86,14 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
-            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
-            options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
+            options.setMultiGraphDomainType(MultiGraphDomainType.EDGE);
+            options.setMultiGraphDomainEdgeAggregationType(MultiGraphDomainEdgeAggregationType.MIN);
+            options.setMultiGraphLayerType(MultiGraphLayerType.IDENTITY);
             options.setMultiGraphLayerGeometryDetailPerTile(3);
             options.setMultiGraphLayerMinGeometryDetailLevel(2);
             options.setMultiGraphLayerMaxGeometryDetailLevel(10);
             options.setMultiGraphLayerGeometryDetailLevel(8);
-            options.setMultiGraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType.SUM);
+            options.setMultiGraphLayerCustomGeometryMergeAggregation(MultiGraphLayerCustomGeometryMergeAggregation.SUM);
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);

@@ -16,11 +16,6 @@
             <username>${env.NEXUS_USERNAME}</username>
             <password>${env.NEXUS_PASSWORD}</password>
         </server>
-        <server>
-            <id>ossrh</id>
-            <username>gerber@motionintelligence.net</username>
-            <password>SONATYPE_PASSWORD</password>
-        </server>
     </servers>
     <mirrors>
         <mirror>
@@ -39,6 +34,10 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>${env.SONARQUBE_URL}</sonar.host.url>
+            </properties>
         </profile>
     </profiles>
 </settings>

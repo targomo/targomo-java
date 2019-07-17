@@ -5,32 +5,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.targomo.client.Constants;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
+
+import static com.targomo.client.api.enums.MultiGraphDomainType.*;
 
 /**
  * The currently implemented layer types that are supported by the multi graph request.
  */
 public enum MultiGraphLayerType {
 
-    NODE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_NODE,                  false,  false,  false),
-    EDGE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_EDGE,                  true,   false,  false),
-    TILE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,                  true,   true,   false),
-    TILE_NODE           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE,             false,  true,   false),
-    HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,               true,   true,   false),
-    HEXAGON_NODE        (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE,          false,  true,   false),
-    GEOMETRY_STATISTICS (Constants.KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS,   false,  false,  true),
-    TILE_STATISTICS     (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS,       false,  true,   true);
+    IDENTITY            (Constants.KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY,          false, MultiGraphDomainType.values()),
+    TILE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,              true,  EDGE, NODE),
+    HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,           true,  EDGE, NODE),
+    CUSTOM_GEOMETRIES   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES, false, MultiGraphDomainType.values());
 
-    private String key;
-    private boolean withEdges;
-    private boolean geometryMerge;
-    private boolean basedOnStatistics;
+    private final String key;
+    private final boolean requiresFixedPrecisionOrTile;
+    private final List<MultiGraphDomainType> supportedDomainTypes;
 
-    MultiGraphLayerType(String key, boolean withEdges, boolean geometryMerge, boolean basedOnStatistics) {
-        this.key             = key;
-        this.withEdges       = withEdges;
-        this.geometryMerge = geometryMerge;
-        this.basedOnStatistics = basedOnStatistics;
+    MultiGraphLayerType(String key,
+                        boolean requiresFixedPrecisionOrTile,
+                        MultiGraphDomainType... supportedDomainTypes) {
+
+        this.key                          = key;
+        this.requiresFixedPrecisionOrTile = requiresFixedPrecisionOrTile;
+        this.supportedDomainTypes         = Arrays.asList(supportedDomainTypes);
     }
 
     @JsonCreator
@@ -47,18 +48,13 @@ public enum MultiGraphLayerType {
     }
 
     @JsonIgnore
-    public boolean isWithEdges() {
-        return withEdges;
+    public boolean isRequiresFixedPrecisionOrTile() {
+        return requiresFixedPrecisionOrTile;
     }
 
     @JsonIgnore
-    public boolean isGeometryMerge() {
-        return geometryMerge;
-    }
-
-    @JsonIgnore
-    public boolean isBasedOnStatistics() {
-        return basedOnStatistics;
+    public List<MultiGraphDomainType> getSupportedDomainTypes() {
+        return supportedDomainTypes;
     }
 
 }

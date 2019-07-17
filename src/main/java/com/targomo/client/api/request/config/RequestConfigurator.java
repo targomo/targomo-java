@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -57,11 +58,12 @@ public final class RequestConfigurator {
 
             //attention - at least one multiGraph value must be set to create the multigraph hierarchy
             if ( Stream.of(
-                    travelOptions.getMultiGraphReferencedStatisticIds(),
                     travelOptions.getMultiGraphEdgeClasses(),
                     travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(),
                     travelOptions.getMultiGraphSerializationMaxGeometryCount(),
+                    travelOptions.getMultiGraphDomainType(),
+                    travelOptions.getMultiGraphDomainEdgeAggregationType(),
                     travelOptions.getMultiGraphAggregationType(),
                     travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                     travelOptions.getMultiGraphAggregationOutlierPenalty(),
@@ -76,13 +78,12 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMathExpression(),
                     travelOptions.getMultiGraphPreAggregationPipeline(),
                     travelOptions.getMultiGraphLayerType(),
-                    travelOptions.getMultiGraphLayerEdgeAggregationType(),
+                    travelOptions.getMultiGraphDomainEdgeAggregationType(),
                     travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation(),
                     travelOptions.getMultiGraphLayerGeometryDetailLevel(),
                     travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
                     travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
-                    travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
-                    travelOptions.getMultiGraphLayerStatisticGroupId())
+                    travelOptions.getMultiGraphLayerMinGeometryDetailLevel())
                     .anyMatch(Objects::nonNull) ||
                     Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                             travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull))
@@ -114,10 +115,6 @@ public final class RequestConfigurator {
 
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
-
-            // TODO: It might be a good idea to remove statisticsIds from travelOptions and send to StatisticsTravelOption class as it is not used for core requests
-            if (travelOptions.getStatisticIds() != null)
-                JSONBuilder.append(config, Constants.STATISTICS_ID, travelOptions.getStatisticIds());
 
             if (travelOptions.getServiceUrl() != null)
                 JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");
@@ -207,6 +204,7 @@ public final class RequestConfigurator {
         if( travelOptions.getMultiGraphEdgeClasses() != null )
             multiGraph.put(Constants.MULTIGRAPH_EDGE_CLASSES, travelOptions.getMultiGraphEdgeClasses());
 
+        addMultiGraphDomain(travelOptions, multiGraph);
         addMultiGraphLayer(travelOptions, multiGraph);
         addMultiGraphTile(travelOptions, multiGraph);
         addMultiGraphSerialization(travelOptions, multiGraph);
@@ -215,70 +213,92 @@ public final class RequestConfigurator {
         return multiGraph;
     }
 
+    private static void addMultiGraphDomain(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
+        if( Stream.of(travelOptions.getMultiGraphDomainType(),
+                travelOptions.getMultiGraphDomainEdgeAggregationType()).anyMatch(Objects::nonNull) ) {
+
+            JSONObject multiGraphDomain = new JSONObject();
+
+            if ( travelOptions.getMultiGraphDomainType() != null )
+                multiGraphDomain.put(Constants.MULTIGRAPH_DOMAIN_TYPE, travelOptions.getMultiGraphDomainType().getKey());
+
+            if( travelOptions.getMultiGraphDomainEdgeAggregationType() != null )
+                multiGraphDomain.put(Constants.MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphDomainEdgeAggregationType().getKey());
+
+            multiGraph.put( Constants.MULTIGRAPH_DOMAIN, multiGraphDomain);
+        }
+    }
+
     private static void addMultiGraphLayer(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
-        if( Stream.of(travelOptions.getMultiGraphLayerType(), travelOptions.getMultiGraphLayerEdgeAggregationType(),
-                travelOptions.getMultiGraphLayerGeometryDetailPerTile(), travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
+        if( Stream.of(travelOptions.getMultiGraphLayerType(),
+                travelOptions.getMultiGraphLayerGeometryDetailPerTile(),
+                travelOptions.getMultiGraphLayerMinGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerMaxGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerGeometryDetailLevel(),
                 travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation()).anyMatch(Objects::nonNull) ) {
 
-            JSONObject multigraphLayer = new JSONObject();
+            JSONObject multiGraphLayer = new JSONObject();
 
-            if ( travelOptions.getMultiGraphSerializationFormat() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
-
-            if( travelOptions.getMultiGraphLayerEdgeAggregationType() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphLayerEdgeAggregationType().getKey());
+            if ( travelOptions.getMultiGraphLayerType() != null )
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_TYPE, travelOptions.getMultiGraphLayerType().getKey());
 
             if ( travelOptions.getMultiGraphLayerGeometryDetailPerTile() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE, travelOptions.getMultiGraphLayerGeometryDetailPerTile());
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE, travelOptions.getMultiGraphLayerGeometryDetailPerTile());
 
             if ( travelOptions.getMultiGraphLayerMinGeometryDetailLevel() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMinGeometryDetailLevel());
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMinGeometryDetailLevel());
 
             if ( travelOptions.getMultiGraphLayerMaxGeometryDetailLevel() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMaxGeometryDetailLevel());
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerMaxGeometryDetailLevel());
 
             if ( travelOptions.getMultiGraphLayerGeometryDetailLevel() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL, travelOptions.getMultiGraphLayerGeometryDetailLevel());
 
             if ( travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation() != null )
-                multigraphLayer.put(Constants.MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION, travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation().getName());
+                multiGraphLayer.put(Constants.MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION, travelOptions.getMultiGraphLayerCustomGeometryMergeAggregation().getKey());
 
-            multiGraph.put( Constants.MULTIGRAPH_LAYER, multigraphLayer);
+            multiGraph.put( Constants.MULTIGRAPH_LAYER, multiGraphLayer);
         }
     }
 
+    /**
+     * Parse the MultiGraph tile attributes. This is used for tiled requests, so it's needed to have
+     * all attributes defined (zoom, x and y). If it is partially define (either x, y or zoom), an
+     * exception is thrown
+     * @param travelOptions
+     * @param multiGraph
+     * @throws JSONException
+     */
     private static void addMultiGraphTile(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if( Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                 travelOptions.getMultiGraphTileY()).allMatch(Objects::nonNull)) {
 
-            JSONObject multigraphTile = new JSONObject();
-            multigraphTile.put(Constants.MULTIGRAPH_TILE_ZOOM, travelOptions.getMultiGraphTileZoom());
-            multigraphTile.put(Constants.MULTIGRAPH_TILE_X, travelOptions.getMultiGraphTileX());
-            multigraphTile.put(Constants.MULTIGRAPH_TILE_Y, travelOptions.getMultiGraphTileY());
-            multiGraph.put( Constants.MULTIGRAPH_TILE, multigraphTile);
+            JSONObject multiGraphTile = new JSONObject();
+            multiGraphTile.put(Constants.MULTIGRAPH_TILE_ZOOM, travelOptions.getMultiGraphTileZoom());
+            multiGraphTile.put(Constants.MULTIGRAPH_TILE_X, travelOptions.getMultiGraphTileX());
+            multiGraphTile.put(Constants.MULTIGRAPH_TILE_Y, travelOptions.getMultiGraphTileY());
+            multiGraph.put( Constants.MULTIGRAPH_TILE, multiGraphTile);
         } else if (Stream.of(travelOptions.getMultiGraphTileZoom(), travelOptions.getMultiGraphTileX(),
                 travelOptions.getMultiGraphTileY()).anyMatch(Objects::nonNull)) {
-            throw new IllegalArgumentException("None or all elements in the tile definition have to be set.");
+            throw new IllegalArgumentException("None or all elements in the multiGraphTile definition have to be set (zoom, x and y).");
         }
     }
 
     private static void addMultiGraphSerialization(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if( Stream.of(travelOptions.getMultiGraphSerializationFormat(),
                 travelOptions.getMultiGraphSerializationDecimalPrecision()).anyMatch(Objects::nonNull) ) {
-            JSONObject multigraphSerialization = new JSONObject();
+            JSONObject multiGraphSerialization = new JSONObject();
 
             if ( travelOptions.getMultiGraphSerializationFormat() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_FORMAT, travelOptions.getMultiGraphSerializationFormat().getKey());
+                multiGraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_FORMAT, travelOptions.getMultiGraphSerializationFormat().getKey());
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
+                multiGraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
 
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
-                multigraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
+                multiGraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
 
-            multiGraph.put( Constants.MULTIGRAPH_SERIALIZATION, multigraphSerialization);
+            multiGraph.put( Constants.MULTIGRAPH_SERIALIZATION, multiGraphSerialization);
         }
     }
 
@@ -289,10 +309,10 @@ public final class RequestConfigurator {
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
                 travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
                 .anyMatch(Objects::nonNull)) {
-            JSONObject multigraphAggregation = new JSONObject();
+            JSONObject multiGraphAggregation = new JSONObject();
             AggregationConfiguration aggregationConfiguration = buildAggregationConfigFromTravelOptions(travelOptions);
-            fillJsonAggregationConfig(aggregationConfiguration, multigraphAggregation);
-            multiGraph.put(Constants.MULTIGRAPH_AGGREGATION, multigraphAggregation);
+            fillJsonAggregationConfig(aggregationConfiguration, multiGraphAggregation);
+            multiGraph.put(Constants.MULTIGRAPH_AGGREGATION, multiGraphAggregation);
         }
     }
 
@@ -315,54 +335,57 @@ public final class RequestConfigurator {
 
     private static void addMultiGraphPreAggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (travelOptions.getMultiGraphPreAggregationPipeline() != null) {
-            JSONObject multiGraphPreAggregation = new JSONObject();
+
+            Map<String, JSONObject> preAggregationPipelineMap = new LinkedHashMap<>();
+
             for (Map.Entry<String, AggregationConfiguration> entry : travelOptions.getMultiGraphPreAggregationPipeline().entrySet()) {
                 String aggregationName = entry.getKey();
                 AggregationConfiguration aggregationConfiguration = entry.getValue();
-                JSONObject multigraphAggregation = new JSONObject();
-                fillJsonAggregationConfig(aggregationConfiguration, multigraphAggregation);
-                multiGraphPreAggregation.put(aggregationName, multigraphAggregation);
+                JSONObject multiGraphAggregation = new JSONObject();
+                fillJsonAggregationConfig(aggregationConfiguration, multiGraphAggregation);
+                preAggregationPipelineMap.put(aggregationName, multiGraphAggregation);
             }
-            multiGraph.put(Constants.MULTIGRAPH_PRE_AGGREGATION_PIPELINE, multiGraphPreAggregation);
+
+            multiGraph.put(Constants.MULTIGRAPH_PRE_AGGREGATION_PIPELINE, preAggregationPipelineMap);
         }
     }
 
-    private static void fillJsonAggregationConfig(AggregationConfiguration aggregationConfiguration, JSONObject multigraphAggregation) throws JSONException {
+    private static void fillJsonAggregationConfig(AggregationConfiguration aggregationConfiguration, JSONObject multiGraphAggregation) throws JSONException {
         if (aggregationConfiguration.getType() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
 
         if (aggregationConfiguration.getIgnoreOutliers() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutliers());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS, aggregationConfiguration.getIgnoreOutliers());
 
         if (aggregationConfiguration.getOutlierPenalty() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
 
         if (aggregationConfiguration.getMinSourcesCount() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
 
         if (aggregationConfiguration.getMinSourcesRatio() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
 
         if (aggregationConfiguration.getMaxResultValueRatio() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfiguration.getMaxResultValueRatio());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfiguration.getMaxResultValueRatio());
 
         if (aggregationConfiguration.getMaxResultValue() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfiguration.getMaxResultValue());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE, aggregationConfiguration.getMaxResultValue());
 
         if (aggregationConfiguration.getPostAggregationFactor() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR, aggregationConfiguration.getPostAggregationFactor());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR, aggregationConfiguration.getPostAggregationFactor());
 
         if (aggregationConfiguration.getGravitationExponent() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
 
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
 
         if (aggregationConfiguration.getAggregationInputParameters() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, buildAggregationInputParameters(aggregationConfiguration.getAggregationInputParameters()));
 
         if (aggregationConfiguration.getMathExpression() != null)
-            multigraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
     }
 
     private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {
