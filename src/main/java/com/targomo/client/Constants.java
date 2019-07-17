@@ -54,6 +54,7 @@ public class Constants {
     public static final String X                                                        = "x";
     public static final String CALLBACK                                                 = "callback";
     public static final String SRID                                                     = "srid";
+    public static final String FORCE_RIGHT_HAND_ORIENTATION                             = "forceRightHandOrientation";
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
     public static final String DISABLE_CACHE                                            = "disableCache";
 

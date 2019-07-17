@@ -170,6 +170,9 @@ public final class RequestConfigurator {
 		if ( travelOptions.getSrid() != null )
 			polygon.put(Constants.SRID, travelOptions.getSrid());
 
+        if ( travelOptions.getForceRightHandOrientation() != null )
+            polygon.put(Constants.FORCE_RIGHT_HAND_ORIENTATION, travelOptions.getForceRightHandOrientation());
+
         if ( travelOptions.getDecimalPrecision() != null )
             polygon.put(Constants.DECIMAL_PRECISION, travelOptions.getDecimalPrecision());
 		
