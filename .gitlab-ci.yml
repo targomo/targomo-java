@@ -1,10 +1,10 @@
 # Include Global Configurations
 include:
   - project: 'api-server/gitlab-ci-scripts'
-    ref: v1.0
+    ref: v1.3
     file: '.global-configuration.yml'
 
-image: code.route360.net:4567/docker/general-image/service/psql9.6:0.0.4
+image: docker.eu.targomo.com/docker/general-image/service/psql9.6:0.0.4
 
 stages:
   - build
@@ -14,7 +14,7 @@ stages:
 build:
    stage: build
    script:
-     - mvn clean compile
+     - mvn --settings settings.xml clean compile
    only:
      - /^feature.*$/
      - develop
@@ -22,7 +22,11 @@ build:
 sonarqube:
    stage: test
    script:
-     - mvn verify sonar:sonar
+     - mvn --settings /.ci/settings.xml verify sonar:sonar
+      -Dsonar.host.url=$SONARQUBE_URL
+      -Dsonar.login=$SONARQUBE_TOKEN
+      -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+      -Dsonar.branch.target=develop
      - cat target/site/jacoco-ut/index.html
    only:
      - /^feature.*$/

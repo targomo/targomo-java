@@ -1,7 +1,5 @@
 package com.targomo.client.api.geo;
 
-import com.targomo.client.api.enums.TravelType;
-
 import javax.persistence.*;
 
 /**
@@ -30,18 +28,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 		this.x = x;
 		this.y = y;
 	}
-
-	/**
-	 * Get TravelType of coordinate.
-	 * @return Travel type associated with the coordinate
-	 */
-	public abstract TravelType getTravelType();
-
-	/**
-	 * Set a travel type for the coordinate.
-	 * @param travelType Travel type to be associated with the coordinate.
-	 */
-	public abstract void setTravelType(final TravelType travelType);
 
 	/**
 	 * Get the ID associated with the coordinate.

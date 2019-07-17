@@ -19,6 +19,7 @@ public class Constants {
     public static final String LONGITUDE                                                = "lng";
     public static final String TRANSPORT_MODE                                           = "tm";
     public static final String SOURCES                                                  = "sources";
+    public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
     public static final String TARGETS                                                  = "targets";
     public static final String ENABLE_ELEVATION                                         = "elevation";
     public static final String JSON_POLYGON_SERIALIZER                                  = "json";
@@ -54,30 +55,36 @@ public class Constants {
     public static final String X                                                        = "x";
     public static final String CALLBACK                                                 = "callback";
     public static final String SRID                                                     = "srid";
+    public static final String POLYGON_ORIENTATION_RULE                                 = "polygonOrientationRule";
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
     public static final String DISABLE_CACHE                                            = "disableCache";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
+    public static final String MULTIGRAPH_DOMAIN                                        = "domain";
+    public static final String MULTIGRAPH_DOMAIN_TYPE                                   = "type";
+    public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_EDGE                          = "edge";
+    public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NODE                          = "node";
+    public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_STATISTIC_GEOMETRY            = "statistic_geometry";
+    public static final String MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE                  = "edgeAggregationType";
+    public static final String KEY_MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE_MINIMUM      = "min";
+    public static final String KEY_MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE_MAXIMUM      = "max";
+    public static final String KEY_MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE_MEAN         = "mean";
     public static final String MULTIGRAPH_LAYER                                         = "layer";
     public static final String MULTIGRAPH_LAYER_TYPE                                    = "type";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_EDGE                           = "edge";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_NODE                           = "node";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE                           = "tile";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_NODE                      = "tile_node";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON                        = "hexagon";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON_NODE                   = "hexagon_node";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_GEOMETRY_STATISTICS            = "geometry_statistics";
-    public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE_STATISTICS                = "tile_statistics";
-    public static final String MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE                   = "edgeAggregationType";
-    public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MINIMUM       = "min";
-    public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MAXIMUM       = "max";
-    public static final String KEY_MULTIGRAPH_LAYER_EDGE_AGGREGATION_TYPE_MEAN          = "mean";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY                       = "identity";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES              = "custom_geometries";
     public static final String MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE                = "geometryDetailPerTile";
     public static final String MULTIGRAPH_LAYER_MIN_GEOMETRY_DETAIL_LEVEL               = "minGeometryDetailLevel";
     public static final String MULTIGRAPH_LAYER_MAX_GEOMETRY_DETAIL_LEVEL               = "maxGeometryDetailLevel";
     public static final String MULTIGRAPH_LAYER_GEOMETRY_DETAIL_LEVEL                   = "geometryDetailLevel";
-    public static final String MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION       = "multigraphLayerCustomGeometryMergeAggregation";
+    public static final String MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION       = "customGeometryMergeAggregation";
+    public static final String KEY_MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION_MAX  = "max";
+    public static final String KEY_MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION_MIN  = "min";
+    public static final String KEY_MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION_MEAN = "mean";
+    public static final String KEY_MULTIGRAPH_LAYER_CUSTOM_GEOMETRY_MERGE_AGGREGATION_SUM  = "sum";
     public static final String MULTIGRAPH_TILE                                          = "tile";
     public static final String MULTIGRAPH_TILE_ZOOM                                     = "zoom";
     public static final String MULTIGRAPH_TILE_X                                        = "x";
@@ -99,6 +106,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN                     = "mean";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN                   = "median";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
@@ -126,5 +134,8 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
     public static final String GEO_JSON   												= "geojson";
+    public static final String DATA   												    = "data";
+    public static final String CRS                                                      = "crs";
+
 
 }

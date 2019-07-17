@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.*;
 
 /**
@@ -39,6 +42,18 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private List<Integer> cellIds = new ArrayList<>();
 
+    @Transient
+    private Map<String,Short> multiGraphReferencedStatisticIds = null;
+
+    @Transient
+    private Integer multiGraphDomainStatisticGroupId = null;
+
+    @Transient
+    private Boolean multiGraphLayerUnboundedStatistics = null;
+
+    @Transient
+    private List<Short> statisticIds;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -63,33 +78,34 @@ public class StatisticTravelOptions extends TravelOptions {
         this.iFeelLucky = iFeelLucky;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (!(o instanceof StatisticTravelOptions)) return false;
 
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
-        if (useCache != that.useCache) return false;
-        if (iFeelLucky != that.iFeelLucky) return false;
-        if (getClosestSources != that.getClosestSources) return false;
-        if (omitIndividualStatistics != that.omitIndividualStatistics) return false;
-        if (inactiveSources != null ? !inactiveSources.equals(that.inactiveSources) : that.inactiveSources != null)
-            return false;
-        return cellIds != null ? cellIds.equals(that.cellIds) : that.cellIds == null;
+        return super.equals(o) &&
+                Objects.equals(useCache, that.useCache) &&
+                Objects.equals(iFeelLucky, that.iFeelLucky) &&
+                Objects.equals(getClosestSources, that.getClosestSources) &&
+                Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
+                Objects.equals(inactiveSources, that.inactiveSources) &&
+                Objects.equals(cellIds, that.cellIds) &&
+                Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
+                Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
+                Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
+                Objects.equals(statisticIds, that.statisticIds);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (inactiveSources != null ? inactiveSources.hashCode() : 0);
-        result = 31 * result + (useCache ? 1 : 0);
-        result = 31 * result + (iFeelLucky ? 1 : 0);
-        result = 31 * result + (getClosestSources ? 1 : 0);
-        result = 31 * result + (omitIndividualStatistics ? 1 : 0);
-        result = 31 * result + (cellIds != null ? cellIds.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
+                omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
+                multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
+                statisticIds);
     }
 
     public boolean isGetClosestSources() {
@@ -115,4 +131,63 @@ public class StatisticTravelOptions extends TravelOptions {
     public void setOmitIndividualStatistics(boolean omitIndividualStatistics) {
         this.omitIndividualStatistics = omitIndividualStatistics;
     }
+
+    public Map<String, Short> getMultiGraphReferencedStatisticIds() {
+        return multiGraphReferencedStatisticIds;
+    }
+
+    public void setMultiGraphReferencedStatisticIds(Map<String, Short> multiGraphReferencedStatisticIds) {
+        this.multiGraphReferencedStatisticIds = multiGraphReferencedStatisticIds;
+    }
+
+    public Integer getMultiGraphDomainStatisticGroupId() {
+        return multiGraphDomainStatisticGroupId;
+    }
+
+    public void setMultiGraphDomainStatisticGroupId(Integer multiGraphDomainStatisticGroupId) {
+        this.multiGraphDomainStatisticGroupId = multiGraphDomainStatisticGroupId;
+    }
+
+    public Boolean getMultiGraphLayerUnboundedStatistics() {
+        return multiGraphLayerUnboundedStatistics;
+    }
+
+    public void setMultiGraphLayerUnboundedStatistics(Boolean multiGraphLayerUnboundedStatistics) {
+        this.multiGraphLayerUnboundedStatistics = multiGraphLayerUnboundedStatistics;
+    }
+
+    public void setStatisticIds(List<Short> statisticIds) {
+        this.statisticIds = statisticIds ;
+    }
+
+    public List<Short> getStatisticIds() {
+        return this.statisticIds;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder(super.toString());
+        builder.append(getClass().getName());
+        builder.append("\n\tinactiveSources: ");
+        builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
+        builder.append("\n\tuseCache: ");
+        builder.append(useCache);
+        builder.append("\n\tiFeelLucky: ");
+        builder.append(iFeelLucky);
+        builder.append("\n\tomitIndividualStatistics: ");
+        builder.append(omitIndividualStatistics);
+        builder.append("\n\tcellIds: ");
+        builder.append(cellIds!= null ? cellIds.toString() : "[]");
+        builder.append("\n\tmultiGraphReferencedStatisticIds: ");
+        builder.append(multiGraphReferencedStatisticIds != null ? multiGraphReferencedStatisticIds.toString() : "[]");
+        builder.append("\n\tmultiGraphDomainStatisticGroupId: ");
+        builder.append(multiGraphDomainStatisticGroupId);
+        builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
+        builder.append( multiGraphLayerUnboundedStatistics );
+        builder.append("\n\tstatisticIds: ");
+        builder.append(statisticIds != null ? statisticIds.toString() : "[]");
+        builder.append("\n}\n");
+        return builder.toString();
+    }
+
 }

@@ -1,13 +1,18 @@
 package com.targomo.client.api.response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.Format;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -96,5 +101,27 @@ public class PointOfInterestResponse {
 
     public JSONObject getResult() {
         return result;
+    }
+
+    public HashMap<String,POI> getResultAsMap() throws IOException
+    {
+        return new ObjectMapper().readValue(this.result.toString(), POIResponse.class);
+    }
+
+
+
+    static class POIResponse extends HashMap<String,POI> {}
+
+    @Setter
+    @Getter
+    @ToString
+    public static class POI {
+        String type;
+        long id;
+        double lat;
+        double lng;
+        Map<String,String> tags;
+        String osmType;
+        int edgeWeight;
     }
 }

@@ -86,13 +86,14 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
-            options.setMultiGraphLayerType(MultiGraphLayerType.EDGE);
-            options.setMultiGraphLayerEdgeAggregationType(MultiGraphLayerEdgeAggregationType.MIN);
+            options.setMultiGraphDomainType(MultiGraphDomainType.EDGE);
+            options.setMultiGraphDomainEdgeAggregationType(MultiGraphDomainEdgeAggregationType.MIN);
+            options.setMultiGraphLayerType(MultiGraphLayerType.IDENTITY);
             options.setMultiGraphLayerGeometryDetailPerTile(3);
             options.setMultiGraphLayerMinGeometryDetailLevel(2);
             options.setMultiGraphLayerMaxGeometryDetailLevel(10);
             options.setMultiGraphLayerGeometryDetailLevel(8);
-            options.setMultiGraphLayerCustomGeometryMergeAggregation(GeometryMergeAggType.SUM);
+            options.setMultiGraphLayerCustomGeometryMergeAggregation(MultiGraphLayerCustomGeometryMergeAggregation.SUM);
             options.setMultiGraphTileZoom(5);
             options.setMultiGraphTileX(3);
             options.setMultiGraphTileY(103);
@@ -156,6 +157,7 @@ public class RequestConfiguratorTest {
             options.setDate(20161020);
             options.setTime(55852);
             options.setSrid(25833);
+            options.setPolygonOrientationRule(PolygonOrientationRule.RIGHT_HAND);
 	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
             options.setMaxTransfers(2);
             options.getTravelTimeFactors().put("all",0.9);
@@ -177,7 +179,8 @@ public class RequestConfiguratorTest {
                     actualObject.getString(Constants.ENABLE_ELEVATION)
             );
             Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
-	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT), actualObject.getString(Constants.EDGE_WEIGHT));
+	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
+                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
             Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
 
@@ -254,8 +257,8 @@ public class RequestConfiguratorTest {
             Assert.assertEquals(sampleObject.get(Constants.MAX_EDGE_WEIGHT),
                     actualObject.get(Constants.MAX_EDGE_WEIGHT));
 
-            Assert.assertEquals(sampleObject.get(Constants.EDGE_WEIGHT),
-                    actualObject.get(Constants.EDGE_WEIGHT));
+            Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
+                    actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
             Assert.assertEquals(sampleObject.get(Constants.POLYGON_INTERSECTION_MODE),
 			        actualObject.get(Constants.POLYGON_INTERSECTION_MODE));
@@ -287,5 +290,8 @@ public class RequestConfiguratorTest {
 		
 		Assert.assertEquals(samplePolygon.get(Constants.SRID),
 				actualPolygon.get(Constants.SRID));
+
+        Assert.assertEquals(samplePolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase(),
+                actualPolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase());
 	}
 }

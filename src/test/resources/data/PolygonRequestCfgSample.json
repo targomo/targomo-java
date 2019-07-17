@@ -13,6 +13,7 @@
     ],
     "minPolygonHoleSize": 100000000,
     "serializer": "json",
+    "polygonOrientationRule" : "right_hand",
     "srid" : 25833
   },
   "sources": [
