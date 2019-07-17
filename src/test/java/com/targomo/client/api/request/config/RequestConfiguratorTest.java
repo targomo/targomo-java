@@ -156,6 +156,7 @@ public class RequestConfiguratorTest {
             options.setDate(20161020);
             options.setTime(55852);
             options.setSrid(25833);
+            options.setPolygonOrientationRule(PolygonOrientationRule.RIGHT_HAND);
 	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
             options.setMaxTransfers(2);
             options.getTravelTimeFactors().put("all",0.9);
@@ -288,5 +289,8 @@ public class RequestConfiguratorTest {
 		
 		Assert.assertEquals(samplePolygon.get(Constants.SRID),
 				actualPolygon.get(Constants.SRID));
+
+        Assert.assertEquals(samplePolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase(),
+                actualPolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase());
 	}
 }
