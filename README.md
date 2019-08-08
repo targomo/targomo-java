@@ -29,7 +29,8 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.12
-- to be filled
+- Change overpass reponse/request to take an alias rather than take the PoI type from travel options. Used for batch
+service requests, other requests will work as before.
 
 ### 0.1.11
 - new aggregation type "count" for multigraph 
