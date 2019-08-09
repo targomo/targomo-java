@@ -2,6 +2,7 @@ package com.targomo.client.api.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,8 +12,10 @@ public class CurlUtil {
 
     public static String buildCurlRequest(String url, List<String> headers, String body){
 
+        List<String> updatedHeader = new ArrayList<>(headers.size());
+
         for ( int i = 0 ; headers != null && i < headers.size(); i++)
-            headers.set(i, String.format("-H '%s'", headers.get(i)));
+            updatedHeader.add(i, String.format("-H '%s'", headers.get(i)));
 
         // this is a GET request
         if ( body == null || body.isEmpty() ) {
