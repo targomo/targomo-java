@@ -12,21 +12,21 @@ public class CurlUtil {
 
     public static String buildCurlRequest(String url, List<String> headers, String body){
 
-        List<String> updatedHeader = new ArrayList<>(headers.size());
+        List<String> updatedHeader = new ArrayList<>();
 
         for ( int i = 0 ; headers != null && i < headers.size(); i++)
             updatedHeader.add(i, String.format("-H '%s'", headers.get(i)));
 
         // this is a GET request
         if ( body == null || body.isEmpty() ) {
-            return String.format("curl '%s'%s", url, headers == null || headers.isEmpty() ? "" :
-                    " " + StringUtils.join(headers, " "));
+            return String.format("curl '%s'%s", url, updatedHeader == null || updatedHeader.isEmpty() ? "" :
+                    " " + StringUtils.join(updatedHeader, " "));
         }
         else {
             return String.format("curl -X POST '%s'%s -d '%s' --insecure --compressed",
                     url,
-                    headers == null || headers.isEmpty() ? "" :
-                        " " + StringUtils.join(headers, " "), body);
+                    updatedHeader == null || updatedHeader.isEmpty() ? "" :
+                        " " + StringUtils.join(updatedHeader, " "), body);
         }
     }
 }
