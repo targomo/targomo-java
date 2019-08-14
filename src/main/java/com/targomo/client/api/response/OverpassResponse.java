@@ -9,7 +9,6 @@ import com.targomo.client.api.TravelOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,24 +18,27 @@ public class OverpassResponse {
 
     private final TravelOptions travelOptions;
     private final JSONObject result;
+    private final PoiType poiType;
     private final long requestEnd;
     private final Map<String, Coordinate> points;
-    private List<String> keys = Arrays.asList("amenity", "shop", "tourism");
+
+    private static final String CENTER = "center";
 
     /**
      * Create a response from JSON results, using given travel options
      * @param travelOptions travel options, from the request
      * @param result Travel times in JSON
      * @param requestStart Start time of execution
+     * @param poiType Specified PoiType for returned elements
      */
-    public OverpassResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+    public OverpassResponse(TravelOptions travelOptions, JSONObject result, long requestStart, PoiType poiType) {
 
         this.travelOptions 	= travelOptions;
-        this.requestEnd		= System.currentTimeMillis() - requestStart;
         this.result         = result;
         this.points         = new HashMap<>();
-
+        this.poiType        = poiType;
         parseResults();
+        this.requestEnd     =  System.currentTimeMillis() - requestStart;
     }
 
     /**
@@ -45,7 +47,7 @@ public class OverpassResponse {
     public void parseResults() {
 
         final JSONArray elements = JsonUtil.getJsonArray(this.result, "elements");
-        String type = this.travelOptions.getOsmTypes().iterator().next().toString();
+        String type = this.poiType.toString();
 
         for (int i = 0; i < elements.length(); i++) {
 
@@ -59,12 +61,12 @@ public class OverpassResponse {
                         JsonUtil.getDouble(element, "lon"),
                         JsonUtil.getDouble(element, "lat"));
             }
-            else if ( "way".equals(JsonUtil.getString(element, "type")) && element.has("center") ) {
+            else if ( "way".equals(JsonUtil.getString(element, "type")) && element.has(CENTER) ) {
 
                 coordinate = new PoiTargetCoordinate(
                         JsonUtil.getString(element, "id") + type,
-                        JsonUtil.getDouble(JsonUtil.getJSONObject(element, "center"), "lon"),
-                        JsonUtil.getDouble(JsonUtil.getJSONObject(element, "center"), "lat"));
+                        JsonUtil.getDouble(JsonUtil.getJSONObject(element, CENTER), "lon"),
+                        JsonUtil.getDouble(JsonUtil.getJSONObject(element, CENTER), "lat"));
             }
             else {
 
@@ -78,11 +80,20 @@ public class OverpassResponse {
         }
     }
 
+    /**
+     * Check if the poiType of the element is the selected poiType or in the list of OSM types
+     * in travel options
+     * @param element PoI element
+     * @return PoiType of the element or exception if unsupported type
+     */
     private PoiType getType(JSONObject element) {
 
         final JSONObject tags = JsonUtil.getJSONObject(element, "tags");
 
-        for ( String key : travelOptions.getOsmTypes().stream().map(PoiType::getKey).collect(Collectors.toList()) )  {
+        List<String> keys = travelOptions.getOsmTypes().stream().map(PoiType::getKey).collect(Collectors.toList());
+        keys.add(poiType.getKey());
+
+        for ( String key : keys )  {
 
             if ( tags.has(key) )
                 return new PoiType(key, JsonUtil.getString(tags, key));
@@ -104,5 +115,9 @@ public class OverpassResponse {
 
     public Map<String, Coordinate> getTargets() {
         return points;
+    }
+
+    public long getRequestEnd() {
+        return requestEnd;
     }
 }
