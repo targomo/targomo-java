@@ -42,6 +42,14 @@ public class OverpassResponse {
     }
 
     /**
+     * Responses without a given PoI type will use the first one found in travel options as before for backwards
+     * compatibility
+     */
+    public OverpassResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+        this(travelOptions, result, requestStart, travelOptions.getOsmTypes().iterator().next());
+    }
+
+    /**
      * Parse results in JSON to travel times map.
      */
     public void parseResults() {
