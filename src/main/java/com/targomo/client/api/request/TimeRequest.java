@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.Constants;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.TimeResponse;
 import com.targomo.client.api.TravelOptions;
@@ -55,9 +56,13 @@ public class TimeRequest {
 
 		long requestStart = System.currentTimeMillis();
 
-		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
-				.queryParam("cb", CALLBACK)
-				.queryParam("key", travelOptions.getServiceKey());
+        WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/time")
+                .queryParam("cb", CALLBACK)
+                .queryParam("key", travelOptions.getServiceKey());
+
+        if (travelOptions.getInterServiceKey() != null && !travelOptions.getInterServiceKey().isEmpty()) {
+            target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+        }
 
 		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);

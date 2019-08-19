@@ -1456,6 +1456,10 @@ public class TravelOptions implements Serializable {
 		return pointOfInterestServiceUrl;
 	}
 
+    public void setPointOfInterestServiceUrl(String pointOfInterestServiceUrl) {
+        this.pointOfInterestServiceUrl = pointOfInterestServiceUrl;
+    }
+
     public String getOverpassServiceUrl() {
         return overpassServiceUrl;
     }

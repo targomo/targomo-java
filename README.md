@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.11</version>
+         <version>0.1.12</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -27,6 +27,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.1.12
+- Change overpass reponse/request to take an alias rather than take the PoI type from travel options. Used for batch
+service requests, other requests will work as before.
+- Fixed CurlUtil error that occurred when an immutable list of headers was passed to the method
 
 ### 0.1.11
 - new aggregation type "count" for multigraph 
