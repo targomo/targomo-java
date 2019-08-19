@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.11</version>
+         <version>0.1.12</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
