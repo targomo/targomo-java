@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.Constants;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created by gerb on 07.06.18.
@@ -59,6 +60,6 @@ public class Geometry implements Serializable {
 
     @Override
     public int hashCode() {
-        return data.hashCode() * type.hashCode() * crs * 31;
+        return Objects.hash(data, type, crs);
     }
 }
