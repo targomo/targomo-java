@@ -56,4 +56,9 @@ public class Geometry implements Serializable {
     public Integer getCrs() {
         return crs;
     }
+
+    @Override
+    public int hashCode() {
+        return data.hashCode() * type.hashCode() * crs * 31;
+    }
 }
