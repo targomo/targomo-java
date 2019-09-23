@@ -1,9 +1,7 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
-import com.targomo.client.api.exception.TargomoAuthorizationException;
 import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.client.api.exception.TargomoRequestException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
 import com.targomo.client.api.util.JsonUtil;
@@ -59,7 +57,7 @@ public class ReachabilityRequest {
 	 * @return Reachability response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public ReachabilityResponse get() throws TargomoClientException, TargomoAuthorizationException, TargomoRequestException {
+	public ReachabilityResponse get() throws TargomoClientException {
 
 		long requestStart = System.currentTimeMillis();
 
@@ -109,7 +107,7 @@ public class ReachabilityRequest {
 	 */
 	private ReachabilityResponse validateResponse(final Response response,
 	                                              final long requestStart, final long roundTripTime)
-			throws TargomoClientException, TargomoAuthorizationException, TargomoRequestException {
+			throws TargomoClientException {
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
@@ -117,10 +115,6 @@ public class ReachabilityRequest {
 			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new ReachabilityResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
-		} else if (response.getStatus() == Response.Status.FORBIDDEN.getStatusCode()) {
-			throw new TargomoAuthorizationException(response.readEntity(String.class) + "FORBIDDEN", null);
-		} else if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-			throw new TargomoRequestException(response.readEntity(String.class) + "BAD_REQUEST", null);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), null);
 		}
