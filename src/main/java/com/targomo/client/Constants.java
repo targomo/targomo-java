@@ -1,5 +1,7 @@
 package com.targomo.client;
 
+import javax.ws.rs.core.Response;
+
 public class Constants {
 
     public static final float NO_VALUE_ENTRY_FLOAT_TROVE_MAPS = -Float.MAX_VALUE;
@@ -137,6 +139,6 @@ public class Constants {
     public static final String DATA   												    = "data";
     public static final String CRS                                                      = "crs";
 
-    public static final int BAD_GATEWAY_CODE                                            = 502;
+    public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
 
 }
