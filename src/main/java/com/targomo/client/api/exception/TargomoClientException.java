@@ -1,39 +1,33 @@
 package com.targomo.client.api.exception;
 
+import lombok.Getter;
+
 public class TargomoClientException extends Exception {
 
 	private static final long serialVersionUID = 748077356312331362L;
-	private int httpStatus;
+	
+	@Getter
+	private int httpStatusCode;
 
 	public TargomoClientException(String message, Throwable throwable) {
-		super(message, throwable);
-		httpStatus = 0;
+		this(message, throwable, 0);
 	}
 
 	public TargomoClientException(String message) {
-		super(message);
-		httpStatus = 0;
+		this(message, 0);
 	}
 
-	public TargomoClientException(String message, Throwable throwable, int httpStatus) {
+	public TargomoClientException(String message, Throwable throwable, int httpStatusCode) {
 		super(message, throwable);
-		this.httpStatus = httpStatus;
+		this.httpStatusCode = httpStatusCode;
 	}
 
-	public TargomoClientException(String message, int httpStatus) {
+	public TargomoClientException(String message, int httpStatusCode) {
 		super(message);
-		this.httpStatus = httpStatus;
+		this.httpStatusCode = httpStatusCode;
 	}
 
-	public boolean hasHttpStatus() {
-		return httpStatus != 0;
-	}
-
-	public int getHttpStatus() {
-		return httpStatus;
-	}
-
-	public void setHttpStatus(int status) {
-		httpStatus = status;
+	public boolean hasHttpStatusCode() {
+		return httpStatusCode != 0;
 	}
 }
