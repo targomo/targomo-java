@@ -137,5 +137,6 @@ public class Constants {
     public static final String DATA   												    = "data";
     public static final String CRS                                                      = "crs";
 
+    public static final int BAD_GATEWAY_CODE                                            = 502;
 
 }

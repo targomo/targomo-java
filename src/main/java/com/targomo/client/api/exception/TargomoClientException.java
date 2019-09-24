@@ -1,5 +1,6 @@
 package com.targomo.client.api.exception;
 
+import com.targomo.client.Constants;
 import lombok.Getter;
 
 public class TargomoClientException extends Exception {
@@ -10,11 +11,11 @@ public class TargomoClientException extends Exception {
 	private int httpStatusCode;
 
 	public TargomoClientException(String message, Throwable throwable) {
-		this(message, throwable, 0);
+		this(message, throwable, Constants.BAD_GATEWAY_CODE);
 	}
 
 	public TargomoClientException(String message) {
-		this(message, 0);
+		this(message, Constants.BAD_GATEWAY_CODE);
 	}
 
 	public TargomoClientException(String message, Throwable throwable, int httpStatusCode) {
