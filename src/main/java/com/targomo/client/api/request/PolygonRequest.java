@@ -118,7 +118,7 @@ public class PolygonRequest {
 		else if (HttpMethod.POST.equals(method)) {
 			response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 		} else {
-			throw new TargomoClientException("HTTP Method not supported: " + this.method, null);
+			throw new TargomoClientException("HTTP Method not supported: " + this.method);
 		}
 
 		// Execution time
@@ -152,7 +152,7 @@ public class PolygonRequest {
 					|| Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
 					|| Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
 					|| Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
-				throw new TargomoClientException(result.toString(), null);
+				throw new TargomoClientException(result.toString(), response.getStatus());
 			}
 
 			return new PolygonResponse(travelOptions, result,
@@ -161,7 +161,7 @@ public class PolygonRequest {
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new PolygonResponse(travelOptions, new JSONObject(), "gateway-time-out", -1, roundTripTimeMillis);
 		} else {
-			throw new TargomoClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
+			throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
 		}
 	}
 

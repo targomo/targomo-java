@@ -113,7 +113,7 @@ public class OverpassRequest {
 			return overpassResponse;
 		}
 		else {
-			throw new TargomoClientException(response.readEntity(String.class), null);
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
 	}
 }

@@ -116,7 +116,7 @@ public class ReachabilityRequest {
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new ReachabilityResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
 		} else {
-			throw new TargomoClientException(response.readEntity(String.class), null, response.getStatus());
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
 	}
 }
