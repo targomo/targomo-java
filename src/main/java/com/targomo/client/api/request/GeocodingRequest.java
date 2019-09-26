@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * The {@link GeocodingRequest} uses the ESRI webservice to request a coordinate candidates for one or more addresses.
@@ -207,7 +208,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param singleLineAddress e.g. "Chausseestr. 101, 10115 Berlin"
      * @return the parsed REST service response
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     @Override
@@ -221,7 +222,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param address e.g. <pre>new Address("Chausseestr. 101","","Berlin","10115",null);</pre>
      * @return the parsed REST service response
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse get(Address address) throws TargomoClientException, ProcessingException {
@@ -250,10 +251,10 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param queryPrep function to prepare the query
      * @return the resulting {@link GeocodingResponse}
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
-    private GeocodingResponse get(Function<WebTarget,WebTarget> queryPrep)
+    private GeocodingResponse get(UnaryOperator<WebTarget> queryPrep)
             throws TargomoClientException, ProcessingException {
 
         //prepare statement
@@ -276,7 +277,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             } else
                 finalTarget = target;
             //execute request
-            LOGGER.debug("Executing geocoding request to URI: " + finalTarget.getUri());
+            LOGGER.debug("Executing geocoding request to URI: {}", finalTarget.getUri());
             WebTarget immutableTarget = finalTarget;
             Response response = null;
             try {
@@ -315,7 +316,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * Private method to make sure a valid access token is set for the next request
      *
      * @return true if successful
-     * @throws TargomoClientException if unsuccessful
+     * @throws TargomoClientException if unsuccessful. This does not query a Targomo Service.
      */
     private boolean authenticateWithAccountAndRetrieveValidToken() throws TargomoClientException {
 
@@ -333,7 +334,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * valid token (which can expire after a while)
      *
      * @return the access token
-     * @throws TargomoClientException if unsuccessful - otherwise returns the access token
+     * @throws TargomoClientException if unsuccessful - otherwise returns the access token. This does not query a Targomo Service.
      */
     private String retrieveNewTokenViaAuthentication() throws TargomoClientException {
         WebTarget target = client
@@ -380,7 +381,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param triesBeforeFail greater than or equal to 1
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
@@ -401,7 +402,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param triesBeforeFail greater than or equal to 1
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchParallel( final int parallelThreads, final int triesBeforeFail,
@@ -424,7 +425,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param addresses not null and with at least on element
      * @param <A> address type (String or {@link Address})
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     private <A> GeocodingResponse[] getBatchParallel(
@@ -493,7 +494,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchSequential(String... addresses) throws TargomoClientException, ProcessingException {
@@ -507,7 +508,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     public GeocodingResponse[] getBatchSequential(Address... addresses) throws TargomoClientException, ProcessingException {
@@ -525,7 +526,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param addresses not null and with at least on element
      * @return the resulting individual responses - same order as input addresses
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      * @throws ProcessingException when connection error occurs
      */
     private <A> GeocodingResponse[] getBatchSequential(final GetRequest<A,GeocodingResponse> singleRequest,
@@ -544,7 +545,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param response object to be validated
      * @return interpreted {@link GeocodingResponse}
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      */
     private GeocodingResponse validateGeocodingResponse(final Response response) throws TargomoClientException {
         return validateResponse(response, GeocodingResponse::createFromJson);
@@ -555,7 +556,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      *
      * @param response object to be validated
      * @return interpreted {@link AuthenticationResponse}
-     * @throws TargomoClientException when error occurs during request
+     * @throws TargomoClientException when error occurs during request. This does not query a Targomo Service.
      */
     private AuthenticationResponse validateAuthenticationResponse(final Response response) throws TargomoClientException{
         return validateResponse(response, jsonString -> {
@@ -574,7 +575,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
      * @param parser the parser that is executed if no errors occurred
      * @param <T> the return type of the response, e.g. {@link AuthenticationResponse} or {@link GeocodingResponse}
      * @return interpreted/parsed response of type T
-     * @throws TargomoClientException when an unexpected error occurs during request
+     * @throws TargomoClientException when an unexpected error occurs during request. This does not query a Targomo Service.
      */
     private <T> T validateResponse(final Response response, final Function<String,T> parser) throws TargomoClientException {
         // compare the HTTP status codes, NOT the route 360 code

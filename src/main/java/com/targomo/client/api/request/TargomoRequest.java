@@ -156,10 +156,10 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
                         || Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
                         || Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
                         || Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
-                    throw new TargomoClientException(resultString, null);
+                    throw new TargomoClientException(resultString, response.getStatus());
                 }
             } catch (IOException e) {
-                throw new TargomoClientException("Exception occurred for result: " + resultString, e);
+                throw new TargomoClientException("Exception occurred for result: " + resultString, e, response.getStatus());
             }
         } else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
             parsedResponse = DefaultResponse.createGatewayTimeoutResponse(clazz);
@@ -169,7 +169,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
             parsedResponse.finishDeserialization(travelOptions, roundTripTimeMillis, System.currentTimeMillis() - startParsing);
             return parsedResponse;
         } else {
-            throw new TargomoClientException("Status: " + response.getStatus() + ": " + response.readEntity(String.class), null);
+            throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
         }
     }
 }
