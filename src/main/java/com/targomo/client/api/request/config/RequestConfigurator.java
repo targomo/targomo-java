@@ -298,7 +298,7 @@ public final class RequestConfigurator {
             if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
                 multiGraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_DECIMAL_PRECISION, travelOptions.getMultiGraphSerializationDecimalPrecision());
 
-            if ( travelOptions.getMultiGraphSerializationDecimalPrecision() != null )
+            if ( travelOptions.getMultiGraphSerializationMaxGeometryCount() != null )
                 multiGraphSerialization.put(Constants.MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
 
             multiGraph.put( Constants.MULTIGRAPH_SERIALIZATION, multiGraphSerialization);
