@@ -117,7 +117,7 @@ public class PointOfInterestResponse {
     @ToString
     public static class POI {
         String type;
-        long id;
+        String id;
         double lat;
         double lng;
         Map<String,String> tags;
