@@ -39,9 +39,16 @@ public class PointOfInterestRequestTest extends RequestTest {
         PointOfInterestResponse poiResponse = poiRequest.get();
         HashMap<String,PointOfInterestResponse.POI> result = poiResponse.getResultAsMap();
         assertEquals(4, result.size());
-        assert(result.keySet().contains("5846976255"));
 
+        // old poi service ids
+        assert(result.keySet().contains("5846976255"));
+        assert(result.get("5846976255").getId().equals("5846976255"));
+
+        // new poi service ids
+        assert(result.keySet().contains("1_1639569032"));
+        assert(result.get("1_1639569032").getId().equals("1_1639569032"));
     }
+
     @Test
     @Ignore("To test this you will have to fill in your API key first")
     public void get_success_API_test() throws Exception {
