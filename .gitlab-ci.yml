@@ -4,7 +4,7 @@ include:
     ref: v1.3
     file: '.global-configuration.yml'
 
-image: docker.eu.targomo.com/docker/general-image/service/psql9.6:0.0.4
+image: $CI_REGISTRY/docker/general-image/service/psql9.6:0.0.10
 
 stages:
   - build
