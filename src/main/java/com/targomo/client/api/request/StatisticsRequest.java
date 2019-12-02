@@ -143,7 +143,7 @@ public class StatisticsRequest {
 			return new StatisticsResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
 		}
 		else {
-			throw new TargomoClientException(response.readEntity(String.class), null);
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
 	}
 

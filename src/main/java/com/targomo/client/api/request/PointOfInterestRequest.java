@@ -92,7 +92,7 @@ public class PointOfInterestRequest {
 			return new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
 		}
 		else {
-			throw new TargomoClientException(response.readEntity(String.class), null);
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
 	}
 }

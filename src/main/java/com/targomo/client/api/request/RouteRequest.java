@@ -94,7 +94,7 @@ public class RouteRequest {
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new RouteResponse(travelOptions, new JSONArray(), "gateway-time-out", System.currentTimeMillis() - requestStart);
 		} else {
-			throw new TargomoClientException(response.readEntity(String.class), null);
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
 	}
 }

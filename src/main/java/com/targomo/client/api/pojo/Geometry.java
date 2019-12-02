@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.Constants;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created by gerb on 07.06.18.
@@ -55,5 +56,10 @@ public class Geometry implements Serializable {
      */
     public Integer getCrs() {
         return crs;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data, type, crs);
     }
 }
