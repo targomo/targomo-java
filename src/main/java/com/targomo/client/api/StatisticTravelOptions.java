@@ -3,6 +3,7 @@ package com.targomo.client.api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
@@ -44,6 +45,9 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Transient
     private Map<String,Short> multiGraphReferencedStatisticIds = null;
+
+    @Transient
+    private MultiGraphTravelTimeApproximation multiGraphTravelTimeApproximation = null;
 
     @Transient
     private Integer multiGraphDomainStatisticGroupId = null;
@@ -97,6 +101,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
+                multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
                 Objects.equals(statisticIds, that.statisticIds);
     }
 
@@ -104,7 +109,7 @@ public class StatisticTravelOptions extends TravelOptions {
     public int hashCode() {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
-                multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
+                multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds);
     }
 
@@ -156,6 +161,14 @@ public class StatisticTravelOptions extends TravelOptions {
         this.multiGraphLayerUnboundedStatistics = multiGraphLayerUnboundedStatistics;
     }
 
+    public MultiGraphTravelTimeApproximation getMultiGraphTravelTimeApproximation() {
+        return multiGraphTravelTimeApproximation;
+    }
+
+    public void setMultiGraphTravelTimeApproximation(MultiGraphTravelTimeApproximation multiGraphTravelTimeApproximation) {
+        this.multiGraphTravelTimeApproximation = multiGraphTravelTimeApproximation;
+    }
+
     public void setStatisticIds(List<Short> statisticIds) {
         this.statisticIds = statisticIds ;
     }
@@ -183,7 +196,9 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append("\n\tmultiGraphDomainStatisticGroupId: ");
         builder.append(multiGraphDomainStatisticGroupId);
         builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
-        builder.append( multiGraphLayerUnboundedStatistics );
+        builder.append(multiGraphLayerUnboundedStatistics);
+        builder.append("\n\tmultiGraphTravelTimeApproximation: ");
+        builder.append(multiGraphTravelTimeApproximation);
         builder.append("\n\tstatisticIds: ");
         builder.append(statisticIds != null ? statisticIds.toString() : "[]");
         builder.append("\n}\n");
