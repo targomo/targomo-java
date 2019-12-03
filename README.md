@@ -29,7 +29,11 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.13
-to be filled
+- Added consistent hashCode calculation on Geometry class
+- Added new exception types according to core service responses
+- Fixes on RequestConfigurator while parsing the input request data
+- Some adaptations to use the new poi service
+- Improvements for travel time estimation
 
 ### 0.1.12
 - Change overpass reponse/request to take an alias rather than take the PoI type from travel options. Used for batch
