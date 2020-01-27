@@ -28,6 +28,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.1.15
+- 
+
 ### 0.1.14
 - updated log4j and slf4j versions
 - updated the PointOfInterestResponse (since the service return changed slightly)
