@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.13</version>
+         <version>0.1.14</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -27,6 +27,10 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.1.14
+- updated log4j and slf4j versions
+- updated the PointOfInterestResponse (since the service return changed slightly)
 
 ### 0.1.13
 - Added consistent hashCode calculation on Geometry class
