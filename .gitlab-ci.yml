@@ -1,7 +1,7 @@
 # Include Global Configurations
 include:
   - project: 'api-server/gitlab-ci-scripts'
-    ref: v1.3
+    ref: v1.6
     file: '.global-configuration.yml'
 
 image: $CI_REGISTRY/docker/general-image/service/psql9.6:0.0.10
