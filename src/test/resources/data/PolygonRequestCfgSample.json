@@ -1,5 +1,5 @@
 {
-  "elevation": false,
+  "elevation": true,
   "polygon": {
     "pointReduction": true,
     "intersectionMode": "UNION",

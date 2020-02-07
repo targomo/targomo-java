@@ -90,7 +90,7 @@ public class TravelOptions implements Serializable {
 	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
 
     @Column(name = "elevation_enabled")
-    private Boolean elevationEnabled                                = false;
+    private Boolean elevationEnabled                                = true;
 
     @Transient private Boolean appendTravelTimes                    = false;
     @Transient private Boolean pointReduction                       = true;

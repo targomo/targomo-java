@@ -376,7 +376,7 @@
     }
   ],
   "pathSerializer": "compact",
-  "elevation": false,
+  "elevation": true,
   "reverse": false,
   "maxEdgeWeight": 3600,
   "edgeWeight": "TIME"
