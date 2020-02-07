@@ -29,7 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.15
-- 
+- Change `elevationEnabled` default to true
 
 ### 0.1.14
 - updated log4j and slf4j versions
