@@ -23,6 +23,7 @@ public enum MultiGraphAggregationType {
     COUNT               (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT,            true,  false, false),
     ROUTING_UNION       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,    false, false, true),
     GRAVITATION_HUFF    (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF, true,  true,  false),
+    GRAVITATION_QUALITY (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_QUALITY, true,  false,  false), //TODO requires most gravitational parameters
     MATH                (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,             false, false, false);
 
     private final String key;
