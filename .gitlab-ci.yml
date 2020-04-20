@@ -31,7 +31,7 @@ sonarqube:
      - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
      - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
      - cp targomo-config/mvn/settings.xml settings.xml
-     - mvn --settings /.ci/settings.xml verify sonar:sonar
+     - mvn --settings settings.xml verify sonar:sonar
       -Dsonar.host.url=$SONARQUBE_URL
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
