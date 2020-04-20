@@ -14,7 +14,8 @@ stages:
 build:
    stage: build
    script:
-     - curl --request GET --header "PRIVATE-TOKEN: ${PRIVATE_GITLAB_TOKEN}" -o ${MAVEN_SETTINGS_FILE_PATH} "${PRIVATE_GITLAB_URL}/api/v4/projects/224/repository/files/mvn%2Fsettings.xml/raw?ref=master"
+     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+     - cp targomo-config/mvn/settings.xml settings.xml
      - mvn --settings settings.xml clean compile
    only:
      - /^feature.*$/
@@ -23,7 +24,8 @@ build:
 sonarqube:
    stage: test
    script:
-     - curl --request GET --header "PRIVATE-TOKEN: ${PRIVATE_GITLAB_TOKEN}" -o ${MAVEN_SETTINGS_FILE_PATH} "${PRIVATE_GITLAB_URL}/api/v4/projects/224/repository/files/mvn%2Fsettings.xml/raw?ref=master"
+     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+     - cp targomo-config/mvn/settings.xml settings.xml
      - mvn --settings /.ci/settings.xml verify sonar:sonar
       -Dsonar.host.url=$SONARQUBE_URL
       -Dsonar.login=$SONARQUBE_TOKEN
@@ -37,7 +39,8 @@ sonarqube:
 deploy_maven:
   stage: deploy
   script:
-    - curl --request GET --header "PRIVATE-TOKEN: ${PRIVATE_GITLAB_TOKEN}" -o ${MAVEN_SETTINGS_FILE_PATH} "${PRIVATE_GITLAB_URL}/api/v4/projects/224/repository/files/mvn%2Fsettings.xml/raw?ref=master"
+    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -DperformRelease=true deploy
   artifacts:
     name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
@@ -50,6 +53,8 @@ deploy_maven:
 deploy_nexus:
   stage: deploy
   script:
+    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -Dmaven.test.skip=true deploy
   artifacts:
     name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
