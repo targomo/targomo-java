@@ -259,4 +259,3 @@ deploy_nexus:
 
 before_script:
   - *auto_devops
-  - docker_login
