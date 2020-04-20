@@ -17,7 +17,7 @@ stages:
 build:
    stage: build
    script:
-     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+     - git clone "git@code.eu.targomo.com:api-server/gitlab-ci-scripts.git" targomo-config
      - cp targomo-config/mvn/settings.xml settings.xml
      - mvn --settings settings.xml clean compile
    only:
@@ -27,7 +27,7 @@ build:
 sonarqube:
    stage: test
    script:
-     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+     - git clone "git@code.eu.targomo.com:api-server/gitlab-ci-scripts.git" targomo-config
      - cp targomo-config/mvn/settings.xml settings.xml
      - mvn --settings /.ci/settings.xml verify sonar:sonar
       -Dsonar.host.url=$SONARQUBE_URL
@@ -42,7 +42,7 @@ sonarqube:
 deploy_maven:
   stage: deploy
   script:
-    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - git clone "git@code.eu.targomo.com:api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -DperformRelease=true deploy
   artifacts:
@@ -56,7 +56,7 @@ deploy_maven:
 deploy_nexus:
   stage: deploy
   script:
-    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - git clone "git@code.eu.targomo.com:api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -Dmaven.test.skip=true deploy
   artifacts:
