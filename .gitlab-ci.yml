@@ -94,7 +94,7 @@ deploy_nexus:
       cat java-server/src/main/resources/server-config.override.json
       # batch mode hides the download output
       # https://stackoverflow.com/questions/21638697/disable-maven-download-progress-indication
-      mvn install --batch-mode --settings settings.xml -pl java-server -am -DskipTests
+      mvn install --batch-mode --settings /.ci/settings.xml -pl java-server -am -DskipTests
       docker build -t "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" .
 
     else
