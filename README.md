@@ -30,6 +30,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
+- Added "quality" multigraph aggregation
 
 ### 0.1.14
 - updated log4j and slf4j versions
