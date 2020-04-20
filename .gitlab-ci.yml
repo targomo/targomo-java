@@ -57,3 +57,7 @@ deploy_nexus:
     - /^feature.*$/
     - /^release.*$/
     - develop
+
+before_script:
+  - *auto_devops
+  - docker_login
