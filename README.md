@@ -30,6 +30,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
+- Changed Timeservice response format to return both travelTime and length between a source and a target
 
 ### 0.1.14
 - updated log4j and slf4j versions
