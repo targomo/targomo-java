@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class TimeResponse {
 
@@ -97,11 +99,29 @@ public class TimeResponse {
 		this.travelWeights.putIfAbsent(source, new HashMap<>());
 		this.travelWeights.get(source).put(target, new TravelWeight(length, travelTime));
 	}
-	
+
 	/**
 	 * @param source Source coordinate
 	 * @param target Target coordinate
 	 * @return null if the source or the target is not available, the travel time otherwise
+	 */
+	public Integer getTravelTime(Coordinate source, Coordinate target) {
+		return this.getTravelWeight(source, target).getTravelTime();
+	}
+
+	/**
+	 * @param source Source coordinate
+	 * @param target Target coordinate
+	 * @return null if the source or the target is not available, the travel time otherwise
+	 */
+	public Integer getLength(Coordinate source, Coordinate target) {
+		return this.getTravelWeight(source, target).getTravelDistance();
+	}
+
+	/**
+	 * @param source Source coordinate
+	 * @param target Target coordinate
+	 * @return null if the source or the target is not available, the travel weight otherwise
 	 */
 	public TravelWeight getTravelWeight(Coordinate source, Coordinate target) {
 		return this.travelWeights.getOrDefault(source, null).getOrDefault(target, new TravelWeight(-1, -1));
@@ -129,13 +149,32 @@ public class TimeResponse {
 	}
 	
 	/**
-	 * Get travel times from each source point to each target point.
+	 * Get travel weights from each source point to each target point.
 	 * @return map from each source to (targets, travel times)
 	 */
 	public Map<Coordinate, Map<Coordinate, TravelWeight>> getTravelWeights() {
 		return this.travelWeights;
 	}
-	
+
+	/**
+	 * Get travel times from each source point to each target point.
+	 * @return map from each source to (targets, travel times)
+	 */
+	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
+
+		Map<Coordinate, Map<Coordinate, Integer>> filteredMap = new HashMap<>();
+
+		this.travelWeights.entrySet().forEach(entry ->
+				filteredMap.put(
+						entry.getKey(),
+						entry.getValue().entrySet().stream()
+						.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getTravelTime())))
+		);
+
+		return filteredMap;
+	}
+
+
 	/**
 	 * @return Total execution time
 	 */

@@ -37,7 +37,7 @@ public class TimeRequestTest extends RequestTest {
         assertEquals("ok", timeResponse.getCode());
         assertEquals(472, timeResponse.getRequestTimeMillis());
         assertNotNull(timeResponse.getTravelWeights());
-
+        assertNotNull(timeResponse.getTravelTimes());
     }
 
     @Test
