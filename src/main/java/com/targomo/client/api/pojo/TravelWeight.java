@@ -1,19 +1,18 @@
 package com.targomo.client.api.pojo;
 
-/**
- * @author Mario Freitas
- */
-
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class is responsible for storing the distance and time taken to route between a source and target
  * @author Mario Freitas
  */
+@Getter @Setter
 @AllArgsConstructor
 public class TravelWeight {
 
-    public final int travelDistance;
-    public final int travelTime;
+    private final int travelDistance;
+    private final int travelTime;
 
 }

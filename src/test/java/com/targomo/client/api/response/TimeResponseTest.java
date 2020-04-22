@@ -42,8 +42,8 @@ public class TimeResponseTest {
 			assertNotNull(targets);
 			for (int j = 0; j < sampleTargets.length(); j++) {
 				JSONObject target = sampleTargets.getJSONObject(j);
-				assertNotNull(targets.get(options.getTarget(target.getString("id"))).travelDistance);
-				assertNotNull(targets.get(options.getTarget(target.getString("id"))).travelTime);
+				assertNotNull(targets.get(options.getTarget(target.getString("id"))).getTravelDistance());
+				assertNotNull(targets.get(options.getTarget(target.getString("id"))).getTravelTime());
 			}
 		}
 	}
