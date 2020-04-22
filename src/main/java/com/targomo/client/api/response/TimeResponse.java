@@ -3,6 +3,7 @@ package com.targomo.client.api.response;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.pojo.TravelWeight;
 import com.targomo.client.api.util.JsonUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ public class TimeResponse {
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
 	
-	private final Map<Coordinate, Map<Coordinate,Integer>> travelTimes = new HashMap<>();
+	private final Map<Coordinate, Map<Coordinate,TravelWeight>> travelWeights = new HashMap<>();
 
 	/**
 	 * Create a response from JSON results.
@@ -73,13 +74,14 @@ public class TimeResponse {
 			String srcId = JsonUtil.getString(source, "id");
 			JSONArray targets = JsonUtil.getJsonArray(source, "targets");
 
-			this.travelTimes.putIfAbsent(travelOptions.getSource(srcId), new HashMap<>());
+			this.travelWeights.putIfAbsent(travelOptions.getSource(srcId), new HashMap<>());
 
 			for (int j = 0; j < targets.length(); j++) {
 				JSONObject target = JsonUtil.getJSONObject(targets, j);
 				String trgId = JsonUtil.getString(target, "id");
 
-				addTravelTime(travelOptions.getSource(srcId), travelOptions.getTarget(trgId), JsonUtil.getInt(target, "travelTime"));
+				addTravelWeight(travelOptions.getSource(srcId), travelOptions.getTarget(trgId),
+						JsonUtil.getInt(target, "travelTime"), JsonUtil.getInt(target, "length"));
 			}
 		}
 	}
@@ -88,11 +90,12 @@ public class TimeResponse {
 	 * @param source Source coordinate
 	 * @param target Target coordinate
 	 * @param travelTime Travel time to be added
+	 * @param length Travel distance to be added
 	 */
-	public void addTravelTime(Coordinate source, Coordinate target, Integer travelTime) {
+	public void addTravelWeight(Coordinate source, Coordinate target, Integer travelTime, Integer length) {
 		
-		this.travelTimes.putIfAbsent(source, new HashMap<>());
-		this.travelTimes.get(source).put(target, travelTime);
+		this.travelWeights.putIfAbsent(source, new HashMap<>());
+		this.travelWeights.get(source).put(target, new TravelWeight(length, travelTime));
 	}
 	
 	/**
@@ -100,8 +103,8 @@ public class TimeResponse {
 	 * @param target Target coordinate
 	 * @return null if the source or the target is not available, the travel time otherwise
 	 */
-	public Integer getTravelTime(Coordinate source, Coordinate target) {
-		return this.travelTimes.getOrDefault(source, null).getOrDefault(target, -1);
+	public TravelWeight getTravelWeight(Coordinate source, Coordinate target) {
+		return this.travelWeights.getOrDefault(source, null).getOrDefault(target, new TravelWeight(-1, -1));
 	}
 
 	/**
@@ -129,8 +132,8 @@ public class TimeResponse {
 	 * Get travel times from each source point to each target point.
 	 * @return map from each source to (targets, travel times)
 	 */
-	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
-		return this.travelTimes;
+	public Map<Coordinate, Map<Coordinate, TravelWeight>> getTravelWeights() {
+		return this.travelWeights;
 	}
 	
 	/**
