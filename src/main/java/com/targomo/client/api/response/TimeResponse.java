@@ -21,6 +21,8 @@ public class TimeResponse {
 	private final TravelOptions travelOptions;
 	
 	private final Map<Coordinate, Map<Coordinate,TravelWeight>> travelWeights = new HashMap<>();
+	private Map<Coordinate, Map<Coordinate, Integer>> travelTimes = null;
+	private Map<Coordinate, Map<Coordinate, Integer>> travelDistances = null;
 
 	/**
 	 * Create a response from JSON results.
@@ -162,18 +164,38 @@ public class TimeResponse {
 	 */
 	public Map<Coordinate, Map<Coordinate, Integer>> getTravelTimes() {
 
-		Map<Coordinate, Map<Coordinate, Integer>> filteredMap = new HashMap<>();
+		if (travelTimes == null) {
+			travelTimes = new HashMap<>();
 
-		this.travelWeights.entrySet().forEach(entry ->
-				filteredMap.put(
-						entry.getKey(),
-						entry.getValue().entrySet().stream()
-						.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getTravelTime())))
-		);
-
-		return filteredMap;
+			this.travelWeights.entrySet().forEach(entry ->
+					travelTimes.put(
+							entry.getKey(),
+							entry.getValue().entrySet().stream()
+									.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getTravelTime())))
+			);
+		}
+		return travelTimes;
 	}
 
+	/**
+	 * Get travel distances from each source point to each target point.
+	 * @return map from each source to (targets, lengths)
+	 */
+	public Map<Coordinate, Map<Coordinate, Integer>> getLengths() {
+
+		if (travelDistances == null) {
+			travelDistances = new HashMap<>();
+
+			this.travelWeights.entrySet().forEach(entry ->
+					travelDistances.put(
+							entry.getKey(),
+							entry.getValue().entrySet().stream()
+									.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getTravelDistance())))
+			);
+
+		}
+		return travelDistances;
+	}
 
 	/**
 	 * @return Total execution time
