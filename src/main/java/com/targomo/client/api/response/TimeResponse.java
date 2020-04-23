@@ -8,12 +8,15 @@ import com.targomo.client.api.util.JsonUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class TimeResponse {
+
+	private static final TravelWeight EMPTY_TRAVELWEIGHT = new TravelWeight(-1, -1);
 
 	private final String code;
 	private final long requestTimeMillis;
@@ -126,7 +129,7 @@ public class TimeResponse {
 	 * @return null if the source or the target is not available, the travel weight otherwise
 	 */
 	public TravelWeight getTravelWeight(Coordinate source, Coordinate target) {
-		return this.travelWeights.getOrDefault(source, null).getOrDefault(target, new TravelWeight(-1, -1));
+		return this.travelWeights.getOrDefault(source, Collections.emptyMap()).getOrDefault(target, EMPTY_TRAVELWEIGHT);
 	}
 
 	/**
