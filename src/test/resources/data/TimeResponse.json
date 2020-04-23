@@ -5,15 +5,18 @@
       "targets": [
         {
           "id": "id0",
-          "travelTime": -1
+          "travelTime": -1,
+          "length": -1
         },
         {
           "id": "id2",
-          "travelTime": 1
+          "travelTime": 1,
+          "length": -1
         },
         {
           "id": "id1",
-          "travelTime": 833
+          "travelTime": 833,
+          "length": 1024
         }
       ]
     },
@@ -22,15 +25,18 @@
       "targets": [
         {
           "id": "id0",
-          "travelTime": -1
+          "travelTime": -1,
+          "length": -1
         },
         {
           "id": "id2",
-          "travelTime": 3059
+          "travelTime": 3059,
+          "length": 2054
         },
         {
           "id": "id1",
-          "travelTime": 2953
+          "travelTime": 2953,
+          "length": 1908
         }
       ]
     },
@@ -39,15 +45,18 @@
       "targets": [
         {
           "id": "id0",
-          "travelTime": -1
+          "travelTime": -1,
+          "length": -1
         },
         {
           "id": "id2",
-          "travelTime": 1
+          "travelTime": 1,
+          "length": -1
         },
         {
           "id": "id1",
-          "travelTime": 833
+          "travelTime": 833,
+          "length": 1024
         }
       ]
     }

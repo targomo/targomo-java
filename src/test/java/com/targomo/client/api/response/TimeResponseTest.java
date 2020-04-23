@@ -6,6 +6,7 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.pojo.TravelWeight;
 import com.targomo.client.api.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -30,18 +31,19 @@ public class TimeResponseTest {
 		TravelOptions options = getTravelOptions();
 		TimeResponse timeResponse = new TimeResponse(options, sampleObject, 123);
 		assertEquals("ok", timeResponse.getCode());
-		Map<Coordinate, Map<Coordinate, Integer>> resultMap = timeResponse.getTravelTimes();
+		Map<Coordinate, Map<Coordinate, TravelWeight>> resultMap = timeResponse.getTravelWeights();
 		JSONArray sampleDataArray = sampleObject.getJSONArray("data");
 		assertEquals(sampleDataArray.length(), resultMap.size());
 		for (int i = 0; i < sampleDataArray.length(); i++) {
 			JSONObject element = (JSONObject) sampleDataArray.get(i);
 			String sourceId = element.getString("id");
 			JSONArray sampleTargets = element.getJSONArray("targets");
-			Map<Coordinate, Integer> targets = resultMap.get(options.getSource(sourceId));
+			Map<Coordinate, TravelWeight> targets = resultMap.get(options.getSource(sourceId));
 			assertNotNull(targets);
 			for (int j = 0; j < sampleTargets.length(); j++) {
 				JSONObject target = sampleTargets.getJSONObject(j);
-				assertNotNull(targets.get(options.getTarget(target.getString("id"))));
+				assertNotNull(targets.get(options.getTarget(target.getString("id"))).getTravelDistance());
+				assertNotNull(targets.get(options.getTarget(target.getString("id"))).getTravelTime());
 			}
 		}
 	}
