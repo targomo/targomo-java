@@ -29,6 +29,10 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.15
+
+- To be added
+
+### 0.1.15
 - Change `elevationEnabled` default to true
 - Changed Timeservice response format to return both travelTime and length between a source and a target
 
