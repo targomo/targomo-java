@@ -15,33 +15,33 @@ stages:
   - deploy
 
 build:
-   stage: build
-   script:
-     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-     - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
-     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
-     - cp targomo-config/mvn/settings.xml settings.xml
-     - mvn --settings settings.xml clean compile
-   only:
-     - /^feature.*$/
-     - develop
+  stage: build
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
+    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - cp targomo-config/mvn/settings.xml settings.xml
+    - mvn --settings settings.xml clean compile
+  only:
+    - /^feature.*$/
+    - develop
 
 sonarqube:
-   stage: test
-   script:
-     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-     - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
-     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
-     - cp targomo-config/mvn/settings.xml settings.xml
-     - mvn --settings settings.xml verify sonar:sonar
+  stage: test
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
+    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - cp targomo-config/mvn/settings.xml settings.xml
+    - mvn --settings settings.xml verify sonar:sonar
       -Dsonar.host.url=$SONARQUBE_URL
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
       -Dsonar.branch.target=develop
-     - cat target/site/jacoco-ut/index.html
-   only:
-     - /^feature.*$/
-     - develop
+    - cat target/site/jacoco-ut/index.html
+  only:
+    - /^feature.*$/
+    - develop
 
 deploy_maven:
   stage: deploy
