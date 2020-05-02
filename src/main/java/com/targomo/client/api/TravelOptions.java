@@ -78,7 +78,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
-    @Transient private Integer trafficJunctionPenalty        = null;
+    @Transient private Integer trafficJunctionPenalty      = null;
     @Transient private Integer trafficSignalPenalty        = null;
 
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
@@ -130,6 +130,8 @@ public class TravelOptions implements Serializable {
     @Transient private Float multiGraphAggregationOutlierPenalty                             = null;
     @Transient private Double multiGraphAggregationMinSourcesRatio                           = null;
     @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
+    @Transient private Float multiGraphAggregationMinSourcesValue                            = null;
+    @Transient private Float multiGraphAggregationMaxSourcesValue                            = null;
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMaxResultValue                             = null;
     @Transient private String multiGraphAggregationMathExpression                            = null;
@@ -816,6 +818,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationOutlierPenalty, that.multiGraphAggregationOutlierPenalty) &&
                 Objects.equals(multiGraphAggregationMinSourcesRatio, that.multiGraphAggregationMinSourcesRatio) &&
                 Objects.equals(multiGraphAggregationMinSourcesCount, that.multiGraphAggregationMinSourcesCount) &&
+                Objects.equals(multiGraphAggregationMinSourcesValue, that.multiGraphAggregationMinSourcesValue) &&
+                Objects.equals(multiGraphAggregationMaxSourcesValue, that.multiGraphAggregationMaxSourcesValue) &&
                 Objects.equals(multiGraphAggregationMaxResultValueRatio, that.multiGraphAggregationMaxResultValueRatio) &&
                 Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
                 Objects.equals(multiGraphAggregationFilterValuesForSourceOrigins, that.multiGraphAggregationFilterValuesForSourceOrigins) &&
@@ -871,6 +875,7 @@ public class TravelOptions implements Serializable {
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
+                multiGraphAggregationMinSourcesValue, multiGraphAggregationMaxSourcesValue,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
                 multiGraphAggregationGravitationExponent, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
@@ -984,6 +989,10 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationMinSourcesRatio);
         builder.append("\n\tmultiGraphAggregationMinSourcesCount: ");
         builder.append(multiGraphAggregationMinSourcesCount);
+        builder.append("\n\tmultiGraphAggregationMinSourcesValue: ");
+        builder.append(multiGraphAggregationMinSourcesValue);
+        builder.append("\n\tmultiGraphAggregationMaxSourcesValue: ");
+        builder.append(multiGraphAggregationMaxSourcesValue);
         builder.append("\n\tmultiGraphAggregationMaxResultValueRatio: ");
         builder.append(multiGraphAggregationMaxResultValueRatio);
         builder.append("\n\tmultiGraphAggregationMaxResultValue: ");
@@ -1259,6 +1268,22 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphAggregationMinSourcesCount(Integer multiGraphAggregationMinSourcesCount) {
         this.multiGraphAggregationMinSourcesCount = multiGraphAggregationMinSourcesCount;
+    }
+
+    public Float getMultiGraphAggregationMinSourcesValue() {
+        return multiGraphAggregationMinSourcesValue;
+    }
+
+    public void setMultiGraphAggregationMinSourcesValue(Float multiGraphAggregationMinSourcesValue) {
+        this.multiGraphAggregationMinSourcesValue = multiGraphAggregationMinSourcesValue;
+    }
+
+    public Float getMultiGraphAggregationMaxSourcesValue() {
+        return multiGraphAggregationMaxSourcesValue;
+    }
+
+    public void setMultiGraphAggregationMaxSourcesValue(Float multiGraphAggregationMaxSourcesValue) {
+        this.multiGraphAggregationMaxSourcesValue = multiGraphAggregationMaxSourcesValue;
     }
 
     public Double getMultiGraphAggregationMaxResultValueRatio() {

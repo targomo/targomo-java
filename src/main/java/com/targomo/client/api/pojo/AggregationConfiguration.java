@@ -25,6 +25,8 @@ public class AggregationConfiguration {
     private Float outlierPenalty;
     private Double minSourcesRatio;
     private Integer minSourcesCount;
+    private Float minSourcesValue;
+    private Float maxSourcesValue;
     // The ratio which defines how many of the best result values should be included
     // (if set to 0.6 that means that 60% of the best/lowest results are included)
     private Double maxResultValueRatio;
@@ -45,6 +47,8 @@ public class AggregationConfiguration {
         private Float outlierPenalty;
         private Double minSourcesRatio;
         private Integer minSourcesCount;
+        private Float minSourcesValue;
+        private Float maxSourcesValue;
         private Double maxResultValueRatio;
         private Float maxResultValue;
         private Double gravitationExponent;
@@ -61,6 +65,8 @@ public class AggregationConfiguration {
             this.outlierPenalty = toCopy.outlierPenalty;
             this.minSourcesRatio = toCopy.minSourcesRatio;
             this.minSourcesCount = toCopy.minSourcesCount;
+            this.minSourcesValue = toCopy.minSourcesValue;
+            this.maxSourcesValue = toCopy.maxSourcesValue;
             this.maxResultValueRatio = toCopy.maxResultValueRatio;
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
@@ -78,21 +84,23 @@ public class AggregationConfiguration {
             this.mathExpression = toCopy.mathExpression;
         }
 
-        public AggregationConfigurationBuilder(TravelOptions travelOptions) {
+        public AggregationConfigurationBuilder(TravelOptions travelOptions, boolean deepCopy) {
             this.type = travelOptions.getMultiGraphAggregationType();
-            this.ignoreOutliers = Optional.ofNullable(travelOptions.getMultiGraphAggregationIgnoreOutliers()).orElse(false);
+            this.ignoreOutliers = travelOptions.getMultiGraphAggregationIgnoreOutliers();
             this.outlierPenalty = travelOptions.getMultiGraphAggregationOutlierPenalty();
             this.minSourcesRatio = travelOptions.getMultiGraphAggregationMinSourcesRatio();
-            this.minSourcesCount = Optional.ofNullable(travelOptions.getMultiGraphAggregationMinSourcesCount()).orElse(1);
+            this.minSourcesCount = travelOptions.getMultiGraphAggregationMinSourcesCount();
+            this.minSourcesValue = travelOptions.getMultiGraphAggregationMinSourcesValue();
+            this.maxSourcesValue = travelOptions.getMultiGraphAggregationMaxSourcesValue();
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
             this.maxResultValue = travelOptions.getMultiGraphAggregationMaxResultValue();
             this.postAggregationFactor = travelOptions.getMultiGraphAggregationPostAggregationFactor();
-            this.filterValuesForSourceOrigins = Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
-                    .map(HashSet::new).orElse(null);
+            this.filterValuesForSourceOrigins = !deepCopy ? travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() :
+                    Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
-            this.aggregationInputParameters = Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters())
-                    .map(map -> map.entrySet().stream()
-                            .collect(Collectors.toMap(
+            this.aggregationInputParameters = !deepCopy ? travelOptions.getMultiGraphAggregationInputParameters() :
+                    Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters()).map(map ->
+                            map.entrySet().stream().collect(Collectors.toMap(
                                     Map.Entry::getKey,
                                     entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
@@ -124,6 +132,16 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder minSourcesCount(Integer minSourcesCount) {
             this.minSourcesCount = minSourcesCount;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder minSourcesValue(Float minSourcesValue) {
+            this.minSourcesValue = minSourcesValue;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder maxSourcesValue(Float maxSourcesValue) {
+            this.maxSourcesValue = maxSourcesValue;
             return this;
         }
 
@@ -164,8 +182,8 @@ public class AggregationConfiguration {
 
         public AggregationConfiguration build() {
             return new AggregationConfiguration(type, ignoreOutliers, outlierPenalty, minSourcesRatio, minSourcesCount,
-                    maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
-                    aggregationInputParameters, mathExpression);
+                    minSourcesValue, maxSourcesValue, maxResultValueRatio, maxResultValue, postAggregationFactor,
+                    filterValuesForSourceOrigins, gravitationExponent, aggregationInputParameters, mathExpression);
         }
     }
 }

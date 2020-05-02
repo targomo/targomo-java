@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.14</version>
+         <version>0.1.16</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,13 +28,12 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.15
-
-- To be added
+### 0.1.16
+- added minSourcesValue and maxSourcesValue to AggregationConfiguration
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
-- Changed Timeservice response format to return both travelTime and length between a source and a target
+- Changed TimeService response format to return both travelTime and length between a source and a target
 
 ### 0.1.14
 - updated log4j and slf4j versions
