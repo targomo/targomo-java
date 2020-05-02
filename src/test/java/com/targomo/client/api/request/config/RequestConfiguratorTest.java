@@ -105,6 +105,8 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationOutlierPenalty(1000.0f);
             options.setMultiGraphAggregationMinSourcesCount(3);
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
+            options.setMultiGraphAggregationMinSourcesValue(1.0f);
+            options.setMultiGraphAggregationMaxSourcesValue(10000.0f);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
             options.setMultiGraphAggregationFilterValuesForSourceOrigins(CollectionUtils.safeSortedSet("POI:0"));
