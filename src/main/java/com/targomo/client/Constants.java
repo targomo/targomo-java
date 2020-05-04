@@ -116,8 +116,8 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO                 = "minSourcesRatio";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
-    public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_VALUE                 = "minSourcesValue";
-    public static final String MULTIGRAPH_AGGREGATION_MAX_SOURCES_VALUE                 = "maxSourcesValue";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND         = "sourceValuesLowerBound";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND         = "sourceValuesUpperBound";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR           = "postAggregationFactor";

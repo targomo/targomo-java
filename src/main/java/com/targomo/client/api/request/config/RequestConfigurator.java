@@ -69,8 +69,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(),
-                    travelOptions.getMultiGraphAggregationMinSourcesValue(),
-                    travelOptions.getMultiGraphAggregationMaxSourcesValue(),
+                    travelOptions.getMultiGraphAggregationSourceValuesLowerBound(),
+                    travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(),
                     travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
@@ -310,7 +310,7 @@ public final class RequestConfigurator {
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
-                travelOptions.getMultiGraphAggregationMinSourcesValue(), travelOptions.getMultiGraphAggregationMaxSourcesValue(),
+                travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
                 travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
@@ -353,11 +353,11 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getMinSourcesCount() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
 
-        if (aggregationConfiguration.getMinSourcesValue() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_VALUE, aggregationConfiguration.getMinSourcesValue());
+        if (aggregationConfiguration.getSourceValuesLowerBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND, aggregationConfiguration.getSourceValuesLowerBound());
 
-        if (aggregationConfiguration.getMaxSourcesValue() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_SOURCES_VALUE, aggregationConfiguration.getMaxSourcesValue());
+        if (aggregationConfiguration.getSourceValuesUpperBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND, aggregationConfiguration.getSourceValuesUpperBound());
 
         if (aggregationConfiguration.getMinSourcesRatio() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());

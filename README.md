@@ -29,7 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.16
-- added minSourcesValue and maxSourcesValue to AggregationConfiguration
+- added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
