@@ -87,8 +87,10 @@ public class TimeResponse {
 				JSONObject target = JsonUtil.getJSONObject(targets, j);
 				String trgId = JsonUtil.getString(target, "id");
 
+				// TODO: Quickfix only to pass fleetplanner pipeline before java client 0.1.15 gets released
+				//  Do never merge this branch!!
 				addTravelWeight(travelOptions.getSource(srcId), travelOptions.getTarget(trgId),
-						JsonUtil.getInt(target, "travelTime"), JsonUtil.getInt(target, "length"));
+						JsonUtil.getInt(target, "travelTime"), -1);
 			}
 		}
 	}
