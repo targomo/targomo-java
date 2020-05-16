@@ -25,12 +25,21 @@ public class AggregationConfiguration {
     private Float outlierPenalty;
     private Double minSourcesRatio;
     private Integer minSourcesCount;
+    // a lower bound for input values can be set, i.e. v = v < sourceValuesLowerBound ? sourceValuesLowerBound : v
     private Float sourceValuesLowerBound;
+    // an upper bound for input values can be set, i.e. v = v > sourceValuesUpperBound ? sourceValuesUpperBound : v;
     private Float sourceValuesUpperBound;
-    // The ratio which defines how many of the best result values should be included
-    // (if set to 0.6 that means that 60% of the best/lowest results are included)
+    // The ratio which defines how many of the highest result values should be included
+    // (if set to 0.9 that means that 90% of the highest results are included)
+    // default: 1.0; condition: 1 < minResultValueRatio + maxResultValueRatio <= 2.0)
+    private Double minResultValueRatio;
+    // The minimum value that should still be acceptable to be included into the aggregation result - if set it has to be <= maxResultValueRatio
+    private Float minResultValue;
+    // The ratio which defines how many of the lowest result values should be included
+    // (if set to 0.6 that means that 60% of the lowest results are included)
+    // default: 1.0; condition: 1 < minResultValueRatio + maxResultValueRatio <= 2.0)
     private Double maxResultValueRatio;
-    // The maximum value that should still be acceptable to be included into the aggregation result
+    // The maximum value that should still be acceptable to be included into the aggregation result - if set it has to be >= minResultValueRatio
     private Float maxResultValue;
     private Float postAggregationFactor;
     // Source origin ids (should be equal to layer ids) for filtering the elements.
@@ -49,6 +58,8 @@ public class AggregationConfiguration {
         private Integer minSourcesCount;
         private Float sourceValuesLowerBound;
         private Float sourceValuesUpperBound;
+        private Double minResultValueRatio;
+        private Float minResultValue;
         private Double maxResultValueRatio;
         private Float maxResultValue;
         private Double gravitationExponent;
@@ -67,6 +78,8 @@ public class AggregationConfiguration {
             this.minSourcesCount = toCopy.minSourcesCount;
             this.sourceValuesLowerBound = toCopy.sourceValuesLowerBound;
             this.sourceValuesUpperBound = toCopy.sourceValuesUpperBound;
+            this.minResultValueRatio = toCopy.minResultValueRatio;
+            this.minResultValue = toCopy.minResultValue;
             this.maxResultValueRatio = toCopy.maxResultValueRatio;
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
@@ -92,6 +105,8 @@ public class AggregationConfiguration {
             this.minSourcesCount = travelOptions.getMultiGraphAggregationMinSourcesCount();
             this.sourceValuesLowerBound = travelOptions.getMultiGraphAggregationSourceValuesLowerBound();
             this.sourceValuesUpperBound = travelOptions.getMultiGraphAggregationSourceValuesUpperBound();
+            this.minResultValueRatio = travelOptions.getMultiGraphAggregationMinResultValueRatio();
+            this.minResultValue = travelOptions.getMultiGraphAggregationMinResultValue();
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
             this.maxResultValue = travelOptions.getMultiGraphAggregationMaxResultValue();
             this.postAggregationFactor = travelOptions.getMultiGraphAggregationPostAggregationFactor();
@@ -145,6 +160,16 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder minResultValueRatio(Double minResultValueRatio) {
+            this.minResultValueRatio = minResultValueRatio;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder minResultValue(Float minResultValue) {
+            this.minResultValue = minResultValue;
+            return this;
+        }
+
         public AggregationConfigurationBuilder maxResultValueRatio(Double maxResultValueRatio) {
             this.maxResultValueRatio = maxResultValueRatio;
             return this;
@@ -181,9 +206,23 @@ public class AggregationConfiguration {
         }
 
         public AggregationConfiguration build() {
-            return new AggregationConfiguration(type, ignoreOutliers, outlierPenalty, minSourcesRatio, minSourcesCount,
-                    sourceValuesLowerBound, sourceValuesUpperBound, maxResultValueRatio, maxResultValue, postAggregationFactor,
-                    filterValuesForSourceOrigins, gravitationExponent, aggregationInputParameters, mathExpression);
+            return new AggregationConfiguration(
+                    type,
+                    ignoreOutliers,
+                    outlierPenalty,
+                    minSourcesRatio,
+                    minSourcesCount,
+                    sourceValuesLowerBound,
+                    sourceValuesUpperBound,
+                    minResultValueRatio,
+                    minResultValue,
+                    maxResultValueRatio,
+                    maxResultValue,
+                    postAggregationFactor,
+                    filterValuesForSourceOrigins,
+                    gravitationExponent,
+                    aggregationInputParameters,
+                    mathExpression);
         }
     }
 }
