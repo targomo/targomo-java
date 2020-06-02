@@ -4,7 +4,7 @@
 package com.targomo.client.api.geo;
 
 /**
- * @author gerb
+ * @author gideon 
  *
  */
 public interface Geometry extends Location {

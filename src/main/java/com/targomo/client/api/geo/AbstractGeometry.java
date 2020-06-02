@@ -37,18 +37,30 @@ public abstract class AbstractGeometry implements Geometry {
         this.id = id;
     }
 
+    /**
+     * @return the string representation of this geometry
+     */
     public String getData() {
         return data;
     }
 
+    /**
+     * @return the coordinate reference system for this geometry
+     */
     public Integer getCrs() {
         return crs;
     }
 
+    /**
+     * @param data the string representation of this geometry
+     */
     public void setData(String data) {
         this.data = data;
     }
 
+    /**
+     * @param crs coordinate reference system for this geometry
+     */
     public void setCrs(Integer crs) {
         this.crs = crs;
     }
