@@ -1,10 +1,5 @@
 package com.targomo.client.api.geo;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.targomo.client.api.pojo.Geometry;
-import org.json.JSONObject;
-
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -12,14 +7,18 @@ import javax.persistence.MappedSuperclass;
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry extends Geometry implements Location {
+public abstract class AbstractGeometry implements Geometry {
 
     private String id;
+    private Integer crs;
+    private String data;
 
-    @JsonCreator
-    public AbstractGeometry(@JsonProperty("id") String id, @JsonProperty("crs") Integer crs, @JsonProperty("data") String data) {
-        super(crs, data);
+    public AbstractGeometry() {} //For jackson test
+
+    public AbstractGeometry(String id, Integer crs, String data) {
         this.id = id;
+        this.crs = crs;
+        this.data = data;
     }
 
     /**
@@ -36,6 +35,22 @@ public abstract class AbstractGeometry extends Geometry implements Location {
      */
     public void setId(final String id) {
         this.id = id;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public Integer getCrs() {
+        return crs;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setCrs(Integer crs) {
+        this.crs = crs;
     }
 
     /**
