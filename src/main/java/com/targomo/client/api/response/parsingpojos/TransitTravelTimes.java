@@ -13,4 +13,7 @@ public class TransitTravelTimes extends ElementWithId {
 
     @Getter @Setter
     private int travelTimeWalk;
+
+    @Getter @Setter
+    private int travelDistanceWalk;
 }
