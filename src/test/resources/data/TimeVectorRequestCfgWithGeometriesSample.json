@@ -1,0 +1,62 @@
+{
+  "edgeWeight": "time",
+  "maxEdgeWeight": "720",
+  "sources": [
+    {
+      "id": "POI:1",
+      "lat":47.384197,
+      "lng":8.620987,
+      "tm": {
+        "transit": {
+          "frame": {
+            "date": 20180815,
+            "time": 40000,
+            "duration": 14400
+          },
+          "downhill":0,
+          "recommendations":0,
+          "speed":5,
+          "uphill":10,
+          "maxWalkingTimeToTarget": 500,
+          "maxWalkingTimeFromSource": 500
+        }
+      },
+      "reverse":false
+    }
+  ],
+  "souurceGeometries": [
+    {
+      "id": "POI:2",
+      "data": "{\"type\":\"Polygon\",\"coordinates\":[[[13.396024703979492,52.51264288568319],[13.399758338928223,52.51264288568319],[13.399758338928223,52.514784484308684],[13.396024703979492,52.514784484308684],[13.396024703979492,52.51264288568319]]]}",
+      "crs":4325,
+      "tm": {
+        "transit": {
+          "frame": {
+            "date": 20180815,
+            "time": 40000,
+            "duration": 14400
+          },
+          "downhill":0,
+          "recommendations":0,
+          "speed":5,
+          "uphill":10,
+          "maxWalkingTimeToTarget": 500,
+          "maxWalkingTimeFromSource": 500
+        }
+      },
+      "reverse":false
+    }
+  ],
+  "targets": [
+    {
+      "id": "Home 3",
+      "lat":47.322069,
+      "lng":8.511658
+    },
+    {
+      "id": "Home 4",
+      "lat":47.439235,
+      "lng":8.572083
+    }
+  ]
+}
