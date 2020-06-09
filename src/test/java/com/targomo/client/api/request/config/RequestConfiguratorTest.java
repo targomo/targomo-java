@@ -5,10 +5,7 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultSourceGeometry;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -253,6 +250,25 @@ public class RequestConfiguratorTest {
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
         Assert.assertTrue(parsed.isDisableCache());
+    }
+
+    @Test
+    public void readGeometryWithJackson() throws IOException {
+        String id = "geom";
+        TravelOptions parsed = new ObjectMapper()
+                .readValue( "{ \"sourceGeometries\" : [ {\n" +
+                                "      \"id\": \"" + id + "\",\n" +
+                                "      \"data\": \"{\\\"type\\\":\\\"Polygon\\\",\\\"coordinates\\\":[[[13.396024703979492,52.51264288568319],[13.399758338928223,52.51264288568319],[13.399758338928223,52.514784484308684],[13.396024703979492,52.514784484308684],[13.396024703979492,52.51264288568319]]]}\",\n" +
+                                "      \"crs\":4326,\n" +
+                                "      \"travelType\": \"walk\" } ] }",
+                        TravelOptions.class);
+
+        Assert.assertEquals(1, parsed.getSourceGeometries().size());
+        DefaultSourceGeometry geom = (DefaultSourceGeometry) parsed.getSourceGeometries().get(id);
+        Assert.assertEquals(id, geom.getId());
+        Assert.assertEquals(4326, geom.getCrs().longValue());
+        Assert.assertEquals(TravelType.WALK, geom.getTravelType());
+
     }
 
     @Test
