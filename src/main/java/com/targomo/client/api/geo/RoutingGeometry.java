@@ -4,10 +4,11 @@
 package com.targomo.client.api.geo;
 
 /**
- * @author gideon 
+ * Interface for the geometries used as sources and targets in the core routing.
  *
+ * @author gideon
  */
-public interface Geometry extends Location {
+public interface RoutingGeometry extends Location {
 
 	/**
 	 * @return the string representation of this geometry

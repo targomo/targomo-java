@@ -3,11 +3,11 @@ package com.targomo.client.api.geo;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Simple abstract class to use for storing coordinates with IDs and travel types.
+ * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry implements Geometry {
+public abstract class AbstractGeometry implements RoutingGeometry {
 
     private String id;
     private Integer crs;
