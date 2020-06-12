@@ -5,9 +5,7 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -55,6 +53,52 @@ public class RequestConfiguratorTest {
 
             // Load sample json & load object
             String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"));
+            JSONObject sampleObject = new JSONObject(sampleJson);
+
+            // Compare source and target objects
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.SOURCES));
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.TARGETS));
+
+            //assert other elements
+            assertThat(sampleObject.getInt(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getInt(Constants.MAX_EDGE_WEIGHT));
+            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualToIgnoringCase(actualObject.getString(Constants.EDGE_WEIGHT));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGeometryTimeVector() throws Exception {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String sourceGeom = "{\"type\":\"Polygon\",\"coordinates\":[[[13.396024703979492,52.51264288568319],[13.399758338928223,52.51264288568319],[13.399758338928223,52.514784484308684],[13.396024703979492,52.514784484308684],[13.396024703979492,52.51264288568319]]]}";
+        try {
+            // Generate input
+            TravelOptions options = new TravelOptions();
+            options.addSource(new DefaultSourceCoordinate("POI:1",8.620987,47.384197));
+            options.addSourceGeometry(new DefaultSourceGeometry("POI:2",sourceGeom,4326));
+            options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
+            options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
+            options.setServiceKey("YOUR_API_KEY_HERE");
+            options.setServiceUrl("http://127.0.0.1:8080/");
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(720);
+            options.setTravelType(TravelType.TRANSIT);
+            options.setDate(20180815);
+            options.setTime(40000);
+            options.setFrame(14400);
+            options.setMaxWalkingTimeFromSource(500);
+            options.setMaxWalkingTimeToTarget(500);
+
+            // Run configurator && get object
+            String cfg = RequestConfigurator.getConfig(options);
+            JSONObject actualObject = new JSONObject(cfg);
+
+            // Load sample json & load object
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
@@ -206,6 +250,25 @@ public class RequestConfiguratorTest {
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
         Assert.assertTrue(parsed.isDisableCache());
+    }
+
+    @Test
+    public void readGeometryWithJackson() throws IOException {
+        String id = "geom";
+        TravelOptions parsed = new ObjectMapper()
+                .readValue( "{ \"sourceGeometries\" : [ {\n" +
+                                "      \"id\": \"" + id + "\",\n" +
+                                "      \"data\": \"{\\\"type\\\":\\\"Polygon\\\",\\\"coordinates\\\":[[[13.396024703979492,52.51264288568319],[13.399758338928223,52.51264288568319],[13.399758338928223,52.514784484308684],[13.396024703979492,52.514784484308684],[13.396024703979492,52.51264288568319]]]}\",\n" +
+                                "      \"crs\":4326,\n" +
+                                "      \"travelType\": \"walk\" } ] }",
+                        TravelOptions.class);
+
+        Assert.assertEquals(1, parsed.getSourceGeometries().size());
+        DefaultSourceGeometry geom = (DefaultSourceGeometry) parsed.getSourceGeometries().get(id);
+        Assert.assertEquals(id, geom.getId());
+        Assert.assertEquals(4326, geom.getCrs().longValue());
+        Assert.assertEquals(TravelType.WALK, geom.getTravelType());
+
     }
 
     @Test
