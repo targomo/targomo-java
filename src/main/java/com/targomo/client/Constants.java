@@ -46,6 +46,8 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DATE                        = "date";
     public static final String TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY                  = "trafficJunctionPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY                    = "trafficSignalPenalty";
+    public static final String TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY                 = "trafficLeftTurnPenalty";
+    public static final String TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY                = "trafficRightTurnPenalty";
     public static final String EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND                      = "no-route-found";
     public static final String EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED                = "travel-time-exceeded";
     public static final String EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK  = "could-not-connect-point-to-network";

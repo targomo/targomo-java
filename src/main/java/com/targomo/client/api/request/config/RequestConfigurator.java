@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static com.targomo.client.Constants.*;
+
 /**
  * Parse TravelOptions into JSON strings that can be used when calling client methods.
  *
@@ -456,9 +458,13 @@ public final class RequestConfigurator {
         JSONObject travelMode = new JSONObject();
 
         if (travelOptions.getTrafficJunctionPenalty() != null)
-            travelMode.put("trafficJunctionPenalty", travelOptions.getTrafficJunctionPenalty());
+            travelMode.put(TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY, travelOptions.getTrafficJunctionPenalty());
         if (travelOptions.getTrafficSignalPenalty() != null)
-            travelMode.put("trafficSignalPenalty", travelOptions.getTrafficSignalPenalty());
+            travelMode.put(TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY, travelOptions.getTrafficSignalPenalty());
+        if (travelOptions.getTrafficLeftTurnPenalty() != null)
+            travelMode.put(TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY, travelOptions.getTrafficLeftTurnPenalty());
+        if (travelOptions.getTrafficRightTurnPenalty() != null)
+            travelMode.put(TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY, travelOptions.getTrafficRightTurnPenalty());
 
         switch (travelType) {
             case WALKTRANSIT:

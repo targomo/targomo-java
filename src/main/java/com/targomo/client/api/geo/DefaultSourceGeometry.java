@@ -1,7 +1,6 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 
@@ -22,6 +21,8 @@ public class DefaultSourceGeometry extends AbstractGeometry {
 
     @Column(name = "travel_type")
     private TravelType travelType;
+
+    private DefaultSourceGeometry(){}
 
     /**
      * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
