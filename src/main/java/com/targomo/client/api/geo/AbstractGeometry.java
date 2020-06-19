@@ -1,25 +1,24 @@
 package com.targomo.client.api.geo;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.targomo.client.api.pojo.Geometry;
-import org.json.JSONObject;
-
 import javax.persistence.MappedSuperclass;
 
 /**
- * Simple abstract class to use for storing coordinates with IDs and travel types.
+ * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry extends Geometry implements Location {
+public abstract class AbstractGeometry implements RoutingGeometry {
 
     private String id;
+    private Integer crs;
+    private String data;
 
-    @JsonCreator
-    public AbstractGeometry(@JsonProperty("id") String id, @JsonProperty("crs") Integer crs, @JsonProperty("data") String data) {
-        super(crs, data);
+    public AbstractGeometry() {} //For jackson test
+
+    public AbstractGeometry(String id, Integer crs, String data) {
         this.id = id;
+        this.crs = crs;
+        this.data = data;
     }
 
     /**
@@ -36,6 +35,34 @@ public abstract class AbstractGeometry extends Geometry implements Location {
      */
     public void setId(final String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the string representation of this geometry
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @return the coordinate reference system for this geometry
+     */
+    public Integer getCrs() {
+        return crs;
+    }
+
+    /**
+     * @param data the string representation of this geometry
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    /**
+     * @param crs coordinate reference system for this geometry
+     */
+    public void setCrs(Integer crs) {
+        this.crs = crs;
     }
 
     /**
