@@ -125,5 +125,7 @@ public class PointOfInterestResponse {
         String osmType;
         int edgeWeight;
         List<String> groupIds;
+        String closestSource;
+        boolean bounded;
     }
 }
