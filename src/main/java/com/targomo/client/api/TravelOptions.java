@@ -59,6 +59,8 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> targets  = new HashMap<>();
 
+    private List<Long> targetGeohashes = new ArrayList<>();
+
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
 
@@ -339,6 +341,10 @@ public class TravelOptions implements Serializable {
      */
     public void setTargets(Map<String,Coordinate> targets) {
         this.targets = targets;
+    }
+
+    public void setTargetsGeohashes(List<Long> targetGeohashes){
+        this.targetGeohashes = targetGeohashes;
     }
 
     /**
