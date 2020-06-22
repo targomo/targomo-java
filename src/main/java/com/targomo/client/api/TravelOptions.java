@@ -59,6 +59,7 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> targets  = new HashMap<>();
 
+    @Transient
     private List<Long> targetGeohashes = new ArrayList<>();
 
     @Column(name = "bike_speed")
@@ -320,6 +321,8 @@ public class TravelOptions implements Serializable {
         return targets;
     }
 
+    public List<Long> getTargetGeohashes() { return targetGeohashes; }
+
     /**
      * <p>
      * Set sources as Map from IDs to location.
@@ -343,7 +346,7 @@ public class TravelOptions implements Serializable {
         this.targets = targets;
     }
 
-    public void setTargetsGeohashes(List<Long> targetGeohashes){
+    public void setTargetGeohashes(List<Long> targetGeohashes){
         this.targetGeohashes = targetGeohashes;
     }
 
@@ -779,6 +782,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
                 Objects.equals(targets, that.targets) &&
+                Objects.equals(targetGeohashes, that.targetGeohashes) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -855,7 +859,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
@@ -899,6 +903,8 @@ public class TravelOptions implements Serializable {
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
+        builder.append("\n\ttargetGeohashes: ");
+        builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
