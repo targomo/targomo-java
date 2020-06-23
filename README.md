@@ -28,9 +28,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.15
-
-- To be added
+### 0.1.16
+- Update POI reachability response object
 
 ### 0.1.15
 - Change `elevationEnabled` default to true

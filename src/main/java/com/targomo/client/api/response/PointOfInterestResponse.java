@@ -1,11 +1,12 @@
 package com.targomo.client.api.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.client.api.exception.TargomoClientRuntimeException;
-import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.Format;
+import com.targomo.client.api.exception.TargomoClientRuntimeException;
+import com.targomo.client.api.util.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -116,6 +117,7 @@ public class PointOfInterestResponse {
     @Setter
     @Getter
     @ToString
+    @JsonIgnoreProperties(ignoreUnknown = true) // Used to ignore FeatureCollection attribute when deserializing from JSON
     public static class POI {
         String type;
         String id;
@@ -125,5 +127,7 @@ public class PointOfInterestResponse {
         String osmType;
         int edgeWeight;
         List<String> groupIds;
+        String closestSource;
+        boolean bounded;
     }
 }
