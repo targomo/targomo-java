@@ -30,6 +30,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.16
 - Add targetGeohashes parameter
+- Update POI reachability response object
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
