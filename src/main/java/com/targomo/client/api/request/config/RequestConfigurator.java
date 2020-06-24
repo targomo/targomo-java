@@ -104,7 +104,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
 
             if (travelOptions.getTargetGeohashes() != null && !travelOptions.getTargetGeohashes().isEmpty())
-                JSONBuilder.append(config, Constants.TARGET_GEOHASHES, getTargetGeohashes(travelOptions));
+                JSONBuilder.append(config, Constants.TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
 
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, Constants.PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
@@ -445,10 +445,6 @@ public final class RequestConfigurator {
         targetsBuilder.deleteCharAt(targetsBuilder.length() - 1);
         targetsBuilder.append("]");
         return targetsBuilder;
-    }
-
-    private static StringBuilder getTargetGeohashes(final TravelOptions travelOptions) {
-        return new StringBuilder(travelOptions.getTargetGeohashes().toString());
     }
 
     private static StringBuilder buildTarget(final StringBuilder targetsBuilder, final Coordinate trg) {
