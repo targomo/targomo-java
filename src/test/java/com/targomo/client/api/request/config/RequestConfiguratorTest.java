@@ -82,6 +82,8 @@ public class RequestConfiguratorTest {
             options.addSourceGeometry(new DefaultSourceGeometry("POI:2",sourceGeom,4326));
             options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
             options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
+            options.addTargetGeohash("u33d8zxfptcp");
+            options.addTargetGeohash("u33d4zxf4tb4");
             options.setServiceKey("YOUR_API_KEY_HERE");
             options.setServiceUrl("http://127.0.0.1:8080/");
             options.setEdgeWeightType(EdgeWeightType.TIME);
@@ -104,8 +106,12 @@ public class RequestConfiguratorTest {
             // Compare source and target objects
             assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
                     actualObject.getJSONArray(Constants.SOURCES));
+            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.SOURCE_GEOMETRIES));
             assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
                     actualObject.getJSONArray(Constants.TARGETS));
+            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES)).isEqualToComparingFieldByFieldRecursively(
+                    actualObject.getJSONArray(Constants.TARGET_GEOHASHES));
 
             //assert other elements
             assertThat(sampleObject.getInt(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getInt(Constants.MAX_EDGE_WEIGHT));

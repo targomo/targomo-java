@@ -364,6 +364,10 @@ public class TravelOptions implements Serializable {
         this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
     }
 
+    public void addAllTargetGeohashes(List<String> geohashes){
+        this.targetGeohashes.addAll(geohashes);
+    }
+
     /**
      * @return the bikeSpeed
      */
@@ -715,6 +719,13 @@ public class TravelOptions implements Serializable {
      */
     public void addTarget(Coordinate target) {
         this.targets.put(target.getId(), target);
+    }
+
+    /**
+     * @param geoHash Geohash string
+     */
+    public void addTargetGeohash(String geoHash) {
+        this.targetGeohashes.add(geoHash);
     }
 
     public Map<String, AggregationInputParameters> getMultiGraphAggregationInputParameters() {
