@@ -29,6 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.16
+- Add targetGeohashes parameter
 - Update POI reachability response object
 
 ### 0.1.15
