@@ -21,10 +21,10 @@ public class AggregationConfiguration {
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
-    private Boolean ignoreOutliers;
-    private Float outlierPenalty;
-    private Double minSourcesRatio;
-    private Integer minSourcesCount;
+    private Boolean ignoreOutliers; //specific to some aggregations
+    private Float outlierPenalty;   //specific to some aggregations
+    private Double minSourcesRatio; //no effect on routing union
+    private Integer minSourcesCount;//no effect on routing union
     // a lower bound for input values can be set, i.e. v = v < sourceValuesLowerBound ? sourceValuesLowerBound : v
     private Float sourceValuesLowerBound;
     // an upper bound for input values can be set, i.e. v = v > sourceValuesUpperBound ? sourceValuesUpperBound : v;
