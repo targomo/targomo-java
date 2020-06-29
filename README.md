@@ -28,11 +28,15 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.16
+### 0.1.17
 - added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
 - added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
 - added minResultValueRatio and minResultValue to AggregationConfiguration
 - added multiGraphAggregationMinResultValueRatio and multiGraphAggregationMinResultValue to TravelOptions
+
+### 0.1.16
+- Add targetGeohashes parameter
+- Update POI reachability response object
 
 ### 0.1.15
 - Change `elevationEnabled` default to true

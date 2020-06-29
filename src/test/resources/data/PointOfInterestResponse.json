@@ -13,7 +13,12 @@
       "addr:street": "Rehrstieg",
       "addr:postcode": "21147",
       "addr:city": "Hamburg"
-    }
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ]
   },
   "1_1639569032": {
     "lng": 9.7039905,
@@ -25,7 +30,12 @@
     "tags": {
       "amenity": "bar",
       "name": "Tattoobar"
-    }
+    },
+    "closestSource": "source_2",
+    "bounded": false,
+    "groupIds": [
+      "bar"
+    ]
   },
   "3402326401": {
     "lng": 9.933786,
@@ -38,7 +48,12 @@
       "wheelchair": "limited",
       "amenity": "bar",
       "name": "Tapas Bar Mi Esperanza"
-    }
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ]
   },
   "3569242447": {
     "lng": 9.6981112,
@@ -53,6 +68,11 @@
       "name": "delicious night",
       "opening_hours": "Mo-Th 19:00-23:00; Fr 19:00-24:00; Sa 00:00-02:00,19:00-24:00; Su 00:00-02:00,19:00-23:00",
       "opening_hours:lastcheck": "2015-05-31"
-    }
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ]
   }
 }

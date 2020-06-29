@@ -107,6 +107,9 @@ public final class RequestConfigurator {
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
 
+            if (travelOptions.getTargetGeohashes() != null && !travelOptions.getTargetGeohashes().isEmpty())
+                JSONBuilder.append(config, Constants.TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
+
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, Constants.PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
 

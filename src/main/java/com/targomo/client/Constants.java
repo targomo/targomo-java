@@ -23,6 +23,7 @@ public class Constants {
     public static final String SOURCES                                                  = "sources";
     public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
     public static final String TARGETS                                                  = "targets";
+    public static final String TARGET_GEOHASHES                                         = "targetGeohashes";
     public static final String ENABLE_ELEVATION                                         = "elevation";
     public static final String JSON_POLYGON_SERIALIZER                                  = "json";
     public static final String GEO_JSON_POLYGON_SERIALIZER                              = "geojson";

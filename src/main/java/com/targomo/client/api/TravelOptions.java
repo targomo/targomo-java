@@ -59,6 +59,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> targets  = new HashMap<>();
 
+    @Transient
+    private List<String> targetGeohashes = new ArrayList<>();
+
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
 
@@ -322,6 +325,8 @@ public class TravelOptions implements Serializable {
         return targets;
     }
 
+    public List<String> getTargetGeohashes() { return targetGeohashes; }
+
     /**
      * <p>
      * Set sources as Map from IDs to location.
@@ -345,6 +350,10 @@ public class TravelOptions implements Serializable {
         this.targets = targets;
     }
 
+    public void setTargetGeohashes(List<String> targetGeohashes){
+        this.targetGeohashes = targetGeohashes;
+    }
+
     /**
      * @param targets add all specified targets to the target map
      */
@@ -357,6 +366,10 @@ public class TravelOptions implements Serializable {
     */
     public void addAllTargets(Collection<Coordinate> targets) {
         this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
+    }
+
+    public void addAllTargetGeohashes(List<String> geohashes){
+        this.targetGeohashes.addAll(geohashes);
     }
 
     /**
@@ -712,6 +725,13 @@ public class TravelOptions implements Serializable {
         this.targets.put(target.getId(), target);
     }
 
+    /**
+     * @param geoHash Geohash string
+     */
+    public void addTargetGeohash(String geoHash) {
+        this.targetGeohashes.add(geoHash);
+    }
+
     public Map<String, AggregationInputParameters> getMultiGraphAggregationInputParameters() {
         return multiGraphAggregationInputParameters;
     }
@@ -777,6 +797,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
                 Objects.equals(targets, that.targets) &&
+                Objects.equals(targetGeohashes, that.targetGeohashes) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -857,7 +878,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
@@ -903,6 +924,8 @@ public class TravelOptions implements Serializable {
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
+        builder.append("\n\ttargetGeohashes: ");
+        builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
