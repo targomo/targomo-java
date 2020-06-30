@@ -8,14 +8,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.json.*;
+import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.request.PolygonRequest;
 import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
-import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.statistic.PoiType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,6 +59,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> targets  = new HashMap<>();
 
+    @Transient
+    private List<String> targetGeohashes = new ArrayList<>();
+
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
 
@@ -78,8 +83,14 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
-    @Transient private Integer trafficJunctionPenalty        = null;
-    @Transient private Integer trafficSignalPenalty        = null;
+    @Transient @Getter @Setter
+    private Integer trafficJunctionPenalty  = null;
+    @Transient @Getter @Setter
+    private Integer trafficSignalPenalty    = null;
+    @Transient @Getter @Setter
+    private Integer trafficLeftTurnPenalty  = null;
+    @Transient @Getter @Setter
+    private Integer trafficRightTurnPenalty = null;
 
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
 
@@ -310,6 +321,8 @@ public class TravelOptions implements Serializable {
         return targets;
     }
 
+    public List<String> getTargetGeohashes() { return targetGeohashes; }
+
     /**
      * <p>
      * Set sources as Map from IDs to location.
@@ -333,6 +346,10 @@ public class TravelOptions implements Serializable {
         this.targets = targets;
     }
 
+    public void setTargetGeohashes(List<String> targetGeohashes){
+        this.targetGeohashes = targetGeohashes;
+    }
+
     /**
      * @param targets add all specified targets to the target map
      */
@@ -345,6 +362,10 @@ public class TravelOptions implements Serializable {
     */
     public void addAllTargets(Collection<Coordinate> targets) {
         this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
+    }
+
+    public void addAllTargetGeohashes(List<String> geohashes){
+        this.targetGeohashes.addAll(geohashes);
     }
 
     /**
@@ -382,30 +403,6 @@ public class TravelOptions implements Serializable {
      */
     public void setBikeDownhill(double bikeDownhill) {
         this.bikeDownhill = bikeDownhill;
-    }
-    /**
-     * @return the trafficJunctionPenalty
-     */
-    public Integer getTrafficJunctionPenalty() {
-        return trafficJunctionPenalty;
-    }
-    /**
-     * @param trafficJunctionPenalty the trafficJunctionPenalty to set
-     */
-    public void setTrafficJunctionPenalty(Integer trafficJunctionPenalty) {
-        this.trafficJunctionPenalty = trafficJunctionPenalty;
-    }
-    /**
-     * @return the trafficSignalPenalty
-     */
-    public Integer getTrafficSignalPenalty() {
-        return trafficSignalPenalty;
-    }
-    /**
-     * @param trafficSignalPenalty the trafficSignalPenalty to set
-     */
-    public void setTrafficSignalPenalty(Integer trafficSignalPenalty) {
-        this.trafficSignalPenalty = trafficSignalPenalty;
     }
     /**
      * @return the walkSpeed
@@ -724,6 +721,13 @@ public class TravelOptions implements Serializable {
         this.targets.put(target.getId(), target);
     }
 
+    /**
+     * @param geoHash Geohash string
+     */
+    public void addTargetGeohash(String geoHash) {
+        this.targetGeohashes.add(geoHash);
+    }
+
     public Map<String, AggregationInputParameters> getMultiGraphAggregationInputParameters() {
         return multiGraphAggregationInputParameters;
     }
@@ -783,10 +787,13 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
                 Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
+                Objects.equals(that.trafficLeftTurnPenalty, trafficLeftTurnPenalty) &&
+                Objects.equals(that.trafficRightTurnPenalty, trafficRightTurnPenalty) &&
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
                 Objects.equals(targets, that.targets) &&
+                Objects.equals(targetGeohashes, that.targetGeohashes) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -863,7 +870,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
@@ -882,7 +889,8 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, format, boundingBox,
                 travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
-                trafficJunctionPenalty, trafficSignalPenalty, maxWalkingTimeFromSource, maxWalkingTimeToTarget);
+                trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
+                maxWalkingTimeFromSource, maxWalkingTimeToTarget);
     }
 
     /* (non-Javadoc)
@@ -906,6 +914,8 @@ public class TravelOptions implements Serializable {
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
+        builder.append("\n\ttargetGeohashes: ");
+        builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
@@ -922,6 +932,10 @@ public class TravelOptions implements Serializable {
         builder.append(trafficJunctionPenalty);
         builder.append("\n\ttrafficSignalPenalty: ");
         builder.append(trafficSignalPenalty);
+        builder.append("\n\ttrafficLeftTurnPenalty: ");
+        builder.append(trafficLeftTurnPenalty);
+        builder.append("\n\ttrafficRightTurnPenalty: ");
+        builder.append(trafficRightTurnPenalty);
         builder.append("\n\trushHour: ");
         builder.append(rushHour);
         builder.append("\n\ttravelTimes: ");
