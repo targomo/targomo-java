@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.14</version>
+         <version>0.1.16</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,9 +28,13 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.1.17
+
 ### 0.1.16
 - Add targetGeohashes parameter
 - Update POI reachability response object
+- Integrate source geometries parameter
+- Integrate turning penalties
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
