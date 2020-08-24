@@ -8,8 +8,10 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.response.PointOfInterestResponse;
+import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.statistic.PoiType;
 import org.apache.commons.io.IOUtils;
+import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -20,6 +22,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -47,6 +50,40 @@ public class PointOfInterestRequestTest extends RequestTest {
         // new poi service ids
         assert(result.keySet().contains("1_1639569032"));
         assert(result.get("1_1639569032").getId().equals("1_1639569032"));
+    }
+
+    @Test
+    public void getSummary_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+//         Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestSummaryResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptions());
+        PointOfInterestSummaryResponse poiResponse = poiRequest.getSummary();
+        PointOfInterestSummaryResponse.POISummary result = poiResponse.getSummary();
+
+        Map<String, Integer> expectedOsmTypesCount = new HashMap<>();
+        expectedOsmTypesCount.put("cuisine=bavarian", 1);
+        expectedOsmTypesCount.put("cuisine=diner", 1);
+        expectedOsmTypesCount.put("building=supermarket", 6);
+        expectedOsmTypesCount.put("building=apartments", 3);
+        Map<String, Integer> expectedGroupIdCount = new HashMap<>();
+        expectedGroupIdCount.put("uncategorized", 88);
+        expectedGroupIdCount.put("restaurant", 469);
+        Map<String, Integer> expectedClusterIdCount = new HashMap<>();
+        expectedClusterIdCount.put("c_1", 88);
+        expectedClusterIdCount.put("c_2", 469);
+
+        assertEquals(557, result.getTotalPoi());
+        assertEquals(4, result.getOsmTypesCount().size());
+        Assertions.assertThat(result.getOsmTypesCount()).containsAllEntriesOf(expectedOsmTypesCount);
+        assertEquals(2, result.getGroupIdCount().size());
+        Assertions.assertThat(result.getGroupIdCount()).containsAllEntriesOf(expectedGroupIdCount);
+        assertEquals(2, result.getClusterIdCount().size());
+        Assertions.assertThat(result.getClusterIdCount()).containsAllEntriesOf(expectedClusterIdCount);
     }
 
     @Test
