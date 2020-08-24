@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+@Getter
 public class PointOfInterestSummaryResponse {
 
     private final TravelOptions travelOptions;
@@ -44,25 +45,6 @@ public class PointOfInterestSummaryResponse {
         catch (JsonProcessingException e){
             throw new TargomoClientRuntimeException("Couldn't parse POI reachability summary response", e);
         }
-    }
-
-    /**
-     * @return the travelOptions
-     */
-    public TravelOptions getTravelOptions() {
-        return travelOptions;
-    }
-
-    /**
-     * Map of source IDs - travel times
-     * @return travel time map
-     */
-    public POISummary getSummary() {
-        return this.poiSummary;
-    }
-
-    public JSONObject getResult() {
-        return result;
     }
 
 
