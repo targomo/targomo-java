@@ -18,7 +18,7 @@ public class PointOfInterestSummaryResponse {
     private final TravelOptions travelOptions;
     private final JSONObject result;
     private final long requestEnd;
-    private POISummary poiSummary;
+    private POISummary summary;
 
     /**
      * Create a response from JSON results, using given travel options
@@ -40,7 +40,7 @@ public class PointOfInterestSummaryResponse {
      */
     public void parseResultResults() {
         try {
-            poiSummary = new ObjectMapper().readValue(this.result.toString(), POISummary.class);
+            summary = new ObjectMapper().readValue(this.result.toString(), POISummary.class);
         }
         catch (JsonProcessingException e){
             throw new TargomoClientRuntimeException("Couldn't parse POI reachability summary response", e);
