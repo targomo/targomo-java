@@ -4,6 +4,7 @@ import com.targomo.client.api.enums.Format;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.PointOfInterestResponse;
+import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.api.TravelOptions;
@@ -58,10 +59,25 @@ public class PointOfInterestRequest {
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
 	public PointOfInterestResponse get() throws TargomoClientException {
-
 		long requestStart = System.currentTimeMillis();
 
-		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path("/reachability")
+		Response response = getResponse("/reachability");
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateResponse(response, requestStart, roundTripTime);
+	}
+
+	public PointOfInterestSummaryResponse getSummary() throws TargomoClientException {
+		long requestStart = System.currentTimeMillis();
+
+		Response response = getResponse("/reachability/summary");
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateSummaryResponse(response, requestStart, roundTripTime);
+	}
+
+	private Response getResponse(String path) throws TargomoClientException {
+		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey());
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
@@ -69,10 +85,7 @@ public class PointOfInterestRequest {
 		String config = RequestConfigurator.getConfig(travelOptions);
 		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 
-		Response response = target.request().post(entity);
-		long roundTripTime = System.currentTimeMillis() - requestStart;
-
-		return validateResponse(response, requestStart, roundTripTime);
+		return target.request().post(entity);
 	}
 
 	/**
@@ -90,6 +103,19 @@ public class PointOfInterestRequest {
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
 			return new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
+		}
+		else {
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
+		}
+	}
+
+	private PointOfInterestSummaryResponse validateSummaryResponse(final Response response, final long requestStart, final long roundTripTime)
+			throws TargomoClientException {
+
+		// compare the HTTP status codes, NOT the route 360 code
+		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+			// consume the results
+			return new PointOfInterestSummaryResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
 		}
 		else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
