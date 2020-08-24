@@ -29,6 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.17
+- Add POI summary request
 
 ### 0.1.16
 - Add targetGeohashes parameter
