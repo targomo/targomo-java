@@ -1,0 +1,17 @@
+{
+  "totalPoi": 557,
+  "osmTypesCount": {
+    "cuisine=bavarian": 1,
+    "cuisine=diner": 1,
+    "building=supermarket": 6,
+    "building=apartments": 3
+  },
+  "groupIdCount": {
+    "uncategorized": 88,
+    "restaurant": 469
+  },
+  "clusterIdCount": {
+    "c_1": 88,
+    "c_2": 469
+  }
+}
