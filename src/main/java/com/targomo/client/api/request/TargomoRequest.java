@@ -105,7 +105,8 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         WebTarget request = client.target(travelOptions.getServiceUrl())
                 .path(path)
                 .queryParam("cb", Constants.CALLBACK)
-                .queryParam("key", travelOptions.getServiceKey());
+                .queryParam("key", travelOptions.getServiceKey())
+                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
 
         // Execute request
         Response response;

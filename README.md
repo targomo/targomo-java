@@ -28,9 +28,17 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.16
+### 0.1.17
+- Add POI summary request
+- updated geocoding URL
 - added minSourcesValue and maxSourcesValue to AggregationConfiguration
 - Added "quality" multigraph aggregation
+
+### 0.1.16
+- Add targetGeohashes parameter
+- Update POI reachability response object
+- Integrate source geometries parameter
+- Integrate turning penalties
 
 ### 0.1.15
 - Change `elevationEnabled` default to true
