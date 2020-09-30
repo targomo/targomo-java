@@ -30,6 +30,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.17
 - Add POI summary request
+- updated geocoding URL
 
 ### 0.1.16
 - Add targetGeohashes parameter
