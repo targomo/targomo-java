@@ -5,6 +5,7 @@ import javax.ws.rs.client.ClientRequestFilter;
 import java.io.IOException;
 
 /**
+ * Generic ClientRequestFilter that adds an http header according to the given key and value
  * @author Mario Freitas
  */
 public abstract class RequestHeaderFilter implements ClientRequestFilter {
