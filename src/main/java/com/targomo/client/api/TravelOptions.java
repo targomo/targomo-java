@@ -198,6 +198,9 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private boolean disableCache;
+
+    @Transient @Getter @Setter
+    private String xTargomoEnvironment;
     
     public String getBoundingBox() {
         return boundingBox;
@@ -862,7 +865,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
                 Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
                 Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
-                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget);
+                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) &&
+                Objects.equals(xTargomoEnvironment, that.xTargomoEnvironment);
     }
                 
 
@@ -890,7 +894,7 @@ public class TravelOptions implements Serializable {
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, format, boundingBox,
                 travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget);
+                maxWalkingTimeFromSource, maxWalkingTimeToTarget, xTargomoEnvironment);
     }
 
     /* (non-Javadoc)
@@ -1076,6 +1080,8 @@ public class TravelOptions implements Serializable {
         builder.append(maxWalkingTimeFromSource);
         builder.append("\n\tmaxWalkingTimeToTarget: ");
         builder.append(maxWalkingTimeToTarget);
+        builder.append("\n\txTargomoEnvironment: ");
+        builder.append(xTargomoEnvironment);
         builder.append("\n}\n");
         return builder.toString();
     }
