@@ -29,7 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.18
-- TBD
+- Add POI clusterIds field
 
 ### 0.1.17
 - Add POI summary request
