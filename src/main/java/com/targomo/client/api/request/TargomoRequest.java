@@ -106,7 +106,8 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
                 .path(path)
                 .queryParam("cb", Constants.CALLBACK)
                 .queryParam("key", travelOptions.getServiceKey())
-                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+                .queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
         // Execute request
         Response response;
