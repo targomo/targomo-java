@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.17</version>
+         <version>0.1.18</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,15 +28,26 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.17
+### whenever
 - added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
 - added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
 - added minResultValueRatio and minResultValue to AggregationConfiguration
 - added multiGraphAggregationMinResultValueRatio and multiGraphAggregationMinResultValue to TravelOptions
 
+### 0.1.18
+- Add POI clusterIds field
+- Add inter service request type query param
+
+### 0.1.17
+- Add POI summary request
+- updated geocoding URL
+- Added utility classes to decorate jersey client with http headers
+
 ### 0.1.16
 - Add targetGeohashes parameter
 - Update POI reachability response object
+- Integrate source geometries parameter
+- Integrate turning penalties
 
 ### 0.1.15
 - Change `elevationEnabled` default to true

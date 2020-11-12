@@ -182,6 +182,9 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
+    @Transient @Getter @Setter
+    private String interServiceRequestType = "";
+
 	@Transient
 	private Format format;
 
@@ -860,6 +863,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(overpassQuery, that.overpassQuery) &&
                 Objects.equals(overpassServiceUrl, that.overpassServiceUrl) &&
                 Objects.equals(interServiceKey, that.interServiceKey) &&
+                Objects.equals(interServiceRequestType, that.interServiceRequestType) &&
                 format == that.format &&
                 Objects.equals(boundingBox, that.boundingBox) &&
                 Objects.equals(travelTypes, that.travelTypes) &&
@@ -897,8 +901,8 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
-                pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, format, boundingBox,
-                travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
+                format, boundingBox, travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget);
     }
@@ -1074,6 +1078,8 @@ public class TravelOptions implements Serializable {
         builder.append(overpassServiceUrl);
         builder.append("\n\tinterServiceKey: ");
         builder.append(interServiceKey);
+        builder.append("\n\tinterServiceRequestType: ");
+        builder.append(interServiceRequestType);
         builder.append("\n\tformat: ");
         builder.append(format);
         builder.append("\n\tboundingBox: ");

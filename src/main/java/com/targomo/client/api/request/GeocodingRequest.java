@@ -82,7 +82,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
     }
 
     //ESRI Service constants
-    private static final String REST_URI            = "http://geocode.arcgis.com";
+    private static final String REST_URI            = "https://geocode.arcgis.com";
     private static final String PATH_SINGLE_ADDRESS = "arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
     private static final String URI_AUTHENTICATION  = "https://www.arcgis.com";
     private static final String PATH_AUTHENTICATION = "sharing/oauth2/token";

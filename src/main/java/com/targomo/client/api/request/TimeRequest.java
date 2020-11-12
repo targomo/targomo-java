@@ -64,6 +64,10 @@ public class TimeRequest {
             target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
         }
 
+		if (travelOptions.getInterServiceRequestType() != null && !travelOptions.getInterServiceRequestType().isEmpty()) {
+			target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+		}
+
 		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
 		// Execute POST request
