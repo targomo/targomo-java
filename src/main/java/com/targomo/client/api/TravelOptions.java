@@ -196,6 +196,14 @@ public class TravelOptions implements Serializable {
     @Transient
     private Set<PoiType> osmTypes = new HashSet<>();
 
+    // Osm types to exclude
+    @Transient
+    private Set<PoiType> exclude = new HashSet<>();
+
+    // MatchType for osm types
+    @Transient
+    private PoiMatchType match;
+
     @Transient
     private Set<PoiType> customPois = new HashSet<>();
 
@@ -232,6 +240,22 @@ public class TravelOptions implements Serializable {
 
     public void setOsmTypes(Set<PoiType> osmTypes) {
         this.osmTypes = osmTypes;
+    }
+
+    public Set<PoiType> getExcludeOsmTypes() {
+        return exclude;
+    }
+
+    public void setExcludeOsmTypes(Set<PoiType> excludeOsmTypes) {
+        this.exclude = excludeOsmTypes;
+    }
+
+    public PoiMatchType getPoiMatchType() {
+        return match;
+    }
+
+    public void setPoiMatchType(PoiMatchType matchType) {
+        this.match = matchType;
     }
 
     public Integer getId() { return id; }
