@@ -31,6 +31,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.1.18
 - Add POI clusterIds field
 - Add inter service request type query param
+- Add missing travel modes properties
 
 ### 0.1.17
 - Add POI summary request
