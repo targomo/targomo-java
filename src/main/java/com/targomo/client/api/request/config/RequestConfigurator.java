@@ -474,7 +474,8 @@ public final class RequestConfigurator {
                 travelMode.put("frame", new JSONObject()
                         .put("time", travelOptions.getTime())
                         .put("date", travelOptions.getDate())
-                        .put("duration", travelOptions.getFrame()));
+                        .put("duration", travelOptions.getFrame())
+                        .put("earliestArrival", travelOptions.getEarliestArrival()));
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
                 }
