@@ -11,7 +11,8 @@
           "frame": {
             "date": 20180815,
             "time": 40000,
-            "duration": 14400
+            "duration": 14400,
+            "earliestArrival": false
           },
           "downhill":0,
           "recommendations":0,
@@ -34,7 +35,8 @@
           "frame": {
             "date": 20180815,
             "time": 40000,
-            "duration": 14400
+            "duration": 14400,
+            "earliestArrival": false
           },
           "downhill":0,
           "recommendations":0,
