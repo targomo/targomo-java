@@ -44,6 +44,7 @@ public class RequestConfiguratorTest {
             options.setDate(20180815);
             options.setTime(40000);
             options.setFrame(14400);
+            options.setEarliestArrival(true);
             options.setMaxWalkingTimeFromSource(500);
             options.setMaxWalkingTimeToTarget(500);
 
@@ -92,6 +93,7 @@ public class RequestConfiguratorTest {
             options.setDate(20180815);
             options.setTime(40000);
             options.setFrame(14400);
+            options.setEarliestArrival(false);
             options.setMaxWalkingTimeFromSource(500);
             options.setMaxWalkingTimeToTarget(500);
 

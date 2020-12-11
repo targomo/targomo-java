@@ -111,6 +111,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "time") private Integer time                     = 9 * 3600;
     @Column(name = "date")  private Integer date                    = 20170214;
     @Column(name = "frame") private Integer frame                   = 18000;
+    @Column(name = "earliestArrival") private Boolean earliestArrival = false;
     @Transient private Integer maxWalkingTimeFromSource             = null;
     @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
@@ -536,6 +537,16 @@ public class TravelOptions implements Serializable {
      */
     public void setFrame(Integer frame) {
         this.frame = frame;
+    }
+    /**
+     * @return If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
+     */
+    public Boolean getEarliestArrival(){ return earliestArrival; }
+    /**
+     * @param earliestArrival If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
+     */
+    public void setEarliestArrival(Boolean earliestArrival){
+        this.earliestArrival = earliestArrival;
     }
     /**
      * @return the maxWalkingTimeFromSource, which is the maximum time that can be used from the sources to a transit stop
