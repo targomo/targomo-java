@@ -60,7 +60,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Improvements for travel time estimation
 
 ### 0.1.12
-- Change overpass reponse/request to take an alias rather than take the PoI type from travel options. Used for batch
+- Change overpass response/request to take an alias rather than take the PoI type from travel options. Used for batch
 service requests, other requests will work as before.
 - Fixed CurlUtil error that occurred when an immutable list of headers was passed to the method
 

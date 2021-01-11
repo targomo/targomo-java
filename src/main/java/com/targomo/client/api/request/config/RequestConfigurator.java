@@ -505,8 +505,10 @@ public final class RequestConfigurator {
                 break;
             case CAR:
                 travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
-                travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate());
-                travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime());
+                if (travelOptions.getDate() != null)
+                    travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
+                if (travelOptions.getTime() != null)
+                    travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
                 break;
             default:
                 break;
