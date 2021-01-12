@@ -29,10 +29,12 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.18
+- Replaced general-image dependency
 - Add POI clusterIds field
 - Add inter service request type query param
 - Add missing travel modes properties
 - Remove some of the travel mode defaults
+- update JUnit version to 4.13.1
 
 ### 0.1.17
 - Add POI summary request
