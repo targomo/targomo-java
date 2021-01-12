@@ -208,6 +208,7 @@ public class RequestConfiguratorTest {
             options.setServiceUrl("https://api.targomo.com/na_northeast/");
             options.setDate(20161020);
             options.setTime(55852);
+            options.setFrame(18000);
             options.setSrid(25833);
             options.setPolygonOrientationRule(PolygonOrientationRule.RIGHT_HAND);
 	        options.setEdgeWeightType(EdgeWeightType.DISTANCE);
