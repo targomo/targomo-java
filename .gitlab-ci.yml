@@ -1,4 +1,4 @@
-image: $CI_REGISTRY/docker/general-image/service/psql9.6:0.0.10
+image: $CI_REGISTRY/docker/debian/maven:3.6.1_jdk8-jre_ci
 
 # Include Global Configurations
 include:

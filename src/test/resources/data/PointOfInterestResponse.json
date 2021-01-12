@@ -18,6 +18,9 @@
     "bounded": true,
     "groupIds": [
       "bar"
+    ],
+    "clusterIds": [
+      "c_bar"
     ]
   },
   "1_1639569032": {
@@ -53,6 +56,9 @@
     "bounded": true,
     "groupIds": [
       "bar"
+    ],
+    "clusterIds": [
+      "c_bar"
     ]
   },
   "3569242447": {

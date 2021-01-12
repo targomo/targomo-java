@@ -471,21 +471,22 @@ public final class RequestConfigurator {
         switch (travelType) {
             case WALKTRANSIT:
             case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
-                travelMode.put("frame", new JSONObject()
-                        .put("time", travelOptions.getTime())
-                        .put("date", travelOptions.getDate())
-                        .put("duration", travelOptions.getFrame()));
+                travelMode.put(TRANSPORT_MODE_TRANSIT_FRAME, new JSONObject()
+                        .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
+                        .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
+                        .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
+                        .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
-                    travelMode.put("maxTransfers", travelOptions.getMaxTransfers());
+                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS, travelOptions.getMaxTransfers());
                 }
                 if (travelOptions.getMaxWalkingTimeFromSource() != null && travelOptions.getMaxWalkingTimeFromSource() >= 0) {
-                    travelMode.put("maxWalkingTimeFromSource", travelOptions.getMaxWalkingTimeFromSource());
+                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_FROM_SOURCE, travelOptions.getMaxWalkingTimeFromSource());
                 }
                 if (travelOptions.getMaxWalkingTimeToTarget() != null && travelOptions.getMaxWalkingTimeToTarget() >= 0) {
-                    travelMode.put("maxWalkingTimeToTarget", travelOptions.getMaxWalkingTimeToTarget());
+                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_TO_TARGET, travelOptions.getMaxWalkingTimeToTarget());
                 }
                 if (travelOptions.getAvoidTransitRouteTypes() != null && !travelOptions.getAvoidTransitRouteTypes().isEmpty()) {
-                    travelMode.put("avoidTransitRouteTypes", travelOptions.getAvoidTransitRouteTypes());
+                    travelMode.put(TRANSPORT_MODE_TRANSIT_AVOID_TRANSIT_ROUTE_TYPES, travelOptions.getAvoidTransitRouteTypes());
                 }
                 travelMode.put(Constants.TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
                 travelMode.put(Constants.TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
@@ -503,7 +504,11 @@ public final class RequestConfigurator {
                 travelMode.put(Constants.TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
                 break;
             case CAR:
-                travelMode.put("rushHour", travelOptions.getRushHour());
+                travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
+                if (travelOptions.getDate() != null)
+                    travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
+                if (travelOptions.getTime() != null)
+                    travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
                 break;
             default:
                 break;
