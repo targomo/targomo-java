@@ -47,6 +47,8 @@ deploy_maven:
     - gpg --import /etc/targomo/public.gpg
     - gpg --import --no-tty --batch --yes /etc/targomo/public.gpg
     - gpg --list-keys
+    - echo "use-agent\npinentry-mode loopback" >> ~/.gnupg/gpg.conf
+    - echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
     - cp /etc/targomo/settings.xml /usr/share/maven/conf/settings.xml
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
@@ -56,8 +58,8 @@ deploy_maven:
     paths:
       - target/*.jar
   when: manual
-  only:
-    - master
+#  only:
+#    - master
   tags:
     - k8sdev
 
