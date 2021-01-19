@@ -58,8 +58,8 @@ deploy_maven:
     paths:
       - target/*.jar
   when: manual
-#  only:
-#    - master
+  only:
+    - master
   tags:
     - k8sdev
 
