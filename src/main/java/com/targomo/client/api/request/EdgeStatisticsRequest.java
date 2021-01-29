@@ -62,8 +62,13 @@ public class EdgeStatisticsRequest {
 		WebTarget target = client.target(requestOptions.getServiceUrl()).path(path)
 				.queryParam("key", requestOptions.getServiceKey())
 				.queryParam("radius", requestOptions.getRadius())
-				.queryParam("direction", requestOptions.getDirection())
-				.queryParam("ignoreRoadClass", requestOptions.getIgnoreRoadClasses());
+				.queryParam("direction", requestOptions.getDirection());
+
+		if (requestOptions.getIgnoreRoadClasses() != null) {
+			for (Integer clazz : requestOptions.getIgnoreRoadClasses()) {
+				target = target.queryParam("ignoreRoadClass", clazz);
+			}
+		}
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
 
