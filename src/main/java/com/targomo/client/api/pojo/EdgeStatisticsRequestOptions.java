@@ -20,7 +20,7 @@ public class EdgeStatisticsRequestOptions {
     private final Integer edgeStatisticId;
 
     private final Integer radius;
-    private final TravelType travelMode;
+    private final TravelType travelType;
     private final EdgeStatisticDirection direction;
     private final List<Integer> ignoreRoadClasses;
 }
