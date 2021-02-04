@@ -81,8 +81,7 @@ public class EdgeStatisticsRequest {
 	}
 
 	private static String buildLocationsPath(Integer edgeStatisticGroupId, Integer edgeStatisticId) {
-		return StringUtils.join(Arrays.asList("v1", "edge-statistics", "locations",
-				String.valueOf(edgeStatisticGroupId), String.valueOf(edgeStatisticId)), "/");
+		return StringUtils.join(Arrays.asList("locations", String.valueOf(edgeStatisticGroupId), String.valueOf(edgeStatisticId)), "/");
 	}
 
 	/**
