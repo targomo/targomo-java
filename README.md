@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.19</version>
+         <version>0.1.20</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,8 +28,11 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.19
+### 0.1.20
 TBD
+
+### 0.1.19
+- Add edge statistics request
 
 ### 0.1.18
 - Replaced general-image dependency
