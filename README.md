@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.16</version>
+         <version>0.1.20</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -28,11 +28,25 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.1.20
+- added minSourcesValue and maxSourcesValue to AggregationConfiguration
+- Added "quality" multigraph aggregation
+
+### 0.1.19
+- Add edge statistics request
+
+### 0.1.18
+- Replaced general-image dependency
+- Add POI clusterIds field
+- Add inter service request type query param
+- Add missing travel modes properties
+- Remove some of the travel mode defaults
+- update JUnit version to 4.13.1
+
 ### 0.1.17
 - Add POI summary request
 - updated geocoding URL
-- added minSourcesValue and maxSourcesValue to AggregationConfiguration
-- Added "quality" multigraph aggregation
+- Added utility classes to decorate jersey client with http headers
 
 ### 0.1.16
 - Add targetGeohashes parameter
@@ -56,7 +70,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Improvements for travel time estimation
 
 ### 0.1.12
-- Change overpass reponse/request to take an alias rather than take the PoI type from travel options. Used for batch
+- Change overpass response/request to take an alias rather than take the PoI type from travel options. Used for batch
 service requests, other requests will work as before.
 - Fixed CurlUtil error that occurred when an immutable list of headers was passed to the method
 

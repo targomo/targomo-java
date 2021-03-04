@@ -64,7 +64,8 @@ public class ReachabilityRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
-                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
@@ -91,7 +92,6 @@ public class ReachabilityRequest {
 			// Execute POST request
 			response = target.request().post(entity);
 		}
-
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
 		return validateResponse(response, requestStart, roundTripTime);
