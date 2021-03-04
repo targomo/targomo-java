@@ -18,7 +18,6 @@ build:
   stage: build
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn --settings settings.xml clean compile
@@ -29,8 +28,6 @@ build:
 sonarqube:
   stage: test
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn --settings settings.xml verify sonar:sonar
@@ -46,8 +43,13 @@ sonarqube:
 deploy_maven:
   stage: deploy
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
+    # Import keys from pipeline runner secrets
+    - gpg --import /etc/targomo/public.gpg
+    - gpg --import --no-tty --batch --yes /etc/targomo/private.gpg
+    - gpg --list-keys
+    - echo -e "use-agent\npinentry-mode loopback" >> ~/.gnupg/gpg.conf
+    - echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+    - cp /etc/targomo/settings.xml /usr/share/maven/conf/settings.xml
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -DperformRelease=true --settings settings.xml deploy
@@ -58,12 +60,12 @@ deploy_maven:
   when: manual
   only:
     - master
+  tags:
+    - k8sdev
 
 deploy_nexus:
   stage: deploy
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
     - cp targomo-config/mvn/settings.xml settings.xml
     - mvn -Dmaven.test.skip=true --settings settings.xml deploy
@@ -86,3 +88,4 @@ deploy_nexus:
 
 before_script:
   - *auto_devops
+  - export BASE_URL=$(echo $CI_REPOSITORY_URL | sed "s,\/*$CI_PROJECT_PATH.*,,")

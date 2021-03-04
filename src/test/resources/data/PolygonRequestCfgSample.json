@@ -25,6 +25,7 @@
           "frame": {
             "date": 20161020,
             "duration": 18000,
+            "earliestArrival": false,
             "time": 55852
           },
           "maxTransfers": 2,

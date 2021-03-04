@@ -108,9 +108,10 @@ public class TravelOptions implements Serializable {
     @Transient private Boolean reverse                              = false;
     @Transient private Long minPolygonHoleSize                      = 100000000L;
 
-    @Column(name = "time") private Integer time                     = 9 * 3600;
-    @Column(name = "date")  private Integer date                    = 20170214;
-    @Column(name = "frame") private Integer frame                   = 18000;
+    @Column(name = "time") private Integer time                     = null; //default is used in core
+    @Column(name = "date")  private Integer date                    = null; //default is used in core
+    @Column(name = "frame") private Integer frame                   = null; //default is used in core
+    @Column(name = "earliestArrival") private Boolean earliestArrival = false;
     @Transient private Integer maxWalkingTimeFromSource             = null;
     @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
@@ -122,7 +123,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "max_transfers") private Integer maxTransfers    = null;
 
     // Transit route types that should not be used for routing
-    @Transient private List<Integer> avoidTransitRouteTypes                    = Collections.emptyList();
+    @Transient private List<Integer> avoidTransitRouteTypes         = Collections.emptyList();
 
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
@@ -540,6 +541,16 @@ public class TravelOptions implements Serializable {
      */
     public void setFrame(Integer frame) {
         this.frame = frame;
+    }
+    /**
+     * @return If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
+     */
+    public Boolean getEarliestArrival(){ return earliestArrival; }
+    /**
+     * @param earliestArrival If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
+     */
+    public void setEarliestArrival(Boolean earliestArrival){
+        this.earliestArrival = earliestArrival;
     }
     /**
      * @return the maxWalkingTimeFromSource, which is the maximum time that can be used from the sources to a transit stop

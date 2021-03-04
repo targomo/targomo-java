@@ -29,7 +29,6 @@ public class PointOfInterestRequest {
 
 	private Client client;
 	private TravelOptions travelOptions;
-	private static final String CALLBACK = "callback";
 
 	/**
 	 * Use default client implementation with specified options and method
