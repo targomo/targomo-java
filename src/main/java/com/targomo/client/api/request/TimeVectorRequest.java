@@ -2,10 +2,13 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.TimeVectorResponse;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class TimeVectorRequest extends TargomoRequest<TimeVectorResponse> {
 
@@ -18,15 +21,25 @@ public class TimeVectorRequest extends TargomoRequest<TimeVectorResponse> {
      * @param client        Client to be used
      * @param travelOptions Travel options parameters
      */
-    public TimeVectorRequest(Client client, TravelOptions travelOptions) {
-        super(client, travelOptions, PATH, HTTP_METHOD, TimeVectorResponse.class);
+    public TimeVectorRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
+        super(client, travelOptions, PATH, HTTP_METHOD, TimeVectorResponse.class, headers);
+    }
+
+    public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+        return new TimeVectorRequest(client,travelOptions, headers).get();
     }
 
     public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions) throws TargomoClientException {
-        return new TimeVectorRequest(client,travelOptions).get();
+        return  executeRequest(client, travelOptions, new MultivaluedHashMap<>());
+    }
+
+    public static TimeVectorResponse executeRequest(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+        return TargomoRequest.executeRequest(
+                (client,tO) -> new TimeVectorRequest(client,tO, headers),
+                travelOptions);
     }
 
     public static TimeVectorResponse executeRequest(TravelOptions travelOptions) throws TargomoClientException {
-        return TargomoRequest.executeRequest( TimeVectorRequest::new, travelOptions );
+        return executeRequest(travelOptions, new MultivaluedHashMap<>());
     }
 }
