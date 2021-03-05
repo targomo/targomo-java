@@ -45,6 +45,10 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
             throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
     }
 
+    public MultiGraphRequest(Client client, TravelOptions travelOptions, Class<R> responseClass) {
+        this(client, travelOptions, responseClass, new MultivaluedHashMap<>());
+    }
+
     /**
      * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
      * needs to be registered usually to the client to receive results.

@@ -25,6 +25,10 @@ public class TimeVectorRequest extends TargomoRequest<TimeVectorResponse> {
         super(client, travelOptions, PATH, HTTP_METHOD, TimeVectorResponse.class, headers);
     }
 
+    public TimeVectorRequest(Client client, TravelOptions travelOptions) {
+        this(client, travelOptions, new MultivaluedHashMap<>());
+    }
+
     public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
         return new TimeVectorRequest(client,travelOptions, headers).get();
     }

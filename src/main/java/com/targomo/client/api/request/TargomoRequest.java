@@ -12,6 +12,7 @@ import com.targomo.client.api.util.IOUtil;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -124,10 +125,20 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         String config = RequestConfigurator.getConfig(travelOptions);
         if (HttpMethod.GET.equals(httpMethod)) {
             request  = request.queryParam("cfg", IOUtil.encode(config));
-            response = request.request().headers(headers).get();
+            Invocation.Builder invocationBuilder = request.request();
+
+            if (!headers.isEmpty())
+                invocationBuilder = request.request().headers(headers);
+
+            response = invocationBuilder.get();
         }
         else if (HttpMethod.POST.equals(httpMethod)) {
-            response = request.request().headers(headers).post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+            Invocation.Builder invocationBuilder = request.request();
+
+            if (!headers.isEmpty())
+                invocationBuilder = request.request().headers(headers);
+
+            response = invocationBuilder.post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
         } else {
             throw new TargomoClientException("HTTP Method not supported: " + httpMethod);
         }
