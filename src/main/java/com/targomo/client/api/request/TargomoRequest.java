@@ -12,11 +12,15 @@ import com.targomo.client.api.util.IOUtil;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * Base request to the targomo API. Currently supported requests:
@@ -34,6 +38,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
     private final String path;
     private final Client client;
     private final TravelOptions travelOptions;
+    private final MultivaluedMap<String, Object> headers;
 
     /**
      * Not recommended since a heavy client object is constructed and destroyed with every call. Also a GZIPEncoder
@@ -67,13 +72,15 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @param path path of request (URL is in travel options)
      * @param httpMethod (HttpMethod.GET or HttpMethod.POST) are options
      * @param clazz the Response class, e.g. PolygonResponse.class
+     * @param headers the request headers
      */
-    TargomoRequest(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz) {
+    TargomoRequest(Client client, TravelOptions travelOptions, String path, String httpMethod, Class<R> clazz, MultivaluedMap<String, Object> headers) {
         this.client	= client;
         this.travelOptions = travelOptions;
         this.path = path;
         this.httpMethod = httpMethod;
         this.clazz = clazz;
+        this.headers = headers;
     }
 
     /**
@@ -90,6 +97,10 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
                 "?cb=" + CALLBACK +
                 "&key=" + travelOptions.getServiceKey() + "' " +
                 "-H 'content-type: application/json' " +
+                headers.entrySet()
+                        .stream()
+                        .map(entry -> "-H '" + entry.getKey() + ": " + entry.getValue().stream().map(Objects::toString).collect(Collectors.joining(", ")) + "' " )
+                        .collect(Collectors.joining()) +
                 "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
     }
 
@@ -114,10 +125,20 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         String config = RequestConfigurator.getConfig(travelOptions);
         if (HttpMethod.GET.equals(httpMethod)) {
             request  = request.queryParam("cfg", IOUtil.encode(config));
-            response = request.request().get();
+            Invocation.Builder invocationBuilder = request.request();
+
+            if (!headers.isEmpty())
+                invocationBuilder = request.request().headers(headers);
+
+            response = invocationBuilder.get();
         }
         else if (HttpMethod.POST.equals(httpMethod)) {
-            response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+            Invocation.Builder invocationBuilder = request.request();
+
+            if (!headers.isEmpty())
+                invocationBuilder = request.request().headers(headers);
+
+            response = invocationBuilder.post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
         } else {
             throw new TargomoClientException("HTTP Method not supported: " + httpMethod);
         }
