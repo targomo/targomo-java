@@ -28,6 +28,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.1.21
+- TBD
+
 ### 0.1.20
 - Add option to set headers for requests
 
