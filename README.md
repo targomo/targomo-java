@@ -29,7 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.20
-- TBD
+- Add option to set headers for requests
 
 ### 0.1.19
 - Add edge statistics request
