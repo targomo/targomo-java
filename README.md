@@ -9,7 +9,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
      <dependency>
          <groupId>com.targomo</groupId>
          <artifactId>java-client</artifactId>
-         <version>0.1.20</version>
+         <version>0.1.21</version>
      </dependency>
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
@@ -29,7 +29,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.21
-- TBD
+- Update Release Notes
 
 ### 0.1.20
 - Add option to set headers for requests
@@ -191,7 +191,7 @@ performed:
 Create polygon from source point.
 
     TravelOptions options = new TravelOptions();
-    options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
+    options.setTravelTimes(Arrays.asList(200, 400, 600, 800));
     options.setTravelType(TravelType.TRANSIT);
     options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
     options.setServiceKey("ENTER YOUR KEY HERE");
@@ -209,7 +209,8 @@ Create polygon from source point.
 Return travel times from each source to each target point.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
@@ -228,7 +229,8 @@ Return travel times from each source to each target point.
 Return total travel time for each source point to all targets.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
@@ -247,7 +249,8 @@ Return total travel time for each source point to all targets.
 Return possible route from each source point to each target.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.BIKE);
