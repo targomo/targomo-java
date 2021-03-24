@@ -6,21 +6,44 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 
 ## Add the library to your Maven configuration
 
-     <dependency>
-         <groupId>com.targomo</groupId>
-         <artifactId>java-client</artifactId>
-         <version>0.1.20</version>
-     </dependency>
+```xml
+<dependency>
+    <groupId>com.targomo</groupId>
+    <artifactId>java-client</artifactId>
+    <version>0.1.21</version>
+</dependency>
+```
 
 You also need to add a JAX-RS implementation of your choice. For example Jersey:
 
-```
+```xml
  <dependency>
      <groupId>org.glassfish.jersey.core</groupId>
      <artifactId>jersey-client</artifactId>
      <version>2.6</version>
  </dependency>
 ```
+
+Please make sure your `jersey-client` version is compatible with your Java version: [here](https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/user-guide.html#d0e559)
+
+### Java 11
+
+If you are using Java 11 or more, you might need to add those dependencies:
+
+```
+<dependency>
+    <groupId>org.glassfish.jersey.inject</groupId>
+    <artifactId>jersey-hk2</artifactId>
+    <version>2.33</version>
+</dependency>
+<dependency>
+    <groupId>com.sun.activation</groupId>
+    <artifactId>jakarta.activation</artifactId>
+    <version>1.2.1</version>
+</dependency>
+```
+
+Note: if you are using `jersey-client`, `jersey-hk2` must have the same version.
 
 ## Perform Release
 To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There is also manually triggerable jobs to deploy to our 
@@ -29,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.21
-- TBD
+- Update Release Notes
 
 ### 0.1.20
 - Add option to set headers for requests
@@ -191,15 +214,15 @@ performed:
 Create polygon from source point.
 
     TravelOptions options = new TravelOptions();
-    options.setTravelTimes(Arrays.asList(600, 1200, 1800, 2400, 3000, 3600));
+    options.setTravelTimes(Arrays.asList(200, 400, 600, 800));
     options.setTravelType(TravelType.TRANSIT);
     options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
     options.setServiceKey("ENTER YOUR KEY HERE");
     options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
-    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
-    // client.register(GZipEncoder.class); // when using jersey
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     PolygonResponse polygonResponse = new PolygonRequest(client, options).get();
     System.out.println(polygonResponse.getRequestTimeMillis() + " " + polygonResponse.getCode());
     System.out.println(polygonResponse.getResult());
@@ -209,7 +232,8 @@ Create polygon from source point.
 Return travel times from each source to each target point.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
@@ -217,8 +241,8 @@ Return travel times from each source to each target point.
     options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
-    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
-    // client.register(GZipEncoder.class); // when using jersey
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     TimeResponse timeResponse = new TimeRequest(client, options).get();
     // so the api returns all combinations of source and target with the corresponding travel time, or -1 if not reachable
     Map</*Source*/Coordinate, Map</*Target*/Coordinate, Integer>> travelTimes = timeResponse.getTravelTimes();
@@ -228,7 +252,8 @@ Return travel times from each source to each target point.
 Return total travel time for each source point to all targets.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
@@ -236,8 +261,8 @@ Return total travel time for each source point to all targets.
     options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
-    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
-    // client.register(GZipEncoder.class); // when using jersey
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
     // source ID, total travel time or -1 if not reachable
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
@@ -247,7 +272,8 @@ Return total travel time for each source point to all targets.
 Return possible route from each source point to each target.
 
     TravelOptions options = new TravelOptions();
-    options.setMaxRoutingTime(3600);
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
     options.addSource(source);
     options.setTargets(targets);
     options.setTravelType(TravelType.BIKE);
@@ -256,8 +282,8 @@ Return possible route from each source point to each target.
     options.setServiceUrl("https://api.targomo.com/germany/");
     
     Client client = ClientBuilder.newClient();
-    client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
-    // client.register(GZipEncoder.class); // when using jersey
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     RouteResponse routeResponse = new RouteRequest(client, options).get();
     JSONArray routes = routeResponse.getRoutes();
 
