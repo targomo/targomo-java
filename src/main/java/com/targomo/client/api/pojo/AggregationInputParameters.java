@@ -14,4 +14,5 @@ public class AggregationInputParameters {
     private Float inputFactor;
     private Boolean gravitationPositiveInfluence;
     private Double gravitationAttractionStrength;
+    private Double gravitationQualityInfluence;
 }

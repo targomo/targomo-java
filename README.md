@@ -53,7 +53,6 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.1.22
 - added minSourcesValue and maxSourcesValue to AggregationConfiguration
-- Added "quality" multigraph aggregation
 
 ### 0.1.21
 - Update Readme
