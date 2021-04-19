@@ -52,7 +52,10 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.22
-- added minSourcesValue and maxSourcesValue to AggregationConfiguration
+- added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
+- added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
+- added minResultValueRatio and minResultValue to AggregationConfiguration
+- added multiGraphAggregationMinResultValueRatio and multiGraphAggregationMinResultValue to TravelOptions
 
 ### 0.1.21
 - Update Readme
