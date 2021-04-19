@@ -16,7 +16,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -29,6 +34,7 @@ public class ReachabilityRequest {
 	private Client client;
 	private TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
+	private MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
@@ -36,7 +42,7 @@ public class ReachabilityRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public ReachabilityRequest(TravelOptions travelOptions) {
-
+		this.headers = new MultivaluedHashMap<>();
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
 	}
@@ -47,9 +53,20 @@ public class ReachabilityRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public ReachabilityRequest(Client client, TravelOptions travelOptions){
-
+		this.headers = new MultivaluedHashMap<>();
 		this.client	= client;
 		this.travelOptions = travelOptions;
+	}
+
+	/**
+	 * Use a custom client implementation with specified options and method
+	 * @param client Client implementation to be used
+	 * @param travelOptions Options to be used
+	 */
+	public ReachabilityRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String,Object> headers){
+		this.client	= client;
+		this.travelOptions = travelOptions;
+		this.headers = headers;
 	}
 
 	/**
@@ -90,7 +107,7 @@ public class ReachabilityRequest {
 			LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
 
 			// Execute POST request
-			response = target.request().post(entity);
+			response = target.request().headers(headers).post(entity);
 		}
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
