@@ -21,15 +21,27 @@ public class AggregationConfiguration {
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
-    private Boolean ignoreOutliers;
-    private Float outlierPenalty;
-    private Double minSourcesRatio;
-    private Integer minSourcesCount;
-    // The ratio which defines how many of the best result values should be included
-    // (if set to 0.6 that means that 60% of the best/lowest results are included)
+    private Boolean ignoreOutliers; //specific to some aggregations
+    private Float outlierPenalty;   //specific to some aggregations
+    private Double minSourcesRatio; //no effect on routing union
+    private Integer minSourcesCount;//no effect on routing union
+    // a lower bound for input values can be set, i.e. v = v < sourceValuesLowerBound ? sourceValuesLowerBound : v
+    private Float sourceValuesLowerBound;
+    // an upper bound for input values can be set, i.e. v = v > sourceValuesUpperBound ? sourceValuesUpperBound : v;
+    private Float sourceValuesUpperBound;
+    // The ratio which defines how many of the highest result values should be included
+    // (if set to 0.9 that means that 90% of the highest results are included)
+    // default: 1.0; condition: 1 < minResultValueRatio + maxResultValueRatio <= 2.0)
+    private Double minResultValueRatio;
+    // The minimum value that should still be acceptable to be included into the aggregation result - if set it has to be <= maxResultValueRatio
+    private Float minResultValue;
+    // The ratio which defines how many of the lowest result values should be included
+    // (if set to 0.6 that means that 60% of the lowest results are included)
+    // default: 1.0; condition: 1 < minResultValueRatio + maxResultValueRatio <= 2.0)
     private Double maxResultValueRatio;
-    // The maximum value that should still be acceptable to be included into the aggregation result
+    // The maximum value that should still be acceptable to be included into the aggregation result - if set it has to be >= minResultValueRatio
     private Float maxResultValue;
+    //This factor is applied to the output of the aggregation; (before the filtering is applied - see minResultValue, maxResultValue)
     private Float postAggregationFactor;
     // Source origin ids (should be equal to layer ids) for filtering the elements.
     // Only elements whose origin (layer with the lowest value for the element id) is in this set
@@ -45,6 +57,10 @@ public class AggregationConfiguration {
         private Float outlierPenalty;
         private Double minSourcesRatio;
         private Integer minSourcesCount;
+        private Float sourceValuesLowerBound;
+        private Float sourceValuesUpperBound;
+        private Double minResultValueRatio;
+        private Float minResultValue;
         private Double maxResultValueRatio;
         private Float maxResultValue;
         private Double gravitationExponent;
@@ -61,6 +77,10 @@ public class AggregationConfiguration {
             this.outlierPenalty = toCopy.outlierPenalty;
             this.minSourcesRatio = toCopy.minSourcesRatio;
             this.minSourcesCount = toCopy.minSourcesCount;
+            this.sourceValuesLowerBound = toCopy.sourceValuesLowerBound;
+            this.sourceValuesUpperBound = toCopy.sourceValuesUpperBound;
+            this.minResultValueRatio = toCopy.minResultValueRatio;
+            this.minResultValue = toCopy.minResultValue;
             this.maxResultValueRatio = toCopy.maxResultValueRatio;
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
@@ -78,21 +98,25 @@ public class AggregationConfiguration {
             this.mathExpression = toCopy.mathExpression;
         }
 
-        public AggregationConfigurationBuilder(TravelOptions travelOptions) {
+        public AggregationConfigurationBuilder(TravelOptions travelOptions, boolean deepCopy) {
             this.type = travelOptions.getMultiGraphAggregationType();
-            this.ignoreOutliers = Optional.ofNullable(travelOptions.getMultiGraphAggregationIgnoreOutliers()).orElse(false);
+            this.ignoreOutliers = travelOptions.getMultiGraphAggregationIgnoreOutliers();
             this.outlierPenalty = travelOptions.getMultiGraphAggregationOutlierPenalty();
             this.minSourcesRatio = travelOptions.getMultiGraphAggregationMinSourcesRatio();
-            this.minSourcesCount = Optional.ofNullable(travelOptions.getMultiGraphAggregationMinSourcesCount()).orElse(1);
+            this.minSourcesCount = travelOptions.getMultiGraphAggregationMinSourcesCount();
+            this.sourceValuesLowerBound = travelOptions.getMultiGraphAggregationSourceValuesLowerBound();
+            this.sourceValuesUpperBound = travelOptions.getMultiGraphAggregationSourceValuesUpperBound();
+            this.minResultValueRatio = travelOptions.getMultiGraphAggregationMinResultValueRatio();
+            this.minResultValue = travelOptions.getMultiGraphAggregationMinResultValue();
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
             this.maxResultValue = travelOptions.getMultiGraphAggregationMaxResultValue();
             this.postAggregationFactor = travelOptions.getMultiGraphAggregationPostAggregationFactor();
-            this.filterValuesForSourceOrigins = Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
-                    .map(HashSet::new).orElse(null);
+            this.filterValuesForSourceOrigins = !deepCopy ? travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() :
+                    Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
-            this.aggregationInputParameters = Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters())
-                    .map(map -> map.entrySet().stream()
-                            .collect(Collectors.toMap(
+            this.aggregationInputParameters = !deepCopy ? travelOptions.getMultiGraphAggregationInputParameters() :
+                    Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters()).map(map ->
+                            map.entrySet().stream().collect(Collectors.toMap(
                                     Map.Entry::getKey,
                                     entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
@@ -124,6 +148,26 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder minSourcesCount(Integer minSourcesCount) {
             this.minSourcesCount = minSourcesCount;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder sourceValuesLowerBound(Float sourceValuesLowerBound) {
+            this.sourceValuesLowerBound = sourceValuesLowerBound;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder sourceValuesUpperBound(Float sourceValuesUpperBound) {
+            this.sourceValuesUpperBound = sourceValuesUpperBound;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder minResultValueRatio(Double minResultValueRatio) {
+            this.minResultValueRatio = minResultValueRatio;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder minResultValue(Float minResultValue) {
+            this.minResultValue = minResultValue;
             return this;
         }
 
@@ -163,9 +207,23 @@ public class AggregationConfiguration {
         }
 
         public AggregationConfiguration build() {
-            return new AggregationConfiguration(type, ignoreOutliers, outlierPenalty, minSourcesRatio, minSourcesCount,
-                    maxResultValueRatio, maxResultValue, postAggregationFactor, filterValuesForSourceOrigins, gravitationExponent,
-                    aggregationInputParameters, mathExpression);
+            return new AggregationConfiguration(
+                    type,
+                    ignoreOutliers,
+                    outlierPenalty,
+                    minSourcesRatio,
+                    minSourcesCount,
+                    sourceValuesLowerBound,
+                    sourceValuesUpperBound,
+                    minResultValueRatio,
+                    minResultValue,
+                    maxResultValueRatio,
+                    maxResultValue,
+                    postAggregationFactor,
+                    filterValuesForSourceOrigins,
+                    gravitationExponent,
+                    aggregationInputParameters,
+                    mathExpression);
         }
     }
 }
