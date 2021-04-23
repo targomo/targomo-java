@@ -41,6 +41,7 @@ public class AggregationConfiguration {
     private Double maxResultValueRatio;
     // The maximum value that should still be acceptable to be included into the aggregation result - if set it has to be >= minResultValueRatio
     private Float maxResultValue;
+    //This factor is applied to the output of the aggregation; (before the filtering is applied - see minResultValue, maxResultValue)
     private Float postAggregationFactor;
     // Source origin ids (should be equal to layer ids) for filtering the elements.
     // Only elements whose origin (layer with the lowest value for the element id) is in this set
