@@ -83,6 +83,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
+    //the following four setting are only used for bike, car (and bike-transit)
     @Transient @Getter @Setter
     private Integer trafficJunctionPenalty  = null;
     @Transient @Getter @Setter
