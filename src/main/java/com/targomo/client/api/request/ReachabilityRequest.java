@@ -1,11 +1,11 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
+import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
 import com.targomo.client.api.util.JsonUtil;
-import com.targomo.client.api.TravelOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -93,7 +90,7 @@ public class ReachabilityRequest {
 		try {
 
 			// Execute POST request
-			response = target.request().post(entity);
+			response = target.request().headers(headers).post(entity);
 		}
 		// this can happen for example if we are doing a request and restart the corresponding
 		// targomo service on the same machine, in case of a fallback we need to try a different host

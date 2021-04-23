@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
 - added minResultValueRatio and minResultValue to AggregationConfiguration
 - added multiGraphAggregationMinResultValueRatio and multiGraphAggregationMinResultValue to TravelOptions
+- Fix a bug: send headers in reachability requests to core
 
 ### 0.1.21
 - Update Readme
