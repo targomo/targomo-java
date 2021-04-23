@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.22
-- to fill
+- Fix a bug: send headers in reachability requests to core
 
 ### 0.1.21
 - Update Readme
