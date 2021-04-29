@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.2.0
+- tbf
+
 ### 0.1.22
 - added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
 - added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
