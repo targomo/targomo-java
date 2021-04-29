@@ -69,8 +69,12 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationType(),
                     travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                     travelOptions.getMultiGraphAggregationOutlierPenalty(),
-                    travelOptions.getMultiGraphAggregationMinSourcesCount(),
                     travelOptions.getMultiGraphAggregationMinSourcesRatio(),
+                    travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                    travelOptions.getMultiGraphAggregationSourceValuesLowerBound(),
+                    travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
+                    travelOptions.getMultiGraphAggregationMinResultValue(),
+                    travelOptions.getMultiGraphAggregationMinResultValueRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(),
                     travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
@@ -313,32 +317,16 @@ public final class RequestConfigurator {
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
                 travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
                 .anyMatch(Objects::nonNull)) {
             JSONObject multiGraphAggregation = new JSONObject();
-            AggregationConfiguration aggregationConfiguration = buildAggregationConfigFromTravelOptions(travelOptions);
+            AggregationConfiguration aggregationConfiguration = new AggregationConfiguration.AggregationConfigurationBuilder(travelOptions, false).build();
             fillJsonAggregationConfig(aggregationConfiguration, multiGraphAggregation);
             multiGraph.put(Constants.MULTIGRAPH_AGGREGATION, multiGraphAggregation);
         }
-    }
-
-    private static AggregationConfiguration buildAggregationConfigFromTravelOptions(TravelOptions travelOptions) {
-        return new AggregationConfiguration.AggregationConfigurationBuilder()
-                .ignoreOutliers(travelOptions.getMultiGraphAggregationIgnoreOutliers())
-                .maxResultValue(travelOptions.getMultiGraphAggregationMaxResultValue())
-                .maxResultValueRatio(travelOptions.getMultiGraphAggregationMaxResultValueRatio())
-                .minSourcesCount(travelOptions.getMultiGraphAggregationMinSourcesCount())
-                .minSourcesRatio(travelOptions.getMultiGraphAggregationMinSourcesRatio())
-                .outlierPenalty(travelOptions.getMultiGraphAggregationOutlierPenalty())
-                .gravitationExponent(travelOptions.getMultiGraphAggregationGravitationExponent())
-                .postAggregationFactor(travelOptions.getMultiGraphAggregationPostAggregationFactor())
-                .type(travelOptions.getMultiGraphAggregationType())
-                .aggregationInputParameters(travelOptions.getMultiGraphAggregationInputParameters())
-                .filterValuesForSourceOrigins(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins())
-                .mathExpression(travelOptions.getMultiGraphAggregationMathExpression())
-                .build();
     }
 
     private static void addMultiGraphPreAggregationPipeline(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
@@ -359,6 +347,7 @@ public final class RequestConfigurator {
     }
 
     private static void fillJsonAggregationConfig(AggregationConfiguration aggregationConfiguration, JSONObject multiGraphAggregation) throws JSONException {
+
         if (aggregationConfiguration.getType() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_TYPE, aggregationConfiguration.getType().getKey());
 
@@ -368,11 +357,23 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getOutlierPenalty() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
 
+        if (aggregationConfiguration.getMinSourcesRatio() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
+
         if (aggregationConfiguration.getMinSourcesCount() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
 
-        if (aggregationConfiguration.getMinSourcesRatio() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
+        if (aggregationConfiguration.getSourceValuesLowerBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND, aggregationConfiguration.getSourceValuesLowerBound());
+
+        if (aggregationConfiguration.getSourceValuesUpperBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND, aggregationConfiguration.getSourceValuesUpperBound());
+
+        if (aggregationConfiguration.getMinResultValueRatio() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO, aggregationConfiguration.getMinResultValueRatio());
+
+        if (aggregationConfiguration.getMinResultValue() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE, aggregationConfiguration.getMinResultValue());
 
         if (aggregationConfiguration.getMaxResultValueRatio() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfiguration.getMaxResultValueRatio());
