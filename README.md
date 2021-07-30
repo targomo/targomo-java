@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.1.24
--
+- Update Readme wit POI reachability example
 
 ### 0.1.23
 - Update osgeo repository
@@ -319,6 +319,27 @@ Return possible geocode(s) for each given address.
             "Wilhelm-Kabus-Straße 40, Berlin");
     DefaultTargetCoordinate[] geocodes = Arrays.stream(manyGeocodes)
                     .map(GeocodingResponse::getRepresentativeGeocodeOfRequest).toArray(DefaultTargetCoordinate[]::new);
+
+## Poi Reachability service
+
+Return reachable POIs from a list of sources
+
+    TravelOptions options = new TravelOptions();
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
+    options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
+    options.setOsmTypes(Collections.singleton(new PoiType("amenity", "restaurant")));
+    options.setTravelType(TravelType.CAR);
+    options.setServiceKey("ENTER YOUR KEY HERE");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
+
+    Client client = ClientBuilder.newClient();
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+
+    PointOfInterestRequest request = new PointOfInterestRequest(client, options);
+    PointOfInterestResponse poiResponse = request.get();
+    // so the api returns all restaurant POIs reachable within 15 min by car.
 
 ## Helper to display geojson
 
