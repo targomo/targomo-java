@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.24</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.24
+### 0.2.0
 - Update Readme wit POI reachability example
 
 ### 0.1.23
