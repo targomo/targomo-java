@@ -340,6 +340,8 @@ Return reachable POIs from a list of sources
     PointOfInterestRequest request = new PointOfInterestRequest(client, options);
     PointOfInterestResponse poiResponse = request.get();
     // so the api returns all restaurant POIs reachable within 15 min by car.
+    
+Find a non-exhaustive list of possible OSM types on the [OpenStreetMap wiki](https://wiki.openstreetmap.org/wiki/Map_features)
 
 ## Helper to display geojson
 
