@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.2.0
-- Update Readme wit POI reachability example
+- Update Readme with POI reachability example
 
 ### 0.1.23
 - Update osgeo repository
