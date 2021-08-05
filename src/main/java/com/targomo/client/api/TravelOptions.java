@@ -54,6 +54,11 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String, AbstractGeometry> sourceGeometries = new HashMap<>();
 
+    @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
+    @Transient
+    private Map<String,Coordinate> gravitationCompetitors  = new HashMap<>();
+
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
     @Transient
@@ -293,6 +298,13 @@ public class TravelOptions implements Serializable {
     }
 
     /**
+     * @return the sources as Map from ID to location
+     */
+    public Map<String, Coordinate> getGravitationCompetitors() {
+        return gravitationCompetitors;
+    }
+
+    /**
      * <p>
      * Set sources as Map from IDs to location.
      * </p>
@@ -375,6 +387,10 @@ public class TravelOptions implements Serializable {
 
     public void addAllTargetGeohashes(List<String> geohashes){
         this.targetGeohashes.addAll(geohashes);
+    }
+
+    public void setGravitationCompetitors(Map<String, Coordinate> gravitationCompetitors) {
+        this.gravitationCompetitors = gravitationCompetitors;
     }
 
     /**

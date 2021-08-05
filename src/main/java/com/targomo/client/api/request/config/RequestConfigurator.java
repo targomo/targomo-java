@@ -104,6 +104,9 @@ public final class RequestConfigurator {
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
+            if (travelOptions.getGravitationCompetitors() != null && !travelOptions.getGravitationCompetitors().isEmpty())
+                JSONBuilder.append(config, Constants.GRAVITATION_COMPETITORS, getGravitationCompetitors(travelOptions));
+
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
 
@@ -437,6 +440,16 @@ public final class RequestConfigurator {
         }
         return sourceGeometries;
     }
+
+    private static JSONArray getGravitationCompetitors(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sources = new JSONArray();
+        for (Coordinate src : travelOptions.getGravitationCompetitors().values()) {
+            JSONObject source = getSourceObject(travelOptions, src);
+            sources.put(source);
+        }
+        return sources;
+    }
+
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
