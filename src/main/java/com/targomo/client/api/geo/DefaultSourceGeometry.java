@@ -31,10 +31,22 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param geojson String of the geojson of the object
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
+     * @
      */
     public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, AggregationInputParameters aggregationInputParameters) {
         super(id, crs, geojson, aggregationInputParameters);
         this.travelType = travelType;
+    }
+
+    /**
+     * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
+     * @param id ID to associate with the target coordinate
+     * @param geojson String of the geojson of the object
+     * @param crs CRS value used for the geometry
+     * @param travelType TravelType to be associated with the coordinate
+     */
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType) {
+        this(id, geojson, crs, travelType, null);
     }
 
     /**
