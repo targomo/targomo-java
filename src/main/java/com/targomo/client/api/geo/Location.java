@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.pojo.AggregationInputParameters;
 
 /**
  * Contains ID and Travel type for both Coordinates and Polygons
@@ -30,5 +31,17 @@ public interface Location {
      * @param id ID to be assigned
      */
     public void setId(final String id);
+
+    /**
+     * Get the aggregation input parameters of a location
+     * @return Location Properties
+     */
+    public AggregationInputParameters getAggregationInputParameters();
+
+    /**
+     * Assign aggregation input parameters to a location
+     * @param aggregationInputParameters aggregation input parameters to be assigned
+     */
+    public void setAggregationInputParameters(final AggregationInputParameters aggregationInputParameters);
 
 }

@@ -20,12 +20,20 @@ public class DefaultSourceCoordinateMapSerializer extends JsonSerializer {
 
         for ( Map.Entry<String, DefaultSourceCoordinate> entry : ((Map<String, DefaultSourceCoordinate>) o).entrySet())  {
 
-            jsonGenerator.writeStartObject(); // {
+            jsonGenerator.writeStartObject();
             jsonGenerator.writeStringField("id", entry.getKey());
             if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
             jsonGenerator.writeNumberField("y", entry.getValue().getY());
             jsonGenerator.writeNumberField("x", entry.getValue().getX());
-            jsonGenerator.writeEndObject(); // {
+            if( entry.getValue().getAggregationInputParameters() != null){
+                jsonGenerator.writeFieldName("aggregationInputParameters");
+                jsonGenerator.writeStartObject();
+                jsonGenerator.writeNumberField("inputFactor", entry.getValue().getAggregationInputParameters().getInputFactor());
+                jsonGenerator.writeNumberField("gravitationAttractionStrength", entry.getValue().getAggregationInputParameters().getGravitationAttractionStrength());
+                jsonGenerator.writeBooleanField("gravitationPositiveInfluence", entry.getValue().getAggregationInputParameters().getGravitationPositiveInfluence());
+                jsonGenerator.writeEndObject();
+            }
+            jsonGenerator.writeEndObject();
         }
 
         jsonGenerator.writeEndArray(); // ]

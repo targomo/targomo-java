@@ -1,5 +1,7 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.pojo.AggregationInputParameters;
+
 import javax.persistence.*;
 
 /**
@@ -14,6 +16,8 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 	private double y;
 
+	private AggregationInputParameters aggregationInputParameters;
+
 	// needed for jackson
 	public AbstractCoordinate(){}
 
@@ -23,10 +27,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * @param x X value of target
 	 * @param y Y value of target
 	 */
-	public AbstractCoordinate(final String id, final double x, final double y) {
+	public AbstractCoordinate(final String id, final double x, final double y, final AggregationInputParameters aggregationInputParameters) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.aggregationInputParameters = aggregationInputParameters;
 	}
 
 	/**
@@ -76,6 +81,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 	public void setY(final double y) {
 		this.y = y;
 	}
+
+	/**
+	 * Get the aggregation input parameters of a location
+	 * @return Location Properties
+	 */
+	public AggregationInputParameters getAggregationInputParameters() { return this.aggregationInputParameters; }
+
+	/**
+	 * Assign aggregation input parameters to a location
+	 * @param aggregationInputParameters aggregation input parameters to be assigned
+	 */
+	public void setAggregationInputParameters(final AggregationInputParameters aggregationInputParameters){ this.aggregationInputParameters = aggregationInputParameters; }
 
 	/**
 	 * Returns a JSON String representation of the Coordinate with ID, x and y values.

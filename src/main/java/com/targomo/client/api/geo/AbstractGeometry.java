@@ -1,5 +1,7 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.pojo.AggregationInputParameters;
+
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -13,12 +15,15 @@ public abstract class AbstractGeometry implements RoutingGeometry {
     private Integer crs;
     private String data;
 
+    private AggregationInputParameters aggregationInputParameters;
+
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data) {
+    public AbstractGeometry(String id, Integer crs, String data, AggregationInputParameters aggregationInputParameters) {
         this.id = id;
         this.crs = crs;
         this.data = data;
+        this.aggregationInputParameters = aggregationInputParameters;
     }
 
     /**
@@ -64,6 +69,19 @@ public abstract class AbstractGeometry implements RoutingGeometry {
     public void setCrs(Integer crs) {
         this.crs = crs;
     }
+
+    /**
+     * Get the aggregation input parameters of a location
+     * @return Location Properties
+     */
+    public AggregationInputParameters getAggregationInputParameters() { return this.aggregationInputParameters; }
+
+    /**
+     * Assign aggregation input parameters to a location
+     * @param aggregationInputParameters aggregation input parameters to be assigned
+     */
+    public void setAggregationInputParameters(final AggregationInputParameters aggregationInputParameters){ this.aggregationInputParameters = aggregationInputParameters; }
+
 
     /**
      * Returns a JSON String representation of the LocationGeometry with ID, geojson and crs values.

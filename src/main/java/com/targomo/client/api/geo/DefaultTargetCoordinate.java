@@ -21,7 +21,7 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	 */
 	@JsonCreator
 	public DefaultTargetCoordinate(@JsonProperty("id") final String id, @JsonProperty("x") final double x, @JsonProperty("y") final double y) {
-		super(id, x, y);
+		super(id, x, y, null);
 	}
 
 	/**

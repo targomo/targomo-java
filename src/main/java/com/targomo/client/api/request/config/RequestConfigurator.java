@@ -104,9 +104,6 @@ public final class RequestConfigurator {
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
                 JSONBuilder.append(config, Constants.SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
-            if (travelOptions.getGravitationCompetitors() != null && !travelOptions.getGravitationCompetitors().isEmpty())
-                JSONBuilder.append(config, Constants.GRAVITATION_COMPETITORS, getGravitationCompetitors(travelOptions));
-
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, Constants.TARGETS, getTargets(travelOptions));
 
@@ -441,15 +438,6 @@ public final class RequestConfigurator {
         return sourceGeometries;
     }
 
-    private static JSONArray getGravitationCompetitors(final TravelOptions travelOptions) throws JSONException {
-        JSONArray sources = new JSONArray();
-        for (Coordinate src : travelOptions.getGravitationCompetitors().values()) {
-            JSONObject source = getSourceObject(travelOptions, src);
-            sources.put(source);
-        }
-        return sources;
-    }
-
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
@@ -566,6 +554,14 @@ public final class RequestConfigurator {
                     .put(Constants.DATA, geometry.getData());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+
+        if(src.getAggregationInputParameters() != null){
+            source.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getAggregationInputParameters().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getAggregationInputParameters().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getAggregationInputParameters().getGravitationPositiveInfluence())
+            );
+        }
 
         if (travelOptions.getReverse() != null) {
             source.put(Constants.REVERSE, travelOptions.getReverse());

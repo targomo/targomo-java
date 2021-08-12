@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -17,7 +19,7 @@ public class PointOfInterestGravitationResponse {
     private final TravelOptions travelOptions;
     private final JSONObject result;
     private final long requestEnd;
-    private Map<String, Map<String, Double>> gravitationResult;
+    private GravitationResult gravitationResult;
 
     /**
      * Create a response from JSON results, using given travel options
@@ -40,11 +42,22 @@ public class PointOfInterestGravitationResponse {
      */
     public void parseResults() {
         try {
-            TypeReference<HashMap<String, Map<String, Double>>> typeRef
-                    = new TypeReference<HashMap<String, Map<String, Double>>>() {};
-            gravitationResult = new ObjectMapper().readValue(this.result.toString(), typeRef);
+            TypeReference<HashMap<String, Double>> typeRef
+                    = new TypeReference<HashMap<String, Double>>() {};
+            Map<String, Double> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
+            Double all = resultMap.get("all");
+            resultMap.remove("all");
+            gravitationResult = new GravitationResult(all, resultMap);
         } catch (JsonProcessingException e) {
             throw new TargomoClientRuntimeException("Couldn't parse POI reachability summary response", e);
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @ToString
+    public static class GravitationResult {
+        Double all;
+        Map<String, Double> clusters;
     }
 }

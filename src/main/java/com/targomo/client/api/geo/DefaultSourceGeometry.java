@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.pojo.AggregationInputParameters;
 
 import javax.persistence.*;
 
@@ -31,8 +32,8 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
      */
-    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType) {
-        super(id, crs, geojson);
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, AggregationInputParameters aggregationInputParameters) {
+        super(id, crs, geojson, aggregationInputParameters);
         this.travelType = travelType;
     }
 
@@ -44,7 +45,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param crs CRS value used for the geometry
      */
     public DefaultSourceGeometry(String id, String geojson, int crs) {
-        this(id, geojson, crs,null);
+        this(id, geojson, crs, null, null);
     }
 
     /**
