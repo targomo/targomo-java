@@ -30,7 +30,7 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 * @param x X value of target
 	 * @param y Y value of target
 	 * @param travelType TravelType to be associated with the coordinate
-	 * @param aggregationInputParameters
+	 * @param aggregationInputParameters aggregation input parameters for this source
 	 */
 	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType, AggregationInputParameters aggregationInputParameters) {
 		super(id, x, y, aggregationInputParameters);

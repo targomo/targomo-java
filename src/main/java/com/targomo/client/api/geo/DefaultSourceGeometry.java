@@ -31,7 +31,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param geojson String of the geojson of the object
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
-     * @
+     * @param aggregationInputParameters aggregation input parameters for this source
      */
     public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, AggregationInputParameters aggregationInputParameters) {
         super(id, crs, geojson, aggregationInputParameters);

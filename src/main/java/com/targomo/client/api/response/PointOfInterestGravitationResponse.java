@@ -57,7 +57,7 @@ public class PointOfInterestGravitationResponse {
     @AllArgsConstructor
     @ToString
     public static class GravitationResult {
-        Double all;
-        Map<String, Double> clusters;
+        private final Double all;
+        private final Map<String, Double> clusters;
     }
 }
