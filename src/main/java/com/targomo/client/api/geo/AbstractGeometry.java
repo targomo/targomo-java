@@ -3,43 +3,24 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 
 /**
  * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry implements RoutingGeometry {
+public abstract class AbstractGeometry extends AbstractLocation implements RoutingGeometry {
 
-    private String id;
     private Integer crs;
     private String data;
-
-    private AggregationInputParameters aggregationInputParameters;
 
     public AbstractGeometry() {} //For jackson test
 
     public AbstractGeometry(String id, Integer crs, String data, AggregationInputParameters aggregationInputParameters) {
-        this.id = id;
+        super(id, aggregationInputParameters);
         this.crs = crs;
         this.data = data;
-        this.aggregationInputParameters = aggregationInputParameters;
-    }
-
-    /**
-     * Get the ID associated with the geometry.
-     * @return LocationGeometry ID
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Assign an ID to the geometry
-     * @param id ID to be assigned
-     */
-    public void setId(final String id) {
-        this.id = id;
     }
 
     /**
@@ -71,19 +52,6 @@ public abstract class AbstractGeometry implements RoutingGeometry {
     }
 
     /**
-     * Get the aggregation input parameters of a location
-     * @return Location Properties
-     */
-    public AggregationInputParameters getAggregationInputParameters() { return this.aggregationInputParameters; }
-
-    /**
-     * Assign aggregation input parameters to a location
-     * @param aggregationInputParameters aggregation input parameters to be assigned
-     */
-    public void setAggregationInputParameters(final AggregationInputParameters aggregationInputParameters){ this.aggregationInputParameters = aggregationInputParameters; }
-
-
-    /**
      * Returns a JSON String representation of the LocationGeometry with ID, geojson and crs values.
      * @return JSON representation of the geometry
      */
@@ -109,8 +77,8 @@ public abstract class AbstractGeometry implements RoutingGeometry {
         AbstractGeometry that = (AbstractGeometry) o;
 
         if (!that.getData().equals(getData())) return false;
-        if (that.getCrs() != getCrs()) return false;
-        return id != null ? id.equals(that.id) : that.id == null;
+        if (!that.getCrs().equals(getCrs())) return false;
+        return Objects.equals(id, that.id);
     }
 
     @Override
