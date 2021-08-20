@@ -2,7 +2,7 @@ package com.targomo.client.api.geo;
 
 import com.targomo.client.api.pojo.AggregationInputParameters;
 
-public class AbstractLocation {
+public abstract class AbstractLocation {
 
     protected String id;
     protected AggregationInputParameters aggregationInputParameters;
@@ -17,15 +17,15 @@ public class AbstractLocation {
     }
 
     /**
-     * Get the ID associated with the geometry.
-     * @return LocationGeometry ID
+     * Get the ID associated with the location.
+     * @return Location ID
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Assign an ID to the geometry
+     * Assign an ID to the location
      * @param id ID to be assigned
      */
     public void setId(final String id) {
