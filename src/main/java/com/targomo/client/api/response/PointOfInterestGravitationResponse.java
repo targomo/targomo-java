@@ -42,10 +42,10 @@ public class PointOfInterestGravitationResponse {
      */
     public void parseResults() {
         try {
-            TypeReference<HashMap<String, Double>> typeRef
-                    = new TypeReference<HashMap<String, Double>>() {};
-            Map<String, Double> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
-            Double all = resultMap.get("all");
+            TypeReference<HashMap<String, Float>> typeRef
+                    = new TypeReference<HashMap<String, Float>>() {};
+            Map<String, Float> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
+            Float all = resultMap.get("all");
             resultMap.remove("all");
             gravitationResult = new GravitationResult(all, resultMap);
         } catch (JsonProcessingException e) {
@@ -57,7 +57,7 @@ public class PointOfInterestGravitationResponse {
     @AllArgsConstructor
     @ToString
     public static class GravitationResult {
-        private final Double all;
-        private final Map<String, Double> clusters;
+        private final Float all;
+        private final Map<String, Float> clusters;
     }
 }

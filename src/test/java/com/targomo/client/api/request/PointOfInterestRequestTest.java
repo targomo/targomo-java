@@ -7,6 +7,7 @@ import com.targomo.client.api.enums.PathSerializerType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.response.PointOfInterestGravitationResponse;
 import com.targomo.client.api.response.PointOfInterestResponse;
 import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.statistic.PoiType;
@@ -84,6 +85,27 @@ public class PointOfInterestRequestTest extends RequestTest {
         Assertions.assertThat(result.getGroupIdCount()).containsAllEntriesOf(expectedGroupIdCount);
         assertEquals(2, result.getClusterIdCount().size());
         Assertions.assertThat(result.getClusterIdCount()).containsAllEntriesOf(expectedClusterIdCount);
+    }
+
+    @Test
+    public void getGravitation_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestGravitationResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptions());
+        PointOfInterestGravitationResponse poiResponse = poiRequest.getGravitationAnalysis();
+        PointOfInterestGravitationResponse.GravitationResult result = poiResponse.getGravitationResult();
+
+        Map<String, Float> expectedClusters = new HashMap<>();
+        expectedClusters.put("c_1", 88.21f);
+        expectedClusters.put("c_2", 469.34f);
+
+        Assertions.assertThat(result.getAll()).isEqualTo(557.55f);
+        Assertions.assertThat(result.getClusters()).containsAllEntriesOf(expectedClusters);
     }
 
     @Test
