@@ -32,7 +32,7 @@ public class DefaultSourceGeometriesMapSerializer extends JsonSerializer {
                 jsonGenerator.writeBooleanField("gravitationPositiveInfluence", entry.getValue().getAggregationInputParameters().getGravitationPositiveInfluence());
                 jsonGenerator.writeEndObject();
             }
-            jsonGenerator.writeEndObject(); // {
+            jsonGenerator.writeEndObject(); // }
         }
 
         jsonGenerator.writeEndArray(); // ]
