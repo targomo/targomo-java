@@ -1,7 +1,6 @@
 package com.targomo.client.api.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class DefaultSourceCoordinateMapSerializer extends JsonSerializer {
     @Override
-    public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 
         jsonGenerator.writeStartArray(); // [
 
