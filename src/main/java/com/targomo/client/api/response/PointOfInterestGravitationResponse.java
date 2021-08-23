@@ -16,6 +16,7 @@ import java.util.Map;
 @Getter
 public class PointOfInterestGravitationResponse {
 
+    private static final String ALL_FIELD = "all";
     private final TravelOptions travelOptions;
     private final JSONObject result;
     private final long requestEnd;
@@ -45,11 +46,11 @@ public class PointOfInterestGravitationResponse {
             TypeReference<HashMap<String, Float>> typeRef
                     = new TypeReference<HashMap<String, Float>>() {};
             Map<String, Float> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
-            Float all = resultMap.get("all");
-            resultMap.remove("all");
+            Float all = resultMap.get(ALL_FIELD);
+            resultMap.remove(ALL_FIELD);
             gravitationResult = new GravitationResult(all, resultMap);
         } catch (JsonProcessingException e) {
-            throw new TargomoClientRuntimeException("Couldn't parse POI reachability summary response", e);
+            throw new TargomoClientRuntimeException("Couldn't parse POI gravitation analysis response", e);
         }
     }
 
