@@ -20,6 +20,7 @@ public class Constants {
     public static final String LATITUDE                                                 = "lat";
     public static final String LONGITUDE                                                = "lng";
     public static final String TRANSPORT_MODE                                           = "tm";
+    public static final String PROPERTIES                                               = "properties";
     public static final String SOURCES                                                  = "sources";
     public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
     public static final String TARGETS                                                  = "targets";

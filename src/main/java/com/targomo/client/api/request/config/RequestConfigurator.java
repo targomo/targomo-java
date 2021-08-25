@@ -438,6 +438,7 @@ public final class RequestConfigurator {
         return sourceGeometries;
     }
 
+
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
         for (Coordinate trg : travelOptions.getTargets().values()) {
@@ -553,6 +554,14 @@ public final class RequestConfigurator {
                     .put(Constants.DATA, geometry.getData());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+
+        if(src.getProperties() != null){
+            source.put(PROPERTIES, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
+            );
+        }
 
         if (travelOptions.getReverse() != null) {
             source.put(Constants.REVERSE, travelOptions.getReverse());

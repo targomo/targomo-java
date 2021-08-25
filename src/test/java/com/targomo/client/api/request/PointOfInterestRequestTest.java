@@ -6,7 +6,10 @@ import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.PathSerializerType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.pojo.LocationProperties;
+import com.targomo.client.api.response.PointOfInterestGravitationResponse;
 import com.targomo.client.api.response.PointOfInterestResponse;
 import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.statistic.PoiType;
@@ -87,6 +90,27 @@ public class PointOfInterestRequestTest extends RequestTest {
     }
 
     @Test
+    public void getGravitation_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestGravitationResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptionsWithSourceProperties());
+        PointOfInterestGravitationResponse poiResponse = poiRequest.getGravitationAnalysis();
+        PointOfInterestGravitationResponse.GravitationResult result = poiResponse.getGravitationResult();
+
+        Map<String, Float> expectedClusters = new HashMap<>();
+        expectedClusters.put("c_1", 88.21f);
+        expectedClusters.put("c_2", 469.34f);
+
+        Assertions.assertThat(result.getAll()).isEqualTo(557.55f);
+        Assertions.assertThat(result.getClusters()).containsAllEntriesOf(expectedClusters);
+    }
+
+    @Test
     @Ignore("To test this you will have to fill in your API key first")
     public void get_success_API_test() throws Exception {
         Client client = ClientBuilder.newClient();
@@ -109,10 +133,17 @@ public class PointOfInterestRequestTest extends RequestTest {
     }
 
     private TravelOptions getTravelOptions() {
+        return getTravelOptions(new DefaultSourceCoordinate("first", 9.971495, 53.556482));
+    }
 
+    private TravelOptions getTravelOptionsWithSourceProperties() {
+        return getTravelOptions(new DefaultSourceCoordinate("first", 9.971495, 53.556482, new LocationProperties(null, true, 1.2)));
+    }
+
+    private TravelOptions getTravelOptions(Coordinate source) {
         TravelOptions options = new TravelOptions();
         options.setMaxEdgeWeight(3600);
-        options.addSource(new DefaultSourceCoordinate("first", 9.971495, 53.556482));
+        options.addSource(source);
         options.setTravelTimes(Arrays.asList(600, 1200, 1800));
         options.setTravelType(TravelType.CAR);
         options.setPathSerializer(PathSerializerType.COMPACT_PATH_SERIALIZER);
@@ -120,7 +151,6 @@ public class PointOfInterestRequestTest extends RequestTest {
         options.setEdgeWeightType(EdgeWeightType.TIME);
         options.setServiceKey("INSERT_YOUR_KEY_HERE");
         options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
-
         return options;
     }
 

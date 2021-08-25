@@ -4,31 +4,32 @@ import com.targomo.client.api.pojo.GeometryTest;
 import com.targomo.client.api.request.*;
 import com.targomo.client.api.request.config.RequestConfiguratorTest;
 import com.targomo.client.api.request.ssl.SslClientGeneratorTest;
+import com.targomo.client.api.response.ReachabilityResponseTest;
 import com.targomo.client.api.response.TimeResponseTest;
 import com.targomo.client.api.util.CurlUtilTest;
 import com.targomo.client.api.util.GeojsonUtilTest;
 import com.targomo.client.api.util.IOUtilTest;
-import com.targomo.client.api.response.ReachabilityResponseTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TimeVectorRequestTest.class,
-        MultiGraphRequestTest.class,
+        GeometryTest.class,
         RequestConfiguratorTest.class,
+        SslClientGeneratorTest.class,
+        GeocodingRequestTest.class,
+        MultiGraphRequestTest.class,
+        PointOfInterestRequestTest.class,
         PolygonRequestTest.class,
         ReachabilityRequestTest.class,
         RouteRequestTest.class,
         TimeRequestTest.class,
-        IOUtilTest.class,
-        TimeResponseTest.class,
+        TimeVectorRequestTest.class,
         ReachabilityResponseTest.class,
-        SslClientGeneratorTest.class,
-        GeocodingRequestTest.class,
-        GeojsonUtilTest.class,
+        TimeResponseTest.class,
         CurlUtilTest.class,
-        GeometryTest.class
+        GeojsonUtilTest.class,
+        IOUtilTest.class
 })
 public class TestSuite {
 }
