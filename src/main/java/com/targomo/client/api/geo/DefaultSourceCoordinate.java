@@ -1,7 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
-import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.*;
 
@@ -30,10 +30,10 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 * @param x X value of target
 	 * @param y Y value of target
 	 * @param travelType TravelType to be associated with the coordinate
-	 * @param aggregationInputParameters aggregation input parameters for this source
+	 * @param locationProperties properties for this source
 	 */
-	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType, AggregationInputParameters aggregationInputParameters) {
-		super(id, x, y, aggregationInputParameters);
+	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType, LocationProperties locationProperties) {
+		super(id, x, y, locationProperties);
 		this.travelType = travelType;
 	}
 	/**
@@ -64,10 +64,10 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 * @param id ID to associate with the target coordinate
 	 * @param x X value of target
 	 * @param y Y value of target
-	 * @param aggregationInputParameters
+	 * @param locationProperties
 	 */
-	public DefaultSourceCoordinate(String id, double x, double y, AggregationInputParameters aggregationInputParameters) {
-		this(id, x, y, null, aggregationInputParameters);
+	public DefaultSourceCoordinate(String id, double x, double y, LocationProperties locationProperties) {
+		this(id, x, y, null, locationProperties);
 	}
 
 	/**

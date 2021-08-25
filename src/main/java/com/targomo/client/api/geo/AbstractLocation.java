@@ -1,19 +1,19 @@
 package com.targomo.client.api.geo;
 
-import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.LocationProperties;
 
 public abstract class AbstractLocation {
 
     protected String id;
-    protected AggregationInputParameters aggregationInputParameters;
+    protected LocationProperties properties;
 
     // needed for jackson
     public AbstractLocation(){}
 
 
-    public AbstractLocation(String id, AggregationInputParameters aggregationInputParameters){
+    public AbstractLocation(String id, LocationProperties properties){
         this.id = id;
-        this.aggregationInputParameters = aggregationInputParameters;
+        this.properties = properties;
     }
 
     /**
@@ -33,15 +33,15 @@ public abstract class AbstractLocation {
     }
 
     /**
-     * Get the aggregation input parameters of a location
+     * Get the properties of a location
      * @return Location Properties
      */
-    public AggregationInputParameters getAggregationInputParameters() { return this.aggregationInputParameters; }
+    public LocationProperties getProperties() { return this.properties; }
 
     /**
-     * Assign aggregation input parameters to a location
-     * @param aggregationInputParameters aggregation input parameters to be assigned
+     * Assign properties to a location
+     * @param properties location properties to be assigned
      */
-    public void setAggregationInputParameters(final AggregationInputParameters aggregationInputParameters){ this.aggregationInputParameters = aggregationInputParameters; }
+    public void setProperties(final LocationProperties properties){ this.properties = properties; }
 
 }

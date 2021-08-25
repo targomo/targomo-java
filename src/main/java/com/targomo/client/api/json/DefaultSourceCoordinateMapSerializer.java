@@ -24,12 +24,12 @@ public class DefaultSourceCoordinateMapSerializer extends JsonSerializer {
             if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
             jsonGenerator.writeNumberField("y", entry.getValue().getY());
             jsonGenerator.writeNumberField("x", entry.getValue().getX());
-            if( entry.getValue().getAggregationInputParameters() != null){
+            if( entry.getValue().getProperties() != null){
                 jsonGenerator.writeFieldName("aggregationInputParameters");
                 jsonGenerator.writeStartObject();
-                jsonGenerator.writeNumberField("inputFactor", entry.getValue().getAggregationInputParameters().getInputFactor());
-                jsonGenerator.writeNumberField("gravitationAttractionStrength", entry.getValue().getAggregationInputParameters().getGravitationAttractionStrength());
-                jsonGenerator.writeBooleanField("gravitationPositiveInfluence", entry.getValue().getAggregationInputParameters().getGravitationPositiveInfluence());
+                jsonGenerator.writeNumberField("inputFactor", entry.getValue().getProperties().getInputFactor());
+                jsonGenerator.writeNumberField("gravitationAttractionStrength", entry.getValue().getProperties().getGravitationAttractionStrength());
+                jsonGenerator.writeBooleanField("gravitationPositiveInfluence", entry.getValue().getProperties().getGravitationPositiveInfluence());
                 jsonGenerator.writeEndObject();
             }
             jsonGenerator.writeEndObject();

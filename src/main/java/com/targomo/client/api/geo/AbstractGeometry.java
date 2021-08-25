@@ -1,6 +1,6 @@
 package com.targomo.client.api.geo;
 
-import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
@@ -17,8 +17,8 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
 
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data, AggregationInputParameters aggregationInputParameters) {
-        super(id, aggregationInputParameters);
+    public AbstractGeometry(String id, Integer crs, String data, LocationProperties locationProperties) {
+        super(id, locationProperties);
         this.crs = crs;
         this.data = data;
     }

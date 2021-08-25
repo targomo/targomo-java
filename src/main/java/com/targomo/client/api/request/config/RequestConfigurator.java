@@ -555,11 +555,11 @@ public final class RequestConfigurator {
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
-        if(src.getAggregationInputParameters() != null){
-            source.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS, new JSONObject()
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getAggregationInputParameters().getInputFactor())
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getAggregationInputParameters().getGravitationAttractionStrength())
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getAggregationInputParameters().getGravitationPositiveInfluence())
+        if(src.getProperties() != null){
+            source.put(PROPERTIES, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
             );
         }
 
