@@ -1,40 +1,26 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.pojo.LocationProperties;
+
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 
 /**
  * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry implements RoutingGeometry {
+public abstract class AbstractGeometry extends AbstractLocation implements RoutingGeometry {
 
-    private String id;
     private Integer crs;
     private String data;
 
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data) {
-        this.id = id;
+    public AbstractGeometry(String id, Integer crs, String data, LocationProperties locationProperties) {
+        super(id, locationProperties);
         this.crs = crs;
         this.data = data;
-    }
-
-    /**
-     * Get the ID associated with the geometry.
-     * @return LocationGeometry ID
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Assign an ID to the geometry
-     * @param id ID to be assigned
-     */
-    public void setId(final String id) {
-        this.id = id;
     }
 
     /**
@@ -91,8 +77,8 @@ public abstract class AbstractGeometry implements RoutingGeometry {
         AbstractGeometry that = (AbstractGeometry) o;
 
         if (!that.getData().equals(getData())) return false;
-        if (that.getCrs() != getCrs()) return false;
-        return id != null ? id.equals(that.id) : that.id == null;
+        if (!that.getCrs().equals(getCrs())) return false;
+        return Objects.equals(id, that.id);
     }
 
     @Override

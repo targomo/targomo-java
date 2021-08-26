@@ -25,7 +25,7 @@ public class DefaultTargetCoordinateMapSerializer extends JsonSerializer {
             jsonGenerator.writeStringField("id", entry.getKey());
             jsonGenerator.writeNumberField("y", entry.getValue().getY());
             jsonGenerator.writeNumberField("x", entry.getValue().getX());
-            jsonGenerator.writeEndObject(); // {
+            jsonGenerator.writeEndObject(); // }
         }
 
         jsonGenerator.writeEndArray(); // ]

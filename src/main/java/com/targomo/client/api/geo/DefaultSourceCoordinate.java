@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.*;
 
@@ -29,10 +30,21 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 * @param x X value of target
 	 * @param y Y value of target
 	 * @param travelType TravelType to be associated with the coordinate
+	 * @param locationProperties properties for this source
 	 */
-	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType) {
-		super(id, x, y);
+	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType, LocationProperties locationProperties) {
+		super(id, x, y, locationProperties);
 		this.travelType = travelType;
+	}
+	/**
+	 * Generate Source coordinate with a TravelType as well as ID, X and Y values.
+	 * @param id ID to associate with the target coordinate
+	 * @param x X value of target
+	 * @param y Y value of target
+	 * @param travelType TravelType to be associated with the coordinate
+	 */
+	public DefaultSourceCoordinate(String id, double x, double y, TravelType travelType){
+		this(id, x, y, travelType, null);
 	}
 	
 	/**
@@ -43,7 +55,19 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 * @param y Y value of target
 	 */
 	public DefaultSourceCoordinate(String id, double x, double y) {
-		this(id, x, y, null);
+		this(id, x, y, null, null);
+	}
+
+	/**
+	 * Generate Source coordinate with ID, X and Y values with no travel type.
+	 * Travel type will be set to null.
+	 * @param id ID to associate with the target coordinate
+	 * @param x X value of target
+	 * @param y Y value of target
+	 * @param locationProperties
+	 */
+	public DefaultSourceCoordinate(String id, double x, double y, LocationProperties locationProperties) {
+		this(id, x, y, null, locationProperties);
 	}
 
 	/**

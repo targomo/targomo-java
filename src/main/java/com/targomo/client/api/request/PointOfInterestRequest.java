@@ -1,13 +1,14 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.Format;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
+import com.targomo.client.api.response.PointOfInterestGravitationResponse;
 import com.targomo.client.api.response.PointOfInterestResponse;
 import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
-import com.targomo.client.api.TravelOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.function.Supplier;
 
 /**
  * Find reachable openstreetmap pois with this class.
@@ -66,6 +68,11 @@ public class PointOfInterestRequest {
 		return validateResponse(response, requestStart, roundTripTime);
 	}
 
+	/**
+	 * Execute summary poi reachability request
+	 * @return point of interest summary response
+	 * @throws TargomoClientException In case of error other than Gateway Timeout
+	 */
 	public PointOfInterestSummaryResponse getSummary() throws TargomoClientException {
 		long requestStart = System.currentTimeMillis();
 
@@ -75,12 +82,26 @@ public class PointOfInterestRequest {
 		return validateSummaryResponse(response, requestStart, roundTripTime);
 	}
 
+	/**
+	 * Execute gravitation poi request
+	 * @return point of interest gravitation response
+	 * @throws TargomoClientException In case of error other than Gateway Timeout
+	 */
+	public PointOfInterestGravitationResponse getGravitationAnalysis() throws TargomoClientException {
+		long requestStart = System.currentTimeMillis();
+
+		Response response = getResponse("/gravitation");
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateGravitationResponse(response, requestStart, roundTripTime);
+	}
+
 	private Response getResponse(String path) throws TargomoClientException {
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey());
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
-		LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
 		String config = RequestConfigurator.getConfig(travelOptions);
 		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 
@@ -97,24 +118,42 @@ public class PointOfInterestRequest {
 	 */
 	private PointOfInterestResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
 																		throws TargomoClientException {
-
-		// compare the HTTP status codes, NOT the route 360 code
-		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-			// consume the results
-			return new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
-		}
-		else {
-			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
-		}
+		return validateResponse(response, () -> new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
 	}
 
+	/**
+	 * Validate HTTP response and return a PointOfInterestSummaryResponse
+	 * @param response HTTP response
+	 * @param requestStart Beginning of execution in milliseconds
+	 * @param roundTripTime Execution time in milliseconds
+	 * @return ReachabilityResponse
+	 * @throws TargomoClientException In case of errors other than GatewayTimeout
+	 */
 	private PointOfInterestSummaryResponse validateSummaryResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws TargomoClientException {
 
+		return validateResponse(response, () -> new PointOfInterestSummaryResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
+	}
+
+	/**
+	 * Validate HTTP response and return a PointOfInterestGravitationResponse
+	 * @param response HTTP response
+	 * @param requestStart Beginning of execution in milliseconds
+	 * @param roundTripTime Execution time in milliseconds
+	 * @return ReachabilityResponse
+	 * @throws TargomoClientException In case of errors other than GatewayTimeout
+	 */
+	private PointOfInterestGravitationResponse validateGravitationResponse(final Response response, final long requestStart, final long roundTripTime)
+			throws TargomoClientException {
+
+		return validateResponse(response, () -> new PointOfInterestGravitationResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
+	}
+
+	private <T> T validateResponse(Response response, Supplier<T> responseSupplier) throws TargomoClientException {
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
-			return new PointOfInterestSummaryResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
+			return responseSupplier.get();
 		}
 		else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());

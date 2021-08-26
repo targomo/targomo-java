@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.pojo.LocationProperties;
 
 /**
  * Contains ID and Travel type for both Coordinates and Polygons
@@ -30,5 +31,17 @@ public interface Location {
      * @param id ID to be assigned
      */
     public void setId(final String id);
+
+    /**
+     * Get the properties of a location
+     * @return Location Properties
+     */
+    public LocationProperties getProperties();
+
+    /**
+     * Assign properties to a location
+     * @param locationProperties location properties to be assigned
+     */
+    public void setProperties(final LocationProperties locationProperties);
 
 }

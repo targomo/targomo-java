@@ -1,48 +1,35 @@
 package com.targomo.client.api.geo;
 
-import javax.persistence.*;
+import com.targomo.client.api.pojo.LocationProperties;
+
+import javax.persistence.MappedSuperclass;
 
 /**
  * Simple abstract class to use for storing coordinates with IDs and travel types.
  */
 @MappedSuperclass
-public abstract class AbstractCoordinate implements Coordinate {
-
-	private String id;
+public abstract class AbstractCoordinate extends AbstractLocation implements Coordinate {
 
 	private double x;
 
 	private double y;
 
 	// needed for jackson
-	public AbstractCoordinate(){}
+	public AbstractCoordinate(){
+		super();
+	}
 
 	/**
 	 * Generate a Coordinate with an ID along with X and Y values.
 	 * @param id ID to associate with the target coordinate
-	 * @param x X value of target
-	 * @param y Y value of target
+	 * @param x X value of coordinate
+	 * @param y Y value of coordinate
+	 * @param locationProperties properties of coordinate
 	 */
-	public AbstractCoordinate(final String id, final double x, final double y) {
-		this.id = id;
+	public AbstractCoordinate(final String id, final double x, final double y, final LocationProperties locationProperties) {
+		super(id, locationProperties);
 		this.x = x;
 		this.y = y;
-	}
-
-	/**
-	 * Get the ID associated with the coordinate.
-	 * @return Coordinate ID
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Assign an ID to the coordinate
-	 * @param id ID to be assigned
-	 */
-	public void setId(final String id) {
-		this.id = id;
 	}
 
 	/**
