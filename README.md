@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.4.0
-- to be added
+- Dont parse response data if the request failed with an error code
 
 ### 0.3.0
 - Add POI Gravitation endpoint
