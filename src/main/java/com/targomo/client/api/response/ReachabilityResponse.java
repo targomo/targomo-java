@@ -31,7 +31,10 @@ public class ReachabilityResponse {
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
 		this.totalTimeMillis 	  = System.currentTimeMillis() - requestStart;
 
-		mapResults(result);
+		// only map results if the response does not contain an error code
+		if ("ok".equals(this.code)) {
+			mapResults(result);
+		}
 	}
 
 	/**

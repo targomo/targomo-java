@@ -89,8 +89,17 @@ public class RouteRequest {
 			// consume the results
 			JSONObject result = JsonUtil.parseString(IOUtil.getResultString(response));
 
-			return new RouteResponse(travelOptions, JsonUtil.getJsonArray(JsonUtil.getJSONObject(result, "data"), "routes"), JsonUtil.getString(result, "code"),
-					result.has("requestTime") ? JsonUtil.getInt(result, "requestTime") : -1);
+			String code = JsonUtil.getString(result, "code");
+			if ("ok".equals(code)) {
+				// only parse results if the response does not contain an error code
+				return new RouteResponse(travelOptions, JsonUtil.getJsonArray(JsonUtil.getJSONObject(result, "data"), "routes"), code,
+						result.has("requestTime") ? JsonUtil.getInt(result, "requestTime") : -1);
+			}
+			else {
+				return new RouteResponse(travelOptions, new JSONArray(), code,
+						result.has("requestTime") ? JsonUtil.getInt(result, "requestTime") : -1);
+			}
+
 		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
 			return new RouteResponse(travelOptions, new JSONArray(), "gateway-time-out", System.currentTimeMillis() - requestStart);
 		} else {
