@@ -8,6 +8,7 @@ import com.targomo.client.api.response.RouteResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.api.TravelOptions;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +16,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.Objects;
 
 /**
  * Generates possible route from sources to targets.
@@ -91,9 +93,15 @@ public class RouteRequest {
 			JSONObject result = JsonUtil.parseString(IOUtil.getResultString(response));
 
 			ResponseCode code = ResponseCode.fromString(JsonUtil.getString(result, "code"));
+			final String message = result.has("message") ? JsonUtil.getString(result, "message") : "";
 			// throw an exception in case of an error code
+
 			if (code != ResponseCode.OK) {
-				throw new ResponseErrorException(code, "Route request returned an error code");
+				String msg = "Route request returned an error";
+				if (!StringUtils.isEmpty(message)) {
+					msg += ": " + message;
+				}
+				throw new ResponseErrorException(code, msg);
 			}
 
 			return new RouteResponse(travelOptions, JsonUtil.getJsonArray(JsonUtil.getJSONObject(result, "data"), "routes"), code,

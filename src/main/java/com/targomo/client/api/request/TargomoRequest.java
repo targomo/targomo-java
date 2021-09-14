@@ -10,6 +10,8 @@ import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.DefaultResponse;
 import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
+import com.targomo.client.api.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -184,7 +186,11 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         }
 
         if (parsedResponse.getCode() != ResponseCode.OK) {
-            throw new ResponseErrorException(parsedResponse.getCode(), "Request returned an error code");
+            String msg = "Request returned an error";
+            if (!StringUtils.isEmpty(parsedResponse.getMessage())) {
+                msg += ": " + parsedResponse.getMessage();
+            }
+            throw new ResponseErrorException(parsedResponse.getCode(), msg);
         }
 
         parsedResponse.finishDeserialization(travelOptions, roundTripTimeMillis, System.currentTimeMillis() - startParsing);

@@ -10,6 +10,7 @@ import com.targomo.client.api.response.PolygonResponse;
 import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import javax.ws.rs.HttpMethod;
@@ -18,6 +19,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Objects;
 
 /**
  * Creates polygons for the source points with specified travel times in minutes.
@@ -150,9 +152,14 @@ public class PolygonRequest {
 
 			// Check response code
 			final ResponseCode responseCode = ResponseCode.fromString(JsonUtil.getString(result, "code"));
+			final String message = result.has("message") ? JsonUtil.getString(result, "message") : "";
 
 			if (responseCode != ResponseCode.OK) {
-				throw new ResponseErrorException(responseCode, "Polygon request returned an error code");
+				String msg = "Polygon request returned an error";
+				if (!StringUtils.isEmpty(message)) {
+					msg += ": " + message;
+				}
+				throw new ResponseErrorException(responseCode, msg);
 			}
 
 			return new PolygonResponse(travelOptions, result, responseCode,

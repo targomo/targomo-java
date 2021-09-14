@@ -6,6 +6,7 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.TravelWeight;
 import com.targomo.client.api.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TimeResponse {
@@ -23,7 +25,8 @@ public class TimeResponse {
 	private final long requestTimeMillis;
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
-	
+	private final String message;
+
 	private final Map<Coordinate, Map<Coordinate,TravelWeight>> travelWeights = new HashMap<>();
 	private Map<Coordinate, Map<Coordinate, Integer>> travelTimes = null;
 	private Map<Coordinate, Map<Coordinate, Integer>> travelDistances = null;
@@ -39,11 +42,16 @@ public class TimeResponse {
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = ResponseCode.fromString(JsonUtil.getString(result, "code"));
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
-		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+		this.totalTimeMillis      = System.currentTimeMillis() - requestStart;
+		this.message              = result.has("message") ? JsonUtil.getString(result, "message") : "";
 
 		// throw an exception in case of an error code
 		if (this.code != ResponseCode.OK) {
-			throw new ResponseErrorException(this.code, "Time request returned an error code");
+			String msg = "Time request returned an error";
+			if (!StringUtils.isEmpty(message)) {
+				msg += ": " + message;
+			}
+			throw new ResponseErrorException(this.code, msg);
 		}
 
 		mapResults(result);
@@ -61,7 +69,8 @@ public class TimeResponse {
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = code;
 		this.requestTimeMillis 	  = requestTime;
-		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+		this.totalTimeMillis      = System.currentTimeMillis() - requestStart;
+		this.message              = "";
 	}
 
 	/**
