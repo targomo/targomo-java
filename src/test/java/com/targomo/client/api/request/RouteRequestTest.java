@@ -4,6 +4,7 @@ import com.targomo.client.api.enums.PathSerializerType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.response.RouteResponse;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -36,7 +37,7 @@ public class RouteRequestTest extends RequestTest {
         RouteResponse routeResponse = routeRequest.get();
 
         // Check result
-        assertEquals("ok", routeResponse.getCode());
+        assertEquals(ResponseCode.OK, routeResponse.getCode());
         assertEquals(39, routeResponse.getRequestTimeMillis());
         assertEquals(1, routeResponse.getRoutes().length());
 
@@ -48,14 +49,13 @@ public class RouteRequestTest extends RequestTest {
         assertNotNull(route.getJSONArray("segments"));
     }
 
-    @Test
+    @Test(expected = TargomoClientException.class)
     public void get_gateway_timeout() throws Exception {
         when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
         TravelOptions options = getTravelOptions();
         RouteRequest routeRequest = new RouteRequest(mockClient, options);
         RouteResponse routeResponse = routeRequest.get();
-        assertEquals("gateway-time-out", routeResponse.getCode());
     }
 
 	@Test(expected = TargomoClientException.class)
