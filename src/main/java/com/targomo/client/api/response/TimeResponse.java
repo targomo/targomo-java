@@ -1,5 +1,6 @@
 package com.targomo.client.api.response;
 
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.Coordinate;
@@ -18,7 +19,7 @@ public class TimeResponse {
 
 	private static final TravelWeight EMPTY_TRAVELWEIGHT = new TravelWeight(-1, -1);
 
-	private final String code;
+	private final ResponseCode code;
 	private final long requestTimeMillis;
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
@@ -33,17 +34,19 @@ public class TimeResponse {
 	 * @param result Travel times in JSON
 	 * @param requestStart Start time of execution
 	 */
-	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) throws ResponseErrorException {
 		
 		this.travelOptions 	   	  = travelOptions;
-		this.code 		 	   	  = JsonUtil.getString(result, "code");
+		this.code 		 	   	  = ResponseCode.fromString(JsonUtil.getString(result, "code"));
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
 		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
 
-		// only map results if the response does not contain an error code
-		if ("ok".equals(this.code)) {
-			mapResults(result);
+		// throw an exception in case of an error code
+		if (this.code != ResponseCode.OK) {
+			throw new ResponseErrorException(this.code, "Time request returned an error code");
 		}
+
+		mapResults(result);
 	}
 
 	/**
@@ -53,7 +56,7 @@ public class TimeResponse {
 	 * @param requestTime Execution time in milliseconds
 	 * @param requestStart Start time of execution
 	 */
-	public TimeResponse(TravelOptions travelOptions, String code, long requestTime, long requestStart) {
+	public TimeResponse(TravelOptions travelOptions, ResponseCode code, long requestTime, long requestStart) {
 
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = code;
@@ -138,7 +141,7 @@ public class TimeResponse {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public ResponseCode getCode() {
 		return code;
 	}
 

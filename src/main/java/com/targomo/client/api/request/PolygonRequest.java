@@ -1,11 +1,13 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.response.PolygonResponse;
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import org.json.JSONObject;
@@ -99,7 +101,7 @@ public class PolygonRequest {
 	 * @return Polygon response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public PolygonResponse get() throws TargomoClientException {
+	public PolygonResponse get() throws TargomoClientException, ResponseErrorException {
 
 		long startTimeMillis = System.currentTimeMillis();
 
@@ -136,7 +138,7 @@ public class PolygonRequest {
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
 	private PolygonResponse validateResponse(final Response response, final long roundTripTimeMillis)
-			throws TargomoClientException {
+			throws TargomoClientException, ResponseErrorException {
 
 		// Check HTTP status
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
@@ -147,19 +149,14 @@ public class PolygonRequest {
 			long parseTime = System.currentTimeMillis() - startParsing;
 
 			// Check response code
-			final String responseCode = JsonUtil.getString(result, "code");
-			if (Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals(responseCode)
-					|| Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
-					|| Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
-					|| Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
-				throw new TargomoClientException(result.toString(), response.getStatus());
+			final ResponseCode responseCode = ResponseCode.fromString(JsonUtil.getString(result, "code"));
+
+			if (responseCode != ResponseCode.OK) {
+				throw new ResponseErrorException(responseCode, "Polygon request returned an error code");
 			}
 
-			return new PolygonResponse(travelOptions, result,
-					JsonUtil.getString(result, "code"),
+			return new PolygonResponse(travelOptions, result, responseCode,
 					JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis, parseTime);
-		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-			return new PolygonResponse(travelOptions, new JSONObject(), "gateway-time-out", -1, roundTripTimeMillis);
 		} else {
 			throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
 		}

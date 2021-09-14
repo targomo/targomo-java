@@ -3,10 +3,12 @@ package com.targomo.client.api.request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.DefaultResponse;
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
 
 import javax.ws.rs.HttpMethod;
@@ -55,7 +57,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      */
     static <O extends DefaultResponse<?,?>, C extends TargomoRequest<O>> O
                     executeRequest(BiFunction<Client,TravelOptions, C> constructor,
-                                   TravelOptions travelOptions) throws TargomoClientException {
+                                   TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         Client client = SslClientGenerator.initClient();
         try{
             return constructor.apply(client,travelOptions).get();
@@ -110,7 +112,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @return the request's response of type R
      * @throws TargomoClientException In case of error other than Gateway Timeout
      */
-    public R get() throws TargomoClientException {
+    public R get() throws TargomoClientException, ResponseErrorException {
 
         long startTimeMillis = System.currentTimeMillis();
         WebTarget request = client.target(travelOptions.getServiceUrl())
@@ -165,7 +167,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @throws TargomoClientException in case of errors other than GatewayTimeout
      */
     private R validateResponse(final Response response, final long roundTripTimeMillis)
-            throws TargomoClientException {
+            throws TargomoClientException, ResponseErrorException {
 
         // Check HTTP status
         R parsedResponse = null;
@@ -174,25 +176,18 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
             String resultString = IOUtil.getResultString(response);
             try {
                 parsedResponse  = MAPPER.readValue(resultString, clazz);
-                final String responseCode = parsedResponse.getCode();
-                if (Constants.EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND.equals(responseCode)
-                        || Constants.EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK.equals(responseCode)
-                        || Constants.EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED.equals(responseCode)
-                        || Constants.EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION.equals(responseCode)) {
-                    throw new TargomoClientException(resultString, response.getStatus());
-                }
             } catch (IOException e) {
                 throw new TargomoClientException("Exception occurred for result: " + resultString, e, response.getStatus());
             }
-        } else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-            parsedResponse = DefaultResponse.createGatewayTimeoutResponse(clazz);
-        }
-
-        if(parsedResponse != null) {
-            parsedResponse.finishDeserialization(travelOptions, roundTripTimeMillis, System.currentTimeMillis() - startParsing);
-            return parsedResponse;
         } else {
             throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
         }
+
+        if (parsedResponse.getCode() != ResponseCode.OK) {
+            throw new ResponseErrorException(parsedResponse.getCode(), "Request returned an error code");
+        }
+
+        parsedResponse.finishDeserialization(travelOptions, roundTripTimeMillis, System.currentTimeMillis() - startParsing);
+        return parsedResponse;
     }
 }
