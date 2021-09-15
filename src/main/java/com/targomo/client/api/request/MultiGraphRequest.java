@@ -2,6 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.jackson.datatype.trove.TroveModule;
 import com.targomo.client.api.enums.MultiGraphSerializationFormat;
@@ -57,13 +58,13 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
      * @return result of the request
      * @throws TargomoClientException id error occurred during request
      */
-    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         return TargomoRequest.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphJsonResponse.class, headers),
                 travelOptions);
     }
 
-    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws TargomoClientException {
+    public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestJson(travelOptions, new MultivaluedHashMap<>());
     }
 
@@ -75,33 +76,33 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
      * @return result of the request
      * @throws TargomoClientException id error occurred during request
      */
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         return TargomoRequest.executeRequest(
                 (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphGeoJsonResponse.class, headers),
                 travelOptions);
     }
 
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws TargomoClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestGeoJson(travelOptions,  new MultivaluedHashMap<>());
     }
 
-    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         if(!MultiGraphSerializationFormat.JSON.equals( travelOptions.getMultiGraphSerializationFormat() ))
             throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphJsonResponse.class, headers).get();
     }
 
-    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws TargomoClientException {
+    public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestJson(client, travelOptions, new MultivaluedHashMap<>());
     }
 
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         if(!MultiGraphSerializationFormat.GEOJSON.equals( travelOptions.getMultiGraphSerializationFormat() ))
             throw new IllegalArgumentException("MultiGraph serialization type GEOJSON must be requested to expect MultiGraphGeoJsonResponse");
         return new MultiGraphRequest<>(client,travelOptions,MultiGraphGeoJsonResponse.class, headers).get();
     }
 
-    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws TargomoClientException {
+    public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestGeoJson(client, travelOptions, new MultivaluedHashMap<>());
     }
 }

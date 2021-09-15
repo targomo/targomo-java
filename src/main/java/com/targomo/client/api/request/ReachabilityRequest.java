@@ -2,6 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
@@ -71,7 +72,7 @@ public class ReachabilityRequest {
 	 * @return Reachability response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public ReachabilityResponse get() throws TargomoClientException {
+	public ReachabilityResponse get() throws TargomoClientException, ResponseErrorException {
 
 		long requestStart = System.currentTimeMillis();
 
@@ -108,27 +109,23 @@ public class ReachabilityRequest {
 		}
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart, roundTripTime);
+		return validateResponse(response, requestStart);
 	}
 
 	/**
 	 * Validate HTTP response and return a ReachabilityResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
-	 * @param roundTripTime Execution time in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private ReachabilityResponse validateResponse(final Response response,
-	                                              final long requestStart, final long roundTripTime)
-			throws TargomoClientException {
+	private ReachabilityResponse validateResponse(final Response response, final long requestStart)
+			throws TargomoClientException, ResponseErrorException {
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
 			String res = response.readEntity(String.class);
 			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
-		} else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-			return new ReachabilityResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}

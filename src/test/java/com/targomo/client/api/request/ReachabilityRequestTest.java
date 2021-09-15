@@ -7,6 +7,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.response.ReachabilityResponse;
+import com.targomo.client.api.response.ResponseCode;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -33,19 +34,18 @@ public class ReachabilityRequestTest extends RequestTest {
         ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, getTravelOptions());
         ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
 
-        assertEquals("ok", reachabilityResponse.getCode());
+        assertEquals(ResponseCode.OK, reachabilityResponse.getCode());
         assertEquals(517, reachabilityResponse.getRequestTimeMillis());
         assertNotNull(reachabilityResponse.getTravelTimes());
     }
 
-    @Test
+    @Test(expected = TargomoClientException.class)
     public void get_gateway_timeout() throws Exception {
         when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
         TravelOptions options = getTravelOptions();
         ReachabilityRequest reachabilityRequest = new ReachabilityRequest(mockClient, options);
         ReachabilityResponse reachabilityResponse = reachabilityRequest.get();
-        assertEquals("gateway-time-out", reachabilityResponse.getCode());
     }
 
 	@Test(expected = TargomoClientException.class)
