@@ -12,6 +12,7 @@ import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.MultiGraphResponse.*;
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -48,7 +49,7 @@ public class MultiGraphRequestTest extends RequestTest {
 		MultiGraphJsonResponse response = MultiGraphRequest.executeRequestJson(mockClient, getTravelOptions());
 
 		// Check result
-		assertEquals("ok", response.getCode());
+		assertEquals(ResponseCode.OK, response.getCode());
 		assertEquals(13, response.getRequestTimeMillis());
 
         assertNotNull(response.getData());
@@ -84,14 +85,12 @@ public class MultiGraphRequestTest extends RequestTest {
         assertNotNull(response.getData());
     }
 
-	@Test
+    @Test(expected = TargomoClientException.class)
 	public void get_gateway_timeout() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
         // Make the call
         MultiGraphResponse response = MultiGraphRequest.executeRequestJson(mockClient, getTravelOptions());
-
-        assertEquals("gateway-time-out", response.getCode());
 	}
 
 	@Test(expected = TargomoClientException.class)

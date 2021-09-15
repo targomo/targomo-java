@@ -13,7 +13,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 public abstract class DefaultResponse<O,I> {
 
     //Json parsed data
-    private String code;
+    private ResponseCode code;
     private long requestTimeMillis;
     private String message;
     protected O data;
@@ -23,17 +23,6 @@ public abstract class DefaultResponse<O,I> {
     private long roundTripTimeMillis;
     private TravelOptions travelOptions;
 
-    public static <R extends DefaultResponse> R createGatewayTimeoutResponse(Class<R> clazz) throws TargomoClientException {
-        try {
-            R gateWayTimeoutResponse = clazz.newInstance();
-            gateWayTimeoutResponse.setCode("gateway-time-out");
-            gateWayTimeoutResponse.setMessage("");
-            gateWayTimeoutResponse.setRequestTimeMillis(-1);
-            return gateWayTimeoutResponse;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new TargomoClientException("Response Instantiation failed with error", e);
-        }
-    }
 
     public void finishDeserialization(TravelOptions travelOptions, long roundTripTimeMillis, long parseTimeMillis) {
         this.travelOptions 	   	 = travelOptions;
@@ -41,7 +30,7 @@ public abstract class DefaultResponse<O,I> {
         this.parseTimeMillis 	 = parseTimeMillis;
     }
 
-    void setCode(String code) {
+    void setCode(ResponseCode code) {
         this.code = code;
     }
 
@@ -64,7 +53,7 @@ public abstract class DefaultResponse<O,I> {
     /**
      * @return the code
      */
-    public String getCode() {
+    public ResponseCode getCode() {
         return code;
     }
 

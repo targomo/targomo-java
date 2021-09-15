@@ -5,7 +5,7 @@ import org.json.JSONArray;
 
 public class RouteResponse {
 
-	private final String code;
+	private final ResponseCode code;
 	private final long requestTimeMillis;
 	private final TravelOptions travelOptions;
 	private final JSONArray routes;
@@ -17,7 +17,7 @@ public class RouteResponse {
 	 * @param code targomo status code for the request
 	 * @param requestTimeMillis the milliseconds for server runtime
 	 */
-	public RouteResponse(TravelOptions travelOptions, JSONArray routes, String code, long requestTimeMillis) {
+	public RouteResponse(TravelOptions travelOptions, JSONArray routes, ResponseCode code, long requestTimeMillis) {
 		this.travelOptions 	   = travelOptions;
 		this.code 			   = code;
 		this.routes 		   = routes;
@@ -27,7 +27,7 @@ public class RouteResponse {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public ResponseCode getCode() {
 		return code;
 	}
 

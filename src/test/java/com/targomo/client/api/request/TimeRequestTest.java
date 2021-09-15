@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.response.TimeResponse;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.PathSerializerType;
@@ -34,21 +35,20 @@ public class TimeRequestTest extends RequestTest {
         TimeRequest timeRequest = new TimeRequest(mockClient, getTravelOptions());
         TimeResponse timeResponse = timeRequest.get();
 
-        assertEquals("ok", timeResponse.getCode());
+        assertEquals(ResponseCode.OK, timeResponse.getCode());
         assertEquals(472, timeResponse.getRequestTimeMillis());
         assertNotNull(timeResponse.getTravelWeights());
         assertNotNull(timeResponse.getTravelTimes());
         assertNotNull(timeResponse.getLengths());
     }
 
-    @Test
+    @Test(expected = TargomoClientException.class)
     public void get_gateway_timeout() throws Exception {
         when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
         TravelOptions options = getTravelOptions();
         TimeRequest timeRequest = new TimeRequest(mockClient, options);
         TimeResponse timeResponse = timeRequest.get();
-        assertEquals("gateway-time-out", timeResponse.getCode());
     }
 
 	@Test(expected = TargomoClientException.class)
