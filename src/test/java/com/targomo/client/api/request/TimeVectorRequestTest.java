@@ -5,6 +5,7 @@ import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.response.TimeVectorResponse;
 import com.targomo.client.api.response.parsingpojos.TransitTravelTimes;
 import org.apache.commons.io.IOUtils;
@@ -41,7 +42,7 @@ public class TimeVectorRequestTest extends RequestTest {
 		TimeVectorResponse response = TimeVectorRequest.executeRequest(mockClient, getTravelOptions());
 
 		// Check result
-		assertEquals("ok", response.getCode());
+		assertEquals(ResponseCode.OK, response.getCode());
         assertEquals(6070, response.getRequestTimeMillis());
         assertThat( response.getData() ).isNotEmpty();
         assertThat( response.getTravelTimeVectors().size() ).isEqualTo(2);
@@ -63,7 +64,7 @@ public class TimeVectorRequestTest extends RequestTest {
 	    //prepare travelOptions
         TravelOptions tO = getTravelOptions();
         tO.setServiceKey(INTEGRATION_TEST_KEY);
-        tO.setServiceUrl("https://service.route360.net/westcentraleurope");
+        tO.setServiceUrl("https://api.targomo.com/westcentraleurope");
 
         // Make the call
         Client client = ClientBuilder.newClient();
@@ -73,7 +74,7 @@ public class TimeVectorRequestTest extends RequestTest {
 
         System.out.println(request.toCurl());
 
-        assertEquals("ok", response.getCode());
+        assertEquals(ResponseCode.OK, response.getCode());
         assertThat( response.getData() ).isNotEmpty();
         assertThat( response.getTravelTimeVectors().size() ).isEqualTo(2);
         assertThat( response.getTravelTimeVectors().entrySet().stream().mapToInt( entry -> entry.getValue().size() ).toArray())
@@ -85,14 +86,12 @@ public class TimeVectorRequestTest extends RequestTest {
 
     }
 
-	@Test
+    @Test(expected = TargomoClientException.class)
 	public void get_gateway_timeout() throws Exception {
 		when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
         // Make the call
         TimeVectorResponse response = TimeVectorRequest.executeRequest(mockClient, getTravelOptions());
-
-        assertEquals("gateway-time-out", response.getCode());
 	}
 
 	@Test(expected = TargomoClientException.class)

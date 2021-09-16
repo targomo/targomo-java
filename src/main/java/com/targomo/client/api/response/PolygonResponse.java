@@ -1,11 +1,12 @@
 package com.targomo.client.api.response;
 
 import com.targomo.client.api.TravelOptions;
+import org.hsqldb.error.ErrorCode;
 import org.json.JSONObject;
 
 public class PolygonResponse {
 
-	private final String code;
+	private final ResponseCode code;
 	private final long requestTimeMillis;
 	private final long roundTripTimeMillis;
 	private final TravelOptions travelOptions;
@@ -20,7 +21,7 @@ public class PolygonResponse {
 	 * @param requestTimeMillis the milliseconds for server runtime
 	 * @param roundTripTimeMillis the milliseconds for total roundtrip
 	 */
-	public PolygonResponse(TravelOptions travelOptions, JSONObject result, String code, long requestTimeMillis, long roundTripTimeMillis) {
+	public PolygonResponse(TravelOptions travelOptions, JSONObject result, ResponseCode code, long requestTimeMillis, long roundTripTimeMillis) {
 		this.travelOptions 	   	= travelOptions;
 		this.code 			   	= code;
 		this.result				= result;
@@ -29,7 +30,7 @@ public class PolygonResponse {
 		this.parseTime 			= -1;
 	}
 	
-	public PolygonResponse(TravelOptions travelOptions, JSONObject result, String code, long requestTimeMillis, long roundTripTimeMillis, long parseTime) {
+	public PolygonResponse(TravelOptions travelOptions, JSONObject result, ResponseCode code, long requestTimeMillis, long roundTripTimeMillis, long parseTime) {
 		this.travelOptions 	   	= travelOptions;
 		this.code 			   	= code;
 		this.result				= result;
@@ -41,7 +42,7 @@ public class PolygonResponse {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public ResponseCode getCode() {
 		return code;
 	}
 

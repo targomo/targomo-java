@@ -1,6 +1,7 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.TimeVectorResponse;
@@ -29,21 +30,21 @@ public class TimeVectorRequest extends TargomoRequest<TimeVectorResponse> {
         this(client, travelOptions, new MultivaluedHashMap<>());
     }
 
-    public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         return new TimeVectorRequest(client,travelOptions, headers).get();
     }
 
-    public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions) throws TargomoClientException {
+    public static TimeVectorResponse executeRequest(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return  executeRequest(client, travelOptions, new MultivaluedHashMap<>());
     }
 
-    public static TimeVectorResponse executeRequest(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException {
+    public static TimeVectorResponse executeRequest(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
         return TargomoRequest.executeRequest(
                 (client,tO) -> new TimeVectorRequest(client,tO, headers),
                 travelOptions);
     }
 
-    public static TimeVectorResponse executeRequest(TravelOptions travelOptions) throws TargomoClientException {
+    public static TimeVectorResponse executeRequest(TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequest(travelOptions, new MultivaluedHashMap<>());
     }
 }

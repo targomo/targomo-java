@@ -5,6 +5,7 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.response.PolygonResponse;
+import com.targomo.client.api.response.ResponseCode;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -36,13 +37,13 @@ public class PolygonRequestTest extends RequestTest {
         PolygonResponse polygonResponse = polygonRequest.get();
 
         // Check result
-        assertEquals("ok", polygonResponse.getCode());
+        assertEquals(ResponseCode.OK, polygonResponse.getCode());
         assertEquals(2314, polygonResponse.getRequestTimeMillis());
 
         assertNotNull(polygonResponse.getResult());
     }
 
-    @Test
+    @Test(expected = TargomoClientException.class)
     public void get_gateway_timeout() throws Exception {
         when(sampleResponse.getStatus()).thenReturn(Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
@@ -50,7 +51,6 @@ public class PolygonRequestTest extends RequestTest {
         PolygonRequest polygonRequest = new PolygonRequest(mockClient, options);
         polygonRequest.setMethod(HttpMethod.GET);
         PolygonResponse polygonResponse = polygonRequest.get();
-        assertEquals("gateway-time-out", polygonResponse.getCode());
     }
 
 	@Test(expected = TargomoClientException.class)
