@@ -72,7 +72,7 @@ public class MultiGraphRequestTest extends RequestTest {
 	    //prepare travelOptions
         TravelOptions tO = getTravelOptions();
         tO.setServiceKey(apiKey);
-        tO.setServiceUrl("https://service.route360.net/westcentraleurope");
+        tO.setServiceUrl("https://api.targomo.com/westcentraleurope");
 
         // Make the call
         Client client = ClientBuilder.newClient();
