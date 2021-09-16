@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.5.0
+- added the new aggregationtype "GRAVITATION_HUFF_OPTIMIZED"
 
 ### 0.4.0
 - Throw ResponseErrorException if the request failed with an error code
