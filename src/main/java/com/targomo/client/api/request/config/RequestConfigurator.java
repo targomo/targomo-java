@@ -551,7 +551,8 @@ public final class RequestConfigurator {
         } else if (src instanceof AbstractGeometry) {
             AbstractGeometry geometry = (AbstractGeometry) src;
             source.put(Constants.CRS, geometry.getCrs())
-                    .put(Constants.DATA, geometry.getData());
+                    .put(Constants.DATA, geometry.getData())
+                    .put(ROUTE_FROM_CENTROID, geometry.isRouteFromCentroid());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 

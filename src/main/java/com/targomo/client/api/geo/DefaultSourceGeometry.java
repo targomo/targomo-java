@@ -33,9 +33,14 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param travelType TravelType to be associated with the coordinate
      * @param locationProperties properties for this source
      */
-    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, LocationProperties locationProperties) {
-        super(id, crs, geojson, locationProperties);
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, boolean routeFromCentroid,
+                                 LocationProperties locationProperties) {
+        super(id, crs, geojson, routeFromCentroid, locationProperties);
         this.travelType = travelType;
+    }
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, LocationProperties locationProperties) {
+        this(id, geojson, crs, travelType,true, locationProperties);
     }
 
     /**
@@ -49,6 +54,10 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         this(id, geojson, crs, travelType, null);
     }
 
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, boolean routeFromCentroid) {
+        this(id, geojson, crs, travelType, routeFromCentroid, null);
+    }
+
     /**
      * Generate Source geometry with ID, geojson and crs values with no travel type.
      * Travel type will be set to null.
@@ -58,6 +67,10 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      */
     public DefaultSourceGeometry(String id, String geojson, int crs) {
         this(id, geojson, crs, null, null);
+    }
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, boolean routeFromCentroid) {
+        this(id, geojson, crs, null, routeFromCentroid, null);
     }
 
     /**
@@ -100,6 +113,8 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         builder.append(getData());
         builder.append(", crs: ");
         builder.append(getCrs());
+        builder.append(", routeFromCentroid: ");
+        builder.append(isRouteFromCentroid());
         builder.append(", travelType: ");
         builder.append(travelType);
         builder.append("}");

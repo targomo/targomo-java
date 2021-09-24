@@ -24,6 +24,7 @@ public class DefaultSourceGeometriesMapSerializer extends JsonSerializer {
             if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
             jsonGenerator.writeStringField("data", entry.getValue().getData());
             jsonGenerator.writeNumberField("crs", entry.getValue().getCrs());
+            jsonGenerator.writeBooleanField("routeFromCentroid", entry.getValue().isRouteFromCentroid());
             if( entry.getValue().getProperties() != null){
                 jsonGenerator.writeFieldName("aggregationInputParameters");
                 jsonGenerator.writeStartObject();
