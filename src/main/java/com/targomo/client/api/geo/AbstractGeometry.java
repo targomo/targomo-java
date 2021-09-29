@@ -14,11 +14,11 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
 
     private Integer crs;
     private String data;
-    private Boolean routeFromCentroid = true;
+    private boolean routeFromCentroid = true;
 
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data, Boolean routeFromCentroid, LocationProperties locationProperties) {
+    public AbstractGeometry(String id, Integer crs, String data, boolean routeFromCentroid, LocationProperties locationProperties) {
         super(id, locationProperties);
         this.crs = crs;
         this.data = data;
@@ -42,7 +42,7 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
     /**
      * @return route from geometry centroid boolean
      */
-    public Boolean isRouteFromCentroid() {
+    public boolean isRouteFromCentroid() {
         return routeFromCentroid;
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
 
         if (!that.getData().equals(getData())) return false;
         if (!that.getCrs().equals(getCrs())) return false;
-        if (!that.isRouteFromCentroid().equals(isRouteFromCentroid())) return false;
+        if (!that.isRouteFromCentroid() == isRouteFromCentroid()) return false;
         return Objects.equals(id, that.id);
     }
 
