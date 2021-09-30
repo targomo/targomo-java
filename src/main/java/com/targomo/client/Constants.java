@@ -152,6 +152,7 @@ public class Constants {
     public static final String GEO_JSON   												= "geojson";
     public static final String DATA   												    = "data";
     public static final String CRS                                                      = "crs";
+    public static final String ROUTE_FROM_CENTROID                                      = "routeFromCentroid";
 
     public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
 
