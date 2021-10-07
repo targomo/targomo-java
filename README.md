@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.5.0
 - added the new aggregationtype "GRAVITATION_HUFF_OPTIMIZED"
+- add `routeFromCentroidOption` for routing geometries.
 
 ### 0.4.0
 - Throw ResponseErrorException if the request failed with an error code
