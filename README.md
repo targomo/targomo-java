@@ -53,6 +53,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.6.0
 
+### 0.5.1
+- Revert Jackson version due to incompatibility issues.
+
 ### 0.5.0
 - added the new aggregationtype "GRAVITATION_HUFF_OPTIMIZED"
 - add `routeFromCentroidOption` for routing geometries.
