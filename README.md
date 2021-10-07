@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,8 +51,14 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.6.0
+
+### 0.5.1
+- Revert Jackson version due to incompatibility issues.
+
 ### 0.5.0
 - added the new aggregationtype "GRAVITATION_HUFF_OPTIMIZED"
+- add `routeFromCentroidOption` for routing geometries.
 
 ### 0.4.0
 - Throw ResponseErrorException if the request failed with an error code
