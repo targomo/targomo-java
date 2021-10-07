@@ -14,13 +14,15 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
 
     private Integer crs;
     private String data;
+    private boolean routeFromCentroid = true;
 
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data, LocationProperties locationProperties) {
+    public AbstractGeometry(String id, Integer crs, String data, boolean routeFromCentroid, LocationProperties locationProperties) {
         super(id, locationProperties);
         this.crs = crs;
         this.data = data;
+        this.routeFromCentroid = routeFromCentroid;
     }
 
     /**
@@ -38,6 +40,13 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
     }
 
     /**
+     * @return route from geometry centroid boolean
+     */
+    public boolean isRouteFromCentroid() {
+        return routeFromCentroid;
+    }
+
+    /**
      * @param data the string representation of this geometry
      */
     public void setData(String data) {
@@ -49,6 +58,13 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
      */
     public void setCrs(Integer crs) {
         this.crs = crs;
+    }
+
+    /**
+     * @param routeFromCentroid if true route from/to the centroid of this geometry when no intersections found
+     */
+    public void setRouteFromCentroid(Boolean routeFromCentroid) {
+        this.routeFromCentroid = routeFromCentroid;
     }
 
     /**
@@ -65,6 +81,8 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
         builder.append(getData());
         builder.append("\n\tcrs: ");
         builder.append(getCrs());
+        builder.append("\n\trouteFromCentroid: ");
+        builder.append(isRouteFromCentroid());
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -78,18 +96,16 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
 
         if (!that.getData().equals(getData())) return false;
         if (!that.getCrs().equals(getCrs())) return false;
+        if (!that.isRouteFromCentroid() == isRouteFromCentroid()) return false;
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        int temp;
-        int crs;
-        result = id != null ? id.hashCode() : 0;
-        temp = getData() != null ? getData().hashCode() : 0;
-        crs = getCrs() != null ? getCrs() : 0;
-        result = 31 * result + temp + crs;
+        int result = id != null ? id.hashCode() : 0;
+        int temp = this.data != null ? this.data.hashCode() : 0;
+        int crs = this.crs != null ? this.crs : 0;
+        result = 31 * result + temp + crs + (routeFromCentroid ? 1 : 0);
         return result;
     }
 }
