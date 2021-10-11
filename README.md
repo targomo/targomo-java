@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.6.0
+- adding the logit multigraph aggregation
 
 ### 0.5.1
 - Revert Jackson version due to incompatibility issues.

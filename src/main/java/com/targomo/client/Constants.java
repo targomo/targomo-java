@@ -119,6 +119,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT                    = "logit";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED = "gravitation_huff_optimized";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
@@ -133,6 +134,8 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR           = "postAggregationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
+    public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH    = "logitBetaAttractionStrength";
+    public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME            = "logitBetaTravelTime";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS                  = "aggregationInputParameters";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR           = "inputFactor";
