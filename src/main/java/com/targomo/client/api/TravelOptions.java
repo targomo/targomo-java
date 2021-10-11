@@ -152,6 +152,8 @@ public class TravelOptions implements Serializable {
     @Transient private String multiGraphAggregationMathExpression                            = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
+    @Transient private Double multiGraphAggregationLogitBetaAttractionStrength               = null;
+    @Transient private Double multiGraphAggregationLogitBetaTravelTime                       = null;
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
     @Transient private Map<String, AggregationInputParameters> multiGraphAggregationInputParameters = null;
     @Transient private LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline = null;
@@ -850,6 +852,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
                 Objects.equals(multiGraphAggregationFilterValuesForSourceOrigins, that.multiGraphAggregationFilterValuesForSourceOrigins) &&
                 Objects.equals(multiGraphAggregationGravitationExponent, that.multiGraphAggregationGravitationExponent) &&
+                Objects.equals(multiGraphAggregationLogitBetaAttractionStrength, that.multiGraphAggregationLogitBetaAttractionStrength) &&
+                Objects.equals(multiGraphAggregationLogitBetaTravelTime, that.multiGraphAggregationLogitBetaTravelTime) &&
                 Objects.equals(multiGraphAggregationInputParameters, that.multiGraphAggregationInputParameters) &&
                 Objects.equals(multiGraphAggregationMathExpression, that.multiGraphAggregationMathExpression) &&
                 Objects.equals(multiGraphLayerCustomGeometryMergeAggregation, that.multiGraphLayerCustomGeometryMergeAggregation) &&
@@ -905,7 +909,8 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound,
                 multiGraphAggregationMinResultValueRatio, multiGraphAggregationMinResultValue,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
-                multiGraphAggregationGravitationExponent, multiGraphLayerCustomGeometryMergeAggregation,
+                multiGraphAggregationGravitationExponent, multiGraphAggregationLogitBetaAttractionStrength,
+                multiGraphAggregationLogitBetaTravelTime, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
                 multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
@@ -1044,6 +1049,10 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationPostAggregationFactor);
         builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
         builder.append(multiGraphAggregationGravitationExponent);
+        builder.append("\n\tmultiGraphAggregationLogitBetaAttractionStrength: ");
+        builder.append(multiGraphAggregationLogitBetaAttractionStrength);
+        builder.append("\n\tmultiGraphAggregationLogitBetaTravelTime: ");
+        builder.append(multiGraphAggregationLogitBetaTravelTime);
         builder.append("\n\tmultiGraphAggregationInputParameters: ");
         builder.append(multiGraphAggregationInputParameters);
         builder.append("\n\tmultiGraphAggregationFilterValuesForSourceOrigins: ");
@@ -1365,6 +1374,22 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphAggregationGravitationExponent(Double multiGraphAggregationGravitationExponent) {
         this.multiGraphAggregationGravitationExponent = multiGraphAggregationGravitationExponent;
+    }
+
+    public Double getMultiGraphAggregationLogitBetaAttractionStrength() {
+        return multiGraphAggregationLogitBetaAttractionStrength;
+    }
+
+    public void setMultiGraphAggregationLogitBetaAttractionStrength(Double multiGraphAggregationLogitBetaAttractionStrength) {
+        this.multiGraphAggregationLogitBetaAttractionStrength = multiGraphAggregationLogitBetaAttractionStrength;
+    }
+
+    public Double getMultiGraphAggregationLogitBetaTravelTime() {
+        return multiGraphAggregationLogitBetaTravelTime;
+    }
+
+    public void setMultiGraphAggregationLogitBetaTravelTime(Double multiGraphAggregationLogitBetaTravelTime) {
+        this.multiGraphAggregationLogitBetaTravelTime = multiGraphAggregationLogitBetaTravelTime;
     }
 
     public Set<String> getMultiGraphAggregationFilterValuesForSourceOrigins() {
