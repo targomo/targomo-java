@@ -25,6 +25,7 @@ public enum MultiGraphAggregationType {
     MATH                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                        false, false, false),
     GRAVITATION_HUFF            (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,            true,  true, false),
     LOGIT                       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT,                       true,  true, false),
+    LOGIT_OPTIMIZED             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,   true,  true, false),
     /**
      * can only be used as main aggregation with no other aggregations in the pipeline - needs to be enabled for the endpoint
      * **/
