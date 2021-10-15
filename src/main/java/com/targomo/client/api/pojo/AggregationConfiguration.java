@@ -120,6 +120,8 @@ public class AggregationConfiguration {
             this.filterValuesForSourceOrigins = !deepCopy ? travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() :
                     Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
+            this.logitBetaAttractionStrength = travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength();
+            this.logitBetaTravelTime = travelOptions.getMultiGraphAggregationLogitBetaTravelTime();
             this.aggregationInputParameters = !deepCopy ? travelOptions.getMultiGraphAggregationInputParameters() :
                     Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters()).map(map ->
                             map.entrySet().stream().collect(Collectors.toMap(
