@@ -29,7 +29,7 @@ public enum MultiGraphAggregationType {
      * the following two aggregations can only be used as main aggregation with no other aggregations in the pipeline - needs to be enabled for the endpoint
      * **/
     GRAVITATION_HUFF_OPTIMIZED  (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED,  false,  true, false),
-    LOGIT_OPTIMIZED             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,             true,   true, false);
+    LOGIT_OPTIMIZED             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,             false,  true, false);
 
     private final String key;
     private final boolean mayIgnoreOutliers;
