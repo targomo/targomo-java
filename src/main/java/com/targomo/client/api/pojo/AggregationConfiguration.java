@@ -48,6 +48,8 @@ public class AggregationConfiguration {
     // will be included in the aggregation. If null, the elements are not filtered by source origin.
     private Set<String> filterValuesForSourceOrigins;
     private Double gravitationExponent;
+    private Double logitBetaAttractionStrength;
+    private Double logitBetaTravelTime;
     private Map<String, AggregationInputParameters> aggregationInputParameters;
     private String mathExpression;
 
@@ -64,6 +66,8 @@ public class AggregationConfiguration {
         private Double maxResultValueRatio;
         private Float maxResultValue;
         private Double gravitationExponent;
+        private Double logitBetaAttractionStrength;
+        private Double logitBetaTravelTime;
         private Float postAggregationFactor;
         private Set<String> filterValuesForSourceOrigins;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
@@ -85,6 +89,8 @@ public class AggregationConfiguration {
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
             this.gravitationExponent = toCopy.gravitationExponent;
+            this.logitBetaAttractionStrength = toCopy.logitBetaAttractionStrength;
+            this.logitBetaTravelTime = toCopy.logitBetaTravelTime;
             this.postAggregationFactor = toCopy.postAggregationFactor;
             this.aggregationInputParameters = Optional.ofNullable(toCopy.aggregationInputParameters)
                     .map(map -> map.entrySet().stream()
@@ -191,6 +197,16 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder logitBetaAttractionStrength(Double logitBetaAttractionStrength) {
+            this.logitBetaAttractionStrength = logitBetaAttractionStrength;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder logitBetaTravelTime(Double logitBetaTravelTime) {
+            this.logitBetaTravelTime = logitBetaTravelTime;
+            return this;
+        }
+
         public AggregationConfigurationBuilder aggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) {
             this.aggregationInputParameters = aggregationInputParameters;
             return this;
@@ -222,6 +238,8 @@ public class AggregationConfiguration {
                     postAggregationFactor,
                     filterValuesForSourceOrigins,
                     gravitationExponent,
+                    logitBetaAttractionStrength,
+                    logitBetaTravelTime,
                     aggregationInputParameters,
                     mathExpression);
         }
