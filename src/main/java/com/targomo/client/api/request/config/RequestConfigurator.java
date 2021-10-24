@@ -421,6 +421,9 @@ public final class RequestConfigurator {
                 if (param.getGravitationPositiveInfluence() != null)
                     sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, param.getGravitationPositiveInfluence());
 
+                if (param.getGravitationCompetingPositiveInfluence() != null)
+                    sourceParam.put(Constants.MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_COMPETING_POSITIVE_INFLUENCE, param.getGravitationCompetingPositiveInfluence());
+
                 aggregationInputParams.put(name, sourceParam);
             }
         }

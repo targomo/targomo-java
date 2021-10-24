@@ -122,6 +122,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT                    = "logit";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED          = "logit_optimized";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED = "gravitation_huff_optimized";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED_HEATMAP = "gravitation_huff_optimized_heatmap";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
@@ -142,6 +143,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR           = "inputFactor";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
+    public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_COMPETING_POSITIVE_INFLUENCE  = "gravitationCompetingPositiveInfluence";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathExpression";
 

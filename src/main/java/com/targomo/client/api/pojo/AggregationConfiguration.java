@@ -99,7 +99,8 @@ public class AggregationConfiguration {
                                     entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
                                             entry.getValue().getGravitationPositiveInfluence(),
-                                            entry.getValue().getGravitationAttractionStrength()))))
+                                            entry.getValue().getGravitationAttractionStrength(),
+                                            entry.getValue().getGravitationCompetingPositiveInfluence()))))
                     .orElse(null);
             this.mathExpression = toCopy.mathExpression;
         }
@@ -129,7 +130,8 @@ public class AggregationConfiguration {
                                     entry -> new AggregationInputParameters(
                                             entry.getValue().getInputFactor(),
                                             entry.getValue().getGravitationPositiveInfluence(),
-                                            entry.getValue().getGravitationAttractionStrength()))))
+                                            entry.getValue().getGravitationAttractionStrength(),
+                                            entry.getValue().getGravitationCompetingPositiveInfluence()))))
                     .orElse(null);
             this.mathExpression = travelOptions.getMultiGraphAggregationMathExpression();
         }
