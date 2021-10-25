@@ -83,6 +83,34 @@ public class PointOfInterestRequest {
 	}
 
 	/**
+	 * Execute request
+	 * @return point of interest response
+	 * @throws TargomoClientException In case of error other than Gateway Timeout
+	 */
+	public PointOfInterestResponse getPOIsWithinGeometry() throws TargomoClientException {
+		long requestStart = System.currentTimeMillis();
+
+		Response response = getResponse("/reachability");
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateResponse(response, requestStart, roundTripTime);
+	}
+
+	/**
+	 * Execute summary poi geometry request
+	 * @return point of interest summary response
+	 * @throws TargomoClientException In case of error other than Gateway Timeout
+	 */
+	public PointOfInterestSummaryResponse getPOIsWithinGeometrySummary() throws TargomoClientException {
+		long requestStart = System.currentTimeMillis();
+
+		Response response = getResponse("/geometry/summary");
+		long roundTripTime = System.currentTimeMillis() - requestStart;
+
+		return validateSummaryResponse(response, requestStart, roundTripTime);
+	}
+
+	/**
 	 * Execute gravitation poi request
 	 * @return point of interest gravitation response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout

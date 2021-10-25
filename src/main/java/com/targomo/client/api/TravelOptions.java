@@ -207,6 +207,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private Set<PoiType> customPois = new HashSet<>();
 
+    @JsonProperty("filterGeometry")
+    private AbstractGeometry filterGeometryForPOIs;
+
     @Transient
     private boolean disableCache;
     
@@ -241,6 +244,10 @@ public class TravelOptions implements Serializable {
     public void setOsmTypes(Set<PoiType> osmTypes) {
         this.osmTypes = osmTypes;
     }
+
+    public AbstractGeometry getFilterGeometryForPOIs() { return this.filterGeometryForPOIs; }
+
+    public void setFilterGeometryForPOIs(AbstractGeometry geometry) { this.filterGeometryForPOIs = geometry; }
 
     public Integer getId() { return id; }
 
