@@ -83,21 +83,21 @@ public class PointOfInterestRequest {
 	}
 
 	/**
-	 * Execute request
+	 * Execute poi inside geometry request
 	 * @return point of interest response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
 	public PointOfInterestResponse getPOIsWithinGeometry() throws TargomoClientException {
 		long requestStart = System.currentTimeMillis();
 
-		Response response = getResponse("/reachability");
+		Response response = getResponse("/geometry");
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
 		return validateResponse(response, requestStart, roundTripTime);
 	}
 
 	/**
-	 * Execute summary poi geometry request
+	 * Execute poi inside geometry summary request
 	 * @return point of interest summary response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
