@@ -53,6 +53,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.6.0
 - adding the logit multigraph aggregations "LOGIT" and "LOGIT_OPTIMIZED"
+- Add POIs inside geometry requests
+- Add statistics values geometry request
 
 ### 0.5.1
 - Revert Jackson version due to incompatibility issues.
