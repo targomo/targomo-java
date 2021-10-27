@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import java.util.function.Supplier;
 
 /**
- * Find reachable openstreetmap pois with this class.
+ * Find reachable openstreetmap pois of pois in geometry with this class.
  * Only accepts {@link HttpMethod} POST.
  */
 public class PointOfInterestRequest {
@@ -63,9 +63,8 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		Response response = getResponse("/reachability");
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart, roundTripTime);
+		return validateResponse(response, requestStart, true);
 	}
 
 	/**
@@ -77,9 +76,8 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		Response response = getResponse("/reachability/summary");
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateSummaryResponse(response, requestStart, roundTripTime);
+		return validateSummaryResponse(response, requestStart);
 	}
 
 	/**
@@ -91,9 +89,8 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		Response response = getResponse("/geometry");
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart, roundTripTime);
+		return validateResponse(response, requestStart, false);
 	}
 
 	/**
@@ -105,9 +102,8 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		Response response = getResponse("/geometry/summary");
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateSummaryResponse(response, requestStart, roundTripTime);
+		return validateSummaryResponse(response, requestStart);
 	}
 
 	/**
@@ -119,9 +115,8 @@ public class PointOfInterestRequest {
 		long requestStart = System.currentTimeMillis();
 
 		Response response = getResponse("/gravitation");
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateGravitationResponse(response, requestStart, roundTripTime);
+		return validateGravitationResponse(response, requestStart);
 	}
 
 	private Response getResponse(String path) throws TargomoClientException {
@@ -140,24 +135,22 @@ public class PointOfInterestRequest {
 	 * Validate HTTP response and return a PointOfInterestResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
-	 * @param roundTripTime Execution time in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private PointOfInterestResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
+	private PointOfInterestResponse validateResponse(final Response response, final long requestStart, final boolean resultContainsEdgeWeights)
 																		throws TargomoClientException {
-		return validateResponse(response, () -> new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
+		return validateResponse(response, () -> new PointOfInterestResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), resultContainsEdgeWeights, requestStart));
 	}
 
 	/**
 	 * Validate HTTP response and return a PointOfInterestSummaryResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
-	 * @param roundTripTime Execution time in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private PointOfInterestSummaryResponse validateSummaryResponse(final Response response, final long requestStart, final long roundTripTime)
+	private PointOfInterestSummaryResponse validateSummaryResponse(final Response response, final long requestStart)
 			throws TargomoClientException {
 
 		return validateResponse(response, () -> new PointOfInterestSummaryResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
@@ -167,11 +160,10 @@ public class PointOfInterestRequest {
 	 * Validate HTTP response and return a PointOfInterestGravitationResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
-	 * @param roundTripTime Execution time in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private PointOfInterestGravitationResponse validateGravitationResponse(final Response response, final long requestStart, final long roundTripTime)
+	private PointOfInterestGravitationResponse validateGravitationResponse(final Response response, final long requestStart)
 			throws TargomoClientException {
 
 		return validateResponse(response, () -> new PointOfInterestGravitationResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart));
