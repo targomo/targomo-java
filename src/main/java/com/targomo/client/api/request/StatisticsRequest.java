@@ -2,6 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -78,7 +79,7 @@ public class StatisticsRequest {
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug(String.format("Executing statistics request (%s) to URI: '%s'", path, target.getUri()));
+		LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 		Response response;
 
@@ -92,12 +93,12 @@ public class StatisticsRequest {
 		// but only once
 		catch ( ProcessingException exception ) {
 
-			LOGGER.error(String.format("Executing statistics request (%s) to URI: '%s'", path, target.getUri()), exception);
+			LOGGER.error("Error executing statistics request ({}) to URI: '{}'", path, target.getUri(), exception);
 
 			target = client.target(travelOptions.getFallbackServiceUrl()).path(path)
 					.queryParam("key", travelOptions.getServiceKey());
 
-			LOGGER.debug(String.format("Executing statistics request (%s) to URI: '%s'", path, target.getUri()));
+			LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 			// Execute POST request
 			response = target.request().post(entity);
@@ -108,10 +109,11 @@ public class StatisticsRequest {
 		return responseValidator.validateResponse(response, requestStart, roundTripTime);
 	}
 
-	public static void main(String[] args) throws TargomoClientException, JSONException {
+	public static void main(String[] args) throws TargomoClientException {
 
 		StatisticTravelOptions options = new StatisticTravelOptions();
-		options.setMaxRoutingTime(1800);
+		options.setMaxEdgeWeight(1800);
+		options.setEdgeWeightType(EdgeWeightType.TIME);
 		options.setTravelType(TravelType.WALK);
 		options.addSource(new DefaultSourceCoordinate("1asda", 13.405, 52.52));
 		options.setServiceUrl("http://localhost:8081/");
@@ -125,7 +127,7 @@ public class StatisticsRequest {
 		options.setStatisticGroupId(1);
 
 		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDENT);
-		System.out.println(response.getStatisticResult());
+		LOGGER.info("{}", response.getStatisticResult());
 	}
 
 	private <T> T validateResponse(final Response response, Supplier<T> responseSupplier, Supplier<T> gatewayTimeOutResponseSupplier)
