@@ -207,6 +207,7 @@ public class TravelOptions implements Serializable {
     @Transient
     private Set<PoiType> customPois = new HashSet<>();
 
+    @Transient
     @JsonProperty("filterGeometry")
     private AbstractGeometry filterGeometryForPOIs;
 
