@@ -319,8 +319,9 @@ public final class RequestConfigurator {
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
-                travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
-                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
+                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
+                travelOptions.getMultiGraphAggregationLogitBetaTravelTime(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
                 .anyMatch(Objects::nonNull)) {
             JSONObject multiGraphAggregation = new JSONObject();
             AggregationConfiguration aggregationConfiguration = new AggregationConfiguration.AggregationConfigurationBuilder(travelOptions, false).build();
@@ -386,6 +387,12 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getGravitationExponent() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
+
+        if (aggregationConfiguration.getLogitBetaAttractionStrength() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH, aggregationConfiguration.getLogitBetaAttractionStrength());
+
+        if (aggregationConfiguration.getLogitBetaTravelTime() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME, aggregationConfiguration.getLogitBetaTravelTime());
 
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
