@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class StatisticGeometryValueResult {
+public class StatisticGeometryValuesResult {
 	@Getter
 	private final Map<String, StatisticsGeometryValue> results;
 	@Getter
@@ -20,7 +20,7 @@ public class StatisticGeometryValueResult {
 	 * @param options Travel configuration
 	 * @param jsonResult Result as json object
 	 */
-	public StatisticGeometryValueResult(TravelOptions options, JSONObject jsonResult) {
+	public StatisticGeometryValuesResult(TravelOptions options, JSONObject jsonResult) {
 		this.options	= options;
 		this.results 	= parseStatisticsGeometryValues(jsonResult);
 	}

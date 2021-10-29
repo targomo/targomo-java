@@ -1,16 +1,16 @@
 package com.targomo.client.api.response;
 
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.response.statistics.StatisticGeometryValueResult;
+import com.targomo.client.api.response.statistics.StatisticGeometryValuesResult;
 import com.targomo.client.api.util.JsonUtil;
 import org.json.JSONObject;
 
-public class StatisticsGeometryValueResponse {
+public class StatisticsGeometryValuesResponse {
 
 	private final long requestTimeMillis;
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
-	private final StatisticGeometryValueResult statisticGeometryValueResult;
+	private final StatisticGeometryValuesResult statisticGeometryValuesResult;
 
 	/**
 	 *
@@ -18,13 +18,13 @@ public class StatisticsGeometryValueResponse {
 	 * @param result Response body
 	 * @param requestStart Start time of request in milliseconds
 	 */
-	public StatisticsGeometryValueResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+	public StatisticsGeometryValuesResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
 
 		this.travelOptions 	   	  = travelOptions;
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
 		this.totalTimeMillis 	  = System.currentTimeMillis() - requestStart;
 
-		this.statisticGeometryValueResult 	  = new StatisticGeometryValueResult(travelOptions, result);
+		this.statisticGeometryValuesResult = new StatisticGeometryValuesResult(travelOptions, result);
 	}
 
 	/**
@@ -34,12 +34,12 @@ public class StatisticsGeometryValueResponse {
 	 * @param roundTripTime Total roundtrip time
 	 * @param requestStart Start time of request in milliseconds
 	 */
-	public StatisticsGeometryValueResponse(TravelOptions travelOptions, String string, long roundTripTime, long requestStart) {
+	public StatisticsGeometryValuesResponse(TravelOptions travelOptions, String string, long roundTripTime, long requestStart) {
 
 		this.travelOptions 	   	  = travelOptions;
 		this.requestTimeMillis 	  = roundTripTime;
 		this.totalTimeMillis 	  = System.currentTimeMillis() - requestStart;
-		this.statisticGeometryValueResult 	  = null;
+		this.statisticGeometryValuesResult = null;
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class StatisticsGeometryValueResponse {
 	/**
 	 * @return the statisticGeometryValueResult
 	 */
-	public StatisticGeometryValueResult getStatisticGeometryValueResult() {
-		return statisticGeometryValueResult;
+	public StatisticGeometryValuesResult getStatisticGeometryValuesResult() {
+		return statisticGeometryValuesResult;
 	}
 }

@@ -8,7 +8,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.request.config.JacksonRequestConfigurator;
 import com.targomo.client.api.request.enums.StatisticMethod;
-import com.targomo.client.api.response.StatisticsGeometryValueResponse;
+import com.targomo.client.api.response.StatisticsGeometryValuesResponse;
 import com.targomo.client.api.response.StatisticsResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
@@ -59,8 +59,8 @@ public class StatisticsRequest {
 	}
 
 
-	public StatisticsGeometryValueResponse getValuesGeometry() throws TargomoClientException {
-		return get("values/geometry", this::validateGeometryValueResponse);
+	public StatisticsGeometryValuesResponse getValuesGeometry() throws TargomoClientException {
+		return get("values/geometry", this::validateGeometryValuesResponse);
 	}
 
 	/**
@@ -171,12 +171,12 @@ public class StatisticsRequest {
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private StatisticsGeometryValueResponse validateGeometryValueResponse(final Response response, final long requestStart, final long roundTripTime)
+	private StatisticsGeometryValuesResponse validateGeometryValuesResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws TargomoClientException {
 
 		return validateResponse(response,
-				() -> new StatisticsGeometryValueResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart),
-				() -> new StatisticsGeometryValueResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart));
+				() -> new StatisticsGeometryValuesResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart),
+				() -> new StatisticsGeometryValuesResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart));
 	}
 
 	@FunctionalInterface
