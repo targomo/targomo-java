@@ -833,7 +833,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(time, that.time) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(frame, that.frame) &&
-				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
+				Objects.equals(intersectionGeometry.hashCode(), that.intersectionGeometry.hashCode()) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
                 Objects.equals(polygonOrientationRule, that.polygonOrientationRule) &&
