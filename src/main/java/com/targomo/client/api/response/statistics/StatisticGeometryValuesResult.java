@@ -28,7 +28,7 @@ public class StatisticGeometryValuesResult {
 	/**
 	 * 
 	 * @param jsonResult result as json object
-	 * @return Map of reachable targets
+	 * @return Map of the aggregations' results
 	 */
 	private Map<String, StatisticsGeometryValue> parseStatisticsGeometryValues(JSONObject jsonResult) {
 		

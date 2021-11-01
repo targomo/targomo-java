@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import java.util.function.Supplier;
 
 /**
- * Find reachable openstreetmap pois of pois in geometry with this class.
+ * Find reachable openstreetmap pois with this class.
  * Only accepts {@link HttpMethod} POST.
  */
 public class PointOfInterestRequest {
@@ -55,7 +55,7 @@ public class PointOfInterestRequest {
 	}
 
 	/**
-	 * Execute request
+	 * Execute poi reachability request
 	 * @return point of interest response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
@@ -68,7 +68,7 @@ public class PointOfInterestRequest {
 	}
 
 	/**
-	 * Execute summary poi reachability request
+	 * Execute poi reachability summary request
 	 * @return point of interest summary response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
@@ -135,6 +135,8 @@ public class PointOfInterestRequest {
 	 * Validate HTTP response and return a PointOfInterestResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
+	 * @param resultContainsEdgeWeights is the response supposed to contain edge weights
+	 *           (should be true for reachability requests, false for geometry ones)
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
