@@ -6,8 +6,10 @@ import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.PathSerializerType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
 import com.targomo.client.api.pojo.LocationProperties;
 import com.targomo.client.api.response.PointOfInterestGravitationResponse;
 import com.targomo.client.api.response.PointOfInterestResponse;
@@ -37,7 +39,7 @@ public class PointOfInterestRequestTest extends RequestTest {
         // Mock success response
         when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
-//         Get sample json when success response is queried
+        // Get sample json when success response is queried
         InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestResponse.json");
         String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
         when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
@@ -53,6 +55,33 @@ public class PointOfInterestRequestTest extends RequestTest {
         // new poi service ids
         assert(result.keySet().contains("1_1639569032"));
         assert(result.get("1_1639569032").getId().equals("1_1639569032"));
+
+        assertEquals(4, poiResponse.getEdgeWeights().size());
+    }
+
+    @Test
+    public void getPOIsWithinGeometry_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestGeometryResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptions());
+        PointOfInterestResponse poiResponse = poiRequest.getPOIsWithinGeometry();
+        HashMap<String,PointOfInterestResponse.POI> result = poiResponse.getResultAsMap();
+        assertEquals(4, result.size());
+
+        // old poi service ids
+        assert(result.keySet().contains("5846976255"));
+        assert(result.get("5846976255").getId().equals("5846976255"));
+
+        // new poi service ids
+        assert(result.keySet().contains("1_1639569032"));
+        assert(result.get("1_1639569032").getId().equals("1_1639569032"));
+
+        assertEquals(0, poiResponse.getEdgeWeights().size());
     }
 
     @Test
@@ -60,12 +89,46 @@ public class PointOfInterestRequestTest extends RequestTest {
         // Mock success response
         when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
 
-//         Get sample json when success response is queried
+        // Get sample json when success response is queried
         InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestSummaryResponse.json");
         String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
         when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
         PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptions());
         PointOfInterestSummaryResponse poiResponse = poiRequest.getSummary();
+        PointOfInterestSummaryResponse.POISummary result = poiResponse.getSummary();
+
+        Map<String, Integer> expectedOsmTypesCount = new HashMap<>();
+        expectedOsmTypesCount.put("cuisine=bavarian", 1);
+        expectedOsmTypesCount.put("cuisine=diner", 1);
+        expectedOsmTypesCount.put("building=supermarket", 6);
+        expectedOsmTypesCount.put("building=apartments", 3);
+        Map<String, Integer> expectedGroupIdCount = new HashMap<>();
+        expectedGroupIdCount.put("uncategorized", 88);
+        expectedGroupIdCount.put("restaurant", 469);
+        Map<String, Integer> expectedClusterIdCount = new HashMap<>();
+        expectedClusterIdCount.put("c_1", 88);
+        expectedClusterIdCount.put("c_2", 469);
+
+        assertEquals(557, result.getTotalPoi());
+        assertEquals(4, result.getOsmTypesCount().size());
+        Assertions.assertThat(result.getOsmTypesCount()).containsAllEntriesOf(expectedOsmTypesCount);
+        assertEquals(2, result.getGroupIdCount().size());
+        Assertions.assertThat(result.getGroupIdCount()).containsAllEntriesOf(expectedGroupIdCount);
+        assertEquals(2, result.getClusterIdCount().size());
+        Assertions.assertThat(result.getClusterIdCount()).containsAllEntriesOf(expectedClusterIdCount);
+    }
+
+    @Test
+    public void getPOIsWithinGeometrySummary_success() throws Exception {
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/PointOfInterestSummaryResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+        PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptions());
+        PointOfInterestSummaryResponse poiResponse = poiRequest.getPOIsWithinGeometrySummary();
         PointOfInterestSummaryResponse.POISummary result = poiResponse.getSummary();
 
         Map<String, Integer> expectedOsmTypesCount = new HashMap<>();
@@ -151,6 +214,11 @@ public class PointOfInterestRequestTest extends RequestTest {
         options.setEdgeWeightType(EdgeWeightType.TIME);
         options.setServiceKey("INSERT_YOUR_KEY_HERE");
         options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
+
+        String testPoly = "{\"type\":\"Polygon\",\"coordinates\":[[[51.98,13.98],[52.0,13.98],[52.0,14.0],[51.98,14.0],[51.98,13.98]]]}";
+        AbstractGeometry geometry = new DefaultSourceGeometry("location_0", testPoly, 4326, null, null);
+        options.setFilterGeometryForPOIs(geometry);
+
         return options;
     }
 

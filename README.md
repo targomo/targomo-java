@@ -51,6 +51,10 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.7.0
+- Add POIs inside geometry requests
+- Add statistics values geometry request
+
 ### 0.6.0
 - adding the logit multigraph aggregations "LOGIT" and "LOGIT_OPTIMIZED"
 

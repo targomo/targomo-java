@@ -1,20 +1,18 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.api.StatisticTravelOptions;
-import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.client.api.response.StatisticsResponse;
-import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
-import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.request.config.JacksonRequestConfigurator;
 import com.targomo.client.api.request.enums.StatisticMethod;
+import com.targomo.client.api.response.StatisticsGeometryValuesResponse;
+import com.targomo.client.api.response.StatisticsResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +24,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.function.Supplier;
 
 public class StatisticsRequest {
 
@@ -56,23 +54,32 @@ public class StatisticsRequest {
 		this.travelOptions = travelOptions;
 	}
 
+	public StatisticsResponse get(StatisticMethod method) throws TargomoClientException {
+		return get(method.getPath(), this::validateResponse);
+	}
+
+
+	public StatisticsGeometryValuesResponse getValuesGeometry() throws TargomoClientException {
+		return get("values/geometry", this::validateGeometryValuesResponse);
+	}
+
 	/**
-	 * @param method the method for the request to be executed
+	 * @param path the path for the request to be executed
 	 * @return Response from the statistics server
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
-	public StatisticsResponse get(StatisticMethod method) throws TargomoClientException, JSONException {
+	public <T> T get(String path, ResponseValidator<T> responseValidator) throws TargomoClientException {
 
 		long requestStart = System.currentTimeMillis();
 
-		WebTarget target = client.target(this.travelOptions.getStatisticServiceUrl()).path(method.getPath())
+		WebTarget target = client.target(this.travelOptions.getStatisticServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey())
 				.queryParam("serviceUrl", travelOptions.getServiceUrl());
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug(String.format("Executing statistics request (%s) to URI: '%s'", method.getPath(), target.getUri()));
+		LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 		Response response;
 
@@ -86,12 +93,12 @@ public class StatisticsRequest {
 		// but only once
 		catch ( ProcessingException exception ) {
 
-			LOGGER.error(String.format("Executing statistics request (%s) to URI: '%s'", method.getPath(), target.getUri()), exception);
+			LOGGER.error("Error executing statistics request ({}) to URI: '{}'", path, target.getUri(), exception);
 
-			target = client.target(travelOptions.getFallbackServiceUrl()).path(method.getPath())
+			target = client.target(travelOptions.getFallbackServiceUrl()).path(path)
 					.queryParam("key", travelOptions.getServiceKey());
 
-			LOGGER.debug(String.format("Executing statistics request (%s) to URI: '%s'", method.getPath(), target.getUri()));
+			LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 			// Execute POST request
 			response = target.request().post(entity);
@@ -99,13 +106,14 @@ public class StatisticsRequest {
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart, roundTripTime);
+		return responseValidator.validateResponse(response, requestStart, roundTripTime);
 	}
 
-	public static void main(String[] args) throws TargomoClientException, JSONException {
+	public static void main(String[] args) throws TargomoClientException {
 
 		StatisticTravelOptions options = new StatisticTravelOptions();
-		options.setMaxRoutingTime(1800);
+		options.setMaxEdgeWeight(1800);
+		options.setEdgeWeightType(EdgeWeightType.TIME);
 		options.setTravelType(TravelType.WALK);
 		options.addSource(new DefaultSourceCoordinate("1asda", 13.405, 52.52));
 		options.setServiceUrl("http://localhost:8081/");
@@ -119,11 +127,28 @@ public class StatisticsRequest {
 		options.setStatisticGroupId(1);
 
 		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDENT);
-		System.out.println(response.getStatisticResult());
+		LOGGER.info("{}", response.getStatisticResult());
+	}
+
+	private <T> T validateResponse(final Response response, Supplier<T> responseSupplier, Supplier<T> gatewayTimeOutResponseSupplier)
+			throws TargomoClientException {
+
+		// compare the HTTP status codes, NOT the route 360 code
+		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+
+			// consume the results
+			return responseSupplier.get();
+		}
+		else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
+			return gatewayTimeOutResponseSupplier.get();
+		}
+		else {
+			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
+		}
 	}
 
 	/**
-	 * Validate HTTP response and return a ReachabilityResponse
+	 * Validate HTTP response and return a StatisticsResponse
 	 * @param response HTTP response
 	 * @param requestStart Beginning of execution in milliseconds
 	 * @param roundTripTime Execution time in milliseconds
@@ -133,36 +158,30 @@ public class StatisticsRequest {
 	private StatisticsResponse validateResponse(final Response response, final long requestStart, final long roundTripTime)
 			throws TargomoClientException {
 
-		// compare the HTTP status codes, NOT the route 360 code
-		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-
-			// consume the results
-			return new StatisticsResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart);
-		}
-		else if (response.getStatus() == Response.Status.GATEWAY_TIMEOUT.getStatusCode()) {
-			return new StatisticsResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart);
-		}
-		else {
-			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
-		}
+		return validateResponse(response,
+				() -> new StatisticsResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart),
+				() -> new StatisticsResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart));
 	}
 
 	/**
-	 * @param sources ID -> Coordinate map of sources to be parsed
-	 * @return Sources parsed into JSON
-	 * @throws JSONException In case something cannot be parsed
+	 * Validate HTTP response and return a StatisticsGeometryValueResponse
+	 * @param response HTTP response
+	 * @param requestStart Beginning of execution in milliseconds
+	 * @param roundTripTime Execution time in milliseconds
+	 * @return ReachabilityResponse
+	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private static String parseSources(Map<String,Coordinate> sources) throws JSONException {
+	private StatisticsGeometryValuesResponse validateGeometryValuesResponse(final Response response, final long requestStart, final long roundTripTime)
+			throws TargomoClientException {
 
-		JSONArray sourcesJson = new JSONArray();
-		for ( Coordinate src : sources.values() ) {
-			sourcesJson.put(new JSONObject()
-				.put(Constants.ID, src.getId())
-				.put(Constants.Y, src.getY())
-				.put(Constants.X, src.getX())
-			);
-		}
-
-		return sourcesJson.toString();
+		return validateResponse(response,
+				() -> new StatisticsGeometryValuesResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart),
+				() -> new StatisticsGeometryValuesResponse(travelOptions, "gateway-time-out", roundTripTime, requestStart));
 	}
+
+	@FunctionalInterface
+	public interface ResponseValidator<T> {
+		T validateResponse(final Response response, final long requestStart, final long roundTripTime) throws TargomoClientException;
+	}
+
 }

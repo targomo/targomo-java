@@ -84,7 +84,7 @@ public class ReachabilityRequest {
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
 
 		Response response;
 
@@ -102,7 +102,7 @@ public class ReachabilityRequest {
 					.queryParam("cb", CALLBACK)
 					.queryParam("key", travelOptions.getServiceKey());
 
-			LOGGER.debug(String.format("Executing reachability request to URI: '%s'", target.getUri()));
+			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
 
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
