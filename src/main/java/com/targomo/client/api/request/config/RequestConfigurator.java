@@ -144,6 +144,13 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
             }
 
+            if(travelOptions.getFilterGeometryForPOIs() != null){
+                JSONObject filterGeometry = new JSONObject()
+                        .put(Constants.CRS, travelOptions.getFilterGeometryForPOIs().getCrs())
+                        .put(Constants.DATA, travelOptions.getFilterGeometryForPOIs().getData());
+                JSONBuilder.append(config, "filterGeometry", filterGeometry);
+            }
+
             if (travelOptions.getTravelTimeFactors() != null && !travelOptions.getTravelTimeFactors().isEmpty()) {
 			    JSONObject travelFactors = new JSONObject();
 			    for(Map.Entry<String,Double> factor : travelOptions.getTravelTimeFactors().entrySet())

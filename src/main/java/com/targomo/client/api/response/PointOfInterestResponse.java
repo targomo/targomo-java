@@ -30,16 +30,19 @@ public class PointOfInterestResponse {
      * Create a response from JSON results, using given travel options
      * @param travelOptions travel options, from the request
      * @param result Travel times in JSON
+     * @param resultContainsEdgeWeights does the result object contain edgeWeight for each POI
      * @param requestStart Start time of execution
      */
-    public PointOfInterestResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+    public PointOfInterestResponse(TravelOptions travelOptions, JSONObject result, boolean resultContainsEdgeWeights, long requestStart) {
 
         this.travelOptions 	= travelOptions;
         this.requestEnd		= System.currentTimeMillis() - requestStart;
         this.result         = result;
         this.edgeWeights    = new HashMap<>();
 
-        mapResults();
+        if(resultContainsEdgeWeights){
+            mapResults();
+        }
     }
 
     /**
