@@ -3,9 +3,9 @@ package com.targomo.client.api.pojo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.Constants;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Created by gerb on 07.06.18.
@@ -16,6 +16,7 @@ import java.util.Objects;
  * The geometry types <b>Polygon</b> and <b>MultiPolygon</b> are supported.
  *
  */
+@EqualsAndHashCode
 public class Geometry implements Serializable {
 
     private static final long serialVersionUID = 196773737265051450L;
@@ -56,10 +57,5 @@ public class Geometry implements Serializable {
      */
     public Integer getCrs() {
         return crs;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(data, type, crs);
     }
 }

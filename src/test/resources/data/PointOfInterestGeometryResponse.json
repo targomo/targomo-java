@@ -1,0 +1,80 @@
+{
+  "5846976255": {
+    "lng": 9.8747165,
+    "osmType": "amenity=bar",
+    "id": 5846976255,
+    "type": "node",
+    "lat": 53.4794534,
+    "tags": {
+      "addr:housenumber": "50",
+      "amenity": "bar",
+      "name": "Max Cafe & Bar",
+      "addr:street": "Rehrstieg",
+      "addr:postcode": "21147",
+      "addr:city": "Hamburg"
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ],
+    "clusterIds": [
+      "c_bar"
+    ]
+  },
+  "1_1639569032": {
+    "lng": 9.7039905,
+    "osmType": "amenity=bar",
+    "id": "1_1639569032",
+    "type": "node",
+    "lat": 53.4779841,
+    "tags": {
+      "amenity": "bar",
+      "name": "Tattoobar"
+    },
+    "closestSource": "source_2",
+    "bounded": false,
+    "groupIds": [
+      "bar"
+    ]
+  },
+  "3402326401": {
+    "lng": 9.933786,
+    "osmType": "amenity=bar",
+    "id": 3402326401,
+    "type": "node",
+    "lat": 53.4361615,
+    "tags": {
+      "wheelchair": "limited",
+      "amenity": "bar",
+      "name": "Tapas Bar Mi Esperanza"
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ],
+    "clusterIds": [
+      "c_bar"
+    ]
+  },
+  "3569242447": {
+    "lng": 9.6981112,
+    "osmType": "amenity=bar",
+    "id": 3569242447,
+    "type": "node",
+    "lat": 53.4746028,
+    "tags": {
+      "wheelchair": "yes",
+      "amenity": "bar",
+      "name": "delicious night",
+      "opening_hours": "Mo-Th 19:00-23:00; Fr 19:00-24:00; Sa 00:00-02:00,19:00-24:00; Su 00:00-02:00,19:00-23:00",
+      "opening_hours:lastcheck": "2015-05-31"
+    },
+    "closestSource": "source_1",
+    "bounded": true,
+    "groupIds": [
+      "bar"
+    ]
+  }
+}

@@ -208,6 +208,10 @@ public class TravelOptions implements Serializable {
     private Set<PoiType> customPois = new HashSet<>();
 
     @Transient
+    @JsonProperty("filterGeometry")
+    private AbstractGeometry filterGeometryForPOIs;
+
+    @Transient
     private boolean disableCache;
     
     public String getBoundingBox() {
@@ -241,6 +245,10 @@ public class TravelOptions implements Serializable {
     public void setOsmTypes(Set<PoiType> osmTypes) {
         this.osmTypes = osmTypes;
     }
+
+    public AbstractGeometry getFilterGeometryForPOIs() { return this.filterGeometryForPOIs; }
+
+    public void setFilterGeometryForPOIs(AbstractGeometry geometry) { this.filterGeometryForPOIs = geometry; }
 
     public Integer getId() { return id; }
 
@@ -885,6 +893,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(travelTypes, that.travelTypes) &&
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
+                Objects.equals(filterGeometryForPOIs, that.filterGeometryForPOIs) &&
                 Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
                 Objects.equals(maxTransfers, that.maxTransfers) &&
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
@@ -919,7 +928,7 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
-                format, boundingBox, travelTypes, osmTypes, customPois, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget);
     }
@@ -1111,6 +1120,8 @@ public class TravelOptions implements Serializable {
         builder.append(osmTypes != null ? toString(osmTypes, maxLen) : null);
         builder.append("\n\tcustomPois: ");
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
+        builder.append("\n\tfilterGeometry: ");
+        builder.append(filterGeometryForPOIs);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
         builder.append("\n\tmaxTransfers: ");
