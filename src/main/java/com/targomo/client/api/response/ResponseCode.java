@@ -15,7 +15,8 @@ public enum ResponseCode {
     COULD_NOT_CONNECT_POINT_TO_NETWORK("could-not-connect-point-to-network"),
     NO_ROUTE_FOUND("no-route-found"),
     RAVEL_TIME_EXCEEDED("travel-time-exceeded"),
-    UNKNOWN_EXCEPTION("unknown-exception");
+    UNKNOWN_EXCEPTION("unknown-exception"),
+    SNAP_DISTANCE_MAX_EXCEEDED("snap-distance-max-exceeded");
 
     private final String code;
 
