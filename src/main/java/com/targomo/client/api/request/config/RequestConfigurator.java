@@ -137,7 +137,6 @@ public final class RequestConfigurator {
             if (travelOptions.getBoundingBox() != null)
                 JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
 
-
             if (travelOptions.getOsmTypes() != null) {
 
                 ObjectMapper mapper = new ObjectMapper();
@@ -156,6 +155,10 @@ public final class RequestConfigurator {
 			    for(Map.Entry<String,Double> factor : travelOptions.getTravelTimeFactors().entrySet())
 			        travelFactors.put(factor.getKey(),factor.getValue());
                 JSONBuilder.append(config, Constants.TRAVEL_TIME_FACTORS, travelFactors);
+            }
+
+            if (travelOptions.getMaxSnapDistance() != null){
+                JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());

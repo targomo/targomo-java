@@ -131,6 +131,7 @@ public class TravelOptions implements Serializable {
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
     @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
     @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
+    @Transient private Integer maxSnapDistance                                               = null;
 
     @Transient private Set<Integer> multiGraphEdgeClasses                                    = null;
     @Transient private MultiGraphDomainType multiGraphDomainType                             = null;
@@ -640,6 +641,18 @@ public class TravelOptions implements Serializable {
         this.polygonSerializerType = polygonSerializerType;
     }
     /**
+     * @return the maxSnapDistance
+     */
+    public Integer getMaxSnapDistance() {
+        return maxSnapDistance;
+    }
+    /**
+     * @param maxSnapDistance the maxSnapDistance to set.
+     */
+    public void setMaxSnapDistance(Integer maxSnapDistance) {
+        this.maxSnapDistance = maxSnapDistance;
+    }
+    /**
      * @return the pointReduction
      */
     public boolean isPointReduction() {
@@ -843,6 +856,7 @@ public class TravelOptions implements Serializable {
                 intersectionMode == that.intersectionMode &&
                 pathSerializer == that.pathSerializer &&
                 polygonSerializerType == that.polygonSerializerType &&
+                maxSnapDistance == this.maxSnapDistance &&
                 Objects.equals(multiGraphEdgeClasses, that.multiGraphEdgeClasses) &&
                 multiGraphSerializationFormat == that.multiGraphSerializationFormat &&
                 Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
@@ -1016,6 +1030,8 @@ public class TravelOptions implements Serializable {
         builder.append(pathSerializer);
         builder.append("\n\tpolygonSerializerType: ");
         builder.append(polygonSerializerType);
+        builder.append("\n\tmaxSnapDistance: ");
+        builder.append(maxSnapDistance);
         builder.append("\n\tmultiGraphEdgeClasses: ");
         builder.append(multiGraphEdgeClasses);
         builder.append("\n\tmultiGraphSerializationFormat: ");

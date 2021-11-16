@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.8.0
--
+- Add `maxSnapDistance` parameter in the TravelOptions
 
 ### 0.7.0
 - Add POIs inside geometry requests
