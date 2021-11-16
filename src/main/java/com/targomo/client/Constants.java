@@ -12,6 +12,7 @@ public class Constants {
     public static final String MAX_ROUTING_TIME                                         = "maxRoutingTime";
     public static final String MAX_ROUTING_LENGTH                                       = "maxRoutingLength";
     public static final String SERIALIZER                                               = "serializer";
+    public static final String MAX_SNAP_DISTANCE                                        = "maxSnapDistance";
     public static final String POLYGON_SERIALIZER                                       = "polygonSerializer";
     public static final String POINT_REDUCTION                                          = "pointReduction";
     public static final String MIN_POLYGON_HOLE_SIZE                                    = "minPolygonHoleSize";
