@@ -37,9 +37,7 @@ public class TimeRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public TimeRequest(TravelOptions travelOptions) {
-		this.headers = new MultivaluedHashMap<>();
-		this.client	= ClientBuilder.newClient();
-		this.travelOptions = travelOptions;
+		this(ClientBuilder.newClient(), travelOptions);
 	}
 
 	/**
@@ -48,11 +46,15 @@ public class TimeRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public TimeRequest(Client client, TravelOptions travelOptions) {
-        this.headers = new MultivaluedHashMap<>();
-		this.client	= client;
-		this.travelOptions = travelOptions;
+        this(client, travelOptions, new MultivaluedHashMap<>());
 	}
 
+    /**
+     * Use a custom client implementation with specified options and method
+     * @param client Client implementation to be used
+     * @param travelOptions Options to be used
+     * @param headers if required, headers can be attached to this request
+     */
     public TimeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
         this.headers = headers;
         this.client	= client;
