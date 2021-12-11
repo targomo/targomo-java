@@ -81,6 +81,7 @@ public class RequestConfiguratorTest {
             TravelOptions options = new TravelOptions();
             options.addSource(new DefaultSourceCoordinate("POI:1",8.620987,47.384197));
             options.addSourceGeometry(new DefaultSourceGeometry("POI:2",sourceGeom,4326));
+            options.addSourceGeometry(new DefaultSourceGeometry("POI:3",sourceGeom,4326, false));
             options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
             options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
             options.addTargetGeohash("u33d8zxfptcp");
@@ -157,8 +158,10 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationOutlierPenalty(1000.0f);
             options.setMultiGraphAggregationMinSourcesCount(3);
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
-            options.setMultiGraphAggregationMinSourcesValue(1.0f);
-            options.setMultiGraphAggregationMaxSourcesValue(10000.0f);
+            options.setMultiGraphAggregationSourceValuesLowerBound(1.0f);
+            options.setMultiGraphAggregationSourceValuesUpperBound(10000.0f);
+            options.setMultiGraphAggregationMinResultValue(10.0f);
+            options.setMultiGraphAggregationMinResultValueRatio(0.8);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
             options.setMultiGraphAggregationFilterValuesForSourceOrigins(CollectionUtils.safeSortedSet("POI:0"));

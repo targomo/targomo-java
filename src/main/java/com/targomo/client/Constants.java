@@ -12,6 +12,7 @@ public class Constants {
     public static final String MAX_ROUTING_TIME                                         = "maxRoutingTime";
     public static final String MAX_ROUTING_LENGTH                                       = "maxRoutingLength";
     public static final String SERIALIZER                                               = "serializer";
+    public static final String MAX_SNAP_DISTANCE                                        = "maxSnapDistance";
     public static final String POLYGON_SERIALIZER                                       = "polygonSerializer";
     public static final String POINT_REDUCTION                                          = "pointReduction";
     public static final String MIN_POLYGON_HOLE_SIZE                                    = "minPolygonHoleSize";
@@ -20,6 +21,7 @@ public class Constants {
     public static final String LATITUDE                                                 = "lat";
     public static final String LONGITUDE                                                = "lng";
     public static final String TRANSPORT_MODE                                           = "tm";
+    public static final String PROPERTIES                                               = "properties";
     public static final String SOURCES                                                  = "sources";
     public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
     public static final String TARGETS                                                  = "targets";
@@ -57,10 +59,6 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY                    = "trafficSignalPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY                 = "trafficLeftTurnPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY                = "trafficRightTurnPenalty";
-    public static final String EXCEPTION_ERROR_CODE_NO_ROUTE_FOUND                      = "no-route-found";
-    public static final String EXCEPTION_ERROR_CODE_TRAVEL_TIME_EXCEEDED                = "travel-time-exceeded";
-    public static final String EXCEPTION_ERROR_CODE_COULD_NOT_CONNECT_POINT_TO_NETWORK  = "could-not-connect-point-to-network";
-    public static final String EXCEPTION_ERROR_CODE_UNKNOWN_EXCEPTION                   = "unknown-exception";
     public static final String BUFFER                                                   = "buffer";
     public static final String SIMPLIFY                                                 = "simplify";
     public static final String REVERSE                                                  = "reverse";
@@ -122,18 +120,25 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT                    = "logit";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED          = "logit_optimized";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED = "gravitation_huff_optimized";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_QUALITY      = "gravitation_quality";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO                 = "minSourcesRatio";
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
-    public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_VALUE                 = "minSourcesValue";
-    public static final String MULTIGRAPH_AGGREGATION_MAX_SOURCES_VALUE                 = "maxSourcesValue";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND         = "sourceValuesLowerBound";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND         = "sourceValuesUpperBound";
+    public static final String MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO            = "minResultValueRatio";
+    public static final String MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE                  = "minResultValue";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR           = "postAggregationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
+    public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH    = "logitBetaAttractionStrength";
+    public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME            = "logitBetaTravelTime";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS                  = "aggregationInputParameters";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR           = "inputFactor";
@@ -153,6 +158,7 @@ public class Constants {
     public static final String GEO_JSON   												= "geojson";
     public static final String DATA   												    = "data";
     public static final String CRS                                                      = "crs";
+    public static final String ROUTE_FROM_CENTROID                                      = "routeFromCentroid";
 
     public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
 

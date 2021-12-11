@@ -30,7 +30,7 @@ public class TimeResponseTest {
 		JSONObject sampleObject = JsonUtil.parseString(sampleJson);
 		TravelOptions options = getTravelOptions();
 		TimeResponse timeResponse = new TimeResponse(options, sampleObject, 123);
-		assertEquals("ok", timeResponse.getCode());
+		assertEquals(ResponseCode.OK, timeResponse.getCode());
 		Map<Coordinate, Map<Coordinate, TravelWeight>> resultMap = timeResponse.getTravelWeights();
 		JSONArray sampleDataArray = sampleObject.getJSONArray("data");
 		assertEquals(sampleDataArray.length(), resultMap.size());

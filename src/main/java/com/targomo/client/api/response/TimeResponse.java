@@ -1,10 +1,12 @@
 package com.targomo.client.api.response;
 
+import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.TravelWeight;
 import com.targomo.client.api.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,17 +14,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TimeResponse {
 
 	private static final TravelWeight EMPTY_TRAVELWEIGHT = new TravelWeight(-1, -1);
 
-	private final String code;
+	private final ResponseCode code;
 	private final long requestTimeMillis;
 	private final long totalTimeMillis;
 	private final TravelOptions travelOptions;
-	
+	private final String message;
+
 	private final Map<Coordinate, Map<Coordinate,TravelWeight>> travelWeights = new HashMap<>();
 	private Map<Coordinate, Map<Coordinate, Integer>> travelTimes = null;
 	private Map<Coordinate, Map<Coordinate, Integer>> travelDistances = null;
@@ -33,12 +37,22 @@ public class TimeResponse {
 	 * @param result Travel times in JSON
 	 * @param requestStart Start time of execution
 	 */
-	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) {
+	public TimeResponse(TravelOptions travelOptions, JSONObject result, long requestStart) throws ResponseErrorException {
 		
 		this.travelOptions 	   	  = travelOptions;
-		this.code 		 	   	  = JsonUtil.getString(result, "code");
+		this.code 		 	   	  = ResponseCode.fromString(JsonUtil.getString(result, "code"));
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
-		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+		this.totalTimeMillis      = System.currentTimeMillis() - requestStart;
+		this.message              = result.has("message") ? JsonUtil.getString(result, "message") : "";
+
+		// throw an exception in case of an error code
+		if (this.code != ResponseCode.OK) {
+			String msg = "Time request returned an error";
+			if (!StringUtils.isEmpty(message)) {
+				msg += ": " + message;
+			}
+			throw new ResponseErrorException(this.code, msg);
+		}
 
 		mapResults(result);
 	}
@@ -50,12 +64,13 @@ public class TimeResponse {
 	 * @param requestTime Execution time in milliseconds
 	 * @param requestStart Start time of execution
 	 */
-	public TimeResponse(TravelOptions travelOptions, String code, long requestTime, long requestStart) {
+	public TimeResponse(TravelOptions travelOptions, ResponseCode code, long requestTime, long requestStart) {
 
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = code;
 		this.requestTimeMillis 	  = requestTime;
-		this.totalTimeMillis = System.currentTimeMillis() - requestStart;
+		this.totalTimeMillis      = System.currentTimeMillis() - requestStart;
+		this.message              = "";
 	}
 
 	/**
@@ -135,7 +150,7 @@ public class TimeResponse {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public ResponseCode getCode() {
 		return code;
 	}
 

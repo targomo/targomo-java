@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.21</version>
+    <version>0.9.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,9 +51,45 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.1.22
+### 0.9.0
 - added minSourcesValue and maxSourcesValue to AggregationConfiguration
 - Added "quality" multigraph aggregation
+
+### 0.8.0
+- Add `maxSnapDistance` parameter in the TravelOptions
+
+### 0.7.0
+- Add POIs inside geometry requests
+- Add statistics values geometry request
+
+### 0.6.0
+- adding the logit multigraph aggregations "LOGIT" and "LOGIT_OPTIMIZED"
+
+### 0.5.1
+- Revert Jackson version due to incompatibility issues.
+
+### 0.5.0
+- added the new aggregationtype "GRAVITATION_HUFF_OPTIMIZED"
+- add `routeFromCentroidOption` for routing geometries.
+
+### 0.4.0
+- Throw ResponseErrorException if the request failed with an error code
+
+### 0.3.0
+- Add POI Gravitation endpoint
+
+### 0.2.0
+- Update Readme with POI reachability example
+
+### 0.1.23
+- Update osgeo repository
+
+### 0.1.22
+- added sourceValuesLowerBound and sourceValuesUpperBound to AggregationConfiguration
+- added multiGraphAggregationSourceValuesLowerBound and multiGraphAggregationSourceValuesUpperBound to TravelOptions
+- added minResultValueRatio and minResultValue to AggregationConfiguration
+- added multiGraphAggregationMinResultValueRatio and multiGraphAggregationMinResultValue to TravelOptions
+- Fix a bug: send headers in reachability requests to core
 
 ### 0.1.21
 - Update Readme
@@ -310,6 +346,29 @@ Return possible geocode(s) for each given address.
             "Wilhelm-Kabus-Straße 40, Berlin");
     DefaultTargetCoordinate[] geocodes = Arrays.stream(manyGeocodes)
                     .map(GeocodingResponse::getRepresentativeGeocodeOfRequest).toArray(DefaultTargetCoordinate[]::new);
+
+## Poi Reachability service
+
+Return reachable POIs from a list of sources
+
+    TravelOptions options = new TravelOptions();
+    options.setMaxEdgeWeight(900);
+    options.setEdgeWeightType(EdgeWeightType.TIME);
+    options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
+    options.setOsmTypes(Collections.singleton(new PoiType("amenity", "restaurant")));
+    options.setTravelType(TravelType.CAR);
+    options.setServiceKey("ENTER YOUR KEY HERE");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
+
+    Client client = ClientBuilder.newClient();
+    client.register(GZipEncoder.class); // when using jersey
+    // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
+
+    PointOfInterestRequest request = new PointOfInterestRequest(client, options);
+    PointOfInterestResponse poiResponse = request.get();
+    // so the api returns all restaurant POIs reachable within 15 min by car.
+    
+Find a non-exhaustive list of possible OSM types on the [OpenStreetMap wiki](https://wiki.openstreetmap.org/wiki/Map_features)
 
 ## Helper to display geojson
 

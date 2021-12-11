@@ -1,40 +1,28 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.pojo.LocationProperties;
+
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 
 /**
  * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
 @MappedSuperclass
-public abstract class AbstractGeometry implements RoutingGeometry {
+public abstract class AbstractGeometry extends AbstractLocation implements RoutingGeometry {
 
-    private String id;
     private Integer crs;
     private String data;
+    private boolean routeFromCentroid = true;
 
     public AbstractGeometry() {} //For jackson test
 
-    public AbstractGeometry(String id, Integer crs, String data) {
-        this.id = id;
+    public AbstractGeometry(String id, Integer crs, String data, boolean routeFromCentroid, LocationProperties locationProperties) {
+        super(id, locationProperties);
         this.crs = crs;
         this.data = data;
-    }
-
-    /**
-     * Get the ID associated with the geometry.
-     * @return LocationGeometry ID
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Assign an ID to the geometry
-     * @param id ID to be assigned
-     */
-    public void setId(final String id) {
-        this.id = id;
+        this.routeFromCentroid = routeFromCentroid;
     }
 
     /**
@@ -52,6 +40,13 @@ public abstract class AbstractGeometry implements RoutingGeometry {
     }
 
     /**
+     * @return route from geometry centroid boolean
+     */
+    public boolean isRouteFromCentroid() {
+        return routeFromCentroid;
+    }
+
+    /**
      * @param data the string representation of this geometry
      */
     public void setData(String data) {
@@ -63,6 +58,13 @@ public abstract class AbstractGeometry implements RoutingGeometry {
      */
     public void setCrs(Integer crs) {
         this.crs = crs;
+    }
+
+    /**
+     * @param routeFromCentroid if true route from/to the centroid of this geometry when no intersections found
+     */
+    public void setRouteFromCentroid(Boolean routeFromCentroid) {
+        this.routeFromCentroid = routeFromCentroid;
     }
 
     /**
@@ -79,6 +81,8 @@ public abstract class AbstractGeometry implements RoutingGeometry {
         builder.append(getData());
         builder.append("\n\tcrs: ");
         builder.append(getCrs());
+        builder.append("\n\trouteFromCentroid: ");
+        builder.append(isRouteFromCentroid());
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -91,19 +95,17 @@ public abstract class AbstractGeometry implements RoutingGeometry {
         AbstractGeometry that = (AbstractGeometry) o;
 
         if (!that.getData().equals(getData())) return false;
-        if (that.getCrs() != getCrs()) return false;
-        return id != null ? id.equals(that.id) : that.id == null;
+        if (!that.getCrs().equals(getCrs())) return false;
+        if (!that.isRouteFromCentroid() == isRouteFromCentroid()) return false;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        int temp;
-        int crs;
-        result = id != null ? id.hashCode() : 0;
-        temp = getData() != null ? getData().hashCode() : 0;
-        crs = getCrs() != null ? getCrs() : 0;
-        result = 31 * result + temp + crs;
+        int result = id != null ? id.hashCode() : 0;
+        int temp = this.data != null ? this.data.hashCode() : 0;
+        int crs = this.crs != null ? this.crs : 0;
+        result = 31 * result + temp + crs + (routeFromCentroid ? 1 : 0);
         return result;
     }
 }

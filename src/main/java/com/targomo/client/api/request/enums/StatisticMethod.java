@@ -6,7 +6,7 @@ package com.targomo.client.api.request.enums;
 public enum StatisticMethod {
 
     CHARTS_DEPENDENT("charts/dependent"),
-    CHARTS_INDEPENDENT("charts/independent"),;
+    CHARTS_INDEPENDENT("charts/independent");
 
     private final String path;
 

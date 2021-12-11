@@ -30,7 +30,7 @@ public class ReachabilityResponseTest {
 		TravelOptions options = getTravelOptions();
 
 		ReachabilityResponse reachabilityResponse = new ReachabilityResponse(options, sampleObject, 123);
-		assertEquals("ok", reachabilityResponse.getCode());
+		assertEquals(ResponseCode.OK, reachabilityResponse.getCode());
 		Map<String, Integer> resultMap = reachabilityResponse.getTravelTimes();
 		JSONArray sampleDataArray = sampleObject.getJSONArray("data");
 		assertEquals(sampleDataArray.length(), resultMap.size());

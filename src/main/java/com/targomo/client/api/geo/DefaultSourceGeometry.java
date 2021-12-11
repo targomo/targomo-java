@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.*;
 
@@ -30,10 +31,31 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param geojson String of the geojson of the object
      * @param crs CRS value used for the geometry
      * @param travelType TravelType to be associated with the coordinate
+     * @param locationProperties properties for this source
+     */
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, boolean routeFromCentroid,
+                                 LocationProperties locationProperties) {
+        super(id, crs, geojson, routeFromCentroid, locationProperties);
+        this.travelType = travelType;
+    }
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, LocationProperties locationProperties) {
+        this(id, geojson, crs, travelType,true, locationProperties);
+    }
+
+    /**
+     * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
+     * @param id ID to associate with the target coordinate
+     * @param geojson String of the geojson of the object
+     * @param crs CRS value used for the geometry
+     * @param travelType TravelType to be associated with the coordinate
      */
     public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType) {
-        super(id, crs, geojson);
-        this.travelType = travelType;
+        this(id, geojson, crs, travelType, null);
+    }
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, boolean routeFromCentroid) {
+        this(id, geojson, crs, travelType, routeFromCentroid, null);
     }
 
     /**
@@ -44,7 +66,11 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      * @param crs CRS value used for the geometry
      */
     public DefaultSourceGeometry(String id, String geojson, int crs) {
-        this(id, geojson, crs,null);
+        this(id, geojson, crs, null, null);
+    }
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, boolean routeFromCentroid) {
+        this(id, geojson, crs, null, routeFromCentroid, null);
     }
 
     /**
@@ -87,6 +113,8 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         builder.append(getData());
         builder.append(", crs: ");
         builder.append(getCrs());
+        builder.append(", routeFromCentroid: ");
+        builder.append(isRouteFromCentroid());
         builder.append(", travelType: ");
         builder.append(travelType);
         builder.append("}");

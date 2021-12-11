@@ -71,8 +71,10 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationOutlierPenalty(),
                     travelOptions.getMultiGraphAggregationMinSourcesRatio(),
                     travelOptions.getMultiGraphAggregationMinSourcesCount(),
-                    travelOptions.getMultiGraphAggregationMinSourcesValue(),
-                    travelOptions.getMultiGraphAggregationMaxSourcesValue(),
+                    travelOptions.getMultiGraphAggregationSourceValuesLowerBound(),
+                    travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
+                    travelOptions.getMultiGraphAggregationMinResultValue(),
+                    travelOptions.getMultiGraphAggregationMinResultValueRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(),
                     travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
@@ -135,11 +137,17 @@ public final class RequestConfigurator {
             if (travelOptions.getBoundingBox() != null)
                 JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
 
-
             if (travelOptions.getOsmTypes() != null) {
 
                 ObjectMapper mapper = new ObjectMapper();
                 JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
+            }
+
+            if(travelOptions.getFilterGeometryForPOIs() != null){
+                JSONObject filterGeometry = new JSONObject()
+                        .put(Constants.CRS, travelOptions.getFilterGeometryForPOIs().getCrs())
+                        .put(Constants.DATA, travelOptions.getFilterGeometryForPOIs().getData());
+                JSONBuilder.append(config, "filterGeometry", filterGeometry);
             }
 
             if (travelOptions.getTravelTimeFactors() != null && !travelOptions.getTravelTimeFactors().isEmpty()) {
@@ -147,6 +155,10 @@ public final class RequestConfigurator {
 			    for(Map.Entry<String,Double> factor : travelOptions.getTravelTimeFactors().entrySet())
 			        travelFactors.put(factor.getKey(),factor.getValue());
                 JSONBuilder.append(config, Constants.TRAVEL_TIME_FACTORS, travelFactors);
+            }
+
+            if (travelOptions.getMaxSnapDistance() != null){
+                JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
@@ -315,10 +327,11 @@ public final class RequestConfigurator {
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
         if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
-                travelOptions.getMultiGraphAggregationMinSourcesValue(), travelOptions.getMultiGraphAggregationMaxSourcesValue(),
+                travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
-                travelOptions.getMultiGraphAggregationMaxResultValueRatio() ,travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(), 
-                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
+                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
+                travelOptions.getMultiGraphAggregationLogitBetaTravelTime(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
                 .anyMatch(Objects::nonNull)) {
             JSONObject multiGraphAggregation = new JSONObject();
             AggregationConfiguration aggregationConfiguration = new AggregationConfiguration.AggregationConfigurationBuilder(travelOptions, false).build();
@@ -355,17 +368,23 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getOutlierPenalty() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY, aggregationConfiguration.getOutlierPenalty());
 
+        if (aggregationConfiguration.getMinSourcesRatio() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
+
         if (aggregationConfiguration.getMinSourcesCount() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT, aggregationConfiguration.getMinSourcesCount());
 
-        if (aggregationConfiguration.getMinSourcesValue() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_VALUE, aggregationConfiguration.getMinSourcesValue());
+        if (aggregationConfiguration.getSourceValuesLowerBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND, aggregationConfiguration.getSourceValuesLowerBound());
 
-        if (aggregationConfiguration.getMaxSourcesValue() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_SOURCES_VALUE, aggregationConfiguration.getMaxSourcesValue());
+        if (aggregationConfiguration.getSourceValuesUpperBound() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND, aggregationConfiguration.getSourceValuesUpperBound());
 
-        if (aggregationConfiguration.getMinSourcesRatio() != null)
-            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_SOURCES_RATIO, aggregationConfiguration.getMinSourcesRatio());
+        if (aggregationConfiguration.getMinResultValueRatio() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO, aggregationConfiguration.getMinResultValueRatio());
+
+        if (aggregationConfiguration.getMinResultValue() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE, aggregationConfiguration.getMinResultValue());
 
         if (aggregationConfiguration.getMaxResultValueRatio() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO, aggregationConfiguration.getMaxResultValueRatio());
@@ -378,6 +397,12 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getGravitationExponent() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
+
+        if (aggregationConfiguration.getLogitBetaAttractionStrength() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH, aggregationConfiguration.getLogitBetaAttractionStrength());
+
+        if (aggregationConfiguration.getLogitBetaTravelTime() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME, aggregationConfiguration.getLogitBetaTravelTime());
 
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());
@@ -429,6 +454,7 @@ public final class RequestConfigurator {
         }
         return sourceGeometries;
     }
+
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
@@ -542,9 +568,18 @@ public final class RequestConfigurator {
         } else if (src instanceof AbstractGeometry) {
             AbstractGeometry geometry = (AbstractGeometry) src;
             source.put(Constants.CRS, geometry.getCrs())
-                    .put(Constants.DATA, geometry.getData());
+                    .put(Constants.DATA, geometry.getData())
+                    .put(ROUTE_FROM_CENTROID, geometry.isRouteFromCentroid());
         }
         source.put(Constants.TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+
+        if(src.getProperties() != null){
+            source.put(PROPERTIES, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
+            );
+        }
 
         if (travelOptions.getReverse() != null) {
             source.put(Constants.REVERSE, travelOptions.getReverse());

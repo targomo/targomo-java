@@ -92,7 +92,7 @@ public class StatisticResult {
 			reachablePersonsByStatistic.put(statistic, reachablePersons);
 		}
 		
-		LOGGER.info(String.format("It took %sms to parse the population results!", System.currentTimeMillis() - start));
+		LOGGER.debug("It took {}ms to parse the population results!", System.currentTimeMillis() - start);
 		
 		return reachablePersonsByStatistic;
 	}
