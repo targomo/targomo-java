@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.8.0</version>
+    <version>0.9.0-SNAPSHOT</version>
 </dependency>
 ```
 
