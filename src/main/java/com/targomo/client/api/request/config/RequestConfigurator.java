@@ -472,7 +472,7 @@ public final class RequestConfigurator {
     private static StringBuilder buildTarget(final StringBuilder targetsBuilder, final Coordinate trg) {
         JSONBuilder.beginJson(targetsBuilder);
         JSONBuilder.appendString(targetsBuilder, Constants.ID, trg.getId());
-        JSONBuilder.append(targetsBuilder,          Constants.LATITUDE, trg.getY());
+        JSONBuilder.append(targetsBuilder,       Constants.LATITUDE, trg.getY());
         JSONBuilder.appendAndEnd(targetsBuilder, Constants.LONGITUDE, trg.getX());
         return targetsBuilder;
     }
