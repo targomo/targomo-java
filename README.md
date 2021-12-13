@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.9.0
+- Upgrade log4j-core to 2.15.0
 
 ### 0.8.0
 - Add `maxSnapDistance` parameter in the TravelOptions
