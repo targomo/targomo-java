@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.11.0
+
+
 ### 0.10.0
 - update log4j to 2.17.1
 - include heatmap calculations for logit and gravitation + include "gravitationCompetingPositiveInfluence" in AggregationInputParameters for heatmap calculations
