@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.9.0</version>
+    <version>0.10.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.10.0
+- update log4j to 2.17.1
+- include heatmap calculations for logit and gravitation + include "gravitationCompetingPositiveInfluence" in AggregationInputParameters for heatmap calculations
+- allow custom headers for TimeRequest
 
 ### 0.9.0
 - Upgrade log4j-core to 2.15.0

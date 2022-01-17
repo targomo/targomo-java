@@ -15,6 +15,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**
@@ -27,6 +29,7 @@ public class TimeRequest {
 
 	private Client client;
 	private TravelOptions travelOptions;
+	private MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
@@ -34,8 +37,7 @@ public class TimeRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public TimeRequest(TravelOptions travelOptions) {
-		this.client	= ClientBuilder.newClient();
-		this.travelOptions = travelOptions;
+		this(ClientBuilder.newClient(), travelOptions);
 	}
 
 	/**
@@ -44,9 +46,20 @@ public class TimeRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public TimeRequest(Client client, TravelOptions travelOptions) {
-		this.client	= client;
-		this.travelOptions = travelOptions;
+        this(client, travelOptions, new MultivaluedHashMap<>());
 	}
+
+    /**
+     * Use a custom client implementation with specified options and method
+     * @param client Client implementation to be used
+     * @param travelOptions Options to be used
+     * @param headers if required, headers can be attached to this request
+     */
+    public TimeRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
+        this.headers = headers;
+        this.client	= client;
+        this.travelOptions = travelOptions;
+    }
 
 	/**
 	 * Execute request
@@ -72,7 +85,7 @@ public class TimeRequest {
 		Response response;
 		String config = RequestConfigurator.getConfig(travelOptions);
 		// Execute POST request
-		response = target.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+		response = target.request().headers(headers).post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 
 		return validateResponse(response, requestStart);
 	}
@@ -91,6 +104,8 @@ public class TimeRequest {
                     "?cb=" + CALLBACK +
                     "&key=" + travelOptions.getServiceKey() + "' " +
                 "-H 'content-type: application/json' " +
+                headers.entrySet().stream().flatMap( e -> e.getValue().stream()
+                        .map( v -> "-H '" + e.getKey() + ": " + v + "' ")).reduce("", String::concat) +
                 "-d '" + RequestConfigurator.getConfig(travelOptions) + "'";
 	}
 

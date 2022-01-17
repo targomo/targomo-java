@@ -12,41 +12,61 @@ import java.util.stream.Stream;
  */
 public enum MultiGraphAggregationType {
 
-    NONE                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE,                        false, false, false, false),
-    ONE                         (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE,                         false, false, false, false),
-    MINIMUM                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM,                     true,  false, false, false),
-    MAXIMUM                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM,                     true,  false, false, false),
-    SUM                         (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM,                         true,  false, false, false),
-    MEAN                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,                        true,  false, false, false),
-    MEDIAN                      (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,                      true,  false, false, false),
-    NEAREST                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,                     false, false, false, false),
-    COUNT                       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT,                       true,  false, false, false),
-    ROUTING_UNION               (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,               false, false, true,  false),
-    MATH                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                        false, false, false, false),
-    GRAVITATION_HUFF            (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,            true,  true,  false, false),
-    LOGIT                       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT,                       true,  true,  false, false),
+    NONE                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE,                        false, false, false),
+    ONE                         (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ONE,                         false, false, false),
+    MINIMUM                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MINIMUM,                     true,  false, false),
+    MAXIMUM                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MAXIMUM,                     true,  false, false),
+    SUM                         (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_SUM,                         true,  false, false),
+    MEAN                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN,                        true,  false, false),
+    MEDIAN                      (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN,                      true,  false, false),
+    NEAREST                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST,                     false, false, false),
+    COUNT                       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT,                       true,  false, false),
+    ROUTING_UNION               (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION,               false, false, true),
+    MATH                        (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH,                        false, false, false),
+    GRAVITATION_HUFF            (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF,            true,  true,  false),
+    LOGIT                       (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT,                       true,  true,  false),
      /**
      * the following two aggregations can only be used as main aggregation with no other aggregations in the pipeline - needs to be enabled for the endpoint
      * **/
-    GRAVITATION_HUFF_OPTIMIZED  (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED,  false,  true, false, true),
-    LOGIT_OPTIMIZED             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,             false,  true, false, true);
+    GRAVITATION_HUFF_OPTIMIZED          (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED,         true, false),
+    GRAVITATION_HUFF_OPTIMIZED_HEATMAP  (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED_HEATMAP, true, true),
+    LOGIT_OPTIMIZED                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,                    true, false),
+    LOGIT_OPTIMIZED_HEATMAP             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED_HEATMAP,            true, true);
 
     private final String key;
     private final boolean mayIgnoreOutliers;
     private final boolean requiresGravitationParameters;
     private final boolean aggregationInRouting;
     private final boolean optimizedProbabilityAggregation;
+    private final boolean optimizedProbabilityAggregationForHeatmap;
 
+    /**
+     * Constructor for normal multigraph aggregations
+     */
     MultiGraphAggregationType(String key,
                               boolean mayIgnoreOutliers,
                               boolean requiresGravitationParameters,
-                              boolean aggregationInRouting,
-                              boolean optimizedProbabilityAggregation) {
+                              boolean aggregationInRouting) {
         this.key = key;
         this.mayIgnoreOutliers = mayIgnoreOutliers;
         this.aggregationInRouting = aggregationInRouting;
         this.requiresGravitationParameters = requiresGravitationParameters;
+        this.optimizedProbabilityAggregation = false;
+        this.optimizedProbabilityAggregationForHeatmap = false;
+    }
+
+    /**
+     * Constructor for optimized probability aggregations
+     */
+    MultiGraphAggregationType(String key,
+                              boolean optimizedProbabilityAggregation,
+                              boolean optimizedProbabilityAggregationForHeatmap) {
+        this.key = key;
+        this.mayIgnoreOutliers = false;
+        this.aggregationInRouting = false;
+        this.requiresGravitationParameters = true;
         this.optimizedProbabilityAggregation = optimizedProbabilityAggregation;
+        this.optimizedProbabilityAggregationForHeatmap = optimizedProbabilityAggregationForHeatmap;
     }
 
     @JsonCreator
@@ -68,11 +88,6 @@ public enum MultiGraphAggregationType {
     }
 
     @JsonIgnore
-    public boolean isOptimizedProbabilityAggregation() {
-        return optimizedProbabilityAggregation;
-    }
-
-    @JsonIgnore
     public boolean mayIgnoreOutliers() {
         return mayIgnoreOutliers;
     }
@@ -80,5 +95,15 @@ public enum MultiGraphAggregationType {
     @JsonIgnore
     public boolean requiresGravitationParameters() {
         return requiresGravitationParameters;
+    }
+
+    @JsonIgnore
+    public boolean isOptimizedProbabilityAggregation() {
+        return optimizedProbabilityAggregation;
+    }
+
+    @JsonIgnore
+    public boolean isOptimizedProbabilityAggregationForHeatmap() {
+        return optimizedProbabilityAggregationForHeatmap;
     }
 }
