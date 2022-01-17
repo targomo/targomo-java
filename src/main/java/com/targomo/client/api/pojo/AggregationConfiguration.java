@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 public class AggregationConfiguration {
 
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
+    // for any type of special probability aggregations only minSourcesCount, sourceValuesLowerBound, sourceValuesUpperBound
+    // and probability specific parameters such as gravitationExponent, logitBetaAttractionStrength/TravelTime are considered
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
     private Boolean ignoreOutliers; //specific to some aggregations
