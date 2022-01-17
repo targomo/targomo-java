@@ -120,10 +120,11 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
-    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT                    = "logit";
-    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED          = "logit_optimized";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED = "gravitation_huff_optimized";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED_HEATMAP = "gravitation_huff_optimized_heatmap";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT                    = "logit";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED          = "logit_optimized";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED_HEATMAP  = "logit_optimized_heatmap";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MATH                     = "math";
     public static final String MULTIGRAPH_AGGREGATION_IGNORE_OUTLIERS                   = "ignoreOutliers";
     public static final String MULTIGRAPH_AGGREGATION_OUTLIER_PENALTY                   = "outlierPenalty";

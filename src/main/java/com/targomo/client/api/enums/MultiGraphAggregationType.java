@@ -31,7 +31,7 @@ public enum MultiGraphAggregationType {
     GRAVITATION_HUFF_OPTIMIZED          (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED,         true, false),
     GRAVITATION_HUFF_OPTIMIZED_HEATMAP  (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED_HEATMAP, true, true),
     LOGIT_OPTIMIZED                     (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED,                    true, false),
-    LOGIT_OPTIMIZED_HEATMAP             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF_OPTIMIZED_HEATMAP, true, true);
+    LOGIT_OPTIMIZED_HEATMAP             (Constants.KEY_MULTIGRAPH_AGGREGATION_TYPE_LOGIT_OPTIMIZED_HEATMAP,            true, true);
 
     private final String key;
     private final boolean mayIgnoreOutliers;
