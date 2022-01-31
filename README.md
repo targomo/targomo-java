@@ -311,7 +311,7 @@ Return total travel time for each source point to all targets.
     client.register(GZipEncoder.class); // when using jersey
     // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
-    // source ID, total travel time or -1 if not reachable
+    // source ID, total travel time
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
 
 ## RouteService
