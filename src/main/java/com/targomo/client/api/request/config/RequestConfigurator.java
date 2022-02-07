@@ -132,7 +132,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, "serviceKey", "\"" + travelOptions.getServiceKey() + "\"");
 
             if (travelOptions.getInterServiceKey() != null)
-                JSONBuilder.append(config, Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+                JSONBuilder.appendString(config, Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
 
             if (travelOptions.getFormat() != null)
                 JSONBuilder.append(config, Constants.FORMAT, "\"" + travelOptions.getFormat().toString().toLowerCase() + "\"");
