@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.Format;
 import com.targomo.client.api.exception.TargomoClientException;
@@ -122,6 +123,12 @@ public class PointOfInterestRequest {
 	private Response getResponse(String path) throws TargomoClientException {
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey());
+		if(travelOptions.getInterServiceKey() != null) {
+			target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+		}
+		if(travelOptions.getInterServiceRequestType() != null){
+			target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+		}
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
 		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
