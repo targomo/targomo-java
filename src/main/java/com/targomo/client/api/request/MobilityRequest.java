@@ -132,7 +132,7 @@ public class MobilityRequest {
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class MobilityResult{
 		private String id;
-        private Double lat;
+		private Double lat;
 		private Integer lon;
 		private Integer radius;
 		@JsonProperty(value = "day_start")
