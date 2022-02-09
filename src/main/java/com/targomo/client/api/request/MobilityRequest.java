@@ -1,5 +1,7 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,8 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.MobilityRequestOptions;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,14 +24,13 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Slf4j
 public class MobilityRequest {
 
-	private Client client;
-	private MobilityRequestOptions requestOptions;
+	private final Client client;
+	private final MobilityRequestOptions requestOptions;
 
 	/**
 	 * Use a custom client implementation with specified options and method
@@ -56,7 +59,7 @@ public class MobilityRequest {
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
-	public Map<String, Double> get(Collection<Coordinate> locations) throws TargomoClientException, JSONException {
+	public List<MobilityResult> get(Collection<Coordinate> locations) throws TargomoClientException, JSONException {
 
 		String path = "staypoints/profile/";
 		WebTarget target = client.target(requestOptions.getMobilityServiceUrl()).path(path)
@@ -69,6 +72,7 @@ public class MobilityRequest {
 				.queryParam("unique", requestOptions.getUnique())
 				.queryParam("return_staypoints", requestOptions.getReturnStaypoints())
 				.queryParam("radius", requestOptions.getRadius());
+//				.queryParam("apiKey", requestOptions.getApiKey());
 
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
@@ -76,7 +80,7 @@ public class MobilityRequest {
 		log.debug(String.format("Executing mobility request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
-		Response response = target.request().post(entity);
+		Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(entity);
 		return parseResponse(response);
 	}
 
@@ -86,15 +90,15 @@ public class MobilityRequest {
 	 * @return map of location id to edge statistics value
 	 * @throws TargomoClientException In case of errors
 	 */
-	private Map<String, Double> parseResponse(final Response response)
+	private List<MobilityResult> parseResponse(final Response response)
 			throws TargomoClientException {
 
-		// compare the HTTP status codes, NOT the route 360 code
+		// compare the HTTP status codes
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
 			// consume the results
 			try {
-				TypeReference<HashMap<String, Double>> typeRef = new TypeReference<HashMap<String, Double>>() {};
+				TypeReference<List<MobilityResult>> typeRef = new TypeReference<List<MobilityResult>>() {};
 				return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
 			}
 			catch (JsonProcessingException e){
@@ -116,11 +120,39 @@ public class MobilityRequest {
 		JSONArray locationsJson = new JSONArray();
 		for (Coordinate l : locations) {
 			locationsJson.put(new JSONObject()
-				.put(Constants.ID, l.getId())
+				.put(Constants.ID, Integer.parseInt(l.getId()))
 				.put(Constants.LATITUDE, l.getY())
 				.put("lon", l.getX())
 			);
 		}
 		return locationsJson.toString();
+	}
+
+	@Setter
+	@Getter
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class MobilityResult{
+		private Integer id;
+        private Double lat;
+		private Integer lon;
+		private Integer radius;
+		@JsonProperty(value = "day_start")
+		private Integer dayStart;
+		@JsonProperty(value = "day_end")
+		private Integer dayEnd;
+		@JsonProperty(value = "hour_start")
+		private Integer hourStart;
+		@JsonProperty(value = "hour_end")
+		private Integer hourEnd;
+		@JsonProperty(value = "day_of_year_start")
+		private Integer dayOfYearStart;
+		@JsonProperty(value = "day_of_year_end")
+		private Integer dayOfYearEnd;
+		@JsonProperty(value = "min_duration")
+		private Integer minDuration;
+		@JsonProperty(value = "max_duration")
+		private Integer maxDuration;
+		private Boolean unique;
+		private Integer count;
 	}
 }

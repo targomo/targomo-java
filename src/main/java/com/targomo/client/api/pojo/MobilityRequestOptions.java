@@ -8,8 +8,7 @@ import lombok.Getter;
  */
 @Getter @AllArgsConstructor
 public class MobilityRequestOptions {
-    private String mobilityServiceUrl;
-    //private String serviceKey;
+    private final String mobilityServiceUrl;
 
     private final Integer hourStart;
     private final Integer hourEnd;
