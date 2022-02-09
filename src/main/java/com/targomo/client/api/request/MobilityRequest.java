@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.client.Constants;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.geo.Coordinate;
@@ -29,6 +28,10 @@ import java.util.List;
 @Slf4j
 public class MobilityRequest {
 
+	public static final String ID         = "id";
+	public static final String LATITUDE   = "lat";
+	public static final String LONGITUDE  = "lon";
+
 	private final Client client;
 	private final MobilityRequestOptions requestOptions;
 
@@ -51,11 +54,9 @@ public class MobilityRequest {
 		this(ClientBuilder.newClient(), requestOptions);
 	}
 
-
-	// TODO: remove edge statistics and check parsing
 	/**
 	 * @param locations Coordinate collection of locations
-	 * @return map of location id to edge statistics value
+	 * @return list of mobility result
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
@@ -72,8 +73,6 @@ public class MobilityRequest {
 				.queryParam("unique", requestOptions.getUnique())
 				.queryParam("return_staypoints", requestOptions.getReturnStaypoints())
 				.queryParam("radius", requestOptions.getRadius());
-//				.queryParam("apiKey", requestOptions.getApiKey());
-
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
 
@@ -120,9 +119,9 @@ public class MobilityRequest {
 		JSONArray locationsJson = new JSONArray();
 		for (Coordinate l : locations) {
 			locationsJson.put(new JSONObject()
-				.put(Constants.ID, Integer.parseInt(l.getId()))
-				.put(Constants.LATITUDE, l.getY())
-				.put("lon", l.getX())
+				.put(ID, Integer.parseInt(l.getId()))
+				.put(LATITUDE, l.getY())
+				.put(LONGITUDE, l.getX())
 			);
 		}
 		return locationsJson.toString();
