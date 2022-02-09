@@ -119,7 +119,7 @@ public class MobilityRequest {
 		JSONArray locationsJson = new JSONArray();
 		for (Coordinate l : locations) {
 			locationsJson.put(new JSONObject()
-				.put(ID, Integer.parseInt(l.getId()))
+				.put(ID, l.getId())
 				.put(LATITUDE, l.getY())
 				.put(LONGITUDE, l.getX())
 			);
@@ -131,7 +131,7 @@ public class MobilityRequest {
 	@Getter
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class MobilityResult{
-		private Integer id;
+		private String id;
         private Double lat;
 		private Integer lon;
 		private Integer radius;
