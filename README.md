@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.10.0</version>
+    <version>0.11.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,9 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.11.0
+- Add mobility service requests
 
 ### 0.10.0
 - update log4j to 2.17.1
@@ -308,7 +311,7 @@ Return total travel time for each source point to all targets.
     client.register(GZipEncoder.class); // when using jersey
     // client.register(new GZIPDecodingInterceptor(10_000_000)); // specific to JAX-RS implementation
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get();
-    // source ID, total travel time or -1 if not reachable
+    // source ID, total travel time
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
 
 ## RouteService
