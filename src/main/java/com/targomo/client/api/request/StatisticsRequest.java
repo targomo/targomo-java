@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeWeightType;
@@ -76,6 +77,12 @@ public class StatisticsRequest {
 		WebTarget target = client.target(this.travelOptions.getStatisticServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey())
 				.queryParam("serviceUrl", travelOptions.getServiceUrl());
+		if(travelOptions.getInterServiceKey() != null){
+			target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+		}
+		if(travelOptions.getInterServiceRequestType() != null){
+			target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+		}
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
@@ -97,6 +104,12 @@ public class StatisticsRequest {
 
 			target = client.target(travelOptions.getFallbackServiceUrl()).path(path)
 					.queryParam("key", travelOptions.getServiceKey());
+			if(travelOptions.getInterServiceKey() != null){
+				target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
+			}
+			if(travelOptions.getInterServiceRequestType() != null){
+				target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+			}
 
 			LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
