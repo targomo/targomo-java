@@ -1,12 +1,13 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
-import com.targomo.client.api.response.ReachabilityResponse;
-import com.targomo.client.api.util.JsonUtil;
+import com.targomo.client.api.response.TransitStopsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Calculates travel time for each source point to all targets, or -1 if unreachable.
@@ -72,11 +75,9 @@ public class TransitStopsRequest {
 	 * @return Reachability response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public ReachabilityResponse get() throws TargomoClientException, ResponseErrorException {
+	public Map<String, List<TransitStopsResponse>> get() throws TargomoClientException, JsonProcessingException {
 
-		long requestStart = System.currentTimeMillis();
-
-		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
+		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/transit/stops")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
                 .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
@@ -107,25 +108,23 @@ public class TransitStopsRequest {
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
 		}
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart);
+		return validateResponse(response);
 	}
 
 	/**
-	 * Validate HTTP response and return a ReachabilityResponse
+	 * Validate HTTP response and return a List<TransitStopResponse>
 	 * @param response HTTP response
-	 * @param requestStart Beginning of execution in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private ReachabilityResponse validateResponse(final Response response, final long requestStart)
-			throws TargomoClientException, ResponseErrorException {
-		// compare the HTTP status codes, NOT the route 360 code
+	private Map<String, List<TransitStopsResponse>> validateResponse(final Response response)
+			throws TargomoClientException, JsonProcessingException {
+		// compare the HTTP status codes
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
-			String res = response.readEntity(String.class);
-			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
+			TypeReference<Map<String, List<TransitStopsResponse>>> typeRef = new TypeReference<Map<String, List<TransitStopsResponse>>>() {};
+			return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
