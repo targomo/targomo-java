@@ -158,7 +158,11 @@ public final class RequestConfigurator {
             }
 
             if (travelOptions.getMaxSnapDistance() != null){
-                JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
+                JSONBuilder.append(config, NEXT_STOPS_START_TIME, travelOptions.getNextStopsStartTime());
+            }
+
+            if (travelOptions.getNextStopsStartTime() != null){
+                JSONBuilder.append(config, NEXT_STOPS_END_TIME, travelOptions.getNextStopsEndTime());
             }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());

@@ -214,6 +214,12 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private boolean disableCache;
+
+    @Transient
+    private Integer nextStopsStartTime;
+
+    @Transient
+    private Integer nextStopsEndTime;
     
     public String getBoundingBox() {
         return boundingBox;
@@ -913,7 +919,9 @@ public class TravelOptions implements Serializable {
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
                 Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
                 Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
-                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget);
+                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) &&
+                Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
+                Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
     }
                 
 
@@ -944,7 +952,7 @@ public class TravelOptions implements Serializable {
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget);
+                maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime);
     }
 
     /* (non-Javadoc)
@@ -1148,6 +1156,10 @@ public class TravelOptions implements Serializable {
         builder.append(maxWalkingTimeFromSource);
         builder.append("\n\tmaxWalkingTimeToTarget: ");
         builder.append(maxWalkingTimeToTarget);
+        builder.append("\n\tnextStopsStartTime: ");
+        builder.append(nextStopsStartTime);
+        builder.append("\n\tnextStopsEndTime: ");
+        builder.append(nextStopsEndTime);
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -1657,4 +1669,13 @@ public class TravelOptions implements Serializable {
     public void setAvoidTransitRouteTypes(List<Integer> avoidTransitRouteTypes) {
         this.avoidTransitRouteTypes = avoidTransitRouteTypes;
     }
+
+    public Integer getNextStopsStartTime() { return nextStopsStartTime; }
+
+    public void setNextStopsStartTime(Integer nextStopsStartTime) { this.nextStopsStartTime = nextStopsStartTime; }
+
+    public Integer getNextStopsEndTime() { return nextStopsEndTime; }
+
+    public void setNextStopsEndTime(Integer nextStopsEndTime) { this.nextStopsEndTime = nextStopsEndTime; }
+
 }
