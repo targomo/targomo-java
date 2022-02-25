@@ -1,12 +1,13 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
-import com.targomo.client.api.response.ReachabilityResponse;
-import com.targomo.client.api.util.JsonUtil;
+import com.targomo.client.api.response.TransitStation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,26 +21,28 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Calculates travel time for each source point to all targets.
+ * Get all the transit stations reachable from source(s) and the times of the next stops
  * Only accepts {@link HttpMethod} POST.
  */
-public class ReachabilityRequest {
+public class TransitStopsRequest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransitStopsRequest.class);
 
-	private Client client;
-	private TravelOptions travelOptions;
+	private final Client client;
+	private final TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
-	private MultivaluedMap<String, Object> headers;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
 	 * Default client uses {@link ClientBuilder}.
 	 * @param travelOptions Options to be used
 	 */
-	public ReachabilityRequest(TravelOptions travelOptions) {
+	public TransitStopsRequest(TravelOptions travelOptions) {
 		this.headers = new MultivaluedHashMap<>();
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
@@ -50,7 +53,7 @@ public class ReachabilityRequest {
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
 	 */
-	public ReachabilityRequest(Client client, TravelOptions travelOptions){
+	public TransitStopsRequest(Client client, TravelOptions travelOptions){
 		this.headers = new MultivaluedHashMap<>();
 		this.client	= client;
 		this.travelOptions = travelOptions;
@@ -61,7 +64,7 @@ public class ReachabilityRequest {
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
 	 */
-	public ReachabilityRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String,Object> headers){
+	public TransitStopsRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String,Object> headers){
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = headers;
@@ -69,27 +72,25 @@ public class ReachabilityRequest {
 
 	/**
 	 * Execute request
-	 * @return Reachability response
+	 * @return Map keys - source id
+	 *             values - list of reachable transit stations
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public ReachabilityResponse get() throws TargomoClientException, ResponseErrorException {
+	public Map<String, List<TransitStation>> get() throws TargomoClientException, JsonProcessingException {
 
-		long requestStart = System.currentTimeMillis();
-
-		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
+		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/transit/stops")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
-                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+        		.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
 				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
+		LOGGER.debug("Executing transit stops request to URI: '{}}'", target.getUri());
 
 		Response response;
 
 		try {
-
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
 		}
@@ -97,35 +98,33 @@ public class ReachabilityRequest {
 		// targomo service on the same machine, in case of a fallback we need to try a different host
 		// but only once
 		catch ( ProcessingException exception ) {
-
 			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
 					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey());
-
-			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
+					.queryParam("key", travelOptions.getServiceKey())
+					.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+					.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+			LOGGER.debug("Executing transit stops request to URI: '{}'", target.getUri());
 
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
 		}
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart);
+		return validateResponse(response);
 	}
 
 	/**
-	 * Validate HTTP response and return a ReachabilityResponse
+	 * Validate HTTP response and return a List<TransitStopResponse>
 	 * @param response HTTP response
-	 * @param requestStart Beginning of execution in milliseconds
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private ReachabilityResponse validateResponse(final Response response, final long requestStart)
-			throws TargomoClientException, ResponseErrorException {
-		// compare the HTTP status codes, NOT the route 360 code
+	private Map<String, List<TransitStation>> validateResponse(final Response response)
+			throws TargomoClientException, JsonProcessingException {
+		// compare the HTTP status codes
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
-			String res = response.readEntity(String.class);
-			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
+			TypeReference<Map<String, List<TransitStation>>> typeRef = new TypeReference<Map<String, List<TransitStation>>>() {};
+			return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}

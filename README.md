@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.12.0
 - Send interService key and request type in poi and statistics requests
 - add multiGraphAggregationProbabilityDecay to TravelOptions and probabilityDecay to AggregationConfiguration
+- Add Transit Stops service
 
 ### 0.11.0
 - Add mobility service requests
