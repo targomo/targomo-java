@@ -79,6 +79,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
+                    travelOptions.getMultiGraphAggregationProbabilityDecay(),
                     travelOptions.getMultiGraphAggregationInputParameters(),
                     travelOptions.getMultiGraphAggregationPostAggregationFactor(),
                     travelOptions.getMultiGraphAggregationMathExpression(),
@@ -338,7 +339,8 @@ public final class RequestConfigurator {
                 travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
-                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
+                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationProbabilityDecay(),
+                travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
                 travelOptions.getMultiGraphAggregationLogitBetaTravelTime(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
                 .anyMatch(Objects::nonNull)) {
             JSONObject multiGraphAggregation = new JSONObject();
@@ -405,6 +407,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getGravitationExponent() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
+
+        if (aggregationConfiguration.getProbabilityDecay() != null)
+            multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_PROBABILITY_DECAY, aggregationConfiguration.getProbabilityDecay());
 
         if (aggregationConfiguration.getLogitBetaAttractionStrength() != null)
             multiGraphAggregation.put(Constants.MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH, aggregationConfiguration.getLogitBetaAttractionStrength());
