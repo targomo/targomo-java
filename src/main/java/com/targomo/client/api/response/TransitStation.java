@@ -9,7 +9,7 @@ import java.util.Set;
 @Setter
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransitStopsResponse {
+public class TransitStation {
     private String name;
     private String edgeType;
     private int edgeWeight;

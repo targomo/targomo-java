@@ -1,0 +1,17 @@
+{
+  "id0": [
+    {
+      "name": "Prinzenstr./Ritterstr. (Berlin)",
+      "edgeType": "time",
+      "edgeWeight": 119,
+      "nextStops": [
+        {
+          "time": 300,
+          "name": "Segitzdamm (Berlin)",
+          "line": "140",
+          "endStation": "S Ostbahnhof (Berlin)"
+        }
+      ]
+    }
+  ]
+}

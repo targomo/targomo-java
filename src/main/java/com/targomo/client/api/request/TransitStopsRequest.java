@@ -7,7 +7,7 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
-import com.targomo.client.api.response.TransitStopsResponse;
+import com.targomo.client.api.response.TransitStation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Calculates travel time for each source point to all targets, or -1 if unreachable.
+ * Get all the transit stations reachable from source(s) and the times of the next stops
  * Only accepts {@link HttpMethod} POST.
  */
 public class TransitStopsRequest {
@@ -60,11 +60,23 @@ public class TransitStopsRequest {
 	}
 
 	/**
+	 * Use a custom client implementation with specified options and method
+	 * @param client Client implementation to be used
+	 * @param travelOptions Options to be used
+	 */
+	public TransitStopsRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String,Object> headers){
+		this.client	= client;
+		this.travelOptions = travelOptions;
+		this.headers = headers;
+	}
+
+	/**
 	 * Execute request
-	 * @return Reachability response
+	 * @return Map keys - source id
+	 *             values - list of reachable transit stations
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public Map<String, List<TransitStopsResponse>> get() throws TargomoClientException, JsonProcessingException {
+	public Map<String, List<TransitStation>> get() throws TargomoClientException, JsonProcessingException {
 
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/transit/stops")
 				.queryParam("cb", CALLBACK)
@@ -74,12 +86,11 @@ public class TransitStopsRequest {
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
+		LOGGER.debug("Executing transit stops request to URI: '{}}'", target.getUri());
 
 		Response response;
 
 		try {
-
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
 		}
@@ -87,12 +98,12 @@ public class TransitStopsRequest {
 		// targomo service on the same machine, in case of a fallback we need to try a different host
 		// but only once
 		catch ( ProcessingException exception ) {
-
 			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
 					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey());
-
-			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
+					.queryParam("key", travelOptions.getServiceKey())
+					.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+					.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+			LOGGER.debug("Executing transit stops request to URI: '{}'", target.getUri());
 
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
@@ -107,12 +118,12 @@ public class TransitStopsRequest {
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private Map<String, List<TransitStopsResponse>> validateResponse(final Response response)
+	private Map<String, List<TransitStation>> validateResponse(final Response response)
 			throws TargomoClientException, JsonProcessingException {
 		// compare the HTTP status codes
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
-			TypeReference<Map<String, List<TransitStopsResponse>>> typeRef = new TypeReference<Map<String, List<TransitStopsResponse>>>() {};
+			TypeReference<Map<String, List<TransitStation>>> typeRef = new TypeReference<Map<String, List<TransitStation>>>() {};
 			return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
