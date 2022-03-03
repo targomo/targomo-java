@@ -214,6 +214,14 @@ public class TravelOptions implements Serializable {
     private AbstractGeometry filterGeometryForPOIs;
 
     @Transient
+    @JsonProperty("gravitationExponent")
+    private Double poiGravitationExponent;
+
+    @Transient
+    @JsonProperty("probabilityDecay")
+    private Double poiGravitationProbabilityDecay;
+
+    @Transient
     private boolean disableCache;
 
     @Transient
@@ -257,6 +265,14 @@ public class TravelOptions implements Serializable {
     public AbstractGeometry getFilterGeometryForPOIs() { return this.filterGeometryForPOIs; }
 
     public void setFilterGeometryForPOIs(AbstractGeometry geometry) { this.filterGeometryForPOIs = geometry; }
+
+    public Double getPoiGravitationExponent() { return this.poiGravitationExponent; }
+
+    public void setPoiGravitationExponent(Double poiGravitationExponent) { this.poiGravitationExponent = poiGravitationExponent; }
+
+    public Double getPoiGravitationProbabilityDecay() { return this.poiGravitationProbabilityDecay; }
+
+    public void setPoiGravitationProbabilityDecay(Double poiGravitationProbabilityDecay) { this.poiGravitationProbabilityDecay = poiGravitationProbabilityDecay; }
 
     public Integer getId() { return id; }
 
@@ -916,6 +932,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
                 Objects.equals(filterGeometryForPOIs, that.filterGeometryForPOIs) &&
+                Objects.equals(poiGravitationExponent, that.poiGravitationExponent) &&
+                Objects.equals(poiGravitationProbabilityDecay, that.poiGravitationProbabilityDecay) &&
                 Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
                 Objects.equals(maxTransfers, that.maxTransfers) &&
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
@@ -952,7 +970,8 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
-                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime);
     }
@@ -1150,6 +1169,10 @@ public class TravelOptions implements Serializable {
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
         builder.append("\n\tfilterGeometry: ");
         builder.append(filterGeometryForPOIs);
+        builder.append("\n\tpoiGravitationExponent: ");
+        builder.append(poiGravitationExponent);
+        builder.append("\n\tpoiGravitationProbabilityDecay: ");
+        builder.append(poiGravitationProbabilityDecay);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
         builder.append("\n\tmaxTransfers: ");
