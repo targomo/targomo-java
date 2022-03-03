@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Send interService key and request type in poi and statistics requests
 - add multiGraphAggregationProbabilityDecay to TravelOptions and probabilityDecay to AggregationConfiguration
 - Add Transit Stops service
+- Add poi gravitation parameters: gravitationExponent and probabilityDecay
 
 ### 0.11.0
 - Add mobility service requests

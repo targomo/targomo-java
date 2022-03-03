@@ -151,6 +151,14 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, "filterGeometry", filterGeometry);
             }
 
+            if(travelOptions.getPoiGravitationExponent() != null){
+                JSONBuilder.append(config, "gravitationExponent", travelOptions.getPoiGravitationExponent());
+            }
+
+            if(travelOptions.getPoiGravitationProbabilityDecay() != null){
+                JSONBuilder.append(config, "probabilityDecay", travelOptions.getPoiGravitationProbabilityDecay());
+            }
+
             if (travelOptions.getTravelTimeFactors() != null && !travelOptions.getTravelTimeFactors().isEmpty()) {
 			    JSONObject travelFactors = new JSONObject();
 			    for(Map.Entry<String,Double> factor : travelOptions.getTravelTimeFactors().entrySet())
