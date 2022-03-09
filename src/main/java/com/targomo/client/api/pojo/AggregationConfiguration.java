@@ -20,7 +20,7 @@ public class AggregationConfiguration {
 
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
     // for any type of special probability aggregations only minSourcesCount, sourceValuesLowerBound, sourceValuesUpperBound
-    // and probability specific parameters such as gravitationExponent, logitBetaAttractionStrength/TravelTime are considered
+    // and probability specific parameters such as gravitationExponent, probabilityDecay, logitBetaAttractionStrength/TravelTime are considered
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
     private Boolean ignoreOutliers; //specific to some aggregations
@@ -50,6 +50,7 @@ public class AggregationConfiguration {
     // will be included in the aggregation. If null, the elements are not filtered by source origin.
     private Set<String> filterValuesForSourceOrigins;
     private Double gravitationExponent;
+    private Double probabilityDecay;
     private Double logitBetaAttractionStrength;
     private Double logitBetaTravelTime;
     private Map<String, AggregationInputParameters> aggregationInputParameters;
@@ -68,6 +69,7 @@ public class AggregationConfiguration {
         private Double maxResultValueRatio;
         private Float maxResultValue;
         private Double gravitationExponent;
+        private Double probabilityDecay;
         private Double logitBetaAttractionStrength;
         private Double logitBetaTravelTime;
         private Float postAggregationFactor;
@@ -91,6 +93,7 @@ public class AggregationConfiguration {
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
             this.gravitationExponent = toCopy.gravitationExponent;
+            this.probabilityDecay = toCopy.probabilityDecay;
             this.logitBetaAttractionStrength = toCopy.logitBetaAttractionStrength;
             this.logitBetaTravelTime = toCopy.logitBetaTravelTime;
             this.postAggregationFactor = toCopy.postAggregationFactor;
@@ -123,6 +126,7 @@ public class AggregationConfiguration {
             this.filterValuesForSourceOrigins = !deepCopy ? travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() :
                     Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).map(HashSet::new).orElse(null);
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
+            this.probabilityDecay = travelOptions.getMultiGraphAggregationProbabilityDecay();
             this.logitBetaAttractionStrength = travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength();
             this.logitBetaTravelTime = travelOptions.getMultiGraphAggregationLogitBetaTravelTime();
             this.aggregationInputParameters = !deepCopy ? travelOptions.getMultiGraphAggregationInputParameters() :
@@ -203,6 +207,11 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder probabilityDecay(Double probabilityDecay) {
+            this.probabilityDecay = probabilityDecay;
+            return this;
+        }
+
         public AggregationConfigurationBuilder logitBetaAttractionStrength(Double logitBetaAttractionStrength) {
             this.logitBetaAttractionStrength = logitBetaAttractionStrength;
             return this;
@@ -244,6 +253,7 @@ public class AggregationConfiguration {
                     postAggregationFactor,
                     filterValuesForSourceOrigins,
                     gravitationExponent,
+                    probabilityDecay,
                     logitBetaAttractionStrength,
                     logitBetaTravelTime,
                     aggregationInputParameters,

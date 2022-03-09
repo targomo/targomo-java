@@ -138,6 +138,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR           = "postAggregationFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
+    public static final String MULTIGRAPH_AGGREGATION_PROBABILITY_DECAY                 = "probabilityDecay";
     public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH    = "logitBetaAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME            = "logitBetaTravelTime";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
@@ -148,6 +149,8 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_COMPETING_POSITIVE_INFLUENCE  = "gravitationCompetingPositiveInfluence";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathExpression";
+    public static final String NEXT_STOPS_START_TIME                                    = "nextStopsStartTime";
+    public static final String NEXT_STOPS_END_TIME                                      = "nextStopsEndTime";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";

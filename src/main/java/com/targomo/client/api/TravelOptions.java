@@ -153,6 +153,7 @@ public class TravelOptions implements Serializable {
     @Transient private String multiGraphAggregationMathExpression                            = null;
     @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
     @Transient private Double multiGraphAggregationGravitationExponent                       = null;
+    @Transient private Double multiGraphAggregationProbabilityDecay                          = null;
     @Transient private Double multiGraphAggregationLogitBetaAttractionStrength               = null;
     @Transient private Double multiGraphAggregationLogitBetaTravelTime                       = null;
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
@@ -213,7 +214,21 @@ public class TravelOptions implements Serializable {
     private AbstractGeometry filterGeometryForPOIs;
 
     @Transient
+    @JsonProperty("gravitationExponent")
+    private Double poiGravitationExponent;
+
+    @Transient
+    @JsonProperty("probabilityDecay")
+    private Double poiGravitationProbabilityDecay;
+
+    @Transient
     private boolean disableCache;
+
+    @Transient
+    private Integer nextStopsStartTime;
+
+    @Transient
+    private Integer nextStopsEndTime;
     
     public String getBoundingBox() {
         return boundingBox;
@@ -250,6 +265,14 @@ public class TravelOptions implements Serializable {
     public AbstractGeometry getFilterGeometryForPOIs() { return this.filterGeometryForPOIs; }
 
     public void setFilterGeometryForPOIs(AbstractGeometry geometry) { this.filterGeometryForPOIs = geometry; }
+
+    public Double getPoiGravitationExponent() { return this.poiGravitationExponent; }
+
+    public void setPoiGravitationExponent(Double poiGravitationExponent) { this.poiGravitationExponent = poiGravitationExponent; }
+
+    public Double getPoiGravitationProbabilityDecay() { return this.poiGravitationProbabilityDecay; }
+
+    public void setPoiGravitationProbabilityDecay(Double poiGravitationProbabilityDecay) { this.poiGravitationProbabilityDecay = poiGravitationProbabilityDecay; }
 
     public Integer getId() { return id; }
 
@@ -874,6 +897,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
                 Objects.equals(multiGraphAggregationFilterValuesForSourceOrigins, that.multiGraphAggregationFilterValuesForSourceOrigins) &&
                 Objects.equals(multiGraphAggregationGravitationExponent, that.multiGraphAggregationGravitationExponent) &&
+                Objects.equals(multiGraphAggregationProbabilityDecay, that.multiGraphAggregationProbabilityDecay) &&
                 Objects.equals(multiGraphAggregationLogitBetaAttractionStrength, that.multiGraphAggregationLogitBetaAttractionStrength) &&
                 Objects.equals(multiGraphAggregationLogitBetaTravelTime, that.multiGraphAggregationLogitBetaTravelTime) &&
                 Objects.equals(multiGraphAggregationInputParameters, that.multiGraphAggregationInputParameters) &&
@@ -908,12 +932,16 @@ public class TravelOptions implements Serializable {
                 Objects.equals(osmTypes, that.osmTypes) &&
                 Objects.equals(customPois, that.customPois) &&
                 Objects.equals(filterGeometryForPOIs, that.filterGeometryForPOIs) &&
+                Objects.equals(poiGravitationExponent, that.poiGravitationExponent) &&
+                Objects.equals(poiGravitationProbabilityDecay, that.poiGravitationProbabilityDecay) &&
                 Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
                 Objects.equals(maxTransfers, that.maxTransfers) &&
                 Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
                 Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
                 Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
-                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget);
+                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) &&
+                Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
+                Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
     }
                 
 
@@ -932,7 +960,7 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound,
                 multiGraphAggregationMinResultValueRatio, multiGraphAggregationMinResultValue,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
-                multiGraphAggregationGravitationExponent, multiGraphAggregationLogitBetaAttractionStrength,
+                multiGraphAggregationGravitationExponent, multiGraphAggregationProbabilityDecay, multiGraphAggregationLogitBetaAttractionStrength,
                 multiGraphAggregationLogitBetaTravelTime, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
@@ -942,9 +970,10 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
-                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget);
+                maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime);
     }
 
     /* (non-Javadoc)
@@ -1074,6 +1103,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationPostAggregationFactor);
         builder.append("\n\tmultiGraphAggregationGravitationExponent: ");
         builder.append(multiGraphAggregationGravitationExponent);
+        builder.append("\n\tmultiGraphAggregationProbabilityDecay: ");
+        builder.append(multiGraphAggregationProbabilityDecay);
         builder.append("\n\tmultiGraphAggregationLogitBetaAttractionStrength: ");
         builder.append(multiGraphAggregationLogitBetaAttractionStrength);
         builder.append("\n\tmultiGraphAggregationLogitBetaTravelTime: ");
@@ -1138,6 +1169,10 @@ public class TravelOptions implements Serializable {
         builder.append(customPois != null ? toString(customPois, maxLen) : null);
         builder.append("\n\tfilterGeometry: ");
         builder.append(filterGeometryForPOIs);
+        builder.append("\n\tpoiGravitationExponent: ");
+        builder.append(poiGravitationExponent);
+        builder.append("\n\tpoiGravitationProbabilityDecay: ");
+        builder.append(poiGravitationProbabilityDecay);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
         builder.append("\n\tmaxTransfers: ");
@@ -1148,6 +1183,10 @@ public class TravelOptions implements Serializable {
         builder.append(maxWalkingTimeFromSource);
         builder.append("\n\tmaxWalkingTimeToTarget: ");
         builder.append(maxWalkingTimeToTarget);
+        builder.append("\n\tnextStopsStartTime: ");
+        builder.append(nextStopsStartTime);
+        builder.append("\n\tnextStopsEndTime: ");
+        builder.append(nextStopsEndTime);
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -1401,6 +1440,14 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphAggregationGravitationExponent(Double multiGraphAggregationGravitationExponent) {
         this.multiGraphAggregationGravitationExponent = multiGraphAggregationGravitationExponent;
+    }
+
+    public Double getMultiGraphAggregationProbabilityDecay() {
+        return multiGraphAggregationProbabilityDecay;
+    }
+
+    public void setMultiGraphAggregationProbabilityDecay(Double multiGraphAggregationProbabilityDecay) {
+        this.multiGraphAggregationProbabilityDecay = multiGraphAggregationProbabilityDecay;
     }
 
     public Double getMultiGraphAggregationLogitBetaAttractionStrength() {
@@ -1657,4 +1704,13 @@ public class TravelOptions implements Serializable {
     public void setAvoidTransitRouteTypes(List<Integer> avoidTransitRouteTypes) {
         this.avoidTransitRouteTypes = avoidTransitRouteTypes;
     }
+
+    public Integer getNextStopsStartTime() { return nextStopsStartTime; }
+
+    public void setNextStopsStartTime(Integer nextStopsStartTime) { this.nextStopsStartTime = nextStopsStartTime; }
+
+    public Integer getNextStopsEndTime() { return nextStopsEndTime; }
+
+    public void setNextStopsEndTime(Integer nextStopsEndTime) { this.nextStopsEndTime = nextStopsEndTime; }
+
 }
