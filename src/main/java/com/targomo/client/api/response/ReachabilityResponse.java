@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ReachabilityResponse {
 
@@ -28,7 +29,11 @@ public class ReachabilityResponse {
 	 * @param requestStart Start time of execution
 	 */
 	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart) throws ResponseErrorException {
-		
+		this(travelOptions, result, requestStart, Function.identity());
+	}
+
+	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart, Function<String, String> targetIdMapperFilter) throws ResponseErrorException {
+
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = ResponseCode.fromString(JsonUtil.getString(result, "code"));
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
@@ -44,7 +49,7 @@ public class ReachabilityResponse {
 			throw new ResponseErrorException(this.code, msg);
 		}
 
-		mapResults(result);
+		mapResults(result, targetIdMapperFilter);
 	}
 
 	/**
@@ -75,15 +80,18 @@ public class ReachabilityResponse {
 	 * Parse results in JSON to travel times map.
 	 * @param result resulting JSON
 	 */
-	public void mapResults(final JSONObject result) {
+	protected void mapResults(final JSONObject result, Function<String, String> targetIdMapperFilter) {
 		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
 		for (int i = 0; i < jsonArray.length(); i++) {
 
 			JSONObject target = JsonUtil.getJSONObject(jsonArray, i);
 			String trgId = JsonUtil.getString(target, "id");
+			trgId = targetIdMapperFilter.apply(trgId);
 
-			this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
-			if (target.has("source")) this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
+			if (trgId != null) {
+				this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
+				if (target.has("source")) this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
+			}
 		}
 	}
 

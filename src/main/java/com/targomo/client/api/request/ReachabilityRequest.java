@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.function.Function;
 
 /**
  * Calculates travel time for each source point to all targets.
@@ -73,13 +74,17 @@ public class ReachabilityRequest {
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
 	public ReachabilityResponse get() throws TargomoClientException, ResponseErrorException {
+		return get(Function.identity());
+	}
+
+	public ReachabilityResponse get(Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
 
 		long requestStart = System.currentTimeMillis();
 
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
-                .queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
+				.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
 				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
@@ -109,7 +114,7 @@ public class ReachabilityRequest {
 		}
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
-		return validateResponse(response, requestStart);
+		return validateResponse(response, requestStart, targetIdMapperFilter);
 	}
 
 	/**
@@ -119,13 +124,13 @@ public class ReachabilityRequest {
 	 * @return ReachabilityResponse
 	 * @throws TargomoClientException In case of errors other than GatewayTimeout
 	 */
-	private ReachabilityResponse validateResponse(final Response response, final long requestStart)
+	private ReachabilityResponse validateResponse(final Response response, final long requestStart, Function<String, String> targetIdMapperFilter)
 			throws TargomoClientException, ResponseErrorException {
 		// compare the HTTP status codes, NOT the route 360 code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
 			String res = response.readEntity(String.class);
-			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart);
+			return new ReachabilityResponse(travelOptions, JsonUtil.parseString(res), requestStart, targetIdMapperFilter);
 		} else {
 			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
 		}
