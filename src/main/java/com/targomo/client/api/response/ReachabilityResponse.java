@@ -63,6 +63,14 @@ public class ReachabilityResponse {
 		this.message = "";
 	}
 
+	public ReachabilityResponse(TravelOptions travelOptions, ResponseCode code, long requestTimeMillis, long totalTimeMillis, String message) {
+		this.travelOptions = travelOptions;
+		this.code = code;
+		this.requestTimeMillis = requestTimeMillis;
+		this.totalTimeMillis = totalTimeMillis;
+		this.message = message;
+	}
+
 	/**
 	 * Parse results in JSON to travel times map.
 	 * @param result resulting JSON
@@ -133,6 +141,10 @@ public class ReachabilityResponse {
 	 */
 	public long getTotalTime() {
 		return this.totalTimeMillis;
+	}
+
+	public String getMessage() {
+		return this.message;
 	}
 
 	public String getClosestSourceForTarget(String targetId) {
