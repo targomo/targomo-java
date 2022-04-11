@@ -8,9 +8,9 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.Location;
+import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
-import com.targomo.client.api.pojo.AggregationConfiguration;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,6 +125,9 @@ public final class RequestConfigurator {
 
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
+
+            if (travelOptions.getEnsembleId() != null)
+                JSONBuilder.appendString(config, Constants.ENSEMBLE_ID, travelOptions.getEnsembleId());
 
             if (travelOptions.getServiceUrl() != null)
                 JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");
