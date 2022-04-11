@@ -168,7 +168,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    
+
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -188,6 +188,8 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
+    @Column(name = "ensemble_id") private Integer ensembleId;
+
     @Transient @Getter @Setter
     private String interServiceRequestType = "";
 
@@ -199,7 +201,7 @@ public class TravelOptions implements Serializable {
 
 	@Transient
 	private String boundingBox;
-	
+
     @Transient
     private Set<TravelType> travelTypes = new HashSet<>();
 
@@ -229,7 +231,7 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Integer nextStopsEndTime;
-    
+
     public String getBoundingBox() {
         return boundingBox;
     }
@@ -920,6 +922,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
+                Objects.equals(ensembleId, that.ensembleId) &&
                 Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
                 Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
                 Objects.equals(overpassQuery, that.overpassQuery) &&
@@ -943,7 +946,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
     }
-                
+
 
     //excluding id
     @Override
@@ -968,7 +971,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
-                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
+                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, ensembleId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
@@ -1145,6 +1148,8 @@ public class TravelOptions implements Serializable {
         builder.append(edgeWeightType);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
+        builder.append("\n\tensembleId: ");
+        builder.append(ensembleId);
         builder.append("\n\tstatisticServiceUrl: ");
         builder.append(statisticServiceUrl);
         builder.append("\n\tpointOfInterestServiceUrl: ");
@@ -1589,6 +1594,14 @@ public class TravelOptions implements Serializable {
         this.statisticGroupId = statisticGroupId;
     }
 
+    public Integer getEnsembleId() {
+        return ensembleId;
+    }
+
+    public void setEnsembleId(Integer ensembleId) {
+        this.ensembleId = ensembleId;
+    }
+
     public Integer getMaxEdgeWeight() {
         return maxEdgeWeight;
     }
@@ -1688,7 +1701,7 @@ public class TravelOptions implements Serializable {
 	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
-	
+
     public boolean isDisableCache() {
         return disableCache;
     }
