@@ -126,8 +126,8 @@ public final class RequestConfigurator {
             if (travelOptions.getStatisticGroupId() != null)
                 JSONBuilder.appendString(config, Constants.STATISTIC_GROUP_ID, travelOptions.getStatisticGroupId());
 
-            if (travelOptions.getEnsembleId() != null)
-                JSONBuilder.appendString(config, Constants.ENSEMBLE_ID, travelOptions.getEnsembleId());
+            if (travelOptions.getStatisticsCollectionId() != null)
+                JSONBuilder.appendString(config, STATISTICS_COLLECTION_ID, travelOptions.getStatisticsCollectionId());
 
             if (travelOptions.getServiceUrl() != null)
                 JSONBuilder.append(config, "serviceUrl", "\"" + travelOptions.getServiceUrl() + "\"");

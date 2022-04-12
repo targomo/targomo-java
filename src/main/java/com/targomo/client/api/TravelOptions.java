@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.AbstractGeometry;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
+import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
@@ -188,7 +192,9 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-    @Column(name = "ensemble_id") private Integer ensembleId;
+    //Ensemble Id
+    @Transient @Getter @Setter
+    private Integer statisticsCollectionId;
 
     @Transient @Getter @Setter
     private String interServiceRequestType = "";
@@ -922,7 +928,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
-                Objects.equals(ensembleId, that.ensembleId) &&
+                Objects.equals(statisticsCollectionId, that.statisticsCollectionId) &&
                 Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
                 Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
                 Objects.equals(overpassQuery, that.overpassQuery) &&
@@ -971,7 +977,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
-                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, ensembleId, statisticServiceUrl,
+                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticsCollectionId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
@@ -1148,8 +1154,8 @@ public class TravelOptions implements Serializable {
         builder.append(edgeWeightType);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
-        builder.append("\n\tensembleId: ");
-        builder.append(ensembleId);
+        builder.append("\n\tstatisticsCollectionId: ");
+        builder.append(statisticsCollectionId);
         builder.append("\n\tstatisticServiceUrl: ");
         builder.append(statisticServiceUrl);
         builder.append("\n\tpointOfInterestServiceUrl: ");
@@ -1592,14 +1598,6 @@ public class TravelOptions implements Serializable {
 
     public void setStatisticGroupId(Integer statisticGroupId) {
         this.statisticGroupId = statisticGroupId;
-    }
-
-    public Integer getEnsembleId() {
-        return ensembleId;
-    }
-
-    public void setEnsembleId(Integer ensembleId) {
-        this.ensembleId = ensembleId;
     }
 
     public Integer getMaxEdgeWeight() {
