@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.AbstractGeometry;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
+import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
@@ -168,7 +172,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    
+
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -188,6 +192,10 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
+    //Ensemble Id
+    @Transient @Getter @Setter
+    private Integer statisticsCollectionId;
+
     @Transient @Getter @Setter
     private String interServiceRequestType = "";
 
@@ -199,7 +207,7 @@ public class TravelOptions implements Serializable {
 
 	@Transient
 	private String boundingBox;
-	
+
     @Transient
     private Set<TravelType> travelTypes = new HashSet<>();
 
@@ -229,7 +237,7 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Integer nextStopsEndTime;
-    
+
     public String getBoundingBox() {
         return boundingBox;
     }
@@ -920,6 +928,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
+                Objects.equals(statisticsCollectionId, that.statisticsCollectionId) &&
                 Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
                 Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
                 Objects.equals(overpassQuery, that.overpassQuery) &&
@@ -943,7 +952,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
     }
-                
+
 
     //excluding id
     @Override
@@ -968,7 +977,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
-                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
+                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticsCollectionId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
@@ -1145,6 +1154,8 @@ public class TravelOptions implements Serializable {
         builder.append(edgeWeightType);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
+        builder.append("\n\tstatisticsCollectionId: ");
+        builder.append(statisticsCollectionId);
         builder.append("\n\tstatisticServiceUrl: ");
         builder.append(statisticServiceUrl);
         builder.append("\n\tpointOfInterestServiceUrl: ");
@@ -1688,7 +1699,7 @@ public class TravelOptions implements Serializable {
 	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
-	
+
     public boolean isDisableCache() {
         return disableCache;
     }

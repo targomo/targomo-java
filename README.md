@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.13.0
+- Add `statisticsCollectionId` parameter in the TravelOptions
 
 ### 0.12.0
 - Send interService key and request type in poi and statistics requests
