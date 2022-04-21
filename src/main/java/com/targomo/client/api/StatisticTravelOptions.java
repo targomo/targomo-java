@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.AbstractGeometry;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
@@ -64,6 +67,10 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private List<Short> statisticIds;
 
+    //Ensemble Id
+    @Transient
+    private Integer statisticsCollectionId;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -108,7 +115,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
-                Objects.equals(statisticIds, that.statisticIds);
+                Objects.equals(statisticIds, that.statisticIds) &&
+                Objects.equals(statisticsCollectionId, that.statisticsCollectionId);
     }
 
     @Override
@@ -116,7 +124,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds);
+                statisticIds, statisticsCollectionId);
     }
 
     public boolean isGetClosestSources() {
@@ -207,8 +215,17 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphTravelTimeApproximation);
         builder.append("\n\tstatisticIds: ");
         builder.append(statisticIds != null ? statisticIds.toString() : "[]");
+        builder.append("\n\tstatisticsCollectionId: ");
+        builder.append(statisticsCollectionId);
         builder.append("\n}\n");
         return builder.toString();
     }
 
+    public Integer getStatisticsCollectionId() {
+        return statisticsCollectionId;
+    }
+
+    public void setStatisticsCollectionId(Integer statisticsCollectionId) {
+        this.statisticsCollectionId = statisticsCollectionId;
+    }
 }
