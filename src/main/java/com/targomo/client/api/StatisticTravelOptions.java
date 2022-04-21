@@ -67,6 +67,10 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Integer chartInterval;
 
+    //Ensemble Id
+    @Transient
+    private Integer statisticsCollectionId;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -112,7 +116,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
                 Objects.equals(statisticIds, that.statisticIds) &&
-                Objects.equals(chartInterval, that.chartInterval);
+                Objects.equals(chartInterval, that.chartInterval) &&
+                Objects.equals(statisticsCollectionId, that.statisticsCollectionId);
     }
 
     @Override
@@ -120,7 +125,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval);
+                statisticIds, chartInterval, statisticsCollectionId);
     }
 
     public boolean isGetClosestSources() {
@@ -195,6 +200,14 @@ public class StatisticTravelOptions extends TravelOptions {
         return this.chartInterval;
     }
 
+    public Integer getStatisticsCollectionId() {
+        return statisticsCollectionId;
+    }
+
+    public void setStatisticsCollectionId(Integer statisticsCollectionId) {
+        this.statisticsCollectionId = statisticsCollectionId;
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder(super.toString());
@@ -221,6 +234,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(statisticIds != null ? statisticIds.toString() : "[]");
         builder.append("\n\tchartInterval: ");
         builder.append(chartInterval);
+        builder.append("\n\tstatisticsCollectionId: ");
+        builder.append(statisticsCollectionId);
         builder.append("\n}\n");
         return builder.toString();
     }
