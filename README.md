@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.13.0
-- Add `statisticsCollectionId` parameter in the TravelOptions
+- Add `statisticsCollectionId` parameter in the StatisticTravelOptions
 - Add `chartInterval` parameter in the StatisticTravelOptions
 
 ### 0.12.0
