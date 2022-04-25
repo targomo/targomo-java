@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.AbstractGeometry;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
+import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
@@ -168,7 +172,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
-    
+
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
@@ -199,7 +203,7 @@ public class TravelOptions implements Serializable {
 
 	@Transient
 	private String boundingBox;
-	
+
     @Transient
     private Set<TravelType> travelTypes = new HashSet<>();
 
@@ -229,7 +233,7 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Integer nextStopsEndTime;
-    
+
     public String getBoundingBox() {
         return boundingBox;
     }
@@ -943,7 +947,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
     }
-                
+
 
     //excluding id
     @Override
@@ -1688,7 +1692,7 @@ public class TravelOptions implements Serializable {
 	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
-	
+
     public boolean isDisableCache() {
         return disableCache;
     }
