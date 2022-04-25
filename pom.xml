@@ -50,7 +50,7 @@
         <jersey.version>2.26</jersey.version>
         <junit.version>4.13.1</junit.version>
         <geotools.version>20.1</geotools.version>
-        <jackson.version>2.13.2</jackson.version>
+        <jackson.version>2.12.6</jackson.version>
         <hibernate.version>5.4.24.Final</hibernate.version>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
@@ -154,7 +154,7 @@
         <dependency>
             <groupId>org.wololo</groupId>
             <artifactId>jts2geojson</artifactId>
-            <version>0.17.0</version>
+            <version>0.13.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -173,11 +173,6 @@
         </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
-            <artifactId>gt-api</artifactId>
-            <version>${geotools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
             <artifactId>gt-shapefile</artifactId>
             <version>${geotools.version}</version>
         </dependency>
@@ -190,6 +185,12 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-geojson</artifactId>
             <version>${geotools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.geotools.jdbc</groupId>
@@ -242,7 +243,7 @@
                     <includes>
                         <include>**/TestSuite.class</include>
                     </includes>
-                   <useSystemClassLoader>false</useSystemClassLoader>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
             <plugin>
