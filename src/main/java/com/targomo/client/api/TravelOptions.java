@@ -192,10 +192,6 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-    //Ensemble Id
-    @Transient @Getter @Setter
-    private Integer statisticsCollectionId;
-
     @Transient @Getter @Setter
     private String interServiceRequestType = "";
 
@@ -928,7 +924,6 @@ public class TravelOptions implements Serializable {
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
-                Objects.equals(statisticsCollectionId, that.statisticsCollectionId) &&
                 Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
                 Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
                 Objects.equals(overpassQuery, that.overpassQuery) &&
@@ -977,7 +972,7 @@ public class TravelOptions implements Serializable {
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
-                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticsCollectionId, statisticServiceUrl,
+                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
@@ -1154,8 +1149,6 @@ public class TravelOptions implements Serializable {
         builder.append(edgeWeightType);
         builder.append("\n\tstatisticGroupId: ");
         builder.append(statisticGroupId);
-        builder.append("\n\tstatisticsCollectionId: ");
-        builder.append(statisticsCollectionId);
         builder.append("\n\tstatisticServiceUrl: ");
         builder.append(statisticServiceUrl);
         builder.append("\n\tpointOfInterestServiceUrl: ");

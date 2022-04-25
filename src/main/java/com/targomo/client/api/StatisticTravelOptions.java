@@ -64,6 +64,13 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private List<Short> statisticIds;
 
+    @Transient
+    private Integer chartInterval;
+
+    //Ensemble Id
+    @Transient
+    private Integer statisticsCollectionId;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -108,7 +115,9 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
-                Objects.equals(statisticIds, that.statisticIds);
+                Objects.equals(statisticIds, that.statisticIds) &&
+                Objects.equals(chartInterval, that.chartInterval) &&
+                Objects.equals(statisticsCollectionId, that.statisticsCollectionId);
     }
 
     @Override
@@ -116,7 +125,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds);
+                statisticIds, chartInterval, statisticsCollectionId);
     }
 
     public boolean isGetClosestSources() {
@@ -183,6 +192,22 @@ public class StatisticTravelOptions extends TravelOptions {
         return this.statisticIds;
     }
 
+    public void setChartInterval(Integer chartInterval) {
+        this.chartInterval = chartInterval;
+    }
+
+    public Integer getChartInterval() {
+        return this.chartInterval;
+    }
+
+    public Integer getStatisticsCollectionId() {
+        return statisticsCollectionId;
+    }
+
+    public void setStatisticsCollectionId(Integer statisticsCollectionId) {
+        this.statisticsCollectionId = statisticsCollectionId;
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder(super.toString());
@@ -207,6 +232,10 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphTravelTimeApproximation);
         builder.append("\n\tstatisticIds: ");
         builder.append(statisticIds != null ? statisticIds.toString() : "[]");
+        builder.append("\n\tchartInterval: ");
+        builder.append(chartInterval);
+        builder.append("\n\tstatisticsCollectionId: ");
+        builder.append(statisticsCollectionId);
         builder.append("\n}\n");
         return builder.toString();
     }
