@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.14.0
 - Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 
 - `statisticsCollectionId` parameter renamed to `statisticCollectionId` in the StatisticTravelOptions.
+- Update package versions to fix security vulnerabilities
 
 ### 0.13.0
 - Add `statisticsCollectionId` parameter in the StatisticTravelOptions
