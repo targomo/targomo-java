@@ -15,10 +15,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ReachabilityResponseTest {
 	@Test
@@ -41,6 +40,32 @@ public class ReachabilityResponseTest {
 			assertTrue(resultMap.containsKey(sourceId));
 			assertNotNull(travelTime);
 		}
+	}
+
+	@Test
+	public void mapResultsWithMapperFilter() throws Exception {
+		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/ReachabilityResponse.json");
+
+		// response json contains id1, id2, id3, id7, id9
+		String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+		JSONObject sampleObject = JsonUtil.parseString(sampleJson);
+		TravelOptions options = getTravelOptions();
+
+		Function<String, String> mapperFilter = (String targetId) -> targetId.equals("id1") ? null : targetId + "+";
+		ReachabilityResponse reachabilityResponse = new ReachabilityResponse(options, sampleObject, 123, mapperFilter);
+		assertEquals(ResponseCode.OK, reachabilityResponse.getCode());
+		Map<String, Integer> resultMap = reachabilityResponse.getTravelTimes();
+
+		assertFalse(resultMap.containsKey("id1"));
+		assertFalse(resultMap.containsKey("id2"));
+		assertFalse(resultMap.containsKey("id3"));
+		assertFalse(resultMap.containsKey("id7"));
+		assertFalse(resultMap.containsKey("id9"));
+		assertFalse(resultMap.containsKey("id1+"));
+		assertTrue(resultMap.containsKey("id2+"));
+		assertTrue(resultMap.containsKey("id3+"));
+		assertTrue(resultMap.containsKey("id7+"));
+		assertTrue(resultMap.containsKey("id9+"));
 	}
 
 	private TravelOptions getTravelOptions() {
