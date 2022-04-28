@@ -79,8 +79,9 @@ public class ReachabilityRequest {
 
 	/**
 	 * Execute request
-	 * Applies a function to each target id to modify the id or filter the target.
-	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
+	 * If cached targets are used that are shared among multiple statistics it may be necessary to filter the targets and map their ids.
+	 * To improve performance this can be done while parsing the response by passing a mapper/filter function.
+	 * @param targetIdMapperFilter a function that maps the target id to a different value or filters targets by returning null.
 	 * @return Reachability response
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */

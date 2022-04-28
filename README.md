@@ -335,7 +335,7 @@ This function can map the target id to a different value or filter targets out b
     // map target id to statistics id and filter out negative statistics ids
     Function<String, String> mapperFilter = (String targetId) -> {
         int statisticsId = targetIdToStatisticsId.get(targetId);
-        return statisticsId >= 0 ? statisticsId : null;
+        return statisticsId >= 0 ? String.valueOf(statisticsId) : null;
     };
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get(mapperFilter);
         

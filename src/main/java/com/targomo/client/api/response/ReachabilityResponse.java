@@ -34,11 +34,12 @@ public class ReachabilityResponse {
 
 	/**
 	 * Create a response from JSON results, using given travel options.
-	 * Applies the given function to each target id to modify the id or filter the target.
+	 * If cached targets are used that are shared among multiple statistics it may be necessary to filter the targets and map their ids.
+	 * To improve performance this can be done while parsing the response by passing a mapper/filter function.
 	 * @param travelOptions travel options, from the request
 	 * @param result Travel times in JSON
 	 * @param requestStart Start time of execution
-	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
+	 * @param targetIdMapperFilter a function that maps the target id to a different value or filters targets by returning null.
 	 */
 	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart, Function<String, String> targetIdMapperFilter) throws ResponseErrorException {
 
@@ -88,7 +89,7 @@ public class ReachabilityResponse {
 	 * Parse results in JSON to travel times map.
 	 * Applies the given function to each target id to modify the id or filter the target.
 	 * @param result resulting JSON
-	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
+	 * @param targetIdMapperFilter a function that maps the target id to a different value or filters targets by returning null.
 	 */
 	protected void mapResults(final JSONObject result, Function<String, String> targetIdMapperFilter) {
 		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
