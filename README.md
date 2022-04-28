@@ -52,6 +52,8 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.14.0
+- Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 
+- `statisticsCollectionId` parameter renamed to `statisticCollectionId` in the StatisticTravelOptions.
 - Add option to reachability requests to map / filter target id while parsing the response
 - Update package versions to fix security vulnerabilities
 
