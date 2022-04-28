@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.AbstractGeometry;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
@@ -59,6 +62,9 @@ public class StatisticTravelOptions extends TravelOptions {
     private Integer multiGraphDomainStatisticGroupId = null;
 
     @Transient
+    private Integer multiGraphDomainStatisticCollectionId = null;
+
+    @Transient
     private Boolean multiGraphLayerUnboundedStatistics = null;
 
     @Transient
@@ -67,9 +73,8 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Integer chartInterval;
 
-    //Ensemble Id
     @Transient
-    private Integer statisticsCollectionId;
+    private Integer statisticCollectionId;
 
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
@@ -112,20 +117,21 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(inactiveSources, that.inactiveSources) &&
                 Objects.equals(cellIds, that.cellIds) &&
                 Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
+                Objects.equals(multiGraphDomainStatisticCollectionId, that.multiGraphDomainStatisticCollectionId) &&
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
                 Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(chartInterval, that.chartInterval) &&
-                Objects.equals(statisticsCollectionId, that.statisticsCollectionId);
+                Objects.equals(statisticCollectionId, that.statisticCollectionId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
-                omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
+                omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticsCollectionId);
+                statisticIds, chartInterval, statisticCollectionId);
     }
 
     public boolean isGetClosestSources() {
@@ -168,6 +174,14 @@ public class StatisticTravelOptions extends TravelOptions {
         this.multiGraphDomainStatisticGroupId = multiGraphDomainStatisticGroupId;
     }
 
+    public Integer getMultiGraphDomainStatisticCollectionId() {
+        return multiGraphDomainStatisticCollectionId;
+    }
+
+    public void setMultiGraphDomainStatisticCollectionId(Integer multiGraphDomainStatisticCollectionId) {
+        this.multiGraphDomainStatisticCollectionId = multiGraphDomainStatisticCollectionId;
+    }
+
     public Boolean getMultiGraphLayerUnboundedStatistics() {
         return multiGraphLayerUnboundedStatistics;
     }
@@ -200,12 +214,12 @@ public class StatisticTravelOptions extends TravelOptions {
         return this.chartInterval;
     }
 
-    public Integer getStatisticsCollectionId() {
-        return statisticsCollectionId;
+    public Integer getStatisticCollectionId() {
+        return statisticCollectionId;
     }
 
-    public void setStatisticsCollectionId(Integer statisticsCollectionId) {
-        this.statisticsCollectionId = statisticsCollectionId;
+    public void setStatisticCollectionId(Integer statisticCollectionId) {
+        this.statisticCollectionId = statisticCollectionId;
     }
 
     @Override
@@ -226,6 +240,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphReferencedStatisticIds != null ? multiGraphReferencedStatisticIds.toString() : "[]");
         builder.append("\n\tmultiGraphDomainStatisticGroupId: ");
         builder.append(multiGraphDomainStatisticGroupId);
+        builder.append("\n\tmultiGraphDomainStatisticCollectionId: ");
+        builder.append(multiGraphDomainStatisticCollectionId);
         builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
         builder.append(multiGraphLayerUnboundedStatistics);
         builder.append("\n\tmultiGraphTravelTimeApproximation: ");
@@ -235,7 +251,7 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append("\n\tchartInterval: ");
         builder.append(chartInterval);
         builder.append("\n\tstatisticsCollectionId: ");
-        builder.append(statisticsCollectionId);
+        builder.append(statisticCollectionId);
         builder.append("\n}\n");
         return builder.toString();
     }
