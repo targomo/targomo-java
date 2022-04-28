@@ -32,6 +32,14 @@ public class ReachabilityResponse {
 		this(travelOptions, result, requestStart, Function.identity());
 	}
 
+	/**
+	 * Create a response from JSON results, using given travel options.
+	 * Applies the given function to each target id to modify the id or filter the target.
+	 * @param travelOptions travel options, from the request
+	 * @param result Travel times in JSON
+	 * @param requestStart Start time of execution
+	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
+	 */
 	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart, Function<String, String> targetIdMapperFilter) throws ResponseErrorException {
 
 		this.travelOptions 	   	  = travelOptions;
@@ -78,7 +86,9 @@ public class ReachabilityResponse {
 
 	/**
 	 * Parse results in JSON to travel times map.
+	 * Applies the given function to each target id to modify the id or filter the target.
 	 * @param result resulting JSON
+	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
 	 */
 	protected void mapResults(final JSONObject result, Function<String, String> targetIdMapperFilter) {
 		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");

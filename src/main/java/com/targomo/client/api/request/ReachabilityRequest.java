@@ -77,6 +77,13 @@ public class ReachabilityRequest {
 		return get(Function.identity());
 	}
 
+	/**
+	 * Execute request
+	 * Applies a function to each target id to modify the id or filter the target.
+	 * @param targetIdMapperFilter function applied to each target id to modify it, can return null in which case the target will be filtered out
+	 * @return Reachability response
+	 * @throws TargomoClientException In case of error other than Gateway Timeout
+	 */
 	public ReachabilityResponse get(Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
 
 		long requestStart = System.currentTimeMillis();
@@ -112,7 +119,6 @@ public class ReachabilityRequest {
 			// Execute POST request
 			response = target.request().headers(headers).post(entity);
 		}
-		long roundTripTime = System.currentTimeMillis() - requestStart;
 
 		return validateResponse(response, requestStart, targetIdMapperFilter);
 	}
