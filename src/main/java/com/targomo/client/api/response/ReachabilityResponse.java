@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ReachabilityResponse {
 
@@ -28,7 +29,20 @@ public class ReachabilityResponse {
 	 * @param requestStart Start time of execution
 	 */
 	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart) throws ResponseErrorException {
-		
+		this(travelOptions, result, requestStart, Function.identity());
+	}
+
+	/**
+	 * Create a response from JSON results, using given travel options.
+	 * If cached targets are used that are shared among multiple statistics it may be necessary to filter the targets and map their ids.
+	 * To improve performance this can be done while parsing the response by passing a mapper/filter function.
+	 * @param travelOptions travel options, from the request
+	 * @param result Travel times in JSON
+	 * @param requestStart Start time of execution
+	 * @param targetIdMapperFilter a function that maps the target id to a different value or filters targets by returning null.
+	 */
+	public ReachabilityResponse(TravelOptions travelOptions, JSONObject result, long requestStart, Function<String, String> targetIdMapperFilter) throws ResponseErrorException {
+
 		this.travelOptions 	   	  = travelOptions;
 		this.code 		 	   	  = ResponseCode.fromString(JsonUtil.getString(result, "code"));
 		this.requestTimeMillis 	  = result.has("requestTime") ? JsonUtil.getLong(result, "requestTime") : -1;
@@ -44,7 +58,7 @@ public class ReachabilityResponse {
 			throw new ResponseErrorException(this.code, msg);
 		}
 
-		mapResults(result);
+		mapResults(result, targetIdMapperFilter);
 	}
 
 	/**
@@ -63,19 +77,32 @@ public class ReachabilityResponse {
 		this.message = "";
 	}
 
+	public ReachabilityResponse(TravelOptions travelOptions, ResponseCode code, long requestTimeMillis, long totalTimeMillis, String message) {
+		this.travelOptions = travelOptions;
+		this.code = code;
+		this.requestTimeMillis = requestTimeMillis;
+		this.totalTimeMillis = totalTimeMillis;
+		this.message = message;
+	}
+
 	/**
 	 * Parse results in JSON to travel times map.
+	 * Applies the given function to each target id to modify the id or filter the target.
 	 * @param result resulting JSON
+	 * @param targetIdMapperFilter a function that maps the target id to a different value or filters targets by returning null.
 	 */
-	public void mapResults(final JSONObject result) {
+	protected void mapResults(final JSONObject result, Function<String, String> targetIdMapperFilter) {
 		JSONArray jsonArray = JsonUtil.getJsonArray(result, "data");
 		for (int i = 0; i < jsonArray.length(); i++) {
 
 			JSONObject target = JsonUtil.getJSONObject(jsonArray, i);
 			String trgId = JsonUtil.getString(target, "id");
+			trgId = targetIdMapperFilter.apply(trgId);
 
-			this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
-			if (target.has("source")) this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
+			if (trgId != null) {
+				this.addTravelTime(trgId, JsonUtil.getInt(target, "travelTime"));
+				if (target.has("source")) this.addClosestSource(trgId, JsonUtil.getString(target, "source"));
+			}
 		}
 	}
 
@@ -133,6 +160,10 @@ public class ReachabilityResponse {
 	 */
 	public long getTotalTime() {
 		return this.totalTimeMillis;
+	}
+
+	public String getMessage() {
+		return this.message;
 	}
 
 	public String getClosestSourceForTarget(String targetId) {

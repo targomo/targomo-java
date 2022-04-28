@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.14.0
 - Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 
 - `statisticsCollectionId` parameter renamed to `statisticCollectionId` in the StatisticTravelOptions.
+- Add option to reachability requests to map / filter target id while parsing the response
 - Update package versions to fix security vulnerabilities
 
 ### 0.13.0
@@ -329,6 +330,18 @@ Return total travel time for each source point to all targets.
     // source ID, total travel time
     Map<String, Integer> travelTimes = reachabilityResponse.getTravelTimes();
 
+This service can be used with precached targets (by using statisticGroupId).
+If these targets are shared among multiple statistics it may be necessary to filter the targets and map their ids.
+To improve performance this can be done while parsing the response by passing a mapper/filter function.
+This function can map the target id to a different value or filter targets out by returning null.
+
+    // map target id to statistics id and filter out negative statistics ids
+    Function<String, String> mapperFilter = (String targetId) -> {
+        int statisticsId = targetIdToStatisticsId.get(targetId);
+        return statisticsId >= 0 ? String.valueOf(statisticsId) : null;
+    };
+    ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get(mapperFilter);
+        
 ## RouteService
 
 Return possible route from each source point to each target.
