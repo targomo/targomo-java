@@ -50,7 +50,8 @@
         <jersey.version>2.26</jersey.version>
         <junit.version>4.13.1</junit.version>
         <geotools.version>20.1</geotools.version>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.12.6</jackson.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
     </properties>
@@ -65,17 +66,17 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.6.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.2.6.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.2.6.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -111,7 +112,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.10</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -158,7 +159,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.0</version>
+            <version>24.1.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
@@ -168,11 +169,6 @@
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-referencing</artifactId>
-            <version>${geotools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-api</artifactId>
             <version>${geotools.version}</version>
         </dependency>
         <dependency>
@@ -189,6 +185,12 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-geojson</artifactId>
             <version>${geotools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.geotools.jdbc</groupId>
@@ -213,7 +215,7 @@
         <dependency>
             <groupId>com.targomo</groupId>
             <artifactId>jackson-datatype-trove</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.8</version>
         </dependency>
     </dependencies>
 
