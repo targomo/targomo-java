@@ -329,10 +329,14 @@ Return total travel time for each source point to all targets.
 
 This service can be used with precached targets (by using statisticGroupId).
 If these targets are shared among multiple statistics it may be necessary to filter the targets and map their ids.
-In this case one can pass a function to do this operation while parsing the response:
+To improve performance this can be done while parsing the response by passing a mapper/filter function.
+This function can map the target id to a different value or filter targets out by returning null.
 
-    // filter out the target with id "id1" and append "+" to each other target id
-    Function<String, String> mapperFilter = (String targetId) -> targetId.equals("id1") ? null : targetId + "+";
+    // map target id to statistics id and filter out negative statistics ids
+    Function<String, String> mapperFilter = (String targetId) -> {
+        int statisticsId = targetIdToStatisticsId.get(targetId);
+        return statisticsId >= 0 ? statisticsId : null;
+    };
     ReachabilityResponse reachabilityResponse = new ReachabilityRequest(client, options).get(mapperFilter);
         
 ## RouteService
