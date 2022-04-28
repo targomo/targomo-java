@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.14.0
 - Add option to reachability requests to map / filter target id while parsing the response
+- Update package versions to fix security vulnerabilities
 
 ### 0.13.0
 - Add `statisticsCollectionId` parameter in the StatisticTravelOptions
