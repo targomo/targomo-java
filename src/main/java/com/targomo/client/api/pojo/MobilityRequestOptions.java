@@ -26,6 +26,7 @@ public class MobilityRequestOptions {
 
     private final Boolean unique;
     private final Boolean exact;
+    private final Boolean excludeNightLocations;
 
     private final String apiKey;
 }

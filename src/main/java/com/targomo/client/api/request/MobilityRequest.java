@@ -156,6 +156,8 @@ public class MobilityRequest {
 		private Integer maxDuration;
 		private Boolean unique;
 		private Boolean exact;
+		@JsonProperty(value = "exclude_night_locations")
+		private Boolean excludeNightLocations;
 		private Integer count;
 	}
 }
