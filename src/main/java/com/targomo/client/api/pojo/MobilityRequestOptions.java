@@ -10,9 +10,6 @@ import lombok.Getter;
 public class MobilityRequestOptions {
     private final String mobilityServiceUrl;
 
-    private final Double lat;
-    private final Double lng;
-
     private final Integer radius;
 
     private Integer minDuration;

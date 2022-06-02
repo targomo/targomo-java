@@ -30,7 +30,7 @@ public class MobilityRequest {
 
 	public static final String ID         = "id";
 	public static final String LATITUDE   = "lat";
-	public static final String LONGITUDE  = "lng";
+	public static final String LONGITUDE  = "lon";
 
 	private final Client client;
 	private final MobilityRequestOptions requestOptions;
@@ -64,8 +64,6 @@ public class MobilityRequest {
 
 		String path = "staypoints/profile/";
 		WebTarget target = client.target(requestOptions.getMobilityServiceUrl()).path(path)
-				.queryParam("lat", requestOptions.getLat())
-				.queryParam("lng", requestOptions.getLng())
 				.queryParam("min_duration", requestOptions.getMinDuration())
 				.queryParam("max_duration", requestOptions.getMaxDuration())
 				.queryParam("hour_start", requestOptions.getHourStart())
@@ -138,7 +136,7 @@ public class MobilityRequest {
 	public static class MobilityResult{
 		private String id;
 		private Double lat;
-		private Integer lng;
+		private Integer lon;
 		private Integer radius;
 		@JsonProperty(value = "day_start")
 		private Integer dayStart;
