@@ -30,7 +30,7 @@ public class MobilityRequest {
 
 	public static final String ID         = "id";
 	public static final String LATITUDE   = "lat";
-	public static final String LONGITUDE  = "lon";
+	public static final String LONGITUDE  = "lng";
 
 	private final Client client;
 	private final MobilityRequestOptions requestOptions;
@@ -64,6 +64,10 @@ public class MobilityRequest {
 
 		String path = "staypoints/profile/";
 		WebTarget target = client.target(requestOptions.getMobilityServiceUrl()).path(path)
+				.queryParam("lat", requestOptions.getLat())
+				.queryParam("lng", requestOptions.getLng())
+				.queryParam("min_duration", requestOptions.getMinDuration())
+				.queryParam("max_duration", requestOptions.getMaxDuration())
 				.queryParam("hour_start", requestOptions.getHourStart())
 				.queryParam("hour_end", requestOptions.getHourEnd())
 				.queryParam("day_start", requestOptions.getDayStart())
@@ -71,8 +75,9 @@ public class MobilityRequest {
 				.queryParam("day_of_year_start", requestOptions.getDayOfYearStart())
 				.queryParam("day_of_year_end", requestOptions.getDayOfYearEnd())
 				.queryParam("unique", requestOptions.getUnique())
-				.queryParam("return_staypoints", requestOptions.getReturnStaypoints())
-				.queryParam("radius", requestOptions.getRadius());
+				.queryParam("exact", requestOptions.getExact())
+				.queryParam("radius", requestOptions.getRadius())
+				.queryParam("api_key", requestOptions.getApiKey());
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
 
@@ -133,7 +138,7 @@ public class MobilityRequest {
 	public static class MobilityResult{
 		private String id;
 		private Double lat;
-		private Integer lon;
+		private Integer lng;
 		private Integer radius;
 		@JsonProperty(value = "day_start")
 		private Integer dayStart;
@@ -152,6 +157,7 @@ public class MobilityRequest {
 		@JsonProperty(value = "max_duration")
 		private Integer maxDuration;
 		private Boolean unique;
+		private Boolean exact;
 		private Integer count;
 	}
 }

@@ -13,6 +13,11 @@ public class MobilityRequestOptions {
     private final Double lat;
     private final Double lng;
 
+    private final Integer radius;
+
+    private Integer minDuration;
+    private Integer maxDuration;
+
     private final Integer hourStart;
     private final Integer hourEnd;
 
@@ -23,9 +28,7 @@ public class MobilityRequestOptions {
     private final Integer dayOfYearEnd;
 
     private final Boolean unique;
-    private final Boolean returnStaypoints;
-
-    private final Integer radius;
+    private final Boolean exact;
 
     private final String apiKey;
 }
