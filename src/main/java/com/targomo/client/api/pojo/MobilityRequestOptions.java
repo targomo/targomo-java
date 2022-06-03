@@ -12,8 +12,8 @@ public class MobilityRequestOptions {
 
     private final Integer radius;
 
-    private Integer minDuration;
-    private Integer maxDuration;
+    private final Integer minDuration;
+    private final Integer maxDuration;
 
     private final Integer hourStart;
     private final Integer hourEnd;
