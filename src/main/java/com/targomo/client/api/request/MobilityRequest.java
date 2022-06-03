@@ -74,6 +74,7 @@ public class MobilityRequest {
 				.queryParam("day_of_year_end", requestOptions.getDayOfYearEnd())
 				.queryParam("unique", requestOptions.getUnique())
 				.queryParam("exact", requestOptions.getExact())
+				.queryParam("exclude_night_locations", requestOptions.getExcludeNightLocations())
 				.queryParam("radius", requestOptions.getRadius())
 				.queryParam("api_key", requestOptions.getApiKey());
 
