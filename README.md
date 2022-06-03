@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.15.0
+- Update mobility service requests
+
 ### 0.14.0
 - Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 
 - `statisticsCollectionId` parameter renamed to `statisticCollectionId` in the StatisticTravelOptions.
