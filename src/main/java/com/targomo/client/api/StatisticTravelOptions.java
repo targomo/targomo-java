@@ -78,7 +78,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
-    private boolean calculateGravitationPerReferenceId = false;
+    private boolean multigraphCalculateGravitationPerReferenceId = true;
 
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
@@ -128,7 +128,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(chartInterval, that.chartInterval) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
-                Objects.equals(calculateGravitationPerReferenceId, that.calculateGravitationPerReferenceId);
+                Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId, calculateGravitationPerReferenceId);
+                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId);
     }
 
     public boolean isGetClosestSources() {
@@ -227,12 +227,12 @@ public class StatisticTravelOptions extends TravelOptions {
         this.statisticCollectionId = statisticCollectionId;
     }
 
-    public boolean isCalculateGravitationPerReferenceId() {
-        return calculateGravitationPerReferenceId;
+    public boolean isMultigraphCalculateGravitationPerReferenceId() {
+        return multigraphCalculateGravitationPerReferenceId;
     }
 
-    public void setCalculateGravitationPerReferenceId(boolean calculateGravitationPerReferenceId) {
-        this.calculateGravitationPerReferenceId = calculateGravitationPerReferenceId;
+    public void setMultigraphCalculateGravitationPerReferenceId(boolean multigraphCalculateGravitationPerReferenceId) {
+        this.multigraphCalculateGravitationPerReferenceId = multigraphCalculateGravitationPerReferenceId;
     }
 
     @Override
@@ -265,8 +265,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(chartInterval);
         builder.append("\n\tstatisticsCollectionId: ");
         builder.append(statisticCollectionId);
-        builder.append("\n\tcalculateGravitationPerReferenceId: ");
-        builder.append(calculateGravitationPerReferenceId);
+        builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
+        builder.append(multigraphCalculateGravitationPerReferenceId);
         builder.append("\n}\n");
         return builder.toString();
     }
