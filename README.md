@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.15.0
 - Update mobility service requests
+- Add `multiGraphCalculateGravitationPerReferenceId` parameter added in the StatisticTravelOptions.
 
 ### 0.14.0
 - Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 
