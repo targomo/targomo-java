@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.14.0</version>
+    <version>0.15.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.15.0
+- Update mobility service requests
+- Add `multiGraphCalculateGravitationPerReferenceId` parameter added in the StatisticTravelOptions.
+- Add `UserServiceReferralUrlClientFilter` for services using the client
 
 ### 0.14.0
 - Add `multiGraphDomainStatisticCollectionId` parameter in the StatisticTravelOptions. 

@@ -64,6 +64,8 @@ public class MobilityRequest {
 
 		String path = "staypoints/profile/";
 		WebTarget target = client.target(requestOptions.getMobilityServiceUrl()).path(path)
+				.queryParam("min_duration", requestOptions.getMinDuration())
+				.queryParam("max_duration", requestOptions.getMaxDuration())
 				.queryParam("hour_start", requestOptions.getHourStart())
 				.queryParam("hour_end", requestOptions.getHourEnd())
 				.queryParam("day_start", requestOptions.getDayStart())
@@ -71,8 +73,10 @@ public class MobilityRequest {
 				.queryParam("day_of_year_start", requestOptions.getDayOfYearStart())
 				.queryParam("day_of_year_end", requestOptions.getDayOfYearEnd())
 				.queryParam("unique", requestOptions.getUnique())
-				.queryParam("return_staypoints", requestOptions.getReturnStaypoints())
-				.queryParam("radius", requestOptions.getRadius());
+				.queryParam("exact", requestOptions.getExact())
+				.queryParam("exclude_night_locations", requestOptions.getExcludeNightLocations())
+				.queryParam("radius", requestOptions.getRadius())
+				.queryParam("api_key", requestOptions.getApiKey());
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
 
@@ -152,6 +156,9 @@ public class MobilityRequest {
 		@JsonProperty(value = "max_duration")
 		private Integer maxDuration;
 		private Boolean unique;
+		private Boolean exact;
+		@JsonProperty(value = "exclude_night_locations")
+		private Boolean excludeNightLocations;
 		private Integer count;
 	}
 }

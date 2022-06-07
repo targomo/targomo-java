@@ -10,6 +10,11 @@ import lombok.Getter;
 public class MobilityRequestOptions {
     private final String mobilityServiceUrl;
 
+    private final Integer radius;
+
+    private final Integer minDuration;
+    private final Integer maxDuration;
+
     private final Integer hourStart;
     private final Integer hourEnd;
 
@@ -20,7 +25,8 @@ public class MobilityRequestOptions {
     private final Integer dayOfYearEnd;
 
     private final Boolean unique;
-    private final Boolean returnStaypoints;
+    private final Boolean exact;
+    private final Boolean excludeNightLocations;
 
-    private final Integer radius;
+    private final String apiKey;
 }
