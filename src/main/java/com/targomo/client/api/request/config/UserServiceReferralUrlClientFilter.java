@@ -7,7 +7,7 @@ package com.targomo.client.api.request.config;
  */
 public class UserServiceReferralUrlClientFilter extends RequestHeaderFilter{
 
-    private static final String REFERER = "REFERER";
+    private static final String REFERER = "referer";
 
     public UserServiceReferralUrlClientFilter(String value) {
         super(REFERER, value);
