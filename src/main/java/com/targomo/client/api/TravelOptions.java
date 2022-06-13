@@ -883,7 +883,7 @@ public class TravelOptions implements Serializable {
                 intersectionMode == that.intersectionMode &&
                 pathSerializer == that.pathSerializer &&
                 polygonSerializerType == that.polygonSerializerType &&
-                maxSnapDistance == this.maxSnapDistance &&
+                Objects.equals(maxSnapDistance, that.maxSnapDistance) &&
                 Objects.equals(multiGraphEdgeClasses, that.multiGraphEdgeClasses) &&
                 multiGraphSerializationFormat == that.multiGraphSerializationFormat &&
                 Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
@@ -956,7 +956,7 @@ public class TravelOptions implements Serializable {
         return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType, intersectionGeometry,
+                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
