@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.16.0
+- Fix maxSnapDistance usage in equals and hash methods
 
 ### 0.15.0
 - Update mobility service requests
