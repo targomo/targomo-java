@@ -45,9 +45,7 @@ public class MobilityRequest {
 	 * @param requestOptions Options to be used
 	 */
 	public MobilityRequest(Client client, MobilityRequestOptions requestOptions) {
-		this.client	= client;
-		this.requestOptions = requestOptions;
-		this.headers = new MultivaluedHashMap<>();
+		this(client, requestOptions, new MultivaluedHashMap<>());
 	}
 
 	/**
@@ -63,6 +61,7 @@ public class MobilityRequest {
 	 * Use a custom client implementation with specified options and method
 	 * @param client Client implementation to be used
 	 * @param requestOptions Options to be used
+	 * @param headers the request headers
 	 */
 	public MobilityRequest(Client client, MobilityRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
 		this.client	= client;
@@ -92,7 +91,8 @@ public class MobilityRequest {
 				.queryParam("exact", requestOptions.getExact())
 				.queryParam("exclude_night_locations", requestOptions.getExcludeNightLocations())
 				.queryParam("radius", requestOptions.getRadius())
-				.queryParam("api_key", requestOptions.getApiKey());
+				.queryParam("api_key", requestOptions.getApiKey())
+				.queryParam("format", "json");
 
 		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
 
