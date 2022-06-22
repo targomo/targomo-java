@@ -21,6 +21,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +36,8 @@ public class MobilityRequest {
 
 	private final Client client;
 	private final MobilityRequestOptions requestOptions;
+	private final MultivaluedMap<String, Object> headers;
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	/**
 	 * Use a custom client implementation with specified options and method
@@ -43,6 +47,7 @@ public class MobilityRequest {
 	public MobilityRequest(Client client, MobilityRequestOptions requestOptions) {
 		this.client	= client;
 		this.requestOptions = requestOptions;
+		this.headers = new MultivaluedHashMap<>();
 	}
 
 	/**
@@ -52,6 +57,17 @@ public class MobilityRequest {
 	 */
 	public MobilityRequest(MobilityRequestOptions requestOptions) {
 		this(ClientBuilder.newClient(), requestOptions);
+	}
+
+	/**
+	 * Use a custom client implementation with specified options and method
+	 * @param client Client implementation to be used
+	 * @param requestOptions Options to be used
+	 */
+	public MobilityRequest(Client client, MobilityRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
+		this.client	= client;
+		this.requestOptions = requestOptions;
+		this.headers = headers;
 	}
 
 	/**
@@ -83,7 +99,7 @@ public class MobilityRequest {
 		log.debug(String.format("Executing mobility request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
-		Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(entity);
+		Response response = target.request().headers(headers).post(entity);
 		return parseResponse(response);
 	}
 
@@ -102,7 +118,7 @@ public class MobilityRequest {
 			// consume the results
 			try {
 				TypeReference<List<MobilityResult>> typeRef = new TypeReference<List<MobilityResult>>() {};
-				return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
+				return OBJECT_MAPPER.readValue(response.readEntity(String.class), typeRef);
 			}
 			catch (JsonProcessingException e){
 				throw new TargomoClientRuntimeException("Couldn't parse Mobility response", e);

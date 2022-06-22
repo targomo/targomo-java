@@ -19,6 +19,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.function.Supplier;
 
@@ -30,8 +32,9 @@ public class PointOfInterestRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PointOfInterestRequest.class);
 
-	private Client client;
-	private TravelOptions travelOptions;
+	private final Client client;
+	private final TravelOptions travelOptions;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
@@ -39,9 +42,9 @@ public class PointOfInterestRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public PointOfInterestRequest(TravelOptions travelOptions) {
-
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
+		this.headers = new MultivaluedHashMap<>();
 	}
 
 	/**
@@ -50,9 +53,20 @@ public class PointOfInterestRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public PointOfInterestRequest(Client client, TravelOptions travelOptions){
-
 		this.client	= client;
 		this.travelOptions = travelOptions;
+		this.headers = new MultivaluedHashMap<>();
+	}
+
+	/**
+	 * Use a custom client implementation with specified options and method
+	 * @param client Client implementation to be used
+	 * @param travelOptions Options to be used
+	 */
+	public PointOfInterestRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers){
+		this.client	= client;
+		this.travelOptions = travelOptions;
+		this.headers = headers;
 	}
 
 	/**
@@ -135,7 +149,7 @@ public class PointOfInterestRequest {
 		String config = RequestConfigurator.getConfig(travelOptions);
 		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 
-		return target.request().post(entity);
+		return target.request().headers(headers).post(entity);
 	}
 
 	/**
