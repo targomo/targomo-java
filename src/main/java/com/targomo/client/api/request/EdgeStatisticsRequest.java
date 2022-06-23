@@ -92,7 +92,7 @@ public class EdgeStatisticsRequest {
 		log.debug(String.format("Executing edge statistics request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
-		Response response = target.request().post(entity);
+		Response response = target.request().headers(headers).post(entity);
 		return parseResponse(response);
 	}
 
