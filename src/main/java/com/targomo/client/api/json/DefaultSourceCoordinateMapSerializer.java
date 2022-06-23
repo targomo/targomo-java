@@ -21,11 +21,11 @@ public class DefaultSourceCoordinateMapSerializer extends JsonSerializer {
 
             jsonGenerator.writeStartObject();
             jsonGenerator.writeStringField("id", entry.getKey());
-            if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("tm", entry.getValue().getTravelType().toString());
+            if ( entry.getValue().getTravelType() != null ) jsonGenerator.writeStringField("travelType", entry.getValue().getTravelType().toString());
             jsonGenerator.writeNumberField("y", entry.getValue().getY());
             jsonGenerator.writeNumberField("x", entry.getValue().getX());
             if( entry.getValue().getProperties() != null){
-                jsonGenerator.writeFieldName("aggregationInputParameters");
+                jsonGenerator.writeFieldName("properties");
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("inputFactor", entry.getValue().getProperties().getInputFactor());
                 jsonGenerator.writeNumberField("gravitationAttractionStrength", entry.getValue().getProperties().getGravitationAttractionStrength());

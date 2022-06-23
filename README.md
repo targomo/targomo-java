@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.16.0
 - Fix maxSnapDistance usage in equals and hash methods
+- Update serializer for `SourceCoordinate` and `SourceGeometry`
 
 ### 0.15.0
 - Update mobility service requests
