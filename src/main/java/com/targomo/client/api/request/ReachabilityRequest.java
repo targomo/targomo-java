@@ -30,10 +30,10 @@ public class ReachabilityRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
 
-	private Client client;
-	private TravelOptions travelOptions;
+	private final Client client;
+	private final TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
-	private MultivaluedMap<String, Object> headers;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method

@@ -30,9 +30,9 @@ import java.util.Map;
 @Slf4j
 public class EdgeStatisticsRequest {
 
-	private Client client;
-	private EdgeStatisticsRequestOptions requestOptions;
-	private MultivaluedMap<String, Object> headers;
+	private final Client client;
+	private final EdgeStatisticsRequestOptions requestOptions;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use a custom client implementation with specified options and method
