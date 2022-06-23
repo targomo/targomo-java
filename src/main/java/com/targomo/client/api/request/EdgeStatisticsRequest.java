@@ -58,7 +58,7 @@ public class EdgeStatisticsRequest {
 	 * Use a custom client implementation with specified options, method, and headers
 	 * @param client Client implementation to be used
 	 * @param requestOptions Options to be used
-     * @param headers List of custom http headers to be used
+	 * @param headers List of custom http headers to be used
 	 */
 	public EdgeStatisticsRequest(Client client, EdgeStatisticsRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
 		this.client	= client;
