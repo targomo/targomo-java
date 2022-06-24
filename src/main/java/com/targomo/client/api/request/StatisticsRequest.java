@@ -23,6 +23,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -30,8 +32,9 @@ import java.util.function.Supplier;
 public class StatisticsRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRequest.class);
-	private Client client;
-	private TravelOptions travelOptions;
+	private final Client client;
+	private final TravelOptions travelOptions;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
@@ -39,9 +42,9 @@ public class StatisticsRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(TravelOptions travelOptions) {
-
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
+		this.headers = new MultivaluedHashMap<>();
 	}
 
 	/**
@@ -50,9 +53,21 @@ public class StatisticsRequest {
 	 * @param travelOptions Options to be used
 	 */
 	public StatisticsRequest(Client client, TravelOptions travelOptions){
-
 		this.client	= client;
 		this.travelOptions = travelOptions;
+		this.headers = new MultivaluedHashMap<>();
+	}
+
+	/**
+	 * Use a custom client implementation with specified options and method
+	 * @param client Client implementation to be used
+	 * @param travelOptions Options to be used
+	 * @param headers List of custom http headers to be used
+	 */
+	public StatisticsRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers){
+		this.client	= client;
+		this.travelOptions = travelOptions;
+		this.headers = headers;
 	}
 
 	public StatisticsResponse get(StatisticMethod method) throws TargomoClientException {
@@ -93,7 +108,7 @@ public class StatisticsRequest {
 		try {
 
 			// Execute POST request
-			response = target.request().post(entity);
+			response = target.request().headers(headers).post(entity);
 		}
 		// this can happen for example if we are doing a request and restart the corresponding
 		// targomo service on the same machine, in case of a fallback we need to try a different host
@@ -114,7 +129,7 @@ public class StatisticsRequest {
 			LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 			// Execute POST request
-			response = target.request().post(entity);
+			response = target.request().headers(headers).post(entity);
 		}
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
