@@ -30,10 +30,10 @@ public class ReachabilityRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
 
-	private Client client;
-	private TravelOptions travelOptions;
+	private final Client client;
+	private final TravelOptions travelOptions;
 	private static final String CALLBACK = "callback";
-	private MultivaluedMap<String, Object> headers;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use default client implementation with specified options and method
@@ -61,8 +61,9 @@ public class ReachabilityRequest {
 	 * Use a custom client implementation with specified options and method
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
+	 * @param headers List of custom http headers to be used
 	 */
-	public ReachabilityRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String,Object> headers){
+	public ReachabilityRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers){
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = headers;

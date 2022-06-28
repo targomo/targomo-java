@@ -19,6 +19,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,8 +30,9 @@ import java.util.Map;
 @Slf4j
 public class EdgeStatisticsRequest {
 
-	private Client client;
-	private EdgeStatisticsRequestOptions requestOptions;
+	private final Client client;
+	private final EdgeStatisticsRequestOptions requestOptions;
+	private final MultivaluedMap<String, Object> headers;
 
 	/**
 	 * Use a custom client implementation with specified options and method
@@ -39,6 +42,7 @@ public class EdgeStatisticsRequest {
 	public EdgeStatisticsRequest(Client client, EdgeStatisticsRequestOptions requestOptions) {
 		this.client	= client;
 		this.requestOptions = requestOptions;
+		this.headers = new MultivaluedHashMap<>();
 	}
 
 	/**
@@ -48,6 +52,18 @@ public class EdgeStatisticsRequest {
 	 */
 	public EdgeStatisticsRequest(EdgeStatisticsRequestOptions requestOptions) {
 		this(ClientBuilder.newClient(), requestOptions);
+	}
+
+	/**
+	 * Use a custom client implementation with specified options, method, and headers
+	 * @param client Client implementation to be used
+	 * @param requestOptions Options to be used
+	 * @param headers List of custom http headers to be used
+	 */
+	public EdgeStatisticsRequest(Client client, EdgeStatisticsRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
+		this.client	= client;
+		this.requestOptions = requestOptions;
+		this.headers = headers;
 	}
 
 	/**
@@ -76,7 +92,7 @@ public class EdgeStatisticsRequest {
 		log.debug(String.format("Executing edge statistics request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
-		Response response = target.request().post(entity);
+		Response response = target.request().headers(headers).post(entity);
 		return parseResponse(response);
 	}
 
