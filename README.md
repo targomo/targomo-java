@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.16.0
 - Fix maxSnapDistance usage in equals and hash methods
 - Be able to set custom http headers
+- Update guava and jackson dependencies
 
 ### 0.15.0
 - Update mobility service requests
