@@ -1,14 +1,10 @@
 package com.targomo.client.api.request;
 
-import com.google.gson.JsonObject;
-import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.RequestConfigurator;
-import com.targomo.client.api.response.ResponseCode;
-import com.targomo.client.api.response.RouteResponse;
 import com.targomo.client.api.response.ScoreResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
@@ -24,7 +20,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,24 +67,13 @@ public class ScoreRequest {
         return validateResponse(response);
     }
 
-    private String getJson(Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("criteria", criteria);
-        body.put("locations", locations);
-        if (competitors != null) {
-            body.put("competitors", competitors);
-        }
-        JSONObject json = new JSONObject(body);
-        return JsonUtil.toString(json, 1);
-    }
-
     /**
      * Validate HTTP response and return a PolygonResponse
      * @param response HTTP response
-     * @return RouteResponse
+     * @return ScoreResponse
      * @throws TargomoClientException In case of errors other than GatewayTimeout
      */
-    private ScoreResponse validateResponse(final Response response) throws TargomoClientException {
+    public static ScoreResponse validateResponse(final Response response) throws TargomoClientException {
         // compare the HTTP status codes, NOT the route 360 code
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             // consume the results

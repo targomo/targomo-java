@@ -60,6 +60,13 @@ public final class RequestConfigurator {
         return config;
     }
 
+    public static String getConfig(final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+        LOG.trace("Creating configuration...");
+        String config = getCommonConfig(locations, competitors);
+        LOG.trace("Configuration created.");
+        return config;
+    }
+
     private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
@@ -69,6 +76,20 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, COMPETITORS, ow.writeValueAsString(competitors));
             }
             JSONBuilder.appendAndEnd(config, CRITERIA, ow.writeValueAsString(criteria));
+        } catch (Exception e) {
+            throw new TargomoClientException("Could not generate targomo config object", e);
+        }
+        return config.toString();
+    }
+
+    private static String getCommonConfig(final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
+        try {
+            if (competitors != null) {
+                JSONBuilder.append(config, COMPETITORS, ow.writeValueAsString(competitors));
+            }
+            JSONBuilder.appendAndEnd(config, LOCATIONS, ow.writeValueAsString(locations));
         } catch (Exception e) {
             throw new TargomoClientException("Could not generate targomo config object", e);
         }
