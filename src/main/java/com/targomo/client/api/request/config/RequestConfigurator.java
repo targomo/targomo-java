@@ -1,6 +1,7 @@
 package com.targomo.client.api.request.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
@@ -10,6 +11,7 @@ import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.Location;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -17,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -48,6 +51,28 @@ public final class RequestConfigurator {
 	    String config = getCommonConfig(travelOptions);
 	    LOG.trace("Configuration created.");
 	    return config;
+    }
+
+    public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+        LOG.trace("Creating configuration...");
+        String config = getCommonConfig(criteria, locations, competitors);
+        LOG.trace("Configuration created.");
+        return config;
+    }
+
+    private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
+        try {
+            JSONBuilder.append(config, LOCATIONS, ow.writeValueAsString(locations));
+            if (competitors != null) {
+                JSONBuilder.append(config, COMPETITORS, ow.writeValueAsString(competitors));
+            }
+            JSONBuilder.appendAndEnd(config, CRITERIA, ow.writeValueAsString(criteria));
+        } catch (Exception e) {
+            throw new TargomoClientException("Could not generate targomo config object", e);
+        }
+        return config.toString();
     }
 
 	private static String getCommonConfig(final TravelOptions travelOptions) throws TargomoClientException {
