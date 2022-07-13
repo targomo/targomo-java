@@ -1,16 +1,12 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.quality.criterion.CriterionType;
 import com.targomo.client.api.quality.criterion.StatisticsReachabilityCriterionDefinition;
-import com.targomo.client.api.response.ResponseCode;
-import com.targomo.client.api.response.RouteResponse;
 import com.targomo.client.api.response.ScoreResponse;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
@@ -48,7 +44,7 @@ public class ScoreRequestTest extends RequestTest {
                 .lng(13.360687)
                 .build());
 
-        ScoreRequest scoreRequest = new ScoreRequest("http://localhost:8080", "1S10GQZPB1ZWNJV0A2Y5361557401", criteria, locations);
+        ScoreRequest scoreRequest = new ScoreRequest("https://api.targomo.com/quality", "1S10GQZPB1ZWNJV0A2Y5361557401", criteria, locations);
         ScoreResponse scoreResponse = scoreRequest.get();
 
         // Check result
