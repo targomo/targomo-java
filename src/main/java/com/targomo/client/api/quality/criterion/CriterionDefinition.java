@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.targomo.client.api.quality.Constants;
+import com.targomo.client.Constants;
 import com.targomo.core.user.FineGrainedRequestTypeEnum;
 import com.targomo.core.util.logging.model.RequestAttributes;
 import lombok.*;

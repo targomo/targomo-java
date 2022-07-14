@@ -2,7 +2,7 @@ package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.targomo.client.api.quality.Constants;
+import com.targomo.client.Constants;
 import com.targomo.core.exception.RequestConfigurationException;
 import lombok.Getter;
 

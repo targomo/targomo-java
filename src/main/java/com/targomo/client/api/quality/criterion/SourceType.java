@@ -1,6 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
-import com.targomo.client.api.quality.Constants;
+import com.targomo.client.Constants;
 
 public enum SourceType {
     POI(Constants.SOURCE_TYPE_POI),
