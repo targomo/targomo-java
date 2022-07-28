@@ -2,7 +2,7 @@ package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.targomo.client.api.quality.Location;
+import com.targomo.client.api.quality.PublicLocation;
 import com.targomo.core.user.FineGrainedRequestTypeEnum;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.List;
 public class PoiGravitationCriterionDefinition extends PoiReachabilityCriterionDefinition implements GravitationCriterionDefinition {
 
     @Setter
-    private List<Location> competitors;
+    private List<PublicLocation> competitors;
 
     @Setter
     private Double gravitationExponent;

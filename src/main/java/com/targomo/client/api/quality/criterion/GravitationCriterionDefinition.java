@@ -1,13 +1,13 @@
 package com.targomo.client.api.quality.criterion;
 
-import com.targomo.client.api.quality.Location;
+import com.targomo.client.api.quality.PublicLocation;
 
 import java.util.List;
 
 public interface GravitationCriterionDefinition {
 
-    List<Location> getCompetitors();
+    List<PublicLocation> getCompetitors();
 
-    void setCompetitors(List<Location> competitors);
+    void setCompetitors(List<PublicLocation> competitors);
 
 }

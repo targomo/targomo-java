@@ -12,11 +12,9 @@ import org.geojson.GeoJsonObject;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-@JsonDeserialize(contentAs=Location.class, using=LocationDeserializer.class)
-// todo: used for test but might be dangerous. Check later if we can do differently.
+@JsonDeserialize(contentAs=PublicLocation.class, using=LocationDeserializer.class)
 @EqualsAndHashCode
-public class Location {
-    private static final String CACHE_KEY_SEPARATOR = "_";
+public class PublicLocation {
     @Setter
     private String id;
     private final Double lat;
@@ -32,21 +30,7 @@ public class Location {
     @Setter @JsonIgnore
     private boolean competitor;
 
-    public Location(String id, Double lat, Double lng, LocationProperties properties) {
+    public PublicLocation(String id, Double lat, Double lng, LocationProperties properties) {
         this(id, lat, lng, null, null, properties, true, false);
-    }
-
-    /**
-     * @return true if location is a point, false if it is a geometry.
-     */
-    @JsonIgnore
-    public boolean point() {
-        return geometry == null;
-    }
-
-    public String computeCacheId(String apiKey, String ratingId) {
-        String pointGeomSuffix = point() ? "POINT" : "GEOMETRY";
-        return apiKey + CACHE_KEY_SEPARATOR + ratingId + CACHE_KEY_SEPARATOR + String.format("%.6f", lat) +
-                CACHE_KEY_SEPARATOR + String.format("%.6f", lng) + CACHE_KEY_SEPARATOR + pointGeomSuffix;
     }
 }

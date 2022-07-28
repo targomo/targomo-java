@@ -11,6 +11,7 @@ import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.Location;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.quality.PublicLocation;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import org.apache.log4j.Logger;
@@ -53,21 +54,21 @@ public final class RequestConfigurator {
 	    return config;
     }
 
-    public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+    public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
         LOG.trace("Creating configuration...");
         String config = getCommonConfig(criteria, locations, competitors);
         LOG.trace("Configuration created.");
         return config;
     }
 
-    public static String getConfig(final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+    public static String getConfig(final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
         LOG.trace("Creating configuration...");
         String config = getCommonConfig(locations, competitors);
         LOG.trace("Configuration created.");
         return config;
     }
 
-    private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+    private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
         try {
@@ -82,7 +83,7 @@ public final class RequestConfigurator {
         return config.toString();
     }
 
-    private static String getCommonConfig(final List<com.targomo.client.api.quality.Location> locations, final List<com.targomo.client.api.quality.Location> competitors) throws TargomoClientException {
+    private static String getCommonConfig(final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
         try {

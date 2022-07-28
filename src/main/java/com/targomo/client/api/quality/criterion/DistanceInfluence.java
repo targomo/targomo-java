@@ -7,7 +7,6 @@ package com.targomo.client.api.quality.criterion;
 public enum DistanceInfluence {
     NONE("none"),
     QUADRATIC("quadratic");
-    //TODO: LINEAR("linear")
 
     private final String name;
 

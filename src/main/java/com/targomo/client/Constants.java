@@ -165,14 +165,14 @@ public class Constants {
     public static final String CRS                                                      = "crs";
     public static final String ROUTE_FROM_CENTROID                                      = "routeFromCentroid";
 
-    public static final String LOCATIONS                                                = "locations";
-    public static final String COMPETITORS                                              = "competitors";
-    public static final String CRITERIA                                                 = "criteria";
 
     public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
 
-    // quality constants
+    // Location scoring constants
 
+    public static final String LOCATIONS                                                = "locations";
+    public static final String COMPETITORS                                              = "competitors";
+    public static final String CRITERIA                                                 = "criteria";
     public static final String SOURCE_TYPE_POI = "poi";
     public static final String SOURCE_TYPE_POI_IN_ZONE = "poiInZone";
     public static final String SOURCE_TYPE_STATISTICS = "statistics";
