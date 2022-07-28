@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.17.0-SNAPSHOT</version>
+    <version>0.18.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,7 +51,10 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.18.0
+
 ### 0.17.0
+- Add GeoPackage dependency
 
 ### 0.16.0
 - Fix maxSnapDistance usage in equals and hash methods
