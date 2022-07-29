@@ -1,6 +1,6 @@
 package com.targomo.client.api.request;
 
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.response.ScoreResponse;
 import org.junit.Test;
 
@@ -13,8 +13,8 @@ public class RatingRequestTest extends RequestTest {
     @Test
     public void get_success() throws Exception {
 
-        List<PublicLocation> locations = new ArrayList<>();
-        locations.add(PublicLocation.builder()
+        List<Location> locations = new ArrayList<>();
+        locations.add(Location.builder()
                 .id("loc1")
                 .lat(52.515)
                 .lng(13.403)

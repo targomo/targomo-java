@@ -2,7 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ScoreResponse;
 import lombok.AllArgsConstructor;
@@ -18,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class RatingRequest {
     private Client client;
-    private List<PublicLocation> locations;
-    private List<PublicLocation> competitors;
+    private List<Location> locations;
+    private List<Location> competitors;
 
     private String serviceUrl;
     private String apiKey;
@@ -27,19 +27,19 @@ public class RatingRequest {
     private boolean showDetails = false;
     private String ratingId;
 
-    public RatingRequest(String serviceUrl, String apiKey, String ratingId, List<PublicLocation> locations) {
+    public RatingRequest(String serviceUrl, String apiKey, String ratingId, List<Location> locations) {
         this(ClientBuilder.newClient(), locations, null, serviceUrl, apiKey, false, ratingId);
     }
 
-    public RatingRequest(String serviceUrl, String key, String ratingId, List<PublicLocation> locations, List<PublicLocation> competitors) {
+    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, List<Location> competitors) {
         this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, false, ratingId);
     }
 
-    public RatingRequest(String serviceUrl, String key, String ratingId, List<PublicLocation> locations, List<PublicLocation> competitors, boolean showDetails) {
+    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, List<Location> competitors, boolean showDetails) {
         this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, showDetails, ratingId);
     }
 
-    public RatingRequest(String serviceUrl, String key, String ratingId, List<PublicLocation> locations, boolean showDetails) {
+    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, boolean showDetails) {
         this(ClientBuilder.newClient(), locations, null, serviceUrl, key, showDetails, ratingId);
     }
 

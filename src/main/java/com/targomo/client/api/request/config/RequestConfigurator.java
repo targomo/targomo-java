@@ -8,10 +8,9 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.Location;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
 import org.apache.log4j.Logger;
@@ -54,21 +53,21 @@ public final class RequestConfigurator {
 	    return config;
     }
 
-    public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
+    public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
         LOG.trace("Creating configuration...");
         String config = getCommonConfig(criteria, locations, competitors);
         LOG.trace("Configuration created.");
         return config;
     }
 
-    public static String getConfig(final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
+    public static String getConfig(final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
         LOG.trace("Creating configuration...");
         String config = getCommonConfig(locations, competitors);
         LOG.trace("Configuration created.");
         return config;
     }
 
-    private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
+    private static String getCommonConfig(final Map<String, CriterionDefinition> criteria, final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
         try {
@@ -83,7 +82,7 @@ public final class RequestConfigurator {
         return config.toString();
     }
 
-    private static String getCommonConfig(final List<PublicLocation> locations, final List<PublicLocation> competitors) throws TargomoClientException {
+    private static String getCommonConfig(final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         StringBuilder config = JSONBuilder.beginJson(new StringBuilder());
         try {
@@ -613,7 +612,7 @@ public final class RequestConfigurator {
      * @param src
      * @return
      */
-    private static TravelType getTravelType(final TravelOptions travelOptions, Location src) {
+    private static TravelType getTravelType(final TravelOptions travelOptions, com.targomo.client.api.geo.Location src) {
         TravelType travelType = travelOptions.getTravelType();
         if (src.getTravelType() != null
                 && src.getTravelType() != travelType
@@ -626,7 +625,7 @@ public final class RequestConfigurator {
 
 
     private static JSONObject getSourceObject(final TravelOptions travelOptions,
-                                              final Location src) throws JSONException {
+                                              final com.targomo.client.api.geo.Location src) throws JSONException {
         TravelType travelType = getTravelType(travelOptions, src);
         JSONObject travelMode = getTravelMode(travelOptions, travelType);
 

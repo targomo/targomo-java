@@ -12,9 +12,9 @@ import org.geojson.GeoJsonObject;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-@JsonDeserialize(contentAs=PublicLocation.class, using=LocationDeserializer.class)
+@JsonDeserialize(contentAs= Location.class, using=LocationDeserializer.class)
 @EqualsAndHashCode
-public class PublicLocation {
+public class Location {
     @Setter
     private String id;
     private final Double lat;
@@ -30,7 +30,7 @@ public class PublicLocation {
     @Setter @JsonIgnore
     private boolean competitor;
 
-    public PublicLocation(String id, Double lat, Double lng, LocationProperties properties) {
+    public Location(String id, Double lat, Double lng, LocationProperties properties) {
         this(id, lat, lng, null, null, properties, true, false);
     }
 }

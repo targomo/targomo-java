@@ -2,7 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ScoreResponse;
@@ -28,15 +28,15 @@ public class ScoreRequest {
 
     private Client client;
     private Map<String, CriterionDefinition> criteria;
-    private List<PublicLocation> locations;
-    private List<PublicLocation> competitors;
+    private List<Location> locations;
+    private List<Location> competitors;
 
     private String serviceUrl;
     private String apiKey;
 
     private boolean showDetails = false;
 
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<PublicLocation> locations) {
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations) {
         this.serviceUrl = serviceUrl;
         this.apiKey = key;
         this.client	= ClientBuilder.newClient();
@@ -44,15 +44,15 @@ public class ScoreRequest {
         this.locations = locations;
     }
 
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<PublicLocation> locations, List<PublicLocation> competitors) {
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors) {
         this(serviceUrl, key, criteria, locations);
         this.competitors = competitors;
     }
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<PublicLocation> locations, List<PublicLocation> competitors, boolean showDetails) {
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors, boolean showDetails) {
         this(serviceUrl, key, criteria, locations, competitors);
         this.showDetails = showDetails;
     }
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<PublicLocation> locations, boolean showDetails) {
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails) {
         this(serviceUrl, key, criteria, locations);
         this.showDetails = showDetails;
     }

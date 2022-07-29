@@ -1,7 +1,7 @@
 package com.targomo.client.api.request;
 
 import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.quality.criterion.CriterionType;
 import com.targomo.client.api.quality.criterion.StatisticsReachabilityCriterionDefinition;
@@ -37,8 +37,8 @@ public class ScoreRequestTest extends RequestTest {
                 .build()
         );
 
-        List<PublicLocation> locations = new ArrayList<>();
-        locations.add(PublicLocation.builder()
+        List<Location> locations = new ArrayList<>();
+        locations.add(Location.builder()
                 .id("loc1")
                 .lat(52.49368)
                 .lng(13.360687)

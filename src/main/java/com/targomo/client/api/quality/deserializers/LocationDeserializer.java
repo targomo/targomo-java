@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.pojo.LocationProperties;
-import com.targomo.client.api.quality.PublicLocation;
+import com.targomo.client.api.quality.Location;
 import com.targomo.core.exception.RequestConfigurationException;
 import com.targomo.core.gis.projection.ProjectionUtil;
 import lombok.SneakyThrows;
@@ -27,7 +27,7 @@ import org.opengis.referencing.operation.TransformException;
  * In the that all parameters are set then the location is still treated as a geometry but uses the the lat lng for all
  * quality service requirements (e.g. cache keys or haversine distance calculations)
  */
-public class LocationDeserializer extends JsonDeserializer<PublicLocation> {
+public class LocationDeserializer extends JsonDeserializer<Location> {
 
     private static final int DEFAULT_CRS = 4326;
     private static final int DEFAULT_DECIMAL_PRECISION = 8;
@@ -35,11 +35,11 @@ public class LocationDeserializer extends JsonDeserializer<PublicLocation> {
 
     @SneakyThrows
     @Override
-    public PublicLocation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
+    public Location deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
 
         JsonNode locationJson = jsonParser.getCodec().readTree(jsonParser);
         String id = locationJson.get("id").asText();
-        PublicLocation.PublicLocationBuilder<?, ?> builder = PublicLocation.builder();
+        Location.LocationBuilder<?, ?> builder = Location.builder();
         builder.id(id);
 
         JsonNode latJson = locationJson.get("lat");
@@ -59,7 +59,7 @@ public class LocationDeserializer extends JsonDeserializer<PublicLocation> {
         return builder.properties(properties).build();
     }
 
-    private void deserializePoint(PublicLocation.PublicLocationBuilder<?, ?> builder, String id, JsonNode latJson, JsonNode lngJson) {
+    private void deserializePoint(Location.LocationBuilder<?, ?> builder, String id, JsonNode latJson, JsonNode lngJson) {
         if (latJson == null || lngJson == null)
             throw new RequestConfigurationException(String.format(
                     "Location with id '%s' has neither geometry nor valid lat/lng pair defined", id));
@@ -68,7 +68,7 @@ public class LocationDeserializer extends JsonDeserializer<PublicLocation> {
                 .point(true);
     }
 
-    private void deserializeGeometry(PublicLocation.PublicLocationBuilder<?, ?> builder, String id, JsonNode latJson, JsonNode lngJson, JsonNode geometryJson, int crs) throws java.io.IOException, TransformException, FactoryException {
+    private void deserializeGeometry(Location.LocationBuilder<?, ?> builder, String id, JsonNode latJson, JsonNode lngJson, JsonNode geometryJson, int crs) throws java.io.IOException, TransformException, FactoryException {
         String geojsonString = geometryJson.toString();
 
         Geometry geom = new GeometryJSON(DEFAULT_DECIMAL_PRECISION).read(geometryJson.toString());
