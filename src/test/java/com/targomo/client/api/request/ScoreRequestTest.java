@@ -30,8 +30,8 @@ public class ScoreRequestTest extends RequestTest {
                 .statisticsIds(Collections.singletonList(Short.valueOf("0")))
                 .type(CriterionType.STATISTICS_DISTANCE)
                 .edgeWeight(EdgeWeightType.TIME)
-                .maxEdgeWeight(900)
-                .travelMode(new CaseInsensitiveMap(Collections.singletonMap("bike", new LinkedHashMap<>())))
+                .maxEdgeWeight(400)
+                .travelMode(new CaseInsensitiveMap(Collections.singletonMap("car", new LinkedHashMap<>())))
                 .elevation(true)
                 .coreServiceUrl(CORE_URL)
                 .build()
@@ -53,6 +53,6 @@ public class ScoreRequestTest extends RequestTest {
         assertTrue(scoreResponse.getData().has("loc1"));
         assertTrue(scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").has("criterion1"));
 
-        assertEquals(23609.8670193027, scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").getDouble("criterion1"), 0.00001);
+        assertEquals(44477.82811716715, scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").getDouble("criterion1"), 0.00001);
     }
 }
