@@ -2,17 +2,17 @@ package com.targomo.client.api.quality;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.targomo.client.api.pojo.LocationProperties;
-import com.targomo.client.api.quality.deserializers.LocationDeserializer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.geojson.GeoJsonObject;
 
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-@JsonDeserialize(contentAs= Location.class, using=LocationDeserializer.class)
 @EqualsAndHashCode
 public class Location {
     @Setter

@@ -1,10 +1,10 @@
 package com.targomo.client.api.quality.criterion;
 
-import com.targomo.core.user.FineGrainedRequestTypeEnum;
-
 import java.util.List;
 
 public interface StatisticsCriterionDefinition {
+
+    CriterionType getType();
 
     Integer getStatisticCollectionId();
     Integer getStatisticGroupId();
@@ -19,5 +19,4 @@ public interface StatisticsCriterionDefinition {
 
     String getCoreServiceUrl();
 
-    FineGrainedRequestTypeEnum getRequestType(boolean isScore);
 }

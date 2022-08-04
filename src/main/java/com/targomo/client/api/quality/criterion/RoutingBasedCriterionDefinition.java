@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
-import com.targomo.core.exception.RequestConfigurationException;
-import com.targomo.core.util.logging.model.RequestAttributes;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
@@ -46,7 +44,7 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
         } else if (travelMode.get("walk") != null) {
             return TravelType.WALK;
         }
-        throw new RequestConfigurationException("Travel type not supported");
+        throw new IllegalArgumentException("Travel type not supported");
     }
 
     @JsonIgnore
@@ -56,18 +54,10 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
             return new HashMap();
         }
         if (!(propertiesObj instanceof Map)) {
-            throw new RequestConfigurationException(String.format("Invalid configuration for travel mode '%s'", getTravelType()));
+            throw new IllegalArgumentException(String.format("Invalid configuration for travel mode '%s'", getTravelType()));
         }
 
         return (Map) propertiesObj;
-    }
-
-    @Override
-    public RequestAttributes.RequestAttributesBuilder getRequestAttributesBuilder(boolean isScore) {
-        return RequestAttributes.builder()
-                .reqType(getRequestType(isScore))
-                .edgeWeight(com.targomo.core.enums.EdgeWeightType.getEdgeWeightType(this.getEdgeWeight().getKey()))
-                .maxEdgeWeight(this.getMaxEdgeWeight());
     }
 
     @JsonPOJOBuilder(withPrefix="")

@@ -3,8 +3,6 @@ package com.targomo.client.api.quality.criterion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.targomo.core.user.FineGrainedRequestTypeEnum;
-import com.targomo.core.util.logging.model.RequestAttributes;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -29,17 +27,6 @@ public class MathAggregationCriterionDefinition extends CriterionDefinition {
     @Setter
     @JsonIgnore
     private List<String> orderedSubCriterionKey;
-
-    @Override
-    public RequestAttributes.RequestAttributesBuilder getRequestAttributesBuilder(boolean isScore) {
-        throw new IllegalStateException("Better use criterionParameters' request attributes");
-    }
-
-    @Override
-    public FineGrainedRequestTypeEnum getRequestType(boolean isScore) {
-        // Math Aggregation criterion should never send request to our APIs directly
-        return null;
-    }
 
     @JsonPOJOBuilder(withPrefix="")
     public static class MathAggregationCriterionDefinitionBuilderImpl extends MathAggregationCriterionDefinition.MathAggregationCriterionDefinitionBuilder {

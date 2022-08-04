@@ -1,14 +1,11 @@
 package com.targomo.client.api.quality.criterion;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.Constants;
-import com.targomo.core.user.FineGrainedRequestTypeEnum;
-import com.targomo.core.util.logging.model.RequestAttributes;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -54,22 +51,6 @@ public abstract class CriterionDefinition {
     @Setter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private LookUpTableCacheStatus lookUpTableCacheStatus;
-
-    /**
-     * Generates a RequestAttribute builder in order to log the criterion definition into the user service
-     * @return a partial RequestAttributes.RequestAttributesBuilder
-     */
-    @JsonIgnore
-    public abstract RequestAttributes.RequestAttributesBuilder getRequestAttributesBuilder(boolean isScore);
-
-    /**
-     * Gets the request type depending if a request is a score request or a rating one
-     * @param isScore true if the request is a score request
-     * @return FineGrainedRequestTypeEnum
-     */
-    @JsonIgnore
-    public abstract FineGrainedRequestTypeEnum getRequestType(boolean isScore);
-
 
     @JsonPOJOBuilder(withPrefix="")
     public abstract static class CriterionDefinitionBuilderImpl extends CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {

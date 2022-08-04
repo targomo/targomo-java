@@ -1,8 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.targomo.client.api.statistic.PoiType;
-import com.targomo.core.user.FineGrainedRequestTypeEnum;
-
 
 import java.util.Set;
 
@@ -23,7 +21,5 @@ public interface PoiCriterionDefinition {
     Set<PoiType> getExclude();
 
     PoiMatchType getMatch();
-
-    FineGrainedRequestTypeEnum getRequestType(boolean isScore);
 
 }
