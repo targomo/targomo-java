@@ -52,10 +52,10 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.18.0
+- Add Location Scoring requests
 
 ### 0.17.0
 - Add GeoPackage dependency
-- Add Location Scoring requests
 
 ### 0.16.0
 - Fix maxSnapDistance usage in equals and hash methods
