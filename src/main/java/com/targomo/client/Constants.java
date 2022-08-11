@@ -165,6 +165,38 @@ public class Constants {
     public static final String CRS                                                      = "crs";
     public static final String ROUTE_FROM_CENTROID                                      = "routeFromCentroid";
 
+
     public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
+
+    // Location scoring constants
+
+    public static final String LOCATIONS                                                = "locations";
+    public static final String COMPETITORS                                              = "competitors";
+    public static final String CRITERIA                                                 = "criteria";
+    public static final String SOURCE_TYPE_POI = "poi";
+    public static final String SOURCE_TYPE_POI_IN_ZONE = "poiInZone";
+    public static final String SOURCE_TYPE_STATISTICS = "statistics";
+    public static final String SOURCE_TYPE_STATISTICS_IN_ZONE = "statisticsInZone";
+    public static final String SOURCE_TYPE_STATISTICS_GRAVITATION = "gravitation";
+    public static final String SOURCE_TYPE_POI_GRAVITATION = "poiGravitation";
+    public static final String SOURCE_TYPE_EDGE_STATISTICS = "edgeStatistics";
+    public static final String SOURCE_TYPE_MATH_AGGREGATION = "mathAggregation";
+    public static final String SOURCE_TYPE_MOBILITY = "mobility";
+    public static final String SOURCE_TYPE_TRANSIT_STOPS = "transitStops";
+    public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
+    public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
+    public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
+    public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
+    public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
+    public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
+    public static final String CRITERION_TYPE_STATISTICS_DISTANCE = "statisticsDistance";
+    public static final String CRITERION_TYPE_GRAVITATION_SUM = "gravitationSum";
+    public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
+    public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";
+    public static final String CRITERION_TYPE_MATH_AGGREGATION = "mathAggregation";
+    public static final String CRITERION_TYPE_STAYPOINT_COUNT = "staypointCount";
+    public static final String CRITERION_TYPE_TRANSIT_STOPS_SUM = "transitStopsSum";
+    public static final String CRITERION_TYPE_TRANSIT_STOPS_DISTANCE = "transitStopsDistance";
+    public static final String CRITERION_TYPE_REFERENCE = "criterionReference";
 
 }
