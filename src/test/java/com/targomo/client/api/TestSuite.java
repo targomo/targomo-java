@@ -23,6 +23,7 @@ import org.junit.runners.Suite;
         PolygonRequestTest.class,
         ReachabilityRequestTest.class,
         RouteRequestTest.class,
+        ScoreRequestTest.class,
         TimeRequestTest.class,
         TimeVectorRequestTest.class,
         ReachabilityResponseTest.class,

@@ -98,7 +98,7 @@ public class TransitStopsRequest {
 		// targomo service on the same machine, in case of a fallback we need to try a different host
 		// but only once
 		catch ( ProcessingException exception ) {
-			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
+			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/transit/stops")
 					.queryParam("cb", CALLBACK)
 					.queryParam("key", travelOptions.getServiceKey())
 					.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
