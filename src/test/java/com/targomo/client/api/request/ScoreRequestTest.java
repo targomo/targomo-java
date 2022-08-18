@@ -44,7 +44,7 @@ public class ScoreRequestTest extends RequestTest {
                 .lng(13.360687)
                 .build());
 
-        ScoreRequest scoreRequest = new ScoreRequest("https://api.targomo.com/quality", "1S10GQZPB1ZWNJV0A2Y5361557401", criteria, locations);
+        ScoreRequest scoreRequest = new ScoreRequest("https://api.targomo.com/quality", "INSERT_YOUR_KEY_HERE", criteria, locations);
         ScoreResponse scoreResponse = scoreRequest.get();
 
         // Check result

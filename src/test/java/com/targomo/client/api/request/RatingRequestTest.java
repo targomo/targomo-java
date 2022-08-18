@@ -20,7 +20,7 @@ public class RatingRequestTest extends RequestTest {
                 .lng(13.403)
                 .build());
 
-        RatingRequest ratingRequest = new RatingRequest("https://api.targomo.com/quality", "1S10GQZPB1ZWNJV0A2Y5361557401", "ratingTest", locations);
+        RatingRequest ratingRequest = new RatingRequest("https://api.targomo.com/quality", "INSERT_YOUR_KEY_HERE", "ratingTest", locations);
         ScoreResponse ratingResponse = ratingRequest.get();
 
         // Check result
