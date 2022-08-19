@@ -1,6 +1,5 @@
 package com.targomo.client.api.request;
 
-import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
@@ -9,8 +8,8 @@ import com.targomo.client.api.response.ScoreResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import lombok.AllArgsConstructor;
-import org.json.JSONArray;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,44 +19,38 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
 public class ScoreRequest {
 
-    private Client client;
-    private Map<String, CriterionDefinition> criteria;
-    private List<Location> locations;
-    private List<Location> competitors;
+    private final Client client;
+    private final Map<String, CriterionDefinition> criteria;
+    private final List<Location> locations;
+    private final List<Location> competitors;
 
-    private String serviceUrl;
-    private String apiKey;
+    private final String serviceUrl;
+    private final String apiKey;
 
-    private boolean showDetails = false;
+    private final boolean showDetails;
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations) {
-        this.serviceUrl = serviceUrl;
-        this.apiKey = key;
-        this.client	= ClientBuilder.newClient();
-        this.criteria = criteria;
-        this.locations = locations;
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, false);
     }
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors) {
-        this(serviceUrl, key, criteria, locations);
-        this.competitors = competitors;
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, false);
     }
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors, boolean showDetails) {
-        this(serviceUrl, key, criteria, locations, competitors);
-        this.showDetails = showDetails;
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, showDetails);
     }
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails) {
-        this(serviceUrl, key, criteria, locations);
-        this.showDetails = showDetails;
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails);
     }
 
-    public ScoreResponse get() throws TargomoClientException, ResponseErrorException {
+    public ScoreResponse get() throws TargomoClientException {
         WebTarget request = client.target(serviceUrl).path("v1/scores")
                 .queryParam("apiKey", apiKey)
                 .queryParam("showDetails", showDetails);

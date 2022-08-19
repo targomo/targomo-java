@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.19.0
+- Improve testing for Location Scoring/Rating requests
 
 ### 0.18.0
 - Add Location Scoring requests
