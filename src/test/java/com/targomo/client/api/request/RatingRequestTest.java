@@ -42,5 +42,9 @@ public class RatingRequestTest extends RequestTest {
         assertTrue(ratingResponse.getData().getJSONObject("loc1").getJSONObject("scores").has("closestPost30min"));
 
         assertEquals(0.06758197693802682, ratingResponse.getData().getJSONObject("loc1").getJSONObject("scores").getDouble("closestPost30min"), 0.00001);
+
+        assertEquals(86, ratingResponse.getData().getJSONObject("loc1").getJSONObject("ratings").getJSONObject("nahversorgung").getJSONObject("0").getInt("referenceAreaId"));
+        assertEquals("Deutschland", ratingResponse.getData().getJSONObject("loc1").getJSONObject("ratings").getJSONObject("nahversorgung").getJSONObject("0").getString("referenceAreaName"));
+        assertEquals(0.7909763956592565, ratingResponse.getData().getJSONObject("loc1").getJSONObject("ratings").getJSONObject("nahversorgung").getJSONObject("0").getDouble("groupRating"), 0.00001);
     }
 }
