@@ -47,6 +47,10 @@ public abstract class CriterionDefinition {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Double lowerBound;
 
+    @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private LookUpTableCacheStatus lookUpTableCacheStatus;
+
     @JsonPOJOBuilder(withPrefix="")
     public abstract static class CriterionDefinitionBuilderImpl extends CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {
     }

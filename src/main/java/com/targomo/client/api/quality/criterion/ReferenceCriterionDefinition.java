@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @JsonDeserialize(builder = ReferenceCriterionDefinition.ReferenceCriterionDefinitionBuilderImpl.class)
 public class ReferenceCriterionDefinition extends CriterionDefinition {
 
-    private final String baseCriterionId;
+    private String baseCriterionId;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class ReferenceCriterionDefinitionBuilderImpl extends ReferenceCriterionDefinition.ReferenceCriterionDefinitionBuilder {
