@@ -1,6 +1,5 @@
 package com.targomo.client.api.request;
 
-import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.request.config.RequestConfigurator;
@@ -17,15 +16,15 @@ import java.util.List;
 
 @AllArgsConstructor
 public class RatingRequest {
-    private Client client;
-    private List<Location> locations;
-    private List<Location> competitors;
+    private final Client client;
+    private final List<Location> locations;
+    private final List<Location> competitors;
 
-    private String serviceUrl;
-    private String apiKey;
+    private final String serviceUrl;
+    private final String apiKey;
 
-    private boolean showDetails = false;
-    private String ratingId;
+    private final boolean showDetails;
+    private final String ratingId;
 
     public RatingRequest(String serviceUrl, String apiKey, String ratingId, List<Location> locations) {
         this(ClientBuilder.newClient(), locations, null, serviceUrl, apiKey, false, ratingId);
@@ -43,7 +42,7 @@ public class RatingRequest {
         this(ClientBuilder.newClient(), locations, null, serviceUrl, key, showDetails, ratingId);
     }
 
-    public ScoreResponse get() throws TargomoClientException, ResponseErrorException {
+    public ScoreResponse get() throws TargomoClientException {
         WebTarget request = client.target(serviceUrl).path("v1/rating").path(ratingId).path("/location")
                 .queryParam("apiKey", apiKey)
                 .queryParam("showDetails", showDetails);
