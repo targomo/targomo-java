@@ -29,6 +29,8 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
 
     private final Boolean calculateGravitationPerReferenceId;
 
+    private final Boolean cellsCount;
+
     private final Float routingLowerBoundValue;
 
     @JsonPOJOBuilder(withPrefix="")
