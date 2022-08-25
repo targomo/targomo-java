@@ -74,13 +74,16 @@ public class ScoreRequest {
 
             String message;
             JSONObject data;
+            JSONArray errors = new JSONArray();
             try {
                 data = result.getJSONObject("data");
                 message = result.getString("message");
+                if (result.has("errors")) {
+                    errors = result.getJSONArray("errors");
+                }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-            JSONArray errors = new JSONArray();
             DateTime timestamp = DateTime.now();
             return new ScoreResponse(data, message, errors, timestamp);
         } else {
