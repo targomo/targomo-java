@@ -1,0 +1,27 @@
+{
+  "data": {
+    "loc1": {
+      "id": "loc1",
+      "lat": 52.539604,
+      "lng": 13.360687,
+      "scores": {
+        "criterion1": null
+      }
+    }
+  },
+  "message": "Scores calculated",
+  "errors": [{
+    "id": "400",
+    "detail": "No statistics group with id '28' found",
+    "meta": {
+      "serviceName": "Statistics reachability service",
+      "serviceUrl": "https://api.targomo.com/statistics",
+      "coreServiceUrl": "https://api.targomo.com/westcentraleurope",
+      "criteriaIds": [
+        "statsReachability"
+      ],
+      "locationId": "Targomo"
+    }
+  }],
+  "timestamp": "19-08-2022 04:05:27"
+}

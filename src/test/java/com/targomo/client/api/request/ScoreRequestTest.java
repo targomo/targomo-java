@@ -64,4 +64,46 @@ public class ScoreRequestTest extends RequestTest {
 
         assertEquals(28804.024527683574, scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").getDouble("criterion1"), 0.00001);
     }
+    @Test
+    public void get_errors() throws Exception {
+
+        // Mock success response
+        when(sampleResponse.getStatus()).thenReturn(Response.Status.OK.getStatusCode());
+
+        // Get sample json when success response is queried
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("data/QualityScoreErrorsResponse.json");
+        String sampleJson = IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
+        when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
+
+        Map<String, CriterionDefinition> criteria = new HashMap<>();
+        criteria.put("criterion1", StatisticsReachabilityCriterionDefinition.builder()
+                .statisticCollectionId(28)
+                .statisticsIds(Collections.singletonList(Short.valueOf("0")))
+                .type(CriterionType.STATISTICS_DISTANCE)
+                .edgeWeight(EdgeWeightType.TIME)
+                .maxEdgeWeight(400)
+                .travelMode(new CaseInsensitiveMap(Collections.singletonMap("car", new LinkedHashMap<>())))
+                .elevation(true)
+                .coreServiceUrl(CORE_URL)
+                .build()
+        );
+
+        List<Location> locations = new ArrayList<>();
+        locations.add(Location.builder()
+                .id("loc1")
+                .lat(52.49368)
+                .lng(13.360687)
+                .build());
+
+        ScoreRequest scoreRequest = new ScoreRequest(mockClient, criteria, locations, Collections.emptyList(), "INSERT_YOUR_KEY_HERE", "https://api.targomo.com/westcentraleurope", false);
+        ScoreResponse scoreResponse = scoreRequest.get();
+
+        // Check result
+        assertEquals("Scores calculated", scoreResponse.getMessage());
+        assertEquals(1, scoreResponse.getErrors().length());
+        assertTrue(scoreResponse.getData().has("loc1"));
+        assertTrue(scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").has("criterion1"));
+
+        assertTrue(null, scoreResponse.getData().getJSONObject("loc1").getJSONObject("scores").isNull("criterion1"));
+    }
 }
