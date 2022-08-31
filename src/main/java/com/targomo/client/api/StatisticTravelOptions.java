@@ -12,6 +12,7 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapSerializer;
+import com.targomo.client.api.pojo.CompetingRoutingOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,6 +77,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Integer statisticCollectionId;
 
+    @Transient
+    private List<CompetingRoutingOption> competingRoutingOptions;
+
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
@@ -104,8 +108,6 @@ public class StatisticTravelOptions extends TravelOptions {
         this.iFeelLucky = iFeelLucky;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -128,7 +130,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(chartInterval, that.chartInterval) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
-                Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId);
+                Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
+                Objects.equals(competingRoutingOptions, that.competingRoutingOptions);
     }
 
     @Override
@@ -136,7 +139,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId);
+                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId, competingRoutingOptions);
     }
 
     public boolean isGetClosestSources() {
@@ -177,6 +180,14 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public void setMultiGraphDomainStatisticGroupId(Integer multiGraphDomainStatisticGroupId) {
         this.multiGraphDomainStatisticGroupId = multiGraphDomainStatisticGroupId;
+    }
+
+    public List<CompetingRoutingOption> getCompetingRoutingOptions() {
+        return competingRoutingOptions;
+    }
+
+    public void setCompetingRoutingOptions(List<CompetingRoutingOption> competingRoutingOptions) {
+        this.competingRoutingOptions = competingRoutingOptions;
     }
 
     public Integer getMultiGraphDomainStatisticCollectionId() {
@@ -267,6 +278,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(statisticCollectionId);
         builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
         builder.append(multigraphCalculateGravitationPerReferenceId);
+        builder.append("\n\tcompetingRoutingOptions: ");
+        builder.append(competingRoutingOptions);
         builder.append("\n}\n");
         return builder.toString();
     }
