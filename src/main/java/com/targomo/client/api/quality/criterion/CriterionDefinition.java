@@ -22,7 +22,8 @@ import lombok.experimental.SuperBuilder;
         @JsonSubTypes.Type(value = MathAggregationCriterionDefinition.class, name = Constants.CRITERION_TYPE_MATH_AGGREGATION),
         @JsonSubTypes.Type(value = MobilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_STAYPOINT_COUNT),
         @JsonSubTypes.Type(value = TransitStopsCriterionDefinition.class, name = Constants.CRITERION_TYPE_TRANSIT_STOPS_SUM),
-        @JsonSubTypes.Type(value = TransitStopsCriterionDefinition.class, name = Constants.CRITERION_TYPE_TRANSIT_STOPS_DISTANCE)
+        @JsonSubTypes.Type(value = TransitStopsCriterionDefinition.class, name = Constants.CRITERION_TYPE_TRANSIT_STOPS_DISTANCE),
+        @JsonSubTypes.Type(value = PolygonAreaCriterionDefinition.class, name = Constants.CRITERION_TYPE_POLYGON_AREA)
 })
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

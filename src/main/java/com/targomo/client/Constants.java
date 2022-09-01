@@ -61,6 +61,7 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY                = "trafficRightTurnPenalty";
     public static final String BUFFER                                                   = "buffer";
     public static final String SIMPLIFY                                                 = "simplify";
+    public static final String QUADRANT_SEGMENTS                                        = "quadrantSegments";
     public static final String REVERSE                                                  = "reverse";
     public static final String Y                                                        = "y";
     public static final String X                                                        = "x";
@@ -183,6 +184,7 @@ public class Constants {
     public static final String SOURCE_TYPE_MATH_AGGREGATION = "mathAggregation";
     public static final String SOURCE_TYPE_MOBILITY = "mobility";
     public static final String SOURCE_TYPE_TRANSIT_STOPS = "transitStops";
+    public static final String SOURCE_TYPE_POLYGON = "polygon";
     public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
     public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
     public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
@@ -197,6 +199,7 @@ public class Constants {
     public static final String CRITERION_TYPE_STAYPOINT_COUNT = "staypointCount";
     public static final String CRITERION_TYPE_TRANSIT_STOPS_SUM = "transitStopsSum";
     public static final String CRITERION_TYPE_TRANSIT_STOPS_DISTANCE = "transitStopsDistance";
+    public static final String CRITERION_TYPE_POLYGON_AREA = "polygonArea";
     public static final String CRITERION_TYPE_REFERENCE = "criterionReference";
 
 }
