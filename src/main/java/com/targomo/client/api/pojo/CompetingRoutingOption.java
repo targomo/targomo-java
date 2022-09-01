@@ -1,20 +1,23 @@
 package com.targomo.client.api.pojo;
 
-import com.targomo.client.api.TravelOptions;
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @ToString
+@EqualsAndHashCode
 public class CompetingRoutingOption {
 
-    public final TravelOptions routingOptions; //TODO preferably this could be a smaller object with really just routing options included. I think this could be quite helpful in many other projects TravelOptions could inherit form this object
+    public final RoutingOptions routingOptions;
     public final int routingValueOffset;
     public final float routingValueMultiplier;
 
     @Builder
-    public CompetingRoutingOption(@NonNull TravelOptions routingOptions, Integer routingValueOffset, Float routingValueMultiplier) {
-        this.routingOptions = routingOptions;
+    @JsonCreator
+    public CompetingRoutingOption(@JsonProperty("routingOptions") RoutingOptions routingOptions,
+                                  @JsonProperty("routingValueOffset") Integer routingValueOffset,
+                                  @JsonProperty("routingValueMultiplier") Float routingValueMultiplier) {
+        this.routingOptions = routingOptions == null ? new RoutingOptions() : routingOptions;
         this.routingValueOffset = routingValueOffset == null ? 0 : routingValueOffset;
         this.routingValueMultiplier = routingValueMultiplier == null ? 1.0f : routingValueMultiplier;
     }
