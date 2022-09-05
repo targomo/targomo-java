@@ -129,7 +129,9 @@ public class PolygonRequest {
 		WebTarget request = client.target(travelOptions.getServiceUrl())
 				.path("v1/polygon")
 				.queryParam("cb", Constants.CALLBACK)
-				.queryParam("key", travelOptions.getServiceKey());
+				.queryParam("key", travelOptions.getServiceKey())
+				.queryParam("interServiceKey", travelOptions.getInterServiceKey())
+				.queryParam("interServiceRequest", travelOptions.getInterServiceRequestType());
 
 		// Execute request
 		Response response;
