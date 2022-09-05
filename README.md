@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
+- Add lat/lng fields to TransitStation POJO
 - Add countCells to statistics criterion
 - Add new Polygon Area criterion
 - Handle quadrantSegments parameter in PolygonRequest

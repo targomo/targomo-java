@@ -11,6 +11,8 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransitStation {
     private String name;
+    private Double lat;
+    private Double lng;
     private String edgeType;
     private int edgeWeight;
     private Set<ReachableTransitStopTime> nextStops;
