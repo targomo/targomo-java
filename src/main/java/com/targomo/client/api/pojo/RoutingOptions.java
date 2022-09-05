@@ -1,5 +1,6 @@
 package com.targomo.client.api.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.targomo.client.api.enums.TravelType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RoutingOptions {
 
     private Integer maxEdgeWeight;

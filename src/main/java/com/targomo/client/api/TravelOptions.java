@@ -228,9 +228,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private boolean disableCache;
 
+    //parameters for requesting "transit/stops" endpoint - not for routing
     @Transient
     private Integer nextStopsStartTime;
-
     @Transient
     private Integer nextStopsEndTime;
 
