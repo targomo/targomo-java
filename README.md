@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
+- Add lat/lng fields to TransitStation POJO
 
 ### 0.18.0
 - Add Location Scoring requests
