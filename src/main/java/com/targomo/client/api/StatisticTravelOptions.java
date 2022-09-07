@@ -37,6 +37,10 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Map<String,AbstractGeometry> inactiveGeometrySources = new HashMap<>();
 
+    /**
+     * @deprecated use {@link #setForceRecalculate(boolean)} / {@link #setCacheResult(boolean)} instead.
+     */
+    @Deprecated
     @Column(name = "useCache")
     private boolean useCache = true;
 
@@ -114,7 +118,6 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(useCache, that.useCache) &&
                 Objects.equals(iFeelLucky, that.iFeelLucky) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
@@ -133,7 +136,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
+        return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId);
