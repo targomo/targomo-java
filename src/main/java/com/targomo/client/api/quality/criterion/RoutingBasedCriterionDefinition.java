@@ -20,7 +20,7 @@ import java.util.Map;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @JsonDeserialize(builder = RoutingBasedCriterionDefinition.RoutingBasedCriterionDefinitionBuilderImpl.class)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class RoutingBasedCriterionDefinition extends CriterionDefinition {
 
     @NonNull

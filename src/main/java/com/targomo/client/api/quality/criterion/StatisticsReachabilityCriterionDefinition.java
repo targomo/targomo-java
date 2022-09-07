@@ -17,7 +17,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @Getter
 @JsonDeserialize(builder = StatisticsReachabilityCriterionDefinition.StatisticsReachabilityCriterionDefinitionBuilderImpl.class)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCriterionDefinition implements StatisticsCriterionDefinition{
     
     private final Integer statisticGroupId;
