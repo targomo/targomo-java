@@ -16,6 +16,11 @@ import lombok.experimental.SuperBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PolygonAreaCriterionDefinition extends RoutingBasedCriterionDefinition{
 
+    private final Integer srid;
+    private final Double simplify;
+    private final Double buffer;
+    private final Integer quadrantSegments;
+
     @JsonPOJOBuilder(withPrefix="")
     public static class PolygonAreaCriterionDefinitionBuilderImpl extends PolygonAreaCriterionDefinition.PolygonAreaCriterionDefinitionBuilder{
     }
