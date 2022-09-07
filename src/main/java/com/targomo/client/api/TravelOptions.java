@@ -232,6 +232,7 @@ public class TravelOptions implements Serializable {
     @Transient
     private boolean disableCache;
 
+    //parameters for requesting "transit/stops" endpoint - not for routing
     @Transient
     private boolean forceRecalculate = false;
 
@@ -240,7 +241,6 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Integer nextStopsStartTime;
-
     @Transient
     private Integer nextStopsEndTime;
 
