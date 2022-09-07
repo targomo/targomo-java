@@ -1,6 +1,7 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.EdgeWeightType;
@@ -19,6 +20,7 @@ import java.util.Map;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @JsonDeserialize(builder = RoutingBasedCriterionDefinition.RoutingBasedCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class RoutingBasedCriterionDefinition extends CriterionDefinition {
 
     @NonNull

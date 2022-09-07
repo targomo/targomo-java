@@ -1,5 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @JsonDeserialize(builder = MobilityCriterionDefinition.MobilityCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MobilityCriterionDefinition extends CriterionDefinition {
 
     @Setter
