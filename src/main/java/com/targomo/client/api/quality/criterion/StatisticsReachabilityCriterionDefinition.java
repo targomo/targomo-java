@@ -1,5 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @Getter
 @JsonDeserialize(builder = StatisticsReachabilityCriterionDefinition.StatisticsReachabilityCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCriterionDefinition implements StatisticsCriterionDefinition{
     
     private final Integer statisticGroupId;
