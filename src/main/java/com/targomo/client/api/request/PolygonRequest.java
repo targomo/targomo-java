@@ -138,10 +138,10 @@ public class PolygonRequest {
 		String config = RequestConfigurator.getConfig(travelOptions);
 		if (HttpMethod.GET.equals(method)) {
 			request  = request.queryParam("cfg", IOUtil.encode(config));
-			response = request.request().get();
+			response = request.request().headers(headers).get();
 		}
 		else if (HttpMethod.POST.equals(method)) {
-			response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+			response = request.request().headers(headers).post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 		} else {
 			throw new TargomoClientException("HTTP Method not supported: " + this.method);
 		}
