@@ -3,6 +3,7 @@ package com.targomo.client.api.quality.criterion;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.targomo.client.api.pojo.CompetingRoutingOption;
 import com.targomo.client.api.quality.Location;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,6 +35,8 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
     private final Boolean cellsCount;
 
     private final Float routingLowerBoundValue;
+
+    private final List<CompetingRoutingOption> competingRoutingOptions;
 
     @JsonPOJOBuilder(withPrefix="")
     public static class StatisticsGravitationCriterionDefinitionBuilderImpl extends StatisticsGravitationCriterionDefinition.StatisticsGravitationCriterionDefinitionBuilder {
