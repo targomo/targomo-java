@@ -1,5 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.statistic.PoiType;
@@ -17,6 +18,7 @@ import java.util.Set;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @JsonDeserialize(builder = PoiInZoneCriterionDefinition.PoiInZoneCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PoiInZoneCriterionDefinition extends CriterionDefinition implements PoiCriterionDefinition {
     @NotEmpty
     private final Set<PoiType> osmTypes;

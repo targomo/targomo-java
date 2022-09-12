@@ -54,6 +54,9 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
 - Add lat/lng fields to TransitStation POJO
+- Added lightweight RoutingOption POJO and CompetingRoutingOption POJO to library and into StatisticTravelOptions
+- added @JsonInclude(JsonInclude.Include.NON_NULL) annotations to quality criteria used in LOOP GeoAI
+- Integrate CompetingRoutingOptions into StatisticsGravitationCriterion
 - Add forceRecalculate/useCache params to TravelOptions
 
 ### 0.18.0
