@@ -60,6 +60,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add countCells to statistics criterion
 - Add new Polygon Area criterion
 - Handle quadrantSegments parameter in PolygonRequest
+- Be able to set aggregation for statistics values/geometry endpoint
 
 ### 0.18.0
 - Add Location Scoring requests

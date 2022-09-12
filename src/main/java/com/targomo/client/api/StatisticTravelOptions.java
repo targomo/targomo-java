@@ -80,6 +80,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private List<CompetingRoutingOption> competingRoutingOptions;
 
+    @Transient
+    private String valuesGeometryAggregation;
+
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
@@ -244,6 +247,14 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public void setMultigraphCalculateGravitationPerReferenceId(boolean multigraphCalculateGravitationPerReferenceId) {
         this.multigraphCalculateGravitationPerReferenceId = multigraphCalculateGravitationPerReferenceId;
+    }
+
+    public void setValuesGeometryAggregation(String valuesGeometryAggregation) {
+        this.valuesGeometryAggregation = valuesGeometryAggregation;
+    }
+
+    public String getValuesGeometryAggregation() {
+        return this.valuesGeometryAggregation;
     }
 
     @Override
