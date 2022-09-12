@@ -38,13 +38,6 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Map<String,AbstractGeometry> inactiveGeometrySources = new HashMap<>();
 
-    /**
-     * @deprecated use {@link #setForceRecalculate(boolean)} / {@link #setCacheResult(boolean)} instead.
-     */
-    @Deprecated
-    @Column(name = "useCache")
-    private boolean useCache = true;
-
     @Column(name = "iFeelLucky")
     private boolean iFeelLucky = false;
 
@@ -94,14 +87,6 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public void setInactiveSources(Map<String,Coordinate> inactiveSources) {
         this.inactiveSources = inactiveSources;
-    }
-
-    public boolean isUseCache() {
-        return useCache;
-    }
-
-    public void setUseCache(boolean useCache) {
-        this.useCache = useCache;
     }
 
     public boolean isiFeelLucky() {
@@ -255,8 +240,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(getClass().getName());
         builder.append("\n\tinactiveSources: ");
         builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
-        builder.append("\n\tuseCache: ");
-        builder.append(useCache);
         builder.append("\n\tiFeelLucky: ");
         builder.append(iFeelLucky);
         builder.append("\n\tomitIndividualStatistics: ");

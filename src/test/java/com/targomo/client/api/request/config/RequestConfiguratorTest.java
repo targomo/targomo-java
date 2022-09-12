@@ -258,7 +258,6 @@ public class RequestConfiguratorTest {
                                 "            \"elevationEnabled\": true,\n" +
                                 "            \"maxEdgeWeight\": 7200,\n" +
                                 "            \"travelTimeFactors\":{\"all\":1.5},\n" +
-                                "            \"disableCache\": true,\n" +
                                 "            \"forceRecalculate\": true,\n" +
                                 "            \"cacheResult\": false,\n" +
                                 "            \"edgeWeight\": \"time\",\n" +
@@ -268,7 +267,6 @@ public class RequestConfiguratorTest {
                         StatisticTravelOptions.class);
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
-        Assert.assertTrue(parsed.isDisableCache());
         Assert.assertTrue(parsed.isForceRecalculate());
         Assert.assertFalse(parsed.isCacheResult());
     }

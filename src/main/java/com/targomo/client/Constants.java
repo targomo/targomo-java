@@ -68,7 +68,6 @@ public class Constants {
     public static final String SRID                                                     = "srid";
     public static final String POLYGON_ORIENTATION_RULE                                 = "polygonOrientationRule";
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
-    public static final String DISABLE_CACHE                                            = "disableCache";
     public static final String FORCE_RECALCULATE                                        = "forceRecalculate";
     public static final String CACHE_RESULT                                             = "cacheResult";
 

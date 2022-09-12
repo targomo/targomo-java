@@ -2,7 +2,6 @@ package com.targomo.client.api.request.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
@@ -226,7 +225,6 @@ public final class RequestConfigurator {
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
             
-            JSONBuilder.append(config, DISABLE_CACHE, travelOptions.isDisableCache());
             JSONBuilder.append(config, FORCE_RECALCULATE, travelOptions.isForceRecalculate());
             JSONBuilder.append(config, CACHE_RESULT, travelOptions.isCacheResult());
 
