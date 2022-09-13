@@ -5,7 +5,10 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.*;
+import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
+import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -255,7 +258,8 @@ public class RequestConfiguratorTest {
                                 "            \"elevationEnabled\": true,\n" +
                                 "            \"maxEdgeWeight\": 7200,\n" +
                                 "            \"travelTimeFactors\":{\"all\":1.5},\n" +
-                                "            \"disableCache\": true,\n" +
+                                "            \"forceRecalculate\": true,\n" +
+                                "            \"cacheResult\": false,\n" +
                                 "            \"edgeWeight\": \"time\",\n" +
                                 "            \"serviceUrl\": \"https://api.targomo.com/westcentraleurope/\",\n" +
                                 "            \"serviceKey\": \"{{api-key}}\"\n" +
@@ -263,7 +267,8 @@ public class RequestConfiguratorTest {
                         StatisticTravelOptions.class);
 
         Assert.assertEquals(parsed.getTravelTimeFactors(), CollectionUtils.map("all",1.5));
-        Assert.assertTrue(parsed.isDisableCache());
+        Assert.assertTrue(parsed.isForceRecalculate());
+        Assert.assertFalse(parsed.isCacheResult());
     }
 
     @Test

@@ -38,9 +38,6 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Map<String,AbstractGeometry> inactiveGeometrySources = new HashMap<>();
 
-    @Column(name = "useCache")
-    private boolean useCache = true;
-
     @Column(name = "iFeelLucky")
     private boolean iFeelLucky = false;
 
@@ -95,14 +92,6 @@ public class StatisticTravelOptions extends TravelOptions {
         this.inactiveSources = inactiveSources;
     }
 
-    public boolean isUseCache() {
-        return useCache;
-    }
-
-    public void setUseCache(boolean useCache) {
-        this.useCache = useCache;
-    }
-
     public boolean isiFeelLucky() {
         return iFeelLucky;
     }
@@ -119,7 +108,6 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(useCache, that.useCache) &&
                 Objects.equals(iFeelLucky, that.iFeelLucky) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
@@ -139,7 +127,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, useCache, iFeelLucky, getClosestSources,
+        return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId, competingRoutingOptions);
@@ -263,8 +251,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(getClass().getName());
         builder.append("\n\tinactiveSources: ");
         builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
-        builder.append("\n\tuseCache: ");
-        builder.append(useCache);
         builder.append("\n\tiFeelLucky: ");
         builder.append(iFeelLucky);
         builder.append("\n\tomitIndividualStatistics: ");

@@ -227,7 +227,10 @@ public class TravelOptions implements Serializable {
     private Double poiGravitationProbabilityDecay;
 
     @Transient
-    private boolean disableCache;
+    private boolean forceRecalculate = false;
+
+    @Transient
+    private boolean cacheResult = true;
 
     //parameters for requesting "transit/stops" endpoint - not for routing
     @Transient
@@ -992,8 +995,10 @@ public class TravelOptions implements Serializable {
         builder.append(getClass().getName());
         builder.append("\n\tid: ");
         builder.append(id);
-        builder.append("\n\tdisableCache: ");
-        builder.append(disableCache);
+        builder.append("\n\tforceRecalculate: ");
+        builder.append(forceRecalculate);
+        builder.append("\n\tcacheResult: ");
+        builder.append(cacheResult);
         builder.append("\n\tintersectionGeometry: ");
         builder.append(intersectionGeometry != null ? intersectionGeometry.toString() : null);
         builder.append(" {\n\tsources: ");
@@ -1710,12 +1715,20 @@ public class TravelOptions implements Serializable {
 		this.intersectionGeometry = intersectionGeometry;
 	}
 
-    public boolean isDisableCache() {
-        return disableCache;
+    public boolean isForceRecalculate() {
+        return forceRecalculate;
     }
 
-    public void setDisableCache(boolean disableCache) {
-        this.disableCache = disableCache;
+    public void setForceRecalculate(boolean forceRecalculate) {
+        this.forceRecalculate = forceRecalculate;
+    }
+
+    public boolean isCacheResult() {
+        return cacheResult;
+    }
+
+    public void setCacheResult(boolean cacheResult) {
+        this.cacheResult = cacheResult;
     }
 
     public List<Integer> getAvoidTransitRouteTypes() {

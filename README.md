@@ -61,6 +61,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add new Polygon Area criterion
 - Handle quadrantSegments parameter in PolygonRequest
 - Be able to set aggregation for statistics values/geometry endpoint
+- Add forceRecalculate/cacheResult params to TravelOptions
 
 ### 0.18.0
 - Add Location Scoring requests
