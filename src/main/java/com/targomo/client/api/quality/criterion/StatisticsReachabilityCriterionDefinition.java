@@ -26,6 +26,8 @@ public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCrite
     @NotEmpty
     private final List<Short> statisticsIds;
     private final List<Short> referenceStatisticsIds;
+
+    private final Boolean cellsCount;
     @Setter
     private String statisticsServiceUrl;
 
