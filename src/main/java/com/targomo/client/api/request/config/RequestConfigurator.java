@@ -266,6 +266,9 @@ public final class RequestConfigurator {
         if ( travelOptions.getSimplify() != null )
             polygon.put(SIMPLIFY, travelOptions.getSimplify());
 
+        if ( travelOptions.getQuadrantSegments() != null )
+            polygon.put(QUADRANT_SEGMENTS, travelOptions.getQuadrantSegments());
+
         if ( travelOptions.getPolygonSerializerType() != null )
             polygon.put(SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 

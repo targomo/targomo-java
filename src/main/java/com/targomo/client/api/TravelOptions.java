@@ -132,6 +132,7 @@ public class TravelOptions implements Serializable {
 
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
+    @Transient private Integer quadrantSegments                     = null;
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
     @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
     @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
@@ -1277,6 +1278,22 @@ public class TravelOptions implements Serializable {
      */
     public void setSimplify(Double simplify) {
         this.simplify = simplify;
+    }
+
+    /**
+     * Get the simplify value of polygons (in meters).
+     * @return Simplify value in meters or in degrees
+     */
+    public Integer getQuadrantSegments() {
+        return quadrantSegments;
+    }
+
+    /**
+     * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly. todo
+     * @param simplify Simplify value in meters
+     */
+    public void setQuadrantSegments(Integer quadrantSegments) {
+        this.quadrantSegments = quadrantSegments;
     }
 
     public Boolean getReverse() {

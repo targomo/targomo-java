@@ -2,7 +2,6 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
-import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
@@ -32,8 +31,9 @@ import java.util.function.Supplier;
 public class StatisticsRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRequest.class);
+	private static final String VALUES_GEOMETRY = "values/geometry";
 	private final Client client;
-	private final TravelOptions travelOptions;
+	private final StatisticTravelOptions travelOptions;
 	private final MultivaluedMap<String, Object> headers;
 
 	/**
@@ -41,7 +41,7 @@ public class StatisticsRequest {
 	 * Default client uses {@link ClientBuilder}
 	 * @param travelOptions Options to be used
 	 */
-	public StatisticsRequest(TravelOptions travelOptions) {
+	public StatisticsRequest(StatisticTravelOptions travelOptions) {
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
 		this.headers = new MultivaluedHashMap<>();
@@ -52,7 +52,7 @@ public class StatisticsRequest {
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
 	 */
-	public StatisticsRequest(Client client, TravelOptions travelOptions){
+	public StatisticsRequest(Client client, StatisticTravelOptions travelOptions){
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = new MultivaluedHashMap<>();
@@ -64,7 +64,7 @@ public class StatisticsRequest {
 	 * @param travelOptions Options to be used
 	 * @param headers List of custom http headers to be used
 	 */
-	public StatisticsRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers){
+	public StatisticsRequest(Client client, StatisticTravelOptions travelOptions, MultivaluedMap<String, Object> headers){
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = headers;
@@ -76,7 +76,7 @@ public class StatisticsRequest {
 
 
 	public StatisticsGeometryValuesResponse getValuesGeometry() throws TargomoClientException {
-		return get("values/geometry", this::validateGeometryValuesResponse);
+		return get(VALUES_GEOMETRY, this::validateGeometryValuesResponse);
 	}
 
 	/**
@@ -97,6 +97,11 @@ public class StatisticsRequest {
 		}
 		if(travelOptions.getInterServiceRequestType() != null){
 			target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+		}
+		if(VALUES_GEOMETRY.equals(path) && travelOptions.getStatisticIds() != null){
+			for(Short statisticId : travelOptions.getStatisticIds()){
+				target = target.queryParam("aggregations", statisticId+"-"+travelOptions.getValuesGeometryAggregation());
+			}
 		}
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
