@@ -44,7 +44,7 @@ public class StatisticResult {
 		JSONObject minuteToReachableTargets = JsonUtil.getJSONObject(jsonResult, "reachableTargets");
 		
 		for ( Integer minute : JsonUtil.getSortedIntKeySet(minuteToReachableTargets) )
-			if ( minute <= this.options.getMaxRoutingTime() )
+			if ( minute <= this.options.getMaxEdgeWeight() )
 				reachableTargets.put(minute, JsonUtil.getInt(minuteToReachableTargets, minute + ""));
 			
 		return reachableTargets;
@@ -62,7 +62,7 @@ public class StatisticResult {
 		JSONObject targetToMinute = JsonUtil.getJSONObject(jsonResult, "targetTravelTimes");
 		
 		for ( Integer targetId : JsonUtil.getSortedIntKeySet(targetToMinute) ) 
-			if ( JsonUtil.getInt(targetToMinute, targetId + "") <= this.options.getMaxRoutingTime() )
+			if ( JsonUtil.getInt(targetToMinute, targetId + "") <= this.options.getMaxEdgeWeight() )
 				targetTravelTimes.put(targetId, JsonUtil.getInt(targetToMinute, targetId + ""));
 			
 		return targetTravelTimes;
@@ -86,7 +86,7 @@ public class StatisticResult {
 			Map<Integer, Double> reachablePersons = new TreeMap<>();
 			
 			for ( Integer minute : JsonUtil.getSortedIntKeySet(minuteToValues)) 
-				if ( minute <= this.options.getMaxRoutingTime() )
+				if ( minute <= this.options.getMaxEdgeWeight() )
 					reachablePersons.put(minute, JsonUtil.getDouble(minuteToValues, minute + ""));
 			
 			reachablePersonsByStatistic.put(statistic, reachablePersons);
