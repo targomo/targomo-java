@@ -62,6 +62,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Handle quadrantSegments parameter in PolygonRequest
 - Be able to set aggregation for statistics values/geometry endpoint
 - Add forceRecalculate/cacheResult params to TravelOptions
+- Fix statistics chart response parsing for distance routing 
 
 ### 0.18.0
 - Add Location Scoring requests
