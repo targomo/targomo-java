@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.18.0</version>
+    <version>0.19.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,19 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.19.0
+- Improve testing for Location Scoring/Rating requests
+- Add lat/lng fields to TransitStation POJO
+- Added lightweight RoutingOption POJO and CompetingRoutingOption POJO to library and into StatisticTravelOptions
+- added @JsonInclude(JsonInclude.Include.NON_NULL) annotations to quality criteria used in LOOP GeoAI
+- Integrate CompetingRoutingOptions into StatisticsGravitationCriterion
+- Add countCells to statistics criterion
+- Add new Polygon Area criterion
+- Handle quadrantSegments parameter in PolygonRequest
+- Be able to set aggregation for statistics values/geometry endpoint
+- Add forceRecalculate/cacheResult params to TravelOptions
+- Fix statistics chart response parsing for distance routing 
 
 ### 0.18.0
 - Add Location Scoring requests

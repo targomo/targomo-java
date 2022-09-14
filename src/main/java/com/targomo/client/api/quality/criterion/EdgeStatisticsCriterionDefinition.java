@@ -1,5 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
@@ -19,6 +20,7 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @JsonDeserialize(builder = EdgeStatisticsCriterionDefinition.EdgeStatisticsCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
     @Setter

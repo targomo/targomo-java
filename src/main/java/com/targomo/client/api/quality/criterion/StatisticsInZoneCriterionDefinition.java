@@ -1,5 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @Getter
 @JsonDeserialize(builder = StatisticsInZoneCriterionDefinition.StatisticsInZoneCriterionDefinitionBuilderImpl.class)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsInZoneCriterionDefinition extends CriterionDefinition implements StatisticsCriterionDefinition{
 
     private final Integer statisticGroupId;
@@ -24,6 +26,9 @@ public class StatisticsInZoneCriterionDefinition extends CriterionDefinition imp
     @NotEmpty
     private final List<Short> statisticsIds;
     private final List<Short> referenceStatisticsIds;
+
+    private final Boolean cellsCount;
+
     @Setter
     private String statisticsServiceUrl;
 

@@ -1,0 +1,73 @@
+{
+  "data": {
+    "loc1": {
+      "id": "loc1",
+      "lat": 52.515,
+      "lng": 13.403,
+      "scores": {
+        "closestPost30min": 0.06758197693802682
+      },
+      "globalRatings": {
+        "0": {
+          "referenceAreaId": 86,
+          "referenceAreaName": "Deutschland",
+          "globalRating": 0.7909763956592565
+        },
+        "1": {
+          "referenceAreaId": 11,
+          "referenceAreaName": "Berlin",
+          "globalRating": 0.5525600813830721
+        },
+        "2": {
+          "referenceAreaId": -16347,
+          "referenceAreaName": "Mitte",
+          "globalRating": 0.28375088664143816
+        },
+        "3": {
+          "referenceAreaId": 10178,
+          "referenceAreaName": "10178 Berlin Mitte",
+          "globalRating": 0.1687931393292078
+        }
+      },
+      "ratings": {
+        "nahversorgung": {
+          "0": {
+            "referenceAreaId": 86,
+            "referenceAreaName": "Deutschland",
+            "groupRating": 0.7909763956592565,
+            "detailRatings": {
+              "closestPost30min": 0.7909763956592565
+            }
+          },
+          "1": {
+            "referenceAreaId": 11,
+            "referenceAreaName": "Berlin",
+            "groupRating": 0.5525600813830721,
+            "detailRatings": {
+              "closestPost30min": 0.5525600813830721
+            }
+          },
+          "2": {
+            "referenceAreaId": -16347,
+            "referenceAreaName": "Mitte",
+            "groupRating": 0.28375088664143816,
+            "detailRatings": {
+              "closestPost30min": 0.28375088664143816
+            }
+          },
+          "3": {
+            "referenceAreaId": 10178,
+            "referenceAreaName": "10178 Berlin Mitte",
+            "groupRating": 0.1687931393292078,
+            "detailRatings": {
+              "closestPost30min": 0.1687931393292078
+            }
+          }
+        }
+      }
+    }
+  },
+  "message": "Rating 'ratingTest' for 1 locations.",
+  "errors": [],
+  "timestamp": "19-08-2022 03:36:47"
+}

@@ -132,6 +132,7 @@ public class TravelOptions implements Serializable {
 
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
+    @Transient private Integer quadrantSegments                     = null;
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
     @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
     @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
@@ -226,11 +227,14 @@ public class TravelOptions implements Serializable {
     private Double poiGravitationProbabilityDecay;
 
     @Transient
-    private boolean disableCache;
+    private boolean forceRecalculate = false;
 
     @Transient
-    private Integer nextStopsStartTime;
+    private boolean cacheResult = true;
 
+    //parameters for requesting "transit/stops" endpoint - not for routing
+    @Transient
+    private Integer nextStopsStartTime;
     @Transient
     private Integer nextStopsEndTime;
 
@@ -991,8 +995,10 @@ public class TravelOptions implements Serializable {
         builder.append(getClass().getName());
         builder.append("\n\tid: ");
         builder.append(id);
-        builder.append("\n\tdisableCache: ");
-        builder.append(disableCache);
+        builder.append("\n\tforceRecalculate: ");
+        builder.append(forceRecalculate);
+        builder.append("\n\tcacheResult: ");
+        builder.append(cacheResult);
         builder.append("\n\tintersectionGeometry: ");
         builder.append(intersectionGeometry != null ? intersectionGeometry.toString() : null);
         builder.append(" {\n\tsources: ");
@@ -1272,6 +1278,22 @@ public class TravelOptions implements Serializable {
      */
     public void setSimplify(Double simplify) {
         this.simplify = simplify;
+    }
+
+    /**
+     * Get the simplify value of polygons (in meters).
+     * @return Simplify value in meters or in degrees
+     */
+    public Integer getQuadrantSegments() {
+        return quadrantSegments;
+    }
+
+    /**
+     * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly. todo
+     * @param simplify Simplify value in meters
+     */
+    public void setQuadrantSegments(Integer quadrantSegments) {
+        this.quadrantSegments = quadrantSegments;
     }
 
     public Boolean getReverse() {
@@ -1693,12 +1715,20 @@ public class TravelOptions implements Serializable {
 		this.intersectionGeometry = intersectionGeometry;
 	}
 
-    public boolean isDisableCache() {
-        return disableCache;
+    public boolean isForceRecalculate() {
+        return forceRecalculate;
     }
 
-    public void setDisableCache(boolean disableCache) {
-        this.disableCache = disableCache;
+    public void setForceRecalculate(boolean forceRecalculate) {
+        this.forceRecalculate = forceRecalculate;
+    }
+
+    public boolean isCacheResult() {
+        return cacheResult;
+    }
+
+    public void setCacheResult(boolean cacheResult) {
+        this.cacheResult = cacheResult;
     }
 
     public List<Integer> getAvoidTransitRouteTypes() {

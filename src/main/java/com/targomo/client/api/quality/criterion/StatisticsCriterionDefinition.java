@@ -13,6 +13,8 @@ public interface StatisticsCriterionDefinition {
 
     List<Short> getReferenceStatisticsIds();
 
+    Boolean getCellsCount();
+
     String getStatisticsServiceUrl();
 
     void setStatisticsServiceUrl(String url);

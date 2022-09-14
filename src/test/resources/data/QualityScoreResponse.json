@@ -1,0 +1,15 @@
+{
+  "data": {
+    "loc1": {
+      "id": "loc1",
+      "lat": 52.539604,
+      "lng": 13.360687,
+      "scores": {
+        "criterion1": 28804.024527683574
+      }
+    }
+  },
+  "message": "Scores calculated",
+  "errors": [],
+  "timestamp": "19-08-2022 04:05:27"
+}
