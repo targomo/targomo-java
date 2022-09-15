@@ -51,6 +51,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+- Fix a bug when no aggregation is specified for statistics values/geometry requests
+
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
 - Add lat/lng fields to TransitStation POJO

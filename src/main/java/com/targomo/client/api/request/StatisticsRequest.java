@@ -98,7 +98,7 @@ public class StatisticsRequest {
 		if(travelOptions.getInterServiceRequestType() != null){
 			target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 		}
-		if(VALUES_GEOMETRY.equals(path) && travelOptions.getStatisticIds() != null){
+		if(VALUES_GEOMETRY.equals(path) && travelOptions.getStatisticIds() != null && travelOptions.getValuesGeometryAggregation() != null){
 			for(Short statisticId : travelOptions.getStatisticIds()){
 				target = target.queryParam("aggregations", statisticId+"-"+travelOptions.getValuesGeometryAggregation());
 			}
