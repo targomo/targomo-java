@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.20.0
 - Fix a bug when no aggregation is specified for statistics values/geometry requests
 - Add Statistics On Enclosing Cell Criterion
+- Extend Gravitation Criterion interface
 
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
