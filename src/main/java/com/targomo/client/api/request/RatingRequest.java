@@ -23,29 +23,40 @@ public class RatingRequest {
     private final String serviceUrl;
     private final String apiKey;
 
-    private final boolean showDetails;
+    private final Boolean showDetails; // default value: false
+    private final Boolean forceRecalculate; // default value: false
+    private final Boolean cacheResult; // default value: true
     private final String ratingId;
 
     public RatingRequest(String serviceUrl, String apiKey, String ratingId, List<Location> locations) {
-        this(ClientBuilder.newClient(), locations, null, serviceUrl, apiKey, false, ratingId);
+        this(ClientBuilder.newClient(), locations, null, serviceUrl, apiKey, null, null, null, ratingId);
     }
 
     public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, List<Location> competitors) {
-        this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, false, ratingId);
+        this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, null, null, null, ratingId);
     }
 
-    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, List<Location> competitors, boolean showDetails) {
-        this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, showDetails, ratingId);
+    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, List<Location> competitors, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
+        this(ClientBuilder.newClient(), locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult, ratingId);
     }
 
-    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, boolean showDetails) {
-        this(ClientBuilder.newClient(), locations, null, serviceUrl, key, showDetails, ratingId);
+    public RatingRequest(String serviceUrl, String key, String ratingId, List<Location> locations, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
+        this(ClientBuilder.newClient(), locations, null, serviceUrl, key, showDetails, forceRecalculate, cacheResult, ratingId);
     }
 
     public ScoreResponse get() throws TargomoClientException {
         WebTarget request = client.target(serviceUrl).path("v1/rating").path(ratingId).path("/location")
-                .queryParam("apiKey", apiKey)
-                .queryParam("showDetails", showDetails);
+                .queryParam("apiKey", apiKey);
+
+        if(showDetails != null) {
+            request = request.queryParam("showDetails", showDetails);
+        }
+        if(forceRecalculate != null) {
+            request = request.queryParam("forceRecalculate", forceRecalculate);
+        }
+        if(cacheResult != null) {
+            request = request.queryParam("cacheResult", cacheResult);
+        }
 
         String config = RequestConfigurator.getConfig(locations, competitors);
         Response response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));

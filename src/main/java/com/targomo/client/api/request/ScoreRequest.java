@@ -34,26 +34,36 @@ public class ScoreRequest {
     private final String serviceUrl;
     private final String apiKey;
 
-    private final boolean showDetails;
+    private final Boolean showDetails; // default value: false
+    private final Boolean forceRecalculate; // default value: false
+    private final Boolean cacheResult; // default value: true
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations) {
-        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, false);
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, null, null, null);
     }
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors) {
-        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, false);
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, null, null, null);
     }
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors, boolean showDetails) {
-        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, showDetails);
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult);
     }
-    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails) {
-        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails);
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails, forceRecalculate, cacheResult);
     }
 
     public ScoreResponse get() throws TargomoClientException {
         WebTarget request = client.target(serviceUrl).path("v1/scores")
-                .queryParam("apiKey", apiKey)
-                .queryParam("showDetails", showDetails);
+                .queryParam("apiKey", apiKey);
+        if(showDetails != null) {
+            request = request.queryParam("showDetails", showDetails);
+        }
+        if(forceRecalculate != null) {
+            request = request.queryParam("forceRecalculate", forceRecalculate);
+        }
+        if(cacheResult != null) {
+            request = request.queryParam("cacheResult", cacheResult);
+        }
 
         String config = RequestConfigurator.getConfig(criteria, locations, competitors);
         Response response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
