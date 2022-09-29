@@ -34,9 +34,9 @@ public class ScoreRequest {
     private final String serviceUrl;
     private final String apiKey;
 
-    private final Boolean showDetails;
-    private final Boolean forceRecalculate;
-    private final Boolean cacheResult;
+    private final Boolean showDetails; // default value: false
+    private final Boolean forceRecalculate; // default value: false
+    private final Boolean cacheResult; // default value: true
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations) {
         this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, null, null, null);

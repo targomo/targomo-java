@@ -23,9 +23,9 @@ public class RatingRequest {
     private final String serviceUrl;
     private final String apiKey;
 
-    private final Boolean showDetails;
-    private final Boolean forceRecalculate;
-    private final Boolean cacheResult;
+    private final Boolean showDetails; // default value: false
+    private final Boolean forceRecalculate; // default value: false
+    private final Boolean cacheResult; // default value: true
     private final String ratingId;
 
     public RatingRequest(String serviceUrl, String apiKey, String ratingId, List<Location> locations) {
