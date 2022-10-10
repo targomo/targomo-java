@@ -18,6 +18,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
@@ -37,19 +39,29 @@ public class ScoreRequest {
     private final Boolean showDetails; // default value: false
     private final Boolean forceRecalculate; // default value: false
     private final Boolean cacheResult; // default value: true
+    private final MultivaluedMap<String, Object> headers;
+
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, MultivaluedMap<String, Object> headers) {
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, null, null, null, headers);
+    }
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations) {
-        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, null, null, null);
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, null, null, null, new MultivaluedHashMap<>());
     }
 
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors) {
-        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, null, null, null);
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, null, null, null, new MultivaluedHashMap<>());
     }
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, List<Location> competitors, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
-        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult);
+        this(ClientBuilder.newClient(), criteria, locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult, new MultivaluedHashMap<>());
     }
     public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
-        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails, forceRecalculate, cacheResult);
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails, forceRecalculate, cacheResult, new MultivaluedHashMap<>());
+    }
+
+    //added this for backward compatibility with any of the callers using the all-args constructor directly
+    public ScoreRequest(Client client, Map<String, CriterionDefinition> criteria,List<Location> locations, List<Location> competitors,  String serviceUrl, String key, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
+        this(client, criteria, locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult, new MultivaluedHashMap<>());
     }
 
     public ScoreResponse get() throws TargomoClientException {
@@ -66,7 +78,7 @@ public class ScoreRequest {
         }
 
         String config = RequestConfigurator.getConfig(criteria, locations, competitors);
-        Response response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
+        Response response = request.request().headers(headers).post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
         return validateResponse(response);
     }
 
