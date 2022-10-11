@@ -59,6 +59,10 @@ public class ScoreRequest {
         this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails, forceRecalculate, cacheResult, new MultivaluedHashMap<>());
     }
 
+    public ScoreRequest(String serviceUrl, String key, Map<String, CriterionDefinition> criteria, List<Location> locations, boolean showDetails, boolean forceRecalculate, boolean cacheResult, MultivaluedMap<String, Object> headers) {
+        this(ClientBuilder.newClient(), criteria, locations, Collections.emptyList(), serviceUrl, key, showDetails, forceRecalculate, cacheResult, headers);
+    }
+    
     //added this for backward compatibility with any of the callers using the all-args constructor directly
     public ScoreRequest(Client client, Map<String, CriterionDefinition> criteria,List<Location> locations, List<Location> competitors,  String serviceUrl, String key, boolean showDetails, boolean forceRecalculate, boolean cacheResult) {
         this(client, criteria, locations, competitors, serviceUrl, key, showDetails, forceRecalculate, cacheResult, new MultivaluedHashMap<>());
