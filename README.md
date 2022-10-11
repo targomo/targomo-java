@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add Statistics On Enclosing Cell Criterion
 - Extend Gravitation Criterion interface
 - Handle forceRecalculate and cacheResult in quality requests
+- Add headers to ScoreRequest
 
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests
