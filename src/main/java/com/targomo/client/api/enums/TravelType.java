@@ -14,6 +14,7 @@ public enum TravelType {
     TRANSIT("transit"),
     WALKTRANSIT("walktransit"), //also used in fleetplanner to simulate normal transit behaviour (with time service instead of timeVector service)
     BIKETRANSIT("biketransit"),
+    FLY("fly"),
     CAR("car");
 
     private String key;
@@ -48,6 +49,7 @@ public enum TravelType {
             case Constants.TRAVEL_TYPE_TRANSIT: return TRANSIT;
             case Constants.TRAVEL_TYPE_WALKTRANSIT: return WALKTRANSIT;
             case Constants.TRAVEL_TYPE_BIKETRANSIT: return BIKETRANSIT;
+            case Constants.TRAVEL_TYPE_FLY: return FLY;
             default: return TravelType.UNSPECIFIED;
         }
     }
