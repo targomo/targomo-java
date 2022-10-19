@@ -50,7 +50,7 @@
         <jersey.version>2.26</jersey.version>
         <junit.version>4.13.1</junit.version>
         <geotools.version>20.1</geotools.version>
-        <jackson.version>2.13.2</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <hibernate.version>5.4.24.Final</hibernate.version>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
