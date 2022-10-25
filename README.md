@@ -57,6 +57,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Extend Gravitation Criterion interface
 - Handle forceRecalculate and cacheResult in quality requests
 - Add headers to ScoreRequest
+- Add a new TravelType `Fly`
 - Add `returnOriginId` parameter to `StatisticTravelOptions` 
 
 ### 0.19.0
