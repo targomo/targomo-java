@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.20.0-SNAPSHOT</version>
+    <version>0.20.0</version>
 </dependency>
 ```
 
@@ -57,6 +57,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Extend Gravitation Criterion interface
 - Handle forceRecalculate and cacheResult in quality requests
 - Add headers to ScoreRequest
+- Add a new TravelType `Fly`
 - Add `returnOriginId` parameter to `StatisticTravelOptions` 
 
 ### 0.19.0
