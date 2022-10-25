@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.19.0</version>
+    <version>0.20.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,15 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.20.0
+- Fix a bug when no aggregation is specified for statistics values/geometry requests
+- Add Statistics On Enclosing Cell Criterion
+- Extend Gravitation Criterion interface
+- Handle forceRecalculate and cacheResult in quality requests
+- Add headers to ScoreRequest
+- Add a new TravelType `Fly`
+- Add `returnOriginId` parameter to `StatisticTravelOptions` 
 
 ### 0.19.0
 - Improve testing for Location Scoring/Rating requests

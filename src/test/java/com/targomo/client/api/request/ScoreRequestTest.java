@@ -53,7 +53,7 @@ public class ScoreRequestTest extends RequestTest {
                 .lng(13.360687)
                 .build());
 
-        ScoreRequest scoreRequest = new ScoreRequest(mockClient, criteria, locations, Collections.emptyList(), "INSERT_YOUR_KEY_HERE", "https://api.targomo.com/westcentraleurope", false);
+        ScoreRequest scoreRequest = new ScoreRequest(mockClient, criteria, locations, Collections.emptyList(), "INSERT_YOUR_KEY_HERE", "https://api.targomo.com/westcentraleurope", false, false, true);
         ScoreResponse scoreResponse = scoreRequest.get();
 
         // Check result
@@ -95,7 +95,7 @@ public class ScoreRequestTest extends RequestTest {
                 .lng(13.360687)
                 .build());
 
-        ScoreRequest scoreRequest = new ScoreRequest(mockClient, criteria, locations, Collections.emptyList(), "INSERT_YOUR_KEY_HERE", "https://api.targomo.com/westcentraleurope", false);
+        ScoreRequest scoreRequest = new ScoreRequest(mockClient, criteria, locations, Collections.emptyList(), "INSERT_YOUR_KEY_HERE", "https://api.targomo.com/westcentraleurope", false, false, true);
         ScoreResponse scoreResponse = scoreRequest.get();
 
         // Check result
