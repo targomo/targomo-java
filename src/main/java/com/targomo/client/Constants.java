@@ -35,6 +35,8 @@ public class Constants {
     public static final String TRAVEL_TYPE_TRANSIT                                      = "transit";
     public static final String TRAVEL_TYPE_WALKTRANSIT                                  = "walktransit";
     public static final String TRAVEL_TYPE_BIKETRANSIT                                  = "biketransit";
+    public static final String TRAVEL_TYPE_FLY                                          = "fly";
+
     public static final String TRAVEL_MODE_SPEED                                        = "speed";
     public static final String TRAVEL_MODE_UPHILL                                       = "uphill";
     public static final String TRAVEL_MODE_DOWNHILL                                     = "downhill";

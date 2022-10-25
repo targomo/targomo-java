@@ -46,6 +46,8 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
             return TravelType.BIKE;
         } else if (travelMode.get("walk") != null) {
             return TravelType.WALK;
+        } else if (travelMode.get("fly") != null) {
+            return TravelType.FLY;
         }
         throw new TargomoClientRequestConfigurationException("Travel type not supported");
     }
