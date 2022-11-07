@@ -32,7 +32,7 @@ public class RatingRequestTest extends RequestTest {
                 .lng(13.403)
                 .build());
 
-        RatingRequest ratingRequest = new RatingRequest(mockClient, locations, Collections.emptyList(), "https://api.targomo.com/quality", "INSERT_YOUR_KEY_HERE", false, "ratingTest");
+        RatingRequest ratingRequest = new RatingRequest(mockClient, locations, Collections.emptyList(), "https://api.targomo.com/quality", "INSERT_YOUR_KEY_HERE", false, false, true,"ratingTest");
         ScoreResponse ratingResponse = ratingRequest.get();
 
         // Check result

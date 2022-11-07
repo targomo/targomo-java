@@ -84,6 +84,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
 
+    @Transient
+    private Boolean returnOriginId = false;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -122,6 +125,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(chartInterval, that.chartInterval) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
+                Objects.equals(returnOriginId, that.returnOriginId)&&
                 Objects.equals(competingRoutingOptions, that.competingRoutingOptions);
     }
 
@@ -130,7 +134,8 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId, competingRoutingOptions);
+                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId,
+                returnOriginId, competingRoutingOptions);
     }
 
     public boolean isGetClosestSources() {
@@ -237,6 +242,14 @@ public class StatisticTravelOptions extends TravelOptions {
         this.multigraphCalculateGravitationPerReferenceId = multigraphCalculateGravitationPerReferenceId;
     }
 
+    public boolean isReturnOriginId() {
+        return returnOriginId;
+    }
+
+    public void setReturnOriginId(boolean returnOriginId) {
+        this.returnOriginId = returnOriginId;
+    }
+
     public void setValuesGeometryAggregation(String valuesGeometryAggregation) {
         this.valuesGeometryAggregation = valuesGeometryAggregation;
     }
@@ -275,6 +288,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(statisticCollectionId);
         builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
         builder.append(multigraphCalculateGravitationPerReferenceId);
+        builder.append("\n\treturnOriginId: ");
+        builder.append(returnOriginId);
         builder.append("\n\tcompetingRoutingOptions: ");
         builder.append(competingRoutingOptions);
         builder.append("\n}\n");

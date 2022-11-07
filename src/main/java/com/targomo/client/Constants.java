@@ -35,6 +35,8 @@ public class Constants {
     public static final String TRAVEL_TYPE_TRANSIT                                      = "transit";
     public static final String TRAVEL_TYPE_WALKTRANSIT                                  = "walktransit";
     public static final String TRAVEL_TYPE_BIKETRANSIT                                  = "biketransit";
+    public static final String TRAVEL_TYPE_FLY                                          = "fly";
+
     public static final String TRAVEL_MODE_SPEED                                        = "speed";
     public static final String TRAVEL_MODE_UPHILL                                       = "uphill";
     public static final String TRAVEL_MODE_DOWNHILL                                     = "downhill";
@@ -175,17 +177,6 @@ public class Constants {
     public static final String LOCATIONS                                                = "locations";
     public static final String COMPETITORS                                              = "competitors";
     public static final String CRITERIA                                                 = "criteria";
-    public static final String SOURCE_TYPE_POI = "poi";
-    public static final String SOURCE_TYPE_POI_IN_ZONE = "poiInZone";
-    public static final String SOURCE_TYPE_STATISTICS = "statistics";
-    public static final String SOURCE_TYPE_STATISTICS_IN_ZONE = "statisticsInZone";
-    public static final String SOURCE_TYPE_STATISTICS_GRAVITATION = "gravitation";
-    public static final String SOURCE_TYPE_POI_GRAVITATION = "poiGravitation";
-    public static final String SOURCE_TYPE_EDGE_STATISTICS = "edgeStatistics";
-    public static final String SOURCE_TYPE_MATH_AGGREGATION = "mathAggregation";
-    public static final String SOURCE_TYPE_MOBILITY = "mobility";
-    public static final String SOURCE_TYPE_TRANSIT_STOPS = "transitStops";
-    public static final String SOURCE_TYPE_POLYGON = "polygon";
     public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
     public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
     public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
@@ -194,6 +185,7 @@ public class Constants {
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
     public static final String CRITERION_TYPE_STATISTICS_DISTANCE = "statisticsDistance";
     public static final String CRITERION_TYPE_GRAVITATION_SUM = "gravitationSum";
+    public static final String CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL = "statisticsOnEnclosingCell";
     public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
     public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";
     public static final String CRITERION_TYPE_MATH_AGGREGATION = "mathAggregation";

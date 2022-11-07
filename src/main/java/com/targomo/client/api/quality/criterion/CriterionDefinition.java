@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
         @JsonSubTypes.Type(value = StatisticsReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_DISTANCE),
         @JsonSubTypes.Type(value = StatisticsInZoneCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_SUM_IN_ZONE),
         @JsonSubTypes.Type(value = StatisticsGravitationCriterionDefinition.class, name = Constants.CRITERION_TYPE_GRAVITATION_SUM),
+        @JsonSubTypes.Type(value = StatisticsOnEnclosingCellCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL),
         @JsonSubTypes.Type(value = PoiGravitationCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_GRAVITATION_SUM),
         @JsonSubTypes.Type(value = EdgeStatisticsCriterionDefinition.class, name = Constants.CRITERION_TYPE_EDGE_STATISTICS),
         @JsonSubTypes.Type(value = MathAggregationCriterionDefinition.class, name = Constants.CRITERION_TYPE_MATH_AGGREGATION),
