@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.21.0
-
+- Update versions for java 17
 
 ### 0.20.0
 - Fix a bug when no aggregation is specified for statistics values/geometry requests
