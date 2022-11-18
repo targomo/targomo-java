@@ -12,7 +12,7 @@ public class CompetingRoutingOption {
     public final RoutingOptions routingOptions;
     public final int routingValueOffset;
     public final float routingValueMultiplier;
-    public final RoutingAggregationType routingAggregationType;
+    @EqualsAndHashCode.Exclude public final RoutingAggregationType routingAggregationType;
 
     @Builder
     @JsonCreator
