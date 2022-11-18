@@ -16,7 +16,7 @@ public class RoutingAggregationTypeTest {
         List<RoutingAggregationType> enumList =
                 new ArrayList<>(EnumSet.allOf(RoutingAggregationType.class));
 
-        assertThat(enumList.size()).isEqualTo(18);
+        assertThat(enumList.size()).isEqualTo(3);
         assertThat(enumList).containsExactly(RoutingAggregationType.MIN, RoutingAggregationType.MEAN, RoutingAggregationType.SUM);
     }
 }
