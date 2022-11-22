@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.RoutingAggregationType;
 import lombok.*;
 
+import java.util.Objects;
+
 @ToString
 @EqualsAndHashCode
 public class CompetingRoutingOption {
@@ -12,7 +14,7 @@ public class CompetingRoutingOption {
     public final RoutingOptions routingOptions;
     public final int routingValueOffset;
     public final float routingValueMultiplier;
-    @EqualsAndHashCode.Exclude public final RoutingAggregationType routingAggregationType;
+    public final RoutingAggregationType routingAggregationType;
 
     @Builder
     @JsonCreator
@@ -24,5 +26,10 @@ public class CompetingRoutingOption {
         this.routingValueOffset = routingValueOffset == null ? 0 : routingValueOffset;
         this.routingValueMultiplier = routingValueMultiplier == null ? 1.0f : routingValueMultiplier;
         this.routingAggregationType = routingAggregationType == null ? RoutingAggregationType.MIN :routingAggregationType;
+    }
+
+    @Override //overriding hash code since the has would change with each execution for enums (routingAggregationType)
+    public int hashCode(){
+        return Objects.hash(routingOptions, routingValueOffset, routingValueMultiplier, routingAggregationType.toString());
     }
 }
