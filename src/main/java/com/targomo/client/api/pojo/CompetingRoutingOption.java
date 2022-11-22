@@ -30,6 +30,6 @@ public class CompetingRoutingOption {
 
     @Override //overriding hash code since the has would change with each execution for enums (routingAggregationType)
     public int hashCode(){
-        return Objects.hash(routingOptions, routingValueOffset, routingValueMultiplier, routingAggregationType.toString());
+        return Objects.hash(routingOptions, routingValueOffset, routingValueMultiplier, routingAggregationType.ordinal());
     }
 }
