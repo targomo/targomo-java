@@ -1,4 +1,4 @@
-image: $CI_REGISTRY/docker/debian/maven:3.6.1_jdk8-jre_ci
+image: docker.eu.targomo.com/oci/base/maven:3.6.3_jdk17_ci_bullseye
 
 # Include Global Configurations
 include:
