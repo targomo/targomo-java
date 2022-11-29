@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
+import com.targomo.client.api.enums.RoutingAggregationType;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -78,6 +79,9 @@ public class StatisticTravelOptions extends TravelOptions {
     private List<CompetingRoutingOption> competingRoutingOptions;
 
     @Transient
+    private RoutingAggregationType routingAggregationType = RoutingAggregationType.MIN;
+
+    @Transient
     private String valuesGeometryAggregation;
 
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
@@ -126,7 +130,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
                 Objects.equals(returnOriginId, that.returnOriginId)&&
-                Objects.equals(competingRoutingOptions, that.competingRoutingOptions);
+                Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
+                Objects.equals(routingAggregationType, that.routingAggregationType);
     }
 
     @Override
@@ -135,7 +140,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId,
-                returnOriginId, competingRoutingOptions);
+                returnOriginId, competingRoutingOptions, routingAggregationType.ordinal());
     }
 
     public boolean isGetClosestSources() {
@@ -258,6 +263,12 @@ public class StatisticTravelOptions extends TravelOptions {
         return this.valuesGeometryAggregation;
     }
 
+    public void setRoutingAggregationType(RoutingAggregationType routingAggregationType) {
+        this.routingAggregationType = routingAggregationType;
+    }
+
+    public RoutingAggregationType getRoutingAggregationType() { return this.routingAggregationType; }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder(super.toString());
@@ -292,6 +303,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(returnOriginId);
         builder.append("\n\tcompetingRoutingOptions: ");
         builder.append(competingRoutingOptions);
+        builder.append("\n\troutingAggregationType: ");
+        builder.append(routingAggregationType);
         builder.append("\n}\n");
         return builder.toString();
     }
