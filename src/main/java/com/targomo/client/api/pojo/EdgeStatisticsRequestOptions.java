@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Parameters for an edge statistics request.
+ * Parameters for an edge statistics location request.
  */
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor

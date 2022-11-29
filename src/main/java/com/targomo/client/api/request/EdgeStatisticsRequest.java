@@ -36,8 +36,7 @@ public class EdgeStatisticsRequest {
 
 	/**
 	 * Use a custom client implementation with specified options and method
-	 * @param client Client implementation to be used
-	 * @param requestOptions Options to be used
+	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */
 	public EdgeStatisticsRequest(Client client, String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
 								 EdgeStatisticsRequestOptions requestOptions) {
@@ -47,7 +46,7 @@ public class EdgeStatisticsRequest {
 	/**
 	 * Use default client implementation with specified options and method
 	 * Default client uses {@link ClientBuilder}
-	 * @param requestOptions Options to be used
+	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */
 	public EdgeStatisticsRequest(String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
 								 EdgeStatisticsRequestOptions requestOptions) {
@@ -57,6 +56,9 @@ public class EdgeStatisticsRequest {
 	/**
 	 * Use a custom client implementation with specified options, method, and headers
 	 * @param client Client implementation to be used
+	 * @param serviceUrl The url for the service
+	 * @param serviceKey The api key
+	 * @param edgeStatisticCollectionId Id of the statistic collection
 	 * @param requestOptions Options to be used
 	 * @param headers List of custom http headers to be used
 	 */
@@ -71,7 +73,7 @@ public class EdgeStatisticsRequest {
 	}
 
 	/**
-	 * @return map of location id to edge statistics value
+	 * @return map of location id to a map of edge statistic id to statistic value
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
