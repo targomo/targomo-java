@@ -3,16 +3,12 @@ package com.targomo.client.api.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.targomo.client.Constants;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
-import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.EdgeStatisticsRequestOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -23,7 +19,6 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,73 +26,68 @@ import java.util.Map;
 public class EdgeStatisticsRequest {
 
 	private final Client client;
-	private final EdgeStatisticsRequestOptions requestOptions;
 	private final MultivaluedMap<String, Object> headers;
+
+	String serviceUrl;
+	String serviceKey;
+
+	int edgeStatisticCollectionId;
+	private final EdgeStatisticsRequestOptions requestOptions;
 
 	/**
 	 * Use a custom client implementation with specified options and method
-	 * @param client Client implementation to be used
-	 * @param requestOptions Options to be used
+	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */
-	public EdgeStatisticsRequest(Client client, EdgeStatisticsRequestOptions requestOptions) {
-		this.client	= client;
-		this.requestOptions = requestOptions;
-		this.headers = new MultivaluedHashMap<>();
+	public EdgeStatisticsRequest(Client client, String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
+								 EdgeStatisticsRequestOptions requestOptions) {
+		this(client, serviceUrl, serviceKey, edgeStatisticCollectionId, requestOptions, new MultivaluedHashMap<>());
 	}
 
 	/**
 	 * Use default client implementation with specified options and method
 	 * Default client uses {@link ClientBuilder}
-	 * @param requestOptions Options to be used
+	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */
-	public EdgeStatisticsRequest(EdgeStatisticsRequestOptions requestOptions) {
-		this(ClientBuilder.newClient(), requestOptions);
+	public EdgeStatisticsRequest(String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
+								 EdgeStatisticsRequestOptions requestOptions) {
+		this(ClientBuilder.newClient(), serviceUrl, serviceKey, edgeStatisticCollectionId, requestOptions);
 	}
 
 	/**
 	 * Use a custom client implementation with specified options, method, and headers
 	 * @param client Client implementation to be used
+	 * @param serviceUrl The url for the service
+	 * @param serviceKey The api key
+	 * @param edgeStatisticCollectionId Id of the statistic collection
 	 * @param requestOptions Options to be used
 	 * @param headers List of custom http headers to be used
 	 */
-	public EdgeStatisticsRequest(Client client, EdgeStatisticsRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
+	public EdgeStatisticsRequest(Client client, String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
+								 EdgeStatisticsRequestOptions requestOptions, MultivaluedMap<String, Object> headers) {
 		this.client	= client;
 		this.requestOptions = requestOptions;
 		this.headers = headers;
+		this.serviceUrl = serviceUrl;
+		this.serviceKey = serviceKey;
+		this.edgeStatisticCollectionId = edgeStatisticCollectionId;
 	}
 
 	/**
-	 * @param locations Coordinate collection of locations
-	 * @return map of location id to edge statistics value
+	 * @return map of location id to a map of edge statistic id to statistic value
 	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
-	public Map<String, Double> get(Collection<Coordinate> locations) throws TargomoClientException, JSONException {
+	public Map<String, Map<Integer, Double>> get() throws TargomoClientException, JsonProcessingException {
 
-		String path = buildLocationsPath(requestOptions.getEdgeStatisticGroupId(), requestOptions.getEdgeStatisticId());
-		WebTarget target = client.target(requestOptions.getServiceUrl()).path(path)
-				.queryParam("key", requestOptions.getServiceKey())
-				.queryParam("radius", requestOptions.getRadius())
-				.queryParam("travelType", requestOptions.getTravelType())
-				.queryParam("direction", requestOptions.getDirection());
-
-		if (requestOptions.getIgnoreRoadClasses() != null) {
-			for (Integer clazz : requestOptions.getIgnoreRoadClasses()) {
-				target = target.queryParam("ignoreRoadClass", clazz);
-			}
-		}
-
-		final Entity<String> entity = Entity.entity(parseLocations(locations), MediaType.APPLICATION_JSON_TYPE);
+		String path = StringUtils.join(Arrays.asList(String.valueOf(this.edgeStatisticCollectionId), "locations"), "/");
+		WebTarget target = client.target(serviceUrl).path(path).queryParam("key", serviceKey);
 
 		log.debug(String.format("Executing edge statistics request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
+		final Entity<String> entity = Entity.entity(new ObjectMapper().writeValueAsString(requestOptions), MediaType.APPLICATION_JSON_TYPE);
 		Response response = target.request().headers(headers).post(entity);
 		return parseResponse(response);
-	}
-
-	private static String buildLocationsPath(Integer edgeStatisticGroupId, Integer edgeStatisticId) {
-		return StringUtils.join(Arrays.asList("locations", String.valueOf(edgeStatisticGroupId), String.valueOf(edgeStatisticId)), "/");
 	}
 
 	/**
@@ -106,41 +96,25 @@ public class EdgeStatisticsRequest {
 	 * @return map of location id to edge statistics value
 	 * @throws TargomoClientException In case of errors
 	 */
-	private Map<String, Double> parseResponse(final Response response)
+	private Map<String, Map<Integer, Double>> parseResponse(final Response response)
 			throws TargomoClientException {
 
-		// compare the HTTP status codes, NOT the route 360 code
+		String responseStr = response.readEntity(String.class);
+
+		// compare the HTTP status codes, NOT the Targomo code
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
 			// consume the results
 			try {
-				TypeReference<HashMap<String, Double>> typeRef = new TypeReference<HashMap<String, Double>>() {};
-				return new ObjectMapper().readValue(response.readEntity(String.class), typeRef);
+				TypeReference<HashMap<String, Map<Integer, Double>>> typeRef = new TypeReference<HashMap<String, Map<Integer, Double>>>() {};
+				return new ObjectMapper().readValue(responseStr, typeRef);
 			}
 			catch (JsonProcessingException e){
 				throw new TargomoClientRuntimeException("Couldn't parse Edge Statistics response", e);
 			}
 		}
 		else {
-			throw new TargomoClientException(response.readEntity(String.class), response.getStatus());
+			throw new TargomoClientException(responseStr, response.getStatus());
 		}
-	}
-
-	/**
-	 * @param locations Coordinate collection of locations to be parsed
-	 * @return Locations parsed into JSON
-	 * @throws JSONException In case something cannot be parsed
-	 */
-	private static String parseLocations(Collection<Coordinate> locations) throws JSONException {
-
-		JSONArray locationsJson = new JSONArray();
-		for (Coordinate l : locations) {
-			locationsJson.put(new JSONObject()
-				.put(Constants.ID, l.getId())
-				.put(Constants.Y, l.getY())
-				.put(Constants.X, l.getX())
-			);
-		}
-		return locationsJson.toString();
 	}
 }

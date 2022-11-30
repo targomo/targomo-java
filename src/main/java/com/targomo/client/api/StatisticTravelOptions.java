@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
+import com.targomo.client.api.enums.RoutingAggregationType;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -78,11 +79,17 @@ public class StatisticTravelOptions extends TravelOptions {
     private List<CompetingRoutingOption> competingRoutingOptions;
 
     @Transient
+    private RoutingAggregationType routingAggregationType = RoutingAggregationType.MIN;
+
+    @Transient
     private String valuesGeometryAggregation;
 
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
+
+    @Transient
+    private Boolean returnOriginId = false;
 
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
@@ -122,7 +129,9 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(chartInterval, that.chartInterval) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
-                Objects.equals(competingRoutingOptions, that.competingRoutingOptions);
+                Objects.equals(returnOriginId, that.returnOriginId)&&
+                Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
+                Objects.equals(routingAggregationType, that.routingAggregationType);
     }
 
     @Override
@@ -130,7 +139,8 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId, competingRoutingOptions);
+                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId,
+                returnOriginId, competingRoutingOptions, routingAggregationType.ordinal());
     }
 
     public boolean isGetClosestSources() {
@@ -237,6 +247,14 @@ public class StatisticTravelOptions extends TravelOptions {
         this.multigraphCalculateGravitationPerReferenceId = multigraphCalculateGravitationPerReferenceId;
     }
 
+    public boolean isReturnOriginId() {
+        return returnOriginId;
+    }
+
+    public void setReturnOriginId(boolean returnOriginId) {
+        this.returnOriginId = returnOriginId;
+    }
+
     public void setValuesGeometryAggregation(String valuesGeometryAggregation) {
         this.valuesGeometryAggregation = valuesGeometryAggregation;
     }
@@ -244,6 +262,12 @@ public class StatisticTravelOptions extends TravelOptions {
     public String getValuesGeometryAggregation() {
         return this.valuesGeometryAggregation;
     }
+
+    public void setRoutingAggregationType(RoutingAggregationType routingAggregationType) {
+        this.routingAggregationType = routingAggregationType;
+    }
+
+    public RoutingAggregationType getRoutingAggregationType() { return this.routingAggregationType; }
 
     @Override
     public String toString(){
@@ -275,8 +299,12 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(statisticCollectionId);
         builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
         builder.append(multigraphCalculateGravitationPerReferenceId);
+        builder.append("\n\treturnOriginId: ");
+        builder.append(returnOriginId);
         builder.append("\n\tcompetingRoutingOptions: ");
         builder.append(competingRoutingOptions);
+        builder.append("\n\troutingAggregationType: ");
+        builder.append(routingAggregationType);
         builder.append("\n}\n");
         return builder.toString();
     }
