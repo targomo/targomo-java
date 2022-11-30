@@ -1,26 +1,31 @@
 package com.targomo.client.api.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Parameters for an edge statistics request.
+ * Parameters for an edge statistics location request.
  */
-@Getter @AllArgsConstructor
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class EdgeStatisticsRequestOptions {
 
-    private final String serviceUrl;
-    private final String serviceKey;
+    private List<Integer> edgeStatisticIds = new ArrayList<>();
 
-    private final Integer edgeStatisticGroupId;
-    private final Integer edgeStatisticId;
+    private Integer radius = 100;
+    private TravelType travelType = TravelType.CAR;
+    private EdgeStatisticDirection direction = EdgeStatisticDirection.ANY;
+    private List<Integer> ignoreRoadClasses = new ArrayList<>();
 
-    private final Integer radius;
-    private final TravelType travelType;
-    private final EdgeStatisticDirection direction;
-    private final List<Integer> ignoreRoadClasses;
+    @JsonIgnoreProperties({"travelType", "properties"})
+    private List<DefaultTargetCoordinate> locations = new ArrayList<>();
 }
