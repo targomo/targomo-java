@@ -36,8 +36,6 @@ public class PointOfInterestRequest {
 	private final TravelOptions travelOptions;
 	private final MultivaluedMap<String, Object> headers;
 
-	private boolean forceRecalculate = false;
-
 	/**
 	 * Use default client implementation with specified options and method
 	 * Default client uses {@link ClientBuilder}.
@@ -47,10 +45,6 @@ public class PointOfInterestRequest {
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
 		this.headers = new MultivaluedHashMap<>();
-	}
-	public PointOfInterestRequest(TravelOptions travelOptions, boolean forceRecalculate) {
-		this(travelOptions);
-		this.forceRecalculate = forceRecalculate;
 	}
 
 	/**
@@ -63,10 +57,6 @@ public class PointOfInterestRequest {
 		this.travelOptions = travelOptions;
 		this.headers = new MultivaluedHashMap<>();
 	}
-	public PointOfInterestRequest(Client client, TravelOptions travelOptions, boolean forceRecalculate) {
-		this(client, travelOptions);
-		this.forceRecalculate = forceRecalculate;
-	}
 
 	/**
 	 * Use a custom client implementation with specified options and method
@@ -78,10 +68,6 @@ public class PointOfInterestRequest {
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = headers;
-	}
-	public PointOfInterestRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers, boolean forceRecalculate) {
-		this(client, travelOptions, headers);
-		this.forceRecalculate = forceRecalculate;
 	}
 
 	/**
@@ -152,7 +138,7 @@ public class PointOfInterestRequest {
 	private Response getResponse(String path) throws TargomoClientException {
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey())
-				.queryParam("forceRecalculate", forceRecalculate);
+				.queryParam("forceRecalculate", travelOptions.isForceRecalculate());
 		if(travelOptions.getInterServiceKey() != null){
 			target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
 		}

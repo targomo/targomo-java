@@ -35,8 +35,6 @@ public class ReachabilityRequest {
 	private static final String CALLBACK = "callback";
 	private final MultivaluedMap<String, Object> headers;
 
-	private boolean forceRecalculate = false;
-
 	/**
 	 * Use default client implementation with specified options and method
 	 * Default client uses {@link ClientBuilder}.
@@ -46,10 +44,6 @@ public class ReachabilityRequest {
 		this.headers = new MultivaluedHashMap<>();
 		this.client	= ClientBuilder.newClient();
 		this.travelOptions = travelOptions;
-	}
-	public ReachabilityRequest(TravelOptions travelOptions, boolean forceRecalculate) {
-		this(travelOptions);
-		this.forceRecalculate = forceRecalculate;
 	}
 
 	/**
@@ -62,10 +56,6 @@ public class ReachabilityRequest {
 		this.client	= client;
 		this.travelOptions = travelOptions;
 	}
-	public ReachabilityRequest(Client client, TravelOptions travelOptions, boolean forceRecalculate){
-		this(client, travelOptions);
-		this.forceRecalculate = forceRecalculate;
-	}
 
 	/**
 	 * Use a custom client implementation with specified options and method
@@ -77,10 +67,6 @@ public class ReachabilityRequest {
 		this.client	= client;
 		this.travelOptions = travelOptions;
 		this.headers = headers;
-	}
-	public ReachabilityRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers, boolean forceRecalculate){
-		this(client, travelOptions, headers);
-		this.forceRecalculate = forceRecalculate;
 	}
 
 	/**
@@ -107,7 +93,7 @@ public class ReachabilityRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
-				.queryParam("forceRecalculate", forceRecalculate)
+				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
 				.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
 				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
