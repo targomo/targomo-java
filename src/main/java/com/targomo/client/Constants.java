@@ -78,6 +78,7 @@ public class Constants {
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
     public static final String MULTIGRAPH_DOMAIN                                        = "domain";
     public static final String MULTIGRAPH_DOMAIN_TYPE                                   = "type";
+    public static final String MULTIGRAPH_DOMAIN_CLIP_GEOMETRY                          = "clipGeometry";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_EDGE                          = "edge";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NODE                          = "node";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_STATISTIC_GEOMETRY            = "statistic_geometry";

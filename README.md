@@ -51,6 +51,11 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.22.0
+- Refactor EdgeStatisticsRequest, add possibility to request multiple statistics
+- Adding `forceRecalculate` and `cacheResult` to `geometry`, `reachability`, PointsOfInterest requests
+- Add `clipGeometry` and `multiGraphDomainClipGeometry` parameters
+
 ### 0.21.0
 - Adding new Aggregation types `mean` `sum` in CompetingRouting
 - Update versions for java 17

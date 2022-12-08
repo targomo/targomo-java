@@ -313,6 +313,13 @@ public final class RequestConfigurator {
             if( travelOptions.getMultiGraphDomainEdgeAggregationType() != null )
                 multiGraphDomain.put(MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphDomainEdgeAggregationType().getKey());
 
+            if ( travelOptions.getMultiGraphDomainClipGeometry() != null ) {
+                JSONObject clipGeometry = new JSONObject()
+                        .put(CRS, travelOptions.getMultiGraphDomainClipGeometry().getCrs())
+                        .put(DATA, travelOptions.getMultiGraphDomainClipGeometry().getData());
+                multiGraphDomain.put(MULTIGRAPH_DOMAIN_CLIP_GEOMETRY, clipGeometry);
+            }
+
             multiGraph.put( MULTIGRAPH_DOMAIN, multiGraphDomain);
         }
     }

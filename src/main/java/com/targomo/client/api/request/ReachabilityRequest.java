@@ -93,6 +93,8 @@ public class ReachabilityRequest {
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
+				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
+				.queryParam("cacheResult", travelOptions.isCacheResult())
 				.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
 				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
 
@@ -114,7 +116,9 @@ public class ReachabilityRequest {
 
 			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
 					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey());
+					.queryParam("key", travelOptions.getServiceKey())
+					.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
+					.queryParam("cacheResult", travelOptions.isCacheResult());
 
 			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
 
