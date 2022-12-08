@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.21.0</version>
+    <version>0.22.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.22.0
+- Refactor EdgeStatisticsRequest, add possibility to request multiple statistics
+- Adding `forceRecalculate` and `cacheResult` to `geometry`, `reachability`, PointsOfInterest requests
+- Add `clipGeometry` and `multiGraphDomainClipGeometry` parameters
 
 ### 0.21.0
 - Adding new Aggregation types `mean` `sum` in CompetingRouting

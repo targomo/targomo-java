@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
+import com.targomo.client.api.enums.RoutingAggregationType;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
@@ -13,6 +14,7 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapSerializer;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
+import com.targomo.client.api.pojo.Geometry;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -75,7 +77,13 @@ public class StatisticTravelOptions extends TravelOptions {
     private Integer statisticCollectionId;
 
     @Transient
+    private Geometry clipGeometry;
+
+    @Transient
     private List<CompetingRoutingOption> competingRoutingOptions;
+
+    @Transient
+    private RoutingAggregationType routingAggregationType = RoutingAggregationType.MIN;
 
     @Transient
     private String valuesGeometryAggregation;
@@ -123,10 +131,12 @@ public class StatisticTravelOptions extends TravelOptions {
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
                 Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(chartInterval, that.chartInterval) &&
+                Objects.equals(clipGeometry, that.clipGeometry) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
                 Objects.equals(returnOriginId, that.returnOriginId)&&
-                Objects.equals(competingRoutingOptions, that.competingRoutingOptions);
+                Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
+                Objects.equals(routingAggregationType, that.routingAggregationType);
     }
 
     @Override
@@ -134,8 +144,9 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId, multigraphCalculateGravitationPerReferenceId,
-                returnOriginId, competingRoutingOptions);
+                clipGeometry, statisticIds, chartInterval, statisticCollectionId,
+                multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
+                routingAggregationType.ordinal());
     }
 
     public boolean isGetClosestSources() {
@@ -234,6 +245,14 @@ public class StatisticTravelOptions extends TravelOptions {
         this.statisticCollectionId = statisticCollectionId;
     }
 
+    public Geometry getClipGeometry() {
+        return clipGeometry;
+    }
+
+    public void setClipGeometry(Geometry clipGeometry) {
+        this.clipGeometry = clipGeometry;
+    }
+
     public boolean isMultigraphCalculateGravitationPerReferenceId() {
         return multigraphCalculateGravitationPerReferenceId;
     }
@@ -257,6 +276,12 @@ public class StatisticTravelOptions extends TravelOptions {
     public String getValuesGeometryAggregation() {
         return this.valuesGeometryAggregation;
     }
+
+    public void setRoutingAggregationType(RoutingAggregationType routingAggregationType) {
+        this.routingAggregationType = routingAggregationType;
+    }
+
+    public RoutingAggregationType getRoutingAggregationType() { return this.routingAggregationType; }
 
     @Override
     public String toString(){
@@ -286,12 +311,16 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(chartInterval);
         builder.append("\n\tstatisticsCollectionId: ");
         builder.append(statisticCollectionId);
+        builder.append("\n\tclipGeometry: ");
+        builder.append(clipGeometry);
         builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
         builder.append(multigraphCalculateGravitationPerReferenceId);
         builder.append("\n\treturnOriginId: ");
         builder.append(returnOriginId);
         builder.append("\n\tcompetingRoutingOptions: ");
         builder.append(competingRoutingOptions);
+        builder.append("\n\troutingAggregationType: ");
+        builder.append(routingAggregationType);
         builder.append("\n}\n");
         return builder.toString();
     }
