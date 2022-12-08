@@ -1285,18 +1285,10 @@ public class TravelOptions implements Serializable {
         this.simplify = simplify;
     }
 
-    /**
-     * Get the simplify value of polygons (in meters).
-     * @return Simplify value in meters or in degrees
-     */
     public Integer getQuadrantSegments() {
         return quadrantSegments;
     }
 
-    /**
-     * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly. todo
-     * @param quadrantSegments Simplify value in meters
-     */
     public void setQuadrantSegments(Integer quadrantSegments) {
         this.quadrantSegments = quadrantSegments;
     }
