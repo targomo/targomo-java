@@ -173,6 +173,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileZoom                                            = null;
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
+    @Transient private Geometry multiGraphDomainClipGeometry                                 = null;
 
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
@@ -922,6 +923,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
+                Objects.equals(multiGraphDomainClipGeometry, that.multiGraphDomainClipGeometry) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
                 Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
@@ -974,7 +976,8 @@ public class TravelOptions implements Serializable {
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
                 multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
-                multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
+                multiGraphLayerGeometryDetailLevel, multiGraphDomainClipGeometry,
+                multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
@@ -1141,6 +1144,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphTileX);
         builder.append("\n\tmultiGraphTileY: ");
         builder.append(multiGraphTileY);
+        builder.append("\n\tmultiGraphDomainClipGeometry: ");
+        builder.append(multiGraphDomainClipGeometry);
         builder.append("\n\tmaxEdgeWeight: ");
         builder.append(maxEdgeWeight);
         builder.append("\n\tserviceUrl: ");
@@ -1290,7 +1295,7 @@ public class TravelOptions implements Serializable {
 
     /**
      * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly. todo
-     * @param simplify Simplify value in meters
+     * @param quadrantSegments Simplify value in meters
      */
     public void setQuadrantSegments(Integer quadrantSegments) {
         this.quadrantSegments = quadrantSegments;
@@ -1585,6 +1590,14 @@ public class TravelOptions implements Serializable {
 
     public void setMultiGraphAggregationPostAggregationFactor(Float multiGraphAggregationPostAggregationFactor) {
         this.multiGraphAggregationPostAggregationFactor = multiGraphAggregationPostAggregationFactor;
+    }
+
+    public Geometry getMultiGraphDomainClipGeometry() {
+        return multiGraphDomainClipGeometry;
+    }
+
+    public void setMultiGraphDomainClipGeometry(Geometry multiGraphDomainClipGeometry) {
+        this.multiGraphDomainClipGeometry = multiGraphDomainClipGeometry;
     }
 
     public EdgeWeightType getEdgeWeightType() {
