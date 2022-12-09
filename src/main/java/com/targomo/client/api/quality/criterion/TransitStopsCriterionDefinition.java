@@ -7,12 +7,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = TransitStopsCriterionDefinition.TransitStopsCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransitStopsCriterionDefinition extends RoutingBasedCriterionDefinition {
 
@@ -20,9 +21,4 @@ public class TransitStopsCriterionDefinition extends RoutingBasedCriterionDefini
     private final Integer endTime;
     private final Integer referenceInterval;
 
-    public abstract static class TransitStopsCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class TransitStopsCriterionDefinitionBuilderImpl extends TransitStopsCriterionDefinition.TransitStopsCriterionDefinitionBuilder {
-    }
 }

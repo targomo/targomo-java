@@ -7,12 +7,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @Getter
-@JsonDeserialize(builder = PolygonAreaCriterionDefinition.PolygonAreaCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PolygonAreaCriterionDefinition extends RoutingBasedCriterionDefinition{
 
@@ -21,9 +22,4 @@ public class PolygonAreaCriterionDefinition extends RoutingBasedCriterionDefinit
     private final Double buffer;
     private final Integer quadrantSegments;
 
-    public abstract static class PolygonAreaCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class PolygonAreaCriterionDefinitionBuilderImpl extends PolygonAreaCriterionDefinition.PolygonAreaCriterionDefinitionBuilder{
-    }
 }

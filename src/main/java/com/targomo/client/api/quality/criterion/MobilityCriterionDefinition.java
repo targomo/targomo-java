@@ -8,13 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = MobilityCriterionDefinition.MobilityCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MobilityCriterionDefinition extends CriterionDefinition {
 
@@ -40,9 +41,4 @@ public class MobilityCriterionDefinition extends CriterionDefinition {
 
     private final Integer radius;
 
-    public abstract static class MobilityCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class MobilityCriterionDefinitionBuilderImpl extends MobilityCriterionDefinition.MobilityCriterionDefinitionBuilder {
-    }
 }

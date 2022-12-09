@@ -8,15 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @Getter
-@JsonDeserialize(builder = StatisticsReachabilityCriterionDefinition.StatisticsReachabilityCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCriterionDefinition implements StatisticsCriterionDefinition{
     
@@ -31,9 +32,4 @@ public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCrite
     @Setter
     private String statisticsServiceUrl;
 
-    public abstract static class StatisticsReachabilityCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class StatisticsReachabilityCriterionDefinitionBuilderImpl extends StatisticsReachabilityCriterionDefinition.StatisticsReachabilityCriterionDefinitionBuilder{
-    }
 }

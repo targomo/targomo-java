@@ -1,22 +1,21 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.quality.Location;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = PoiGravitationCriterionDefinition.PoiGravitationCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PoiGravitationCriterionDefinition extends PoiReachabilityCriterionDefinition implements GravitationCriterionDefinition {
 
@@ -29,9 +28,4 @@ public class PoiGravitationCriterionDefinition extends PoiReachabilityCriterionD
     @Setter
     private Double probabilityDecay;
 
-    public abstract static class PoiGravitationCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class PoiGravitationCriterionDefinitionBuilderImpl extends PoiGravitationCriterionDefinition.PoiGravitationCriterionDefinitionBuilder {
-    }
 }

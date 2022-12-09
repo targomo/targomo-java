@@ -7,20 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = ReferenceCriterionDefinition.ReferenceCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReferenceCriterionDefinition extends CriterionDefinition {
 
     private final String baseCriterionId;
 
-    public abstract static class ReferenceCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class ReferenceCriterionDefinitionBuilderImpl extends ReferenceCriterionDefinition.ReferenceCriterionDefinitionBuilder {
-    }
 }

@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.Constants;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ReferenceCriterionDefinition.class, name = Constants.CRITERION_TYPE_REFERENCE),
@@ -43,7 +42,6 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder(toBuilder = true)
-@JsonDeserialize(builder = CriterionDefinition.CriterionDefinitionBuilderImpl.class)
 public abstract class CriterionDefinition {
     private final CriterionType type;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -54,10 +52,4 @@ public abstract class CriterionDefinition {
     private final Double distanceModifier;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Double lowerBound;
-
-    public abstract static class CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public abstract static class CriterionDefinitionBuilderImpl extends
-            CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {}
 }

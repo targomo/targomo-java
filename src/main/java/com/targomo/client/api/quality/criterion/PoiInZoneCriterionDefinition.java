@@ -9,15 +9,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = PoiInZoneCriterionDefinition.PoiInZoneCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PoiInZoneCriterionDefinition extends CriterionDefinition implements PoiCriterionDefinition {
     @NotEmpty
@@ -30,9 +31,4 @@ public class PoiInZoneCriterionDefinition extends CriterionDefinition implements
     private final Set<PoiType> exclude;
     private final PoiMatchType match;
 
-    public abstract static class PoiInZoneCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class PoiInZoneCriterionDefinitionBuilderImpl extends PoiInZoneCriterionDefinition.PoiInZoneCriterionDefinitionBuilder {
-    }
 }

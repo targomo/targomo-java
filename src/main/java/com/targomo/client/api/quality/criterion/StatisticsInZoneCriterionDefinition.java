@@ -8,15 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @Getter
-@JsonDeserialize(builder = StatisticsInZoneCriterionDefinition.StatisticsInZoneCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsInZoneCriterionDefinition extends CriterionDefinition implements StatisticsCriterionDefinition{
 
@@ -34,9 +35,4 @@ public class StatisticsInZoneCriterionDefinition extends CriterionDefinition imp
 
     private final String coreServiceUrl;
 
-    public abstract static class StatisticsInZoneCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class StatisticsInZoneCriterionDefinitionBuilderImpl extends StatisticsInZoneCriterionDefinition.StatisticsInZoneCriterionDefinitionBuilder{
-    }
 }

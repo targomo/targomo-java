@@ -8,15 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @Getter
-@JsonDeserialize(builder = StatisticsOnEnclosingCellCriterionDefinition.StatisticsOnEnclosingCellCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsOnEnclosingCellCriterionDefinition extends CriterionDefinition implements StatisticsCriterionDefinition{
 
@@ -32,9 +33,4 @@ public class StatisticsOnEnclosingCellCriterionDefinition extends CriterionDefin
 
     private final String coreServiceUrl;
 
-    public abstract static class StatisticsOnEnclosingCellCriterionDefinitionBuilder {}
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class StatisticsOnEnclosingCellCriterionDefinitionBuilderImpl extends StatisticsOnEnclosingCellCriterionDefinition.StatisticsOnEnclosingCellCriterionDefinitionBuilder{
-    }
 }
