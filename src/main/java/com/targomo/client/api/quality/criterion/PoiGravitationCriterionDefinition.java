@@ -29,6 +29,8 @@ public class PoiGravitationCriterionDefinition extends PoiReachabilityCriterionD
     @Setter
     private Double probabilityDecay;
 
+    public abstract static class PoiGravitationCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class PoiGravitationCriterionDefinitionBuilderImpl extends PoiGravitationCriterionDefinition.PoiGravitationCriterionDefinitionBuilder {
     }

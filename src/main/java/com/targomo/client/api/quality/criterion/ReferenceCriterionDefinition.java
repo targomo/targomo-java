@@ -18,6 +18,8 @@ public class ReferenceCriterionDefinition extends CriterionDefinition {
 
     private final String baseCriterionId;
 
+    public abstract static class ReferenceCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class ReferenceCriterionDefinitionBuilderImpl extends ReferenceCriterionDefinition.ReferenceCriterionDefinitionBuilder {
     }

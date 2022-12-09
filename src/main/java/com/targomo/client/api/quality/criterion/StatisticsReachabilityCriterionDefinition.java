@@ -31,6 +31,8 @@ public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCrite
     @Setter
     private String statisticsServiceUrl;
 
+    public abstract static class StatisticsReachabilityCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class StatisticsReachabilityCriterionDefinitionBuilderImpl extends StatisticsReachabilityCriterionDefinition.StatisticsReachabilityCriterionDefinitionBuilder{
     }

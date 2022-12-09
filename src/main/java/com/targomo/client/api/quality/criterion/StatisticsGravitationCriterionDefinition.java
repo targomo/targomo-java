@@ -36,6 +36,8 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
 
     private final List<CompetingRoutingOption> competingRoutingOptions;
 
+    public abstract static class StatisticsGravitationCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class StatisticsGravitationCriterionDefinitionBuilderImpl extends StatisticsGravitationCriterionDefinition.StatisticsGravitationCriterionDefinitionBuilder {
     }

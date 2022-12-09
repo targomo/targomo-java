@@ -31,6 +31,8 @@ public class PoiReachabilityCriterionDefinition extends RoutingBasedCriterionDef
     @Setter
     private String poiServiceUrl;
 
+    public abstract static class PoiReachabilityCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class PoiReachabilityCriterionDefinitionBuilderImpl extends PoiReachabilityCriterionDefinitionBuilder{
     }

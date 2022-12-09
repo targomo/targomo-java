@@ -30,6 +30,8 @@ public class PoiInZoneCriterionDefinition extends CriterionDefinition implements
     private final Set<PoiType> exclude;
     private final PoiMatchType match;
 
+    public abstract static class PoiInZoneCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class PoiInZoneCriterionDefinitionBuilderImpl extends PoiInZoneCriterionDefinition.PoiInZoneCriterionDefinitionBuilder {
     }

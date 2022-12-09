@@ -32,6 +32,8 @@ public class StatisticsOnEnclosingCellCriterionDefinition extends CriterionDefin
 
     private final String coreServiceUrl;
 
+    public abstract static class StatisticsOnEnclosingCellCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class StatisticsOnEnclosingCellCriterionDefinitionBuilderImpl extends StatisticsOnEnclosingCellCriterionDefinition.StatisticsOnEnclosingCellCriterionDefinitionBuilder{
     }

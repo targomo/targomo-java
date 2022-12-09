@@ -20,6 +20,8 @@ public class TransitStopsCriterionDefinition extends RoutingBasedCriterionDefini
     private final Integer endTime;
     private final Integer referenceInterval;
 
+    public abstract static class TransitStopsCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class TransitStopsCriterionDefinitionBuilderImpl extends TransitStopsCriterionDefinition.TransitStopsCriterionDefinitionBuilder {
     }

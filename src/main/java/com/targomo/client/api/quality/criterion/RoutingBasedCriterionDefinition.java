@@ -65,6 +65,8 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
         return (Map) propertiesObj;
     }
 
+    public abstract static class RoutingBasedCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public abstract static class RoutingBasedCriterionDefinitionBuilderImpl extends RoutingBasedCriterionDefinitionBuilder {
     }

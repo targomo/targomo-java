@@ -21,6 +21,8 @@ public class PolygonAreaCriterionDefinition extends RoutingBasedCriterionDefinit
     private final Double buffer;
     private final Integer quadrantSegments;
 
+    public abstract static class PolygonAreaCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class PolygonAreaCriterionDefinitionBuilderImpl extends PolygonAreaCriterionDefinition.PolygonAreaCriterionDefinitionBuilder{
     }

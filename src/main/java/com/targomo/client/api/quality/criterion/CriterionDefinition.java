@@ -1,10 +1,16 @@
 package com.targomo.client.api.quality.criterion;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.Constants;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @JsonSubTypes({
@@ -49,7 +55,9 @@ public abstract class CriterionDefinition {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Double lowerBound;
 
+    public abstract static class CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {}
+
     @JsonPOJOBuilder(withPrefix="")
-    public abstract static class CriterionDefinitionBuilderImpl extends CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {
-    }
+    public abstract static class CriterionDefinitionBuilderImpl extends
+            CriterionDefinitionBuilder<CriterionDefinition, CriterionDefinitionBuilderImpl> {}
 }

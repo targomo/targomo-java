@@ -41,6 +41,8 @@ public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
     private final List<Integer> ignoreRoadClasses;
 
+    public abstract static class EdgeStatisticsCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class EdgeStatisticsCriterionDefinitionBuilderImpl extends EdgeStatisticsCriterionDefinitionBuilder {
     }

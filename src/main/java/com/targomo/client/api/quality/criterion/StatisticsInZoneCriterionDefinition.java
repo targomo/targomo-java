@@ -34,6 +34,8 @@ public class StatisticsInZoneCriterionDefinition extends CriterionDefinition imp
 
     private final String coreServiceUrl;
 
+    public abstract static class StatisticsInZoneCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class StatisticsInZoneCriterionDefinitionBuilderImpl extends StatisticsInZoneCriterionDefinition.StatisticsInZoneCriterionDefinitionBuilder{
     }

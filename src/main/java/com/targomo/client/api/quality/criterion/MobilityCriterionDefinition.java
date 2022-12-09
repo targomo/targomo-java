@@ -40,6 +40,8 @@ public class MobilityCriterionDefinition extends CriterionDefinition {
 
     private final Integer radius;
 
+    public abstract static class MobilityCriterionDefinitionBuilder {}
+
     @JsonPOJOBuilder(withPrefix="")
     public static class MobilityCriterionDefinitionBuilderImpl extends MobilityCriterionDefinition.MobilityCriterionDefinitionBuilder {
     }
