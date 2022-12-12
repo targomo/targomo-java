@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.23.0
+- Fix the issue on generating the javadoc
 
 ### 0.22.0
 - Refactor EdgeStatisticsRequest, add possibility to request multiple statistics

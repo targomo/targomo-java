@@ -9,15 +9,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = PoiReachabilityCriterionDefinition.PoiReachabilityCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PoiReachabilityCriterionDefinition extends RoutingBasedCriterionDefinition implements PoiCriterionDefinition {
     @NotEmpty
@@ -31,7 +32,4 @@ public class PoiReachabilityCriterionDefinition extends RoutingBasedCriterionDef
     @Setter
     private String poiServiceUrl;
 
-    @JsonPOJOBuilder(withPrefix="")
-    public static class PoiReachabilityCriterionDefinitionBuilderImpl extends PoiReachabilityCriterionDefinitionBuilder{
-    }
 }

@@ -2,13 +2,16 @@ package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRequestConfigurationException;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,7 +22,6 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = RoutingBasedCriterionDefinition.RoutingBasedCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class RoutingBasedCriterionDefinition extends CriterionDefinition {
 
@@ -65,7 +67,4 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
         return (Map) propertiesObj;
     }
 
-    @JsonPOJOBuilder(withPrefix="")
-    public abstract static class RoutingBasedCriterionDefinitionBuilderImpl extends RoutingBasedCriterionDefinitionBuilder {
-    }
 }

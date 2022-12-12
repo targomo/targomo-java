@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,9 +18,9 @@ import java.util.List;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = EdgeStatisticsCriterionDefinition.EdgeStatisticsCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
@@ -41,7 +42,4 @@ public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
     private final List<Integer> ignoreRoadClasses;
 
-    @JsonPOJOBuilder(withPrefix="")
-    public static class EdgeStatisticsCriterionDefinitionBuilderImpl extends EdgeStatisticsCriterionDefinitionBuilder {
-    }
 }
