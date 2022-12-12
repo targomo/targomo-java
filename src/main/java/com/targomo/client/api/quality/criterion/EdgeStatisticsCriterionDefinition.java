@@ -26,13 +26,13 @@ public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
     private String edgeStatisticsServiceUrl;
 
     /**
-     * @deprecated
+     * @deprecated Use rather edgeStatisticCollectionId
      */
     @Deprecated
     private final Integer edgeStatisticGroupId;
 
     /**
-     * @deprecated
+     * @deprecated Use rather edgeStatisticIds
      */
     @Deprecated
     private final Integer edgeStatisticId;
