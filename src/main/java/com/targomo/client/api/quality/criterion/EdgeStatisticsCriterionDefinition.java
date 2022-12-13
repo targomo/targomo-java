@@ -1,8 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
 import com.targomo.client.api.enums.TravelType;
 import lombok.EqualsAndHashCode;
@@ -12,7 +10,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -28,11 +25,21 @@ public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
     @NotNull
     private String edgeStatisticsServiceUrl;
 
-    @NotEmpty
+    /**
+     * @deprecated Use rather edgeStatisticCollectionId
+     */
+    @Deprecated
     private final Integer edgeStatisticGroupId;
-    @NotEmpty
+
+    /**
+     * @deprecated Use rather edgeStatisticIds
+     */
+    @Deprecated
     private final Integer edgeStatisticId;
-    
+
+    private final Integer edgeStatisticCollectionId;
+    private final List<Integer> edgeStatisticIds;
+
     private final Integer radius;
     private final List<Integer> radii;
 

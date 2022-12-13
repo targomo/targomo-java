@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.23.0
 - Fix the issue on generating the javadoc
+- Add collectionId and edgeStatisticsId to EdgeStatisticsCriterionDefinition
 
 ### 0.22.0
 - Refactor EdgeStatisticsRequest, add possibility to request multiple statistics
