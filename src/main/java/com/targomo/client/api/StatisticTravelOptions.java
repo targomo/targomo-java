@@ -14,7 +14,6 @@ import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
 import com.targomo.client.api.json.DefaultSourceGeometriesMapSerializer;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
-import com.targomo.client.api.pojo.Geometry;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,9 +76,6 @@ public class StatisticTravelOptions extends TravelOptions {
     private Integer statisticCollectionId;
 
     @Transient
-    private Geometry clipGeometry;
-
-    @Transient
     private List<CompetingRoutingOption> competingRoutingOptions;
 
     @Transient
@@ -131,7 +127,6 @@ public class StatisticTravelOptions extends TravelOptions {
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
                 Objects.equals(statisticIds, that.statisticIds) &&
                 Objects.equals(chartInterval, that.chartInterval) &&
-                Objects.equals(clipGeometry, that.clipGeometry) &&
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
                 Objects.equals(returnOriginId, that.returnOriginId)&&
@@ -144,7 +139,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                clipGeometry, statisticIds, chartInterval, statisticCollectionId,
+                statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
                 routingAggregationType.ordinal());
     }
@@ -245,14 +240,6 @@ public class StatisticTravelOptions extends TravelOptions {
         this.statisticCollectionId = statisticCollectionId;
     }
 
-    public Geometry getClipGeometry() {
-        return clipGeometry;
-    }
-
-    public void setClipGeometry(Geometry clipGeometry) {
-        this.clipGeometry = clipGeometry;
-    }
-
     public boolean isMultigraphCalculateGravitationPerReferenceId() {
         return multigraphCalculateGravitationPerReferenceId;
     }
@@ -311,8 +298,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(chartInterval);
         builder.append("\n\tstatisticsCollectionId: ");
         builder.append(statisticCollectionId);
-        builder.append("\n\tclipGeometry: ");
-        builder.append(clipGeometry);
         builder.append("\n\tmultigraphCalculateGravitationPerReferenceId: ");
         builder.append(multigraphCalculateGravitationPerReferenceId);
         builder.append("\n\treturnOriginId: ");

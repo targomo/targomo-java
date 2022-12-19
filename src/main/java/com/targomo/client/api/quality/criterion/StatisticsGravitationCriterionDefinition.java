@@ -10,14 +10,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
+@Jacksonized
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
-@JsonDeserialize(builder = StatisticsGravitationCriterionDefinition.StatisticsGravitationCriterionDefinitionBuilderImpl.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StatisticsGravitationCriterionDefinition extends StatisticsReachabilityCriterionDefinition implements GravitationCriterionDefinition {
 
@@ -35,8 +36,4 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
     private final Float routingLowerBoundValue;
 
     private final List<CompetingRoutingOption> competingRoutingOptions;
-
-    @JsonPOJOBuilder(withPrefix="")
-    public static class StatisticsGravitationCriterionDefinitionBuilderImpl extends StatisticsGravitationCriterionDefinition.StatisticsGravitationCriterionDefinitionBuilder {
-    }
 }

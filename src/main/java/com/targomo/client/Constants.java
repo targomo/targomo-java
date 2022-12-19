@@ -73,6 +73,7 @@ public class Constants {
     public static final String DECIMAL_PRECISION                                        = "decimalPrecision";
     public static final String FORCE_RECALCULATE                                        = "forceRecalculate";
     public static final String CACHE_RESULT                                             = "cacheResult";
+    public static final String CLIP_GEOMETRY                                            = "clipGeometry";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";

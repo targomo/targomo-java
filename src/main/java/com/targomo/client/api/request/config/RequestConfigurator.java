@@ -211,6 +211,13 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, TRAVEL_TIME_FACTORS, travelFactors);
             }
 
+            if ( travelOptions.getClipGeometry() != null ) {
+                JSONObject clipGeometry = new JSONObject()
+                        .put(CRS, travelOptions.getClipGeometry().getCrs())
+                        .put(DATA, travelOptions.getClipGeometry().getData());
+                JSONBuilder.append(config, CLIP_GEOMETRY, clipGeometry);
+            }
+
             if (travelOptions.getMaxSnapDistance() != null) {
                 JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
             }
@@ -312,13 +319,6 @@ public final class RequestConfigurator {
 
             if( travelOptions.getMultiGraphDomainEdgeAggregationType() != null )
                 multiGraphDomain.put(MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE, travelOptions.getMultiGraphDomainEdgeAggregationType().getKey());
-
-            if ( travelOptions.getMultiGraphDomainClipGeometry() != null ) {
-                JSONObject clipGeometry = new JSONObject()
-                        .put(CRS, travelOptions.getMultiGraphDomainClipGeometry().getCrs())
-                        .put(DATA, travelOptions.getMultiGraphDomainClipGeometry().getData());
-                multiGraphDomain.put(MULTIGRAPH_DOMAIN_CLIP_GEOMETRY, clipGeometry);
-            }
 
             multiGraph.put( MULTIGRAPH_DOMAIN, multiGraphDomain);
         }
