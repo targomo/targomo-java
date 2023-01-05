@@ -224,6 +224,10 @@ public class RequestConfiguratorTest {
             options.getTravelTimeFactors().put("all",0.9);
             options.getTravelTimeFactors().put("motorway",0.7);
 
+            options.setIncludeSnapDistance(true);
+            options.setUseAreaSnapping(true);
+            options.setSnapRadius(200);
+
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
             JSONObject actualObject = new JSONObject(cfg);

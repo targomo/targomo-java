@@ -613,6 +613,13 @@ public final class RequestConfigurator {
                 break;
         }
 
+        if (travelOptions.getIncludeSnapDistance() != null)
+            travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
+        if (travelOptions.getUseAreaSnapping() != null)
+            travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
+        if (travelOptions.getUseAreaSnapping() != null)
+            travelMode.put(SNAP_RADIUS, travelOptions.getSnapRadius());
+
         return travelMode;
     }
 
