@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.24.0
+- Add includeSnapDistance, useAreaSnapping, and snapRadius to travel options
 
 ### 0.23.0
 - Fix the issue on generating the javadoc
