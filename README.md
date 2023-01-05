@@ -51,6 +51,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.24.0
+
 ### 0.23.0
 - Fix the issue on generating the javadoc
 - Add collectionId and edgeStatisticsId to EdgeStatisticsCriterionDefinition
