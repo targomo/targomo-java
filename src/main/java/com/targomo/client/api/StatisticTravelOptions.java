@@ -91,6 +91,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Boolean returnOriginId = false;
 
+    @Transient
+    private Boolean multiGraphIgnoreRoutingErrorMessages = false;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -310,4 +313,11 @@ public class StatisticTravelOptions extends TravelOptions {
         return builder.toString();
     }
 
+    public Boolean getMultiGraphIgnoreRoutingErrorMessages() {
+        return multiGraphIgnoreRoutingErrorMessages;
+    }
+
+    public void setMultiGraphIgnoreRoutingErrorMessages(Boolean multiGraphIgnoreRoutingErrorMessages) {
+        this.multiGraphIgnoreRoutingErrorMessages = multiGraphIgnoreRoutingErrorMessages;
+    }
 }
