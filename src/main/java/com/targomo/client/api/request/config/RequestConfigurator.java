@@ -613,12 +613,15 @@ public final class RequestConfigurator {
                 break;
         }
 
+        // snapping parameters
         if (travelOptions.getIncludeSnapDistance() != null)
             travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(SNAP_RADIUS, travelOptions.getSnapRadius());
+        if (travelOptions.getExcludeEdgeClassesFromSnapping() != null)
+            travelMode.put(EXCLUDE_EDGE_CLASSES_FROM_SNAPPING, new JSONArray(travelOptions.getExcludeEdgeClassesFromSnapping()));
 
         return travelMode;
     }
