@@ -239,6 +239,20 @@ public class TravelOptions implements Serializable {
     @Transient
     private Integer nextStopsEndTime;
 
+    @Transient @Getter @Setter
+    private Boolean includeSnapDistance;
+
+    @Transient @Getter @Setter
+    private Boolean useAreaSnapping;
+
+    // snap radius is in meters
+    @Transient @Getter @Setter
+    private Integer snapRadius;
+
+    @Transient @Getter @Setter
+    private List<Integer> excludeEdgeClassesFromSnapping;
+
+
     public String getBoundingBox() {
         return boundingBox;
     }
@@ -951,7 +965,11 @@ public class TravelOptions implements Serializable {
                 Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
                 Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) &&
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
-                Objects.equals(nextStopsEndTime, that.nextStopsEndTime);
+                Objects.equals(nextStopsEndTime, that.nextStopsEndTime) &&
+                Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
+                Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
+                Objects.equals(snapRadius, that.snapRadius) &&
+                Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping);
     }
 
 
@@ -983,7 +1001,8 @@ public class TravelOptions implements Serializable {
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime);
+                maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
+                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping);
     }
 
     /* (non-Javadoc)
@@ -1201,6 +1220,14 @@ public class TravelOptions implements Serializable {
         builder.append(nextStopsStartTime);
         builder.append("\n\tnextStopsEndTime: ");
         builder.append(nextStopsEndTime);
+        builder.append("\n\tincludeSnapDistance: ");
+        builder.append(includeSnapDistance);
+        builder.append("\n\tuseAreaSnapping: ");
+        builder.append(useAreaSnapping);
+        builder.append("\n\tsnapRadius: ");
+        builder.append(snapRadius);
+        builder.append("\n\texcludeEdgeClassesFromSnapping: ");
+        builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
         builder.append("\n}\n");
         return builder.toString();
     }
@@ -1750,5 +1777,4 @@ public class TravelOptions implements Serializable {
     public Integer getNextStopsEndTime() { return nextStopsEndTime; }
 
     public void setNextStopsEndTime(Integer nextStopsEndTime) { this.nextStopsEndTime = nextStopsEndTime; }
-
 }

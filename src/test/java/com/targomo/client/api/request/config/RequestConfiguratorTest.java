@@ -19,6 +19,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -223,6 +224,11 @@ public class RequestConfiguratorTest {
             options.setMaxTransfers(2);
             options.getTravelTimeFactors().put("all",0.9);
             options.getTravelTimeFactors().put("motorway",0.7);
+
+            options.setIncludeSnapDistance(true);
+            options.setUseAreaSnapping(true);
+            options.setSnapRadius(200);
+            options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12));
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);

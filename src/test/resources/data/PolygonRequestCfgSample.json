@@ -31,7 +31,11 @@
           "maxTransfers": 2,
           "downhill":0,
           "speed":5,
-          "uphill":10
+          "uphill":10,
+          "includeSnapDistance": true,
+          "useAreaSnapping": true,
+          "snapRadius": 200,
+          "excludeEdgeClassesFromSnapping": [11, 12]
         }
       },
       "id": "id1",
