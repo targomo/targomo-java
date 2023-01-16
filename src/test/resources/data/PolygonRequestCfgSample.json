@@ -34,7 +34,8 @@
           "uphill":10,
           "includeSnapDistance": true,
           "useAreaSnapping": true,
-          "snapRadius": 200
+          "snapRadius": 200,
+          "excludeEdgeClassesFromSnapping": [11, 12]
         }
       },
       "id": "id1",

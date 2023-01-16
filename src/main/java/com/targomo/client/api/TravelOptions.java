@@ -249,6 +249,9 @@ public class TravelOptions implements Serializable {
     @Transient @Getter @Setter
     private Integer snapRadius;
 
+    @Transient @Getter @Setter
+    private List<Integer> excludeEdgeClassesFromSnapping;
+
 
     public String getBoundingBox() {
         return boundingBox;
@@ -965,7 +968,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime) &&
                 Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
                 Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
-                Objects.equals(snapRadius, that.snapRadius);
+                Objects.equals(snapRadius, that.snapRadius) &&
+                Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping);
     }
 
 
@@ -998,7 +1002,7 @@ public class TravelOptions implements Serializable {
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, useAreaSnapping, snapRadius);
+                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping);
     }
 
     /* (non-Javadoc)
@@ -1222,6 +1226,8 @@ public class TravelOptions implements Serializable {
         builder.append(useAreaSnapping);
         builder.append("\n\tsnapRadius: ");
         builder.append(snapRadius);
+        builder.append("\n\texcludeEdgeClassesFromSnapping: ");
+        builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
         builder.append("\n}\n");
         return builder.toString();
     }
