@@ -91,6 +91,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Boolean returnOriginId = false;
 
+    @Transient
+    private Boolean multiGraphIgnoreRoutingErrorMessages = false;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -131,7 +134,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
                 Objects.equals(returnOriginId, that.returnOriginId)&&
                 Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
-                Objects.equals(routingAggregationType, that.routingAggregationType);
+                Objects.equals(routingAggregationType, that.routingAggregationType) &&
+                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages);
     }
 
     @Override
@@ -141,7 +145,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
-                routingAggregationType.ordinal());
+                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
     }
 
     public boolean isGetClosestSources() {
@@ -270,6 +274,14 @@ public class StatisticTravelOptions extends TravelOptions {
 
     public RoutingAggregationType getRoutingAggregationType() { return this.routingAggregationType; }
 
+    public Boolean getMultiGraphIgnoreRoutingErrorMessages() {
+        return multiGraphIgnoreRoutingErrorMessages;
+    }
+
+    public void setMultiGraphIgnoreRoutingErrorMessages(Boolean multiGraphIgnoreRoutingErrorMessages) {
+        this.multiGraphIgnoreRoutingErrorMessages = multiGraphIgnoreRoutingErrorMessages;
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder(super.toString());
@@ -306,8 +318,9 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(competingRoutingOptions);
         builder.append("\n\troutingAggregationType: ");
         builder.append(routingAggregationType);
+        builder.append("\n\tmultiGraphIgnoreRoutingErrorMessages: ");
+        builder.append(multiGraphIgnoreRoutingErrorMessages);
         builder.append("\n}\n");
         return builder.toString();
     }
-
 }

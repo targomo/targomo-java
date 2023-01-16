@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.24.0</version>
+    <version>0.24.1</version>
 </dependency>
 ```
 
@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.24.0
 - Add includeSnapDistance, useAreaSnapping, and snapRadius to travel options
 - Add excludeEdgeClassesFromSnapping to travel options
+- Add `multiGraphIgnoreRoutingErrorMessages` boolean in StatisticsTravelOptions to be used to ignore errors in MG requests.
 
 ### 0.23.0
 - Fix the issue on generating the javadoc
