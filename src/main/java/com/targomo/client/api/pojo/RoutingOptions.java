@@ -41,12 +41,18 @@ public class RoutingOptions {
     private Integer maxWalkingTimeFromSource;
     private Integer maxWalkingTimeToTarget;
     private List<Integer> avoidTransitRouteTypes;
+    private Integer maxSnapDistance;
+    private List<Integer> excludeEdgeClassesFromSnapping;
+    private Boolean useAreaSnapping;
+    private Integer snapRadius;
+    private Boolean includeSnapDistance;
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
         return Objects.hash(maxEdgeWeight, travelType.getKey(), travelTimeFactors, reverse, rushHour, time, date, frame,
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes);
+                maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
+                maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance);
     }
 }
