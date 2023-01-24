@@ -1,6 +1,5 @@
 package com.targomo.client.api.enums;
 
-import com.targomo.client.api.pojo.CompetingRoutingOption;
 import org.junit.Test;
 
 import java.util.ArrayList;
