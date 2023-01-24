@@ -60,7 +60,6 @@ deploy_maven:
   when: manual
   only:
     - master
-    - /^feature.*$/
   tags:
     - k8sdev
 
