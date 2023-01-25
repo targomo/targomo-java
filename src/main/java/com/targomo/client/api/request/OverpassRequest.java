@@ -33,7 +33,7 @@ public class OverpassRequest {
 	 * Use a custom client implementation with specified options and method and a specific PoI type
 	 * @param client Client implementation to be used
 	 * @param travelOptions Options to be used
-	 * @param poiTye the Point of Interest type used for the request
+	 * @param poiType the Point of Interest type used for the request
 	 */
 	public OverpassRequest(TravelOptions travelOptions, Client client, PoiType poiType) {
 

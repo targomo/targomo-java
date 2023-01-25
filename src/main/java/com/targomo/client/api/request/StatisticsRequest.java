@@ -82,7 +82,6 @@ public class StatisticsRequest {
 	/**
 	 * @param path the path for the request to be executed
 	 * @return Response from the statistics server
-	 * @throws JSONException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
 	public <T> T get(String path, ResponseValidator<T> responseValidator) throws TargomoClientException {
