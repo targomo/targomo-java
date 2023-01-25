@@ -74,7 +74,7 @@ public class EdgeStatisticsRequest {
 
 	/**
 	 * @return map of location id to a map of edge statistic id to statistic value
-	 * @throws JSONException In case the returned response is not parsable
+	 * @throws JsonProcessingException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
 	public Map<String, Map<Integer, Double>> get() throws TargomoClientException, JsonProcessingException {
