@@ -4,7 +4,7 @@
 
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.24.1</version>
+    <version>0.25.0</version>
     <name>Targomo Java Client Library</name>
     <description>Java client library for easy usage of Targomo web services.</description>
     <url>https://github.com/targomo/targomo-java</url>
@@ -341,7 +341,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
+                        <version>1.6.13</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
