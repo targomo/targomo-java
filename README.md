@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.25.0
 - Add Snapping Related params to CompetingRouting RoutingOptions.
+- Fix central maven deploy
 
 ### 0.24.0
 - Add includeSnapDistance, useAreaSnapping, and snapRadius to travel options
