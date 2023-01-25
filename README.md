@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.25.0</version>
+    <version>0.25.1</version>
 </dependency>
 ```
 
@@ -51,10 +51,12 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.25.1
+- Fix javadoc errors
+
 ### 0.25.0
 - Add Snapping Related params to CompetingRouting RoutingOptions.
 - Fix central maven deployment issue
-- Fix javadoc errors
 
 ### 0.24.0
 - Add includeSnapDistance, useAreaSnapping, and snapRadius to travel options
