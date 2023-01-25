@@ -20,7 +20,8 @@ public class AggregationConfiguration {
 
     // The specified type of the aggregation to be used on Multigraph layers. E.g.: mean, min, max, etc.
     // for any type of special probability aggregations only minSourcesCount, sourceValuesLowerBound, sourceValuesUpperBound
-    // and probability specific parameters such as gravitationExponent, probabilityDecay, logitBetaAttractionStrength/TravelTime are considered
+    // and probability specific parameters such as gravitationExponent, probabilityDecay, rationalSmoothingFactor,
+    // logitBetaAttractionStrength/TravelTime are considered
     private MultiGraphAggregationType type;
     // Whether or not layers with no value should be included in the aggregation
     private Boolean ignoreOutliers; //specific to some aggregations
@@ -49,6 +50,7 @@ public class AggregationConfiguration {
     // Only elements whose origin (layer with the lowest value for the element id) is in this set
     // will be included in the aggregation. If null, the elements are not filtered by source origin.
     private Set<String> filterValuesForSourceOrigins;
+    private Double rationalSmoothingFactor;
     private Double gravitationExponent;
     private Double probabilityDecay;
     private Double logitBetaAttractionStrength;
@@ -68,6 +70,7 @@ public class AggregationConfiguration {
         private Float minResultValue;
         private Double maxResultValueRatio;
         private Float maxResultValue;
+        private Double rationalSmoothingFactor;
         private Double gravitationExponent;
         private Double probabilityDecay;
         private Double logitBetaAttractionStrength;
@@ -92,6 +95,7 @@ public class AggregationConfiguration {
             this.maxResultValueRatio = toCopy.maxResultValueRatio;
             this.maxResultValue = toCopy.maxResultValue;
             this.filterValuesForSourceOrigins = Optional.ofNullable(toCopy.filterValuesForSourceOrigins).map(HashSet::new).orElse(null);
+            this.rationalSmoothingFactor = toCopy.rationalSmoothingFactor;
             this.gravitationExponent = toCopy.gravitationExponent;
             this.probabilityDecay = toCopy.probabilityDecay;
             this.logitBetaAttractionStrength = toCopy.logitBetaAttractionStrength;
@@ -125,6 +129,7 @@ public class AggregationConfiguration {
             this.postAggregationFactor = travelOptions.getMultiGraphAggregationPostAggregationFactor();
             this.filterValuesForSourceOrigins = !deepCopy ? travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins() :
                     Optional.ofNullable(travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins()).map(HashSet::new).orElse(null);
+            this.rationalSmoothingFactor = travelOptions.getMultiGraphAggregationRationalSmoothingFactor();
             this.gravitationExponent = travelOptions.getMultiGraphAggregationGravitationExponent();
             this.probabilityDecay = travelOptions.getMultiGraphAggregationProbabilityDecay();
             this.logitBetaAttractionStrength = travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength();
@@ -202,8 +207,13 @@ public class AggregationConfiguration {
             return this;
         }
 
-        public AggregationConfigurationBuilder gravitationExponent(Double gravitationTravelTimeExponent) {
-            this.gravitationExponent = gravitationTravelTimeExponent;
+        public AggregationConfigurationBuilder rationalSmoothingFactor(Double rationalSmoothingFactor) {
+            this.rationalSmoothingFactor = rationalSmoothingFactor;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder gravitationExponent(Double gravitationExponent) {
+            this.gravitationExponent = gravitationExponent;
             return this;
         }
 
@@ -252,6 +262,7 @@ public class AggregationConfiguration {
                     maxResultValue,
                     postAggregationFactor,
                     filterValuesForSourceOrigins,
+                    rationalSmoothingFactor,
                     gravitationExponent,
                     probabilityDecay,
                     logitBetaAttractionStrength,
