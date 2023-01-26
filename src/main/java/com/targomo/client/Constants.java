@@ -147,6 +147,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE                  = "maxResultValue";
     public static final String MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR           = "postAggregationFactor";
+    public static final String MULTIGRAPH_AGGREGATION_RATIONAL_SMOOTHING_FACTOR         = "rationalSmoothingFactor";
     public static final String MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT              = "gravitationExponent";
     public static final String MULTIGRAPH_AGGREGATION_PROBABILITY_DECAY                 = "probabilityDecay";
     public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH    = "logitBetaAttractionStrength";

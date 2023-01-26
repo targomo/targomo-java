@@ -123,6 +123,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMaxResultValue(),
                     travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
+                    travelOptions.getMultiGraphAggregationRationalSmoothingFactor(),
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
                     travelOptions.getMultiGraphAggregationProbabilityDecay(),
                     travelOptions.getMultiGraphAggregationInputParameters(),
@@ -403,6 +404,7 @@ public final class RequestConfigurator {
                 travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
+                travelOptions.getMultiGraphAggregationRationalSmoothingFactor(),
                 travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationProbabilityDecay(),
                 travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
                 travelOptions.getMultiGraphAggregationLogitBetaTravelTime(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
@@ -468,6 +470,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getPostAggregationFactor() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_POST_AGGREGATION_FACTOR, aggregationConfiguration.getPostAggregationFactor());
+
+        if (aggregationConfiguration.getRationalSmoothingFactor() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_RATIONAL_SMOOTHING_FACTOR, aggregationConfiguration.getRationalSmoothingFactor());
 
         if (aggregationConfiguration.getGravitationExponent() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_GRAVITATION_EXPONENT, aggregationConfiguration.getGravitationExponent());
