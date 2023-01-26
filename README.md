@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.26.0
+- include multiGraphAggregationRationalSmoothingFactor in TravelOptions and rationalSmoothingFactor in AggregationConfiguration
+
 ### 0.25.0
 - Add Snapping Related params to CompetingRouting RoutingOptions.
 - Fix central maven deploy
