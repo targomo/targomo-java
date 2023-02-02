@@ -251,6 +251,13 @@ public class RequestConfiguratorTest {
 
             Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
 
+            //// test with car
+            options.setTravelType(TravelType.CAR);
+            cfg = RequestConfigurator.getConfig(options);
+            actualObject = new JSONObject(cfg);
+            sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"));
+            sampleObject = new JSONObject(sampleJson);
+            Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
         } catch (IOException e) {
             e.printStackTrace();
         }
