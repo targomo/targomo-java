@@ -614,8 +614,12 @@ public final class RequestConfigurator {
         }
 
         // snapping parameters
-        if (travelOptions.getIncludeSnapDistance() != null)
+        if (travelOptions.getIncludeSnapDistance() != null) {
             travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
+            if (travelOptions.getIncludeSnapDistance()) {
+                travelMode.put(SNAP_WALK_DISTANCE, travelOptions.getWalkSpeed());
+            }
+        }
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
         if (travelOptions.getUseAreaSnapping() != null)
