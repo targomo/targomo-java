@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.26.0
-- Include walkSpeed in request if includeSnapDistance is true
+- Include walkSpeed in request (for bike and car mode)
  
 ### 0.25.0
 - Add Snapping Related params to CompetingRouting RoutingOptions.

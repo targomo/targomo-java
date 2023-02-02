@@ -601,6 +601,7 @@ public final class RequestConfigurator {
                 travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
                 travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
                 travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
+                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
                 break;
             case CAR:
                 travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
@@ -608,18 +609,15 @@ public final class RequestConfigurator {
                     travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
                 if (travelOptions.getTime() != null)
                     travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
+                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
                 break;
             default:
                 break;
         }
 
         // snapping parameters
-        if (travelOptions.getIncludeSnapDistance() != null) {
+        if (travelOptions.getIncludeSnapDistance() != null)
             travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
-            if (travelOptions.getIncludeSnapDistance()) {
-                travelMode.put(SNAP_WALK_DISTANCE, travelOptions.getWalkSpeed());
-            }
-        }
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
         if (travelOptions.getUseAreaSnapping() != null)
