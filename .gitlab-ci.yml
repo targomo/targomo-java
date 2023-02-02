@@ -60,6 +60,7 @@ deploy_maven:
   when: manual
   only:
     - master
+    - /^hotfix.*$/
   tags:
     - k8sdev
 
