@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.23.0</version>
+    <version>0.25.2</version>
 </dependency>
 ```
 
@@ -54,10 +54,15 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.26.0
 - Include walkSpeed in request (for bike and car mode)
  
+### 0.25.2
+- Hotfix for central maven deployment issue
+
+### 0.25.1
+- Fix javadoc errors
+
 ### 0.25.0
 - Add Snapping Related params to CompetingRouting RoutingOptions.
-- Fix central maven deploy
-- Fix javadoc errors
+- Fix central maven deployment issue
 
 ### 0.24.0
 - Add includeSnapDistance, useAreaSnapping, and snapRadius to travel options
