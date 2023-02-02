@@ -601,6 +601,7 @@ public final class RequestConfigurator {
                 travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
                 travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
                 travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
+                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
                 break;
             case CAR:
                 travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
@@ -608,6 +609,7 @@ public final class RequestConfigurator {
                     travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
                 if (travelOptions.getTime() != null)
                     travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
+                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
                 break;
             default:
                 break;

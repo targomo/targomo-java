@@ -78,6 +78,7 @@ public class Constants {
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
+    public static final String SNAP_WALK_SPEED                                          = "walkSpeed";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
