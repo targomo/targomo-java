@@ -1,0 +1,42 @@
+{
+  "elevation": true,
+  "polygon": {
+    "pointReduction": true,
+    "intersectionMode": "UNION",
+    "values": [
+      600,
+      1200,
+      1800,
+      2400,
+      3000,
+      3600
+    ],
+    "minPolygonHoleSize": 100000000,
+    "serializer": "json",
+    "polygonOrientationRule" : "right_hand",
+    "srid" : 25833
+  },
+  "sources": [
+    {
+      "lng": -73.976636,
+      "tm": {
+        "car": {
+          "date":20161020,
+          "time":55852,
+          "rushHour":false,
+          "walkSpeed":5,
+          "includeSnapDistance": true,
+          "useAreaSnapping": true,
+          "snapRadius": 200,
+          "excludeEdgeClassesFromSnapping": [11, 12]
+        }
+      },
+      "id": "id1",
+      "reverse": false,
+      "lat": 40.608155
+    }
+  ],
+  "reverse": false,
+  "edgeWeight": "DISTANCE",
+  "travelTimeFactors":{"all":0.9,"motorway":0.7}
+}
