@@ -9,6 +9,7 @@ import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
+import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
@@ -184,7 +185,6 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, "boundingBox", "\"" + travelOptions.getBoundingBox() + "\"");
 
             if (travelOptions.getOsmTypes() != null) {
-
                 ObjectMapper mapper = new ObjectMapper();
                 JSONBuilder.append(config, "osmTypes", mapper.writeValueAsString(travelOptions.getOsmTypes()));
             }
@@ -211,24 +211,20 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, TRAVEL_TIME_FACTORS, travelFactors);
             }
 
-            if ( travelOptions.getClipGeometry() != null ) {
-                JSONObject clipGeometry = new JSONObject()
-                        .put(CRS, travelOptions.getClipGeometry().getCrs())
-                        .put(DATA, travelOptions.getClipGeometry().getData());
-                JSONBuilder.append(config, CLIP_GEOMETRY, clipGeometry);
-            }
+            if ( travelOptions.getClipGeometry() != null )
+                JSONBuilder.append(config, CLIP_GEOMETRY, parseGeometry(travelOptions.getClipGeometry()));
 
-            if (travelOptions.getMaxSnapDistance() != null) {
+            if ( travelOptions.getExclusionGeometry() != null )
+                JSONBuilder.append(config, EXCLUSION_GEOMETRY, parseGeometry(travelOptions.getExclusionGeometry()));
+
+            if (travelOptions.getMaxSnapDistance() != null)
                 JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
-            }
 
-            if (travelOptions.getNextStopsStartTime() != null){
+            if (travelOptions.getNextStopsStartTime() != null)
                 JSONBuilder.append(config, NEXT_STOPS_START_TIME, travelOptions.getNextStopsStartTime());
-            }
 
-            if (travelOptions.getNextStopsEndTime() != null){
+            if (travelOptions.getNextStopsEndTime() != null)
                 JSONBuilder.append(config, NEXT_STOPS_END_TIME, travelOptions.getNextStopsEndTime());
-            }
 
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
             
@@ -279,15 +275,8 @@ public final class RequestConfigurator {
         if ( travelOptions.getPolygonSerializerType() != null )
             polygon.put(SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
-        if ( travelOptions.getIntersectionGeometry() != null ) {
-
-			JSONObject intersectionPolygon = new JSONObject();
-			intersectionPolygon.put("crs",  travelOptions.getIntersectionGeometry().getCrs());
-			intersectionPolygon.put("data", travelOptions.getIntersectionGeometry().getData());
-			// has to be geojson ATM
-			intersectionPolygon.put("type", travelOptions.getIntersectionGeometry().getType());
-            polygon.put("intersectionGeometry", intersectionPolygon);
-		}
+        if ( travelOptions.getIntersectionGeometry() != null )
+            polygon.put("intersectionGeometry", parseGeometry(travelOptions.getIntersectionGeometry()));
 
 		return polygon;
 	}
@@ -644,8 +633,6 @@ public final class RequestConfigurator {
         return travelType;
     }
 
-
-
     private static JSONObject getSourceObject(final TravelOptions travelOptions,
                                               final com.targomo.client.api.geo.Location src) throws JSONException {
         TravelType travelType = getTravelType(travelOptions, src);
@@ -677,5 +664,19 @@ public final class RequestConfigurator {
             source.put(REVERSE, travelOptions.getReverse());
         }
         return source;
+    }
+
+    /**
+     * Parse a geometry into a json object
+     * @param geometry The Geometry to be parsed
+     * @throws JSONException If failing to add any of the geometry qualities
+     */
+    private static JSONObject parseGeometry(Geometry geometry) throws JSONException {
+        JSONObject geometryPolygon = new JSONObject();
+        geometryPolygon.put("crs",  geometry.getCrs());
+        geometryPolygon.put("data", geometry.getData());
+        // has to be geojson ATM
+        geometryPolygon.put("type", geometry.getType());
+        return geometryPolygon;
     }
 }

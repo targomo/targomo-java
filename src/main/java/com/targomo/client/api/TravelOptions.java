@@ -203,6 +203,9 @@ public class TravelOptions implements Serializable {
 	@Transient
 	private Geometry intersectionGeometry;
 
+    @Transient
+    private Geometry exclusionGeometry;
+
 	@Transient
 	private String boundingBox;
 
@@ -893,6 +896,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(date, that.date) &&
                 Objects.equals(frame, that.frame) &&
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
+				Objects.equals(exclusionGeometry, that.exclusionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
                 Objects.equals(polygonOrientationRule, that.polygonOrientationRule) &&
@@ -980,7 +984,7 @@ public class TravelOptions implements Serializable {
         return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry,
+                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
@@ -1022,6 +1026,8 @@ public class TravelOptions implements Serializable {
         builder.append(cacheResult);
         builder.append("\n\tintersectionGeometry: ");
         builder.append(intersectionGeometry != null ? intersectionGeometry.toString() : null);
+        builder.append("\n\texclusionGeometry: ");
+        builder.append(exclusionGeometry != null ? exclusionGeometry.toString() : null);
         builder.append(" {\n\tsources: ");
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
         builder.append(" {\n\tsourceGeometries: ");
@@ -1745,6 +1751,14 @@ public class TravelOptions implements Serializable {
 	public void setIntersectionGeometry(Geometry intersectionGeometry) {
 		this.intersectionGeometry = intersectionGeometry;
 	}
+
+    public Geometry getExclusionGeometry() {
+        return exclusionGeometry;
+    }
+
+    public void setExclusionGeometry(Geometry exclusionGeometry) {
+        this.exclusionGeometry = exclusionGeometry;
+    }
 
     public boolean isForceRecalculate() {
         return forceRecalculate;
