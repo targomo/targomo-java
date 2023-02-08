@@ -1,0 +1,45 @@
+{
+    "edgeStatisticIds": [
+        0,
+        1
+    ],
+    "routingOptions": {
+        "polygon": {
+            "pointReduction": true,
+            "intersectionMode": "UNION",
+            "values": [
+                600,
+                1200,
+                1800
+            ],
+            "minPolygonHoleSize": 100000000,
+            "serializer": "json"
+        },
+        "intersectionMode": "UNION",
+        "sources": [
+            {
+                "lng": 13.42883045,
+                "tm": {
+                    "car": {
+                        "walkSpeed": 5,
+                        "rushHour": false
+                    }
+                },
+                "id": "p1",
+                "reverse": false,
+                "lat": 52.5494892
+            }
+        ],
+        "pathSerializer": "compact",
+        "elevation": true,
+        "reverse": false,
+        "edgeWeight": "time",
+        "serviceUrl": "https://api.targomo.com/edge-statistics/",
+        "serviceKey": "KEY",
+        "osmTypes": [],
+        "onlyPrintReachablePoints": true,
+        "forceRecalculate": false,
+        "cacheResult": true,
+        "maxEdgeWeight": 80
+    }
+}
