@@ -97,7 +97,7 @@ public class EdgeStatisticsReachabilityRequest {
 
         EdgeStatisticsReachabilityBody cfg = new EdgeStatisticsReachabilityBody(edgeStatisticIds, travelOptions);
 
-        log.debug(String.format("Executing edge statistics request (%s) to URI: '%s'", path, target.getUri()));
+        log.debug(String.format("Executing edge statistics reachability request (%s) to URI: '%s'", path, target.getUri()));
 
         // Execute POST request
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
@@ -124,7 +124,7 @@ public class EdgeStatisticsReachabilityRequest {
                 return new ObjectMapper().readValue(responseStr, typeRef);
             }
             catch (JsonProcessingException e){
-                throw new TargomoClientRuntimeException("Couldn't parse Edge Statistics response", e);
+                throw new TargomoClientRuntimeException("Couldn't parse Edge Statistics reachability response", e);
             }
         }
         else {
