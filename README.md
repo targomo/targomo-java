@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.27.0
+- Integrate RoutingAggregationType into StatisticsGravitationCriterion
 - Include `exclusionGeometry` in travel options
 
 ### 0.26.0
