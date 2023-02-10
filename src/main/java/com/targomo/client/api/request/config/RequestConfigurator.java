@@ -212,10 +212,10 @@ public final class RequestConfigurator {
             }
 
             if ( travelOptions.getClipGeometry() != null )
-                JSONBuilder.append(config, CLIP_GEOMETRY, parseGeometry(travelOptions.getClipGeometry()));
+                JSONBuilder.append(config, CLIP_GEOMETRY, createGeometryJson(travelOptions.getClipGeometry()));
 
             if ( travelOptions.getExclusionGeometry() != null )
-                JSONBuilder.append(config, EXCLUSION_GEOMETRY, parseGeometry(travelOptions.getExclusionGeometry()));
+                JSONBuilder.append(config, EXCLUSION_GEOMETRY, createGeometryJson(travelOptions.getExclusionGeometry()));
 
             if (travelOptions.getMaxSnapDistance() != null)
                 JSONBuilder.append(config, MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
@@ -276,7 +276,7 @@ public final class RequestConfigurator {
             polygon.put(SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
         if ( travelOptions.getIntersectionGeometry() != null )
-            polygon.put("intersectionGeometry", parseGeometry(travelOptions.getIntersectionGeometry()));
+            polygon.put("intersectionGeometry", createGeometryJson(travelOptions.getIntersectionGeometry()));
 
 		return polygon;
 	}
@@ -671,7 +671,7 @@ public final class RequestConfigurator {
      * @param geometry The Geometry to be parsed
      * @throws JSONException If failing to add any of the geometry qualities
      */
-    private static JSONObject parseGeometry(Geometry geometry) throws JSONException {
+    private static JSONObject createGeometryJson(Geometry geometry) throws JSONException {
         JSONObject geometryPolygon = new JSONObject();
         geometryPolygon.put("crs",  geometry.getCrs());
         geometryPolygon.put("data", geometry.getData());
