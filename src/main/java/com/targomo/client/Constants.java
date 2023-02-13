@@ -77,6 +77,7 @@ public class Constants {
     public static final String INCLUDE_SNAP_DISTANCE                                    = "includeSnapDistance";
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";
+    public static final String WALK_SPEED                                               = "walkSpeed";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
     public static final String SNAP_WALK_SPEED                                          = "walkSpeed";
 
