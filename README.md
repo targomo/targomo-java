@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.27.0
 - Add EdgeStatisticsReachabilityRequest
+- Integrate RoutingAggregationType into StatisticsGravitationCriterion
 
 ### 0.26.0
 - Include walkSpeed in request (for bike and car mode)
