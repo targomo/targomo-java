@@ -673,8 +673,8 @@ public final class RequestConfigurator {
      */
     private static JSONObject createGeometryJson(Geometry geometry) throws JSONException {
         JSONObject geometryPolygon = new JSONObject();
-        geometryPolygon.put("crs",  geometry.getCrs());
-        geometryPolygon.put("data", geometry.getData());
+        geometryPolygon.put(CRS,  geometry.getCrs());
+        geometryPolygon.put(DATA, geometry.getData());
         // has to be geojson ATM
         geometryPolygon.put("type", geometry.getType());
         return geometryPolygon;
