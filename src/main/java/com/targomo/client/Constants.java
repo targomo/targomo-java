@@ -74,6 +74,7 @@ public class Constants {
     public static final String FORCE_RECALCULATE                                        = "forceRecalculate";
     public static final String CACHE_RESULT                                             = "cacheResult";
     public static final String CLIP_GEOMETRY                                            = "clipGeometry";
+    public static final String EXCLUSION_GEOMETRY                                       = "exclusionGeometry";
     public static final String INCLUDE_SNAP_DISTANCE                                    = "includeSnapDistance";
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";

@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add EdgeStatisticsReachabilityRequest
 - Integrate RoutingAggregationType into StatisticsGravitationCriterion
 - Add h3hexagon to MultiGraph layer types
+- Include `exclusionGeometry` in travel options
 
 ### 0.26.0
 - Include walkSpeed in request (for bike and car mode)
