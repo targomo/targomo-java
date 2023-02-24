@@ -19,6 +19,7 @@ public enum MultiGraphLayerType {
     IDENTITY            (Constants.KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY,          false, MultiGraphDomainType.values()),
     TILE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,              true,  EDGE, NODE),
     HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,           true,  EDGE, NODE),
+    H3HEXAGON           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_H3HEXAGON,         true,  EDGE, NODE),
     CUSTOM_GEOMETRIES   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES, false, MultiGraphDomainType.values());
 
     private final String key;
