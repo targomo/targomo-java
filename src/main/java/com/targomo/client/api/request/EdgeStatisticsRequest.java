@@ -35,7 +35,7 @@ public class EdgeStatisticsRequest {
 	private final EdgeStatisticsRequestOptions requestOptions;
 
 	/**
-	 * Use a custom client implementation with specified options and method
+	 * Use a custom client implementation with specified options and default headers
 	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */
 	public EdgeStatisticsRequest(Client client, String serviceUrl, String serviceKey, int edgeStatisticCollectionId,
@@ -44,7 +44,7 @@ public class EdgeStatisticsRequest {
 	}
 
 	/**
-	 * Use default client implementation with specified options and method
+	 * Use default client implementation with specified options and default headers
 	 * Default client uses {@link ClientBuilder}
 	 * @see EdgeStatisticsRequest#EdgeStatisticsRequest(Client, String, String, int, EdgeStatisticsRequestOptions, MultivaluedMap)
 	 */

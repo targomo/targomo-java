@@ -74,6 +74,7 @@ public class Constants {
     public static final String FORCE_RECALCULATE                                        = "forceRecalculate";
     public static final String CACHE_RESULT                                             = "cacheResult";
     public static final String CLIP_GEOMETRY                                            = "clipGeometry";
+    public static final String EXCLUSION_GEOMETRY                                       = "exclusionGeometry";
     public static final String INCLUDE_SNAP_DISTANCE                                    = "includeSnapDistance";
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";
@@ -96,6 +97,7 @@ public class Constants {
     public static final String MULTIGRAPH_LAYER_TYPE                                    = "type";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_TILE                           = "tile";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON                        = "hexagon";
+    public static final String KEY_MULTIGRAPH_LAYER_TYPE_H3HEXAGON                      = "h3hexagon";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY                       = "identity";
     public static final String KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES              = "custom_geometries";
     public static final String MULTIGRAPH_LAYER_GEOMETRY_DETAIL_PER_TILE                = "geometryDetailPerTile";
