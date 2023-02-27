@@ -51,6 +51,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.28.0
+
 ### 0.27.0
 - Add EdgeStatisticsReachabilityRequest
 - Integrate RoutingAggregationType into StatisticsGravitationCriterion
