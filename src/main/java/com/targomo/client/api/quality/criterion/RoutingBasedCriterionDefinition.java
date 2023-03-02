@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRequestConfigurationException;
+import com.targomo.client.api.pojo.Geometry;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,6 +36,8 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
     private final Integer maxSnapDistance;
+    private final Geometry exclsuionGeometry;
+
     @Setter
     private String coreServiceUrl;
 
