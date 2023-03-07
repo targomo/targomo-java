@@ -52,6 +52,8 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.28.0
+- Remove `maxSnapDistance` option from quality criterion root level
+- Include `exclusionGeometry` in quality criteria
 
 ### 0.27.0
 - Add EdgeStatisticsReachabilityRequest
