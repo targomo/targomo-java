@@ -34,7 +34,6 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Boolean elevation;
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
-    private final Integer maxSnapDistance;
     private final Geometry exclusionGeometry;
 
     @Setter
