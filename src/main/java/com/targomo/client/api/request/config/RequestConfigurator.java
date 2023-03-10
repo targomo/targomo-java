@@ -614,7 +614,7 @@ public final class RequestConfigurator {
         if (travelOptions.getExcludeEdgeClassesFromSnapping() != null)
             travelMode.put(EXCLUDE_EDGE_CLASSES_FROM_SNAPPING, new JSONArray(travelOptions.getExcludeEdgeClassesFromSnapping()));
         if (travelOptions.getMaxSnapDistance() != null)
-            travelMode.put(MAX_SNAP_DISTANCE, new JSONArray(travelOptions.getMaxSnapDistance()));
+            travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
 
         return travelMode;
     }
