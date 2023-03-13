@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.28.0
 - Remove `maxSnapDistance` option from quality criterion root level
+- Add `maxSnapDistance` option into travelMode object
 - Include `exclusionGeometry` in quality criteria
 
 ### 0.27.0
