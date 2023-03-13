@@ -10,11 +10,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.jackson.Jacksonized;
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ReferenceCriterionDefinition.class, name = Constants.CRITERION_TYPE_REFERENCE),
         @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_CLOSEST_POI_DISTANCE),
+        @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE),
         @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_COVERAGE_COUNT),
         @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_COVERAGE_DISTANCE),
         @JsonSubTypes.Type(value = PoiInZoneCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_COUNT_IN_ZONE),
