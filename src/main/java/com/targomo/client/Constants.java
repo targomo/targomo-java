@@ -189,6 +189,7 @@ public class Constants {
     public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
     public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
     public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
+    public static final String CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE = "closestPoiAbsoluteDistance";
     public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
     public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
