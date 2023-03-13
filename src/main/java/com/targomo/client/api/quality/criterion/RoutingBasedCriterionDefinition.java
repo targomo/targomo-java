@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRequestConfigurationException;
+import com.targomo.client.api.pojo.Geometry;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 
 import javax.validation.constraints.NotEmpty;
@@ -34,7 +34,8 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Boolean elevation;
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
-    private final Integer maxSnapDistance;
+    private final Geometry exclusionGeometry;
+
     @Setter
     private String coreServiceUrl;
 

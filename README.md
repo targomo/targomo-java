@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.25.2</version>
+    <version>0.28.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,11 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.28.0
+- Remove `maxSnapDistance` option from quality criterion root level
+- Add `maxSnapDistance` option into travelMode object
+- Include `exclusionGeometry` in quality criteria
 
 ### 0.27.0
 - Add EdgeStatisticsReachabilityRequest
