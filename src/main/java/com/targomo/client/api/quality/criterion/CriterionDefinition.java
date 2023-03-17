@@ -25,6 +25,7 @@ import lombok.experimental.SuperBuilder;
         @JsonSubTypes.Type(value = StatisticsOnEnclosingCellCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL),
         @JsonSubTypes.Type(value = PoiGravitationCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_GRAVITATION_SUM),
         @JsonSubTypes.Type(value = EdgeStatisticsCriterionDefinition.class, name = Constants.CRITERION_TYPE_EDGE_STATISTICS),
+        @JsonSubTypes.Type(value = EdgeStatisticsReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_EDGE_STATISTICS_REACHABILITY),
         @JsonSubTypes.Type(value = MathAggregationCriterionDefinition.class, name = Constants.CRITERION_TYPE_MATH_AGGREGATION),
         @JsonSubTypes.Type(value = MobilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_STAYPOINT_COUNT),
         @JsonSubTypes.Type(value = TransitStopsCriterionDefinition.class, name = Constants.CRITERION_TYPE_TRANSIT_STOPS_SUM),
