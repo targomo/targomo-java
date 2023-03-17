@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.29.0
+- Add H3 MultiGraph buffering parameters
 
 ### 0.28.0
 - Remove `maxSnapDistance` option from quality criterion root level

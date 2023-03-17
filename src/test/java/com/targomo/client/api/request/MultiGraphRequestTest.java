@@ -3,9 +3,7 @@ package com.targomo.client.api.request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.enums.MultiGraphSerializationFormat;
-import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.enums.*;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.request.config.RequestConfigurator;
@@ -13,6 +11,8 @@ import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.MultiGraphResponse.*;
 import com.targomo.client.api.response.ResponseCode;
+import com.targomo.client.api.util.CollectionUtils;
+import com.targomo.client.api.util.GeojsonUtil;
 import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -130,6 +130,27 @@ public class MultiGraphRequestTest extends RequestTest {
                 out.println( new ObjectMapper().writeValueAsString(response.getData()) );
             }
         }
+    }
+
+    @Test
+    @Ignore("System test - needs local R360 server to run - also a valid API_KEY needs to be set")
+    public void testH3JsonLocally() throws Exception {
+
+        Client client = SslClientGenerator.initClient();
+        client.register(GZipEncoder.class);
+        TravelOptions travelOptions = getTravelOptions();
+        travelOptions.setTravelType(TravelType.CAR);
+        travelOptions.setMaxEdgeWeight(600);
+        travelOptions.setMultiGraphLayerType(MultiGraphLayerType.H3HEXAGON);
+        travelOptions.setMultiGraphLayerGeometryDetailLevel(10);
+        travelOptions.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
+        travelOptions.setMultiGraphSerializationH3IdFormat(MultiGraphSerializationH3IdFormat.STRING);
+        MultiGraphResponse.MultiGraphH3JsonResponse<String> response = MultiGraphRequest.executeRequestH3StringJson(client, travelOptions);
+        System.out.println(response.getData());
+
+        travelOptions.setMultiGraphSerializationH3IdFormat(MultiGraphSerializationH3IdFormat.NUMERIC);
+        MultiGraphResponse.MultiGraphH3JsonResponse<Long> response2 = MultiGraphRequest.executeRequestH3NumericJson(client, travelOptions);
+        System.out.println(response2.getData());
     }
 
     @Test

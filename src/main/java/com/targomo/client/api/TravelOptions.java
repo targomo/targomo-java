@@ -144,6 +144,10 @@ public class TravelOptions implements Serializable {
     @Transient private MultiGraphSerializationFormat multiGraphSerializationFormat           = null;
     @Transient private Integer multiGraphSerializationDecimalPrecision                       = null;
     @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
+    @Transient @Getter @Setter private Integer multiGraphSerializationH3MaxBuffer            = null;
+    @Transient @Getter @Setter private Float multiGraphSerializationH3BufferSpeed            = null;
+    @Transient @Getter @Setter private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    @Transient @Getter @Setter private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
     @Transient private Float multiGraphAggregationOutlierPenalty                             = null;
@@ -911,6 +915,10 @@ public class TravelOptions implements Serializable {
                 multiGraphSerializationFormat == that.multiGraphSerializationFormat &&
                 Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
                 Objects.equals(multiGraphSerializationMaxGeometryCount, that.multiGraphSerializationMaxGeometryCount) &&
+                Objects.equals(multiGraphSerializationH3MaxBuffer, that.multiGraphSerializationH3MaxBuffer) &&
+                Objects.equals(multiGraphSerializationH3BufferSpeed, that.multiGraphSerializationH3BufferSpeed) &&
+                Objects.equals(multiGraphSerializationH3BufferFixedValue, that.multiGraphSerializationH3BufferFixedValue) &&
+                Objects.equals(multiGraphSerializationH3IdFormat, that.multiGraphSerializationH3IdFormat) &&
                 multiGraphAggregationType == that.multiGraphAggregationType &&
                 Objects.equals(multiGraphAggregationIgnoreOutliers, that.multiGraphAggregationIgnoreOutliers) &&
                 Objects.equals(multiGraphAggregationOutlierPenalty, that.multiGraphAggregationOutlierPenalty) &&
@@ -987,6 +995,7 @@ public class TravelOptions implements Serializable {
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
+                multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3IdFormat,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound,
@@ -1106,6 +1115,14 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphSerializationDecimalPrecision);
         builder.append("\n\tmultiGraphSerializationMaxGeometryCount: ");
         builder.append(multiGraphSerializationMaxGeometryCount);
+        builder.append("\n\tmultiGraphSerializationH3MaxBuffer: ");
+        builder.append(multiGraphSerializationH3MaxBuffer);
+        builder.append("\n\tmultiGraphSerializationH3BufferSpeed: ");
+        builder.append(multiGraphSerializationH3BufferSpeed);
+        builder.append("\n\tmultiGraphSerializationH3BufferFixedValue: ");
+        builder.append(multiGraphSerializationH3BufferFixedValue);
+        builder.append("\n\tmultiGraphSerializationH3IdFormat: ");
+        builder.append(multiGraphSerializationH3IdFormat);
         builder.append("\n\tmultiGraphDomainType: ");
         builder.append(multiGraphDomainType);
         builder.append("\n\tmultiGraphDomainEdgeAggregationType: ");
