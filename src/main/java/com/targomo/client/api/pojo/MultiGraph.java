@@ -42,6 +42,10 @@ public class MultiGraph extends BaseGraph {
         return layers;
     }
 
+    public String[] getLayerKeys() {
+        return getLayers().keySet().toArray(new String[0]);
+    }
+
     public MultiGraphDomainType getDomainType() {
         return domainType;
     }
