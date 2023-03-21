@@ -120,6 +120,12 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_JSON                 = "json";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_GEOJSON              = "geojson";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
+    public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_STRING         = "string";
+    public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_NUMERIC        = "numeric";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER                   = "h3MaxBuffer";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED                 = "h3BufferSpeed";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE           = "h3BufferFixedValue";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT                    = "h3IdFormat";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                     = "none";
