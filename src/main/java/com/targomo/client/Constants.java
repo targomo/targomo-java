@@ -195,6 +195,7 @@ public class Constants {
     public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
     public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
     public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
+    public static final String CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE = "closestPoiAbsoluteDistance";
     public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
     public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
@@ -203,6 +204,7 @@ public class Constants {
     public static final String CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL = "statisticsOnEnclosingCell";
     public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
     public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";
+    public static final String CRITERION_TYPE_EDGE_STATISTICS_REACHABILITY = "edgeStatisticsReachability";
     public static final String CRITERION_TYPE_MATH_AGGREGATION = "mathAggregation";
     public static final String CRITERION_TYPE_STAYPOINT_COUNT = "staypointCount";
     public static final String CRITERION_TYPE_TRANSIT_STOPS_SUM = "transitStopsSum";

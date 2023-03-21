@@ -53,6 +53,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
+- Add new quality criterion: closest POI absolute distance
+- Add new quality criterion: edge statistics reachability
 
 ### 0.28.0
 - Remove `maxSnapDistance` option from quality criterion root level
