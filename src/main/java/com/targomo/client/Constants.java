@@ -120,6 +120,12 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_JSON                 = "json";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_GEOJSON              = "geojson";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
+    public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_STRING         = "string";
+    public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_NUMERIC        = "numeric";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER                   = "h3MaxBuffer";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED                 = "h3BufferSpeed";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE           = "h3BufferFixedValue";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT                    = "h3IdFormat";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NONE                     = "none";
@@ -189,6 +195,7 @@ public class Constants {
     public static final String CRITERION_TYPE_POI_COVERAGE_COUNT = "poiCoverageCount";
     public static final String CRITERION_TYPE_POI_COVERAGE_DISTANCE = "poiCoverageDistance";
     public static final String CRITERION_TYPE_CLOSEST_POI_DISTANCE = "closestPoiDistance";
+    public static final String CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE = "closestPoiAbsoluteDistance";
     public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
     public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
@@ -197,6 +204,7 @@ public class Constants {
     public static final String CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL = "statisticsOnEnclosingCell";
     public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
     public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";
+    public static final String CRITERION_TYPE_EDGE_STATISTICS_REACHABILITY = "edgeStatisticsReachability";
     public static final String CRITERION_TYPE_MATH_AGGREGATION = "mathAggregation";
     public static final String CRITERION_TYPE_STAYPOINT_COUNT = "staypointCount";
     public static final String CRITERION_TYPE_TRANSIT_STOPS_SUM = "transitStopsSum";

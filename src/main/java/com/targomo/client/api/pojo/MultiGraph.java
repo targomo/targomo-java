@@ -1,6 +1,7 @@
 package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.MultiGraphDomainType;
 import gnu.trove.map.TIntFloatMap;
@@ -40,6 +41,11 @@ public class MultiGraph extends BaseGraph {
 
     public Map<String, TIntFloatMap> getLayers() {
         return layers;
+    }
+
+    @JsonIgnore
+    public String[] getLayerKeys() {
+        return getLayers().keySet().toArray(new String[0]);
     }
 
     public MultiGraphDomainType getDomainType() {

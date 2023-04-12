@@ -110,6 +110,10 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(),
                     travelOptions.getMultiGraphSerializationMaxGeometryCount(),
+                    travelOptions.getMultiGraphSerializationH3MaxBuffer(),
+                    travelOptions.getMultiGraphSerializationH3BufferSpeed(),
+                    travelOptions.getMultiGraphSerializationH3BufferFixedValue(),
+                    travelOptions.getMultiGraphSerializationH3IdFormat(),
                     travelOptions.getMultiGraphDomainType(),
                     travelOptions.getMultiGraphDomainEdgeAggregationType(),
                     travelOptions.getMultiGraphAggregationType(),
@@ -381,6 +385,18 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphSerializationMaxGeometryCount() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
+
+            if ( travelOptions.getMultiGraphSerializationH3MaxBuffer() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER, travelOptions.getMultiGraphSerializationH3MaxBuffer());
+
+            if ( travelOptions.getMultiGraphSerializationH3BufferSpeed() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED, travelOptions.getMultiGraphSerializationH3BufferSpeed());
+
+            if ( travelOptions.getMultiGraphSerializationH3BufferFixedValue() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE, travelOptions.getMultiGraphSerializationH3BufferFixedValue());
+
+            if ( travelOptions.getMultiGraphSerializationH3IdFormat() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT, travelOptions.getMultiGraphSerializationH3IdFormat().getKey());
 
             multiGraph.put( MULTIGRAPH_SERIALIZATION, multiGraphSerialization);
         }
