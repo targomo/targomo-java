@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.29.0-SNAPSHOT</version>
+    <version>0.30.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -50,6 +50,8 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.30.0
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
