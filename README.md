@@ -51,6 +51,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.30.0
+
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
 - Add new quality criterion: closest POI absolute distance
