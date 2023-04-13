@@ -43,7 +43,7 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder(toBuilder = true)
-public abstract class CriterionDefinition {
+public abstract class CriterionDefinition implements CriterionDefinitionInterface{
     private final CriterionType type;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Double distanceExponent;

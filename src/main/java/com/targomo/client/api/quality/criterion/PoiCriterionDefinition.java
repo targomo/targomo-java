@@ -4,7 +4,7 @@ import com.targomo.client.api.statistic.PoiType;
 
 import java.util.Set;
 
-public interface PoiCriterionDefinition {
+public interface PoiCriterionDefinition extends CriterionDefinitionInterface{
 
     CriterionType getType();
 

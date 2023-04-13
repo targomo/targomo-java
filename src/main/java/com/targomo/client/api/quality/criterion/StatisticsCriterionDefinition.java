@@ -2,7 +2,7 @@ package com.targomo.client.api.quality.criterion;
 
 import java.util.List;
 
-public interface StatisticsCriterionDefinition {
+public interface StatisticsCriterionDefinition  extends CriterionDefinitionInterface{
 
     CriterionType getType();
 
