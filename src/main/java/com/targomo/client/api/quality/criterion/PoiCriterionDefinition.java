@@ -6,8 +6,6 @@ import java.util.Set;
 
 public interface PoiCriterionDefinition extends CriterionDefinitionInterface{
 
-    CriterionType getType();
-
     Set<PoiType> getOsmTypes();
 
     Set<PoiType> getReferenceOsmTypes();

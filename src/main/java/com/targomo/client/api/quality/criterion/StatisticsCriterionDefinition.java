@@ -4,8 +4,6 @@ import java.util.List;
 
 public interface StatisticsCriterionDefinition  extends CriterionDefinitionInterface{
 
-    CriterionType getType();
-
     Integer getStatisticCollectionId();
     Integer getStatisticGroupId();
 
