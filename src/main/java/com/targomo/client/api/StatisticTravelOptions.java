@@ -39,9 +39,6 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Map<String,AbstractGeometry> inactiveGeometrySources = new HashMap<>();
 
-    @Column(name = "iFeelLucky")
-    private boolean iFeelLucky = false;
-
     @Column(name = "get_closest_sources")
     private boolean getClosestSources = false;
 
@@ -94,6 +91,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private Boolean multiGraphIgnoreRoutingErrorMessages = false;
 
+    @Transient
+    private boolean useH3Reachability = false;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -102,12 +102,12 @@ public class StatisticTravelOptions extends TravelOptions {
         this.inactiveSources = inactiveSources;
     }
 
-    public boolean isiFeelLucky() {
-        return iFeelLucky;
+    public boolean isUseH3Reachability() {
+        return useH3Reachability;
     }
 
-    public void setiFeelLucky(boolean iFeelLucky) {
-        this.iFeelLucky = iFeelLucky;
+    public void setUseH3Reachability(boolean useH3Reachability) {
+        this.useH3Reachability = useH3Reachability;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(iFeelLucky, that.iFeelLucky) &&
+                Objects.equals(useH3Reachability, that.useH3Reachability) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
@@ -140,7 +140,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, iFeelLucky, getClosestSources,
+        return Objects.hash(super.hashCode(), inactiveSources, useH3Reachability, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId,
@@ -288,8 +288,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(getClass().getName());
         builder.append("\n\tinactiveSources: ");
         builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
-        builder.append("\n\tiFeelLucky: ");
-        builder.append(iFeelLucky);
         builder.append("\n\tomitIndividualStatistics: ");
         builder.append(omitIndividualStatistics);
         builder.append("\n\tcellIds: ");
@@ -320,6 +318,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(routingAggregationType);
         builder.append("\n\tmultiGraphIgnoreRoutingErrorMessages: ");
         builder.append(multiGraphIgnoreRoutingErrorMessages);
+        builder.append("\n\tuseH3Reachability: ");
+        builder.append(useH3Reachability);
         builder.append("\n}\n");
         return builder.toString();
     }
