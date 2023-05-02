@@ -461,6 +461,9 @@ public final class RequestConfigurator {
         if (aggregationConfiguration.getSourceValuesUpperBound() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND, aggregationConfiguration.getSourceValuesUpperBound());
 
+        if (aggregationConfiguration.getSourceValuesModifier() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_SOURCE_VALUES_MODIFIER, aggregationConfiguration.getSourceValuesModifier());
+
         if (aggregationConfiguration.getMinResultValueRatio() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO, aggregationConfiguration.getMinResultValueRatio());
 

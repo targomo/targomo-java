@@ -37,6 +37,7 @@
       "minSourcesRatio": 0.5,
       "sourceValuesLowerBound": 1,
       "sourceValuesUpperBound": 10000,
+      "sourceValuesModifier": 12,
       "minResultValueRatio": 0.8,
       "minResultValue": 10,
       "maxResultValueRatio": 0.6,

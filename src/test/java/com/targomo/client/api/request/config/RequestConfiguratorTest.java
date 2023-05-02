@@ -180,7 +180,7 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"), Charset.forName("UTF-8"));
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare two objects

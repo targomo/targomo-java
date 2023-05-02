@@ -122,6 +122,7 @@ public class AggregationConfiguration {
             this.minSourcesCount = travelOptions.getMultiGraphAggregationMinSourcesCount();
             this.sourceValuesLowerBound = travelOptions.getMultiGraphAggregationSourceValuesLowerBound();
             this.sourceValuesUpperBound = travelOptions.getMultiGraphAggregationSourceValuesUpperBound();
+            this.sourceValuesModifier = travelOptions.getMultiGraphAggregationSourceValuesModifier();
             this.minResultValueRatio = travelOptions.getMultiGraphAggregationMinResultValueRatio();
             this.minResultValue = travelOptions.getMultiGraphAggregationMinResultValue();
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
@@ -178,6 +179,11 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder sourceValuesUpperBound(Float sourceValuesUpperBound) {
             this.sourceValuesUpperBound = sourceValuesUpperBound;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder sourceValuesModifier(Float sourceValuesModifier) {
+            this.sourceValuesModifier = sourceValuesModifier;
             return this;
         }
 
