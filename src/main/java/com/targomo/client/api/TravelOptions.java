@@ -156,7 +156,7 @@ public class TravelOptions implements Serializable {
     @Transient private Float multiGraphAggregationSourceValuesLowerBound                     = null;
     @Transient private Float multiGraphAggregationSourceValuesUpperBound                     = null;
     @Transient @Getter @Setter
-    private Float multiGraphAggregationSourceValuesModifier = 0f;
+    private Float multiGraphAggregationSourceValuesModifier                                  = null;
     @Transient private Double multiGraphAggregationMinResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMinResultValue                             = null;
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
