@@ -31,6 +31,8 @@ public class AggregationConfiguration {
     private Float sourceValuesLowerBound;
     // an upper bound for input values can be set, i.e. v = v > sourceValuesUpperBound ? sourceValuesUpperBound : v;
     private Float sourceValuesUpperBound;
+    // a constant modifier value added to the travelTimes and now v = Math.max((v + sourceValuesModifier), sourceValuesLowerBound);
+    private Float sourceValuesModifier;
     // The ratio which defines how many of the highest result values should be included
     // (if set to 0.9 that means that 90% of the highest results are included)
     // default: 1.0; condition: 1 < minResultValueRatio + maxResultValueRatio <= 2.0)
@@ -64,6 +66,7 @@ public class AggregationConfiguration {
         private Integer minSourcesCount;
         private Float sourceValuesLowerBound;
         private Float sourceValuesUpperBound;
+        private Float sourceValuesModifier;
         private Double minResultValueRatio;
         private Float minResultValue;
         private Double maxResultValueRatio;
@@ -87,6 +90,7 @@ public class AggregationConfiguration {
             this.minSourcesCount = toCopy.minSourcesCount;
             this.sourceValuesLowerBound = toCopy.sourceValuesLowerBound;
             this.sourceValuesUpperBound = toCopy.sourceValuesUpperBound;
+            this.sourceValuesModifier = toCopy.sourceValuesModifier;
             this.minResultValueRatio = toCopy.minResultValueRatio;
             this.minResultValue = toCopy.minResultValue;
             this.maxResultValueRatio = toCopy.maxResultValueRatio;
@@ -118,6 +122,7 @@ public class AggregationConfiguration {
             this.minSourcesCount = travelOptions.getMultiGraphAggregationMinSourcesCount();
             this.sourceValuesLowerBound = travelOptions.getMultiGraphAggregationSourceValuesLowerBound();
             this.sourceValuesUpperBound = travelOptions.getMultiGraphAggregationSourceValuesUpperBound();
+            this.sourceValuesModifier = travelOptions.getMultiGraphAggregationSourceValuesModifier();
             this.minResultValueRatio = travelOptions.getMultiGraphAggregationMinResultValueRatio();
             this.minResultValue = travelOptions.getMultiGraphAggregationMinResultValue();
             this.maxResultValueRatio = travelOptions.getMultiGraphAggregationMaxResultValueRatio();
@@ -174,6 +179,11 @@ public class AggregationConfiguration {
 
         public AggregationConfigurationBuilder sourceValuesUpperBound(Float sourceValuesUpperBound) {
             this.sourceValuesUpperBound = sourceValuesUpperBound;
+            return this;
+        }
+
+        public AggregationConfigurationBuilder sourceValuesModifier(Float sourceValuesModifier) {
+            this.sourceValuesModifier = sourceValuesModifier;
             return this;
         }
 
@@ -246,6 +256,7 @@ public class AggregationConfiguration {
                     minSourcesCount,
                     sourceValuesLowerBound,
                     sourceValuesUpperBound,
+                    sourceValuesModifier,
                     minResultValueRatio,
                     minResultValue,
                     maxResultValueRatio,
