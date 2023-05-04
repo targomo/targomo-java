@@ -25,12 +25,14 @@ public class Location {
     private final GeoJsonObject geometry;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final LocationProperties properties;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private final String collectionId;
     @JsonIgnore
     private final boolean point;
     @Setter @JsonIgnore
     private boolean competitor;
 
     public Location(String id, Double lat, Double lng, LocationProperties properties) {
-        this(id, lat, lng, null, null, properties, true, false);
+        this(id, lat, lng, null, null, properties, null, true, false);
     }
 }
