@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.30.0
 - Add a general criterion definition interface
+- Add multiGraphAggregationSourceValuesModifier to TravelOptions
 - Add statistics request parameter `useH3Reachability`, remove `iFeelLucky`
 
 ### 0.29.0

@@ -168,6 +168,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinSourcesRatio(0.5);
             options.setMultiGraphAggregationSourceValuesLowerBound(1.0f);
             options.setMultiGraphAggregationSourceValuesUpperBound(10000.0f);
+            options.setMultiGraphAggregationSourceValuesModifier(12f);
             options.setMultiGraphAggregationMinResultValue(10.0f);
             options.setMultiGraphAggregationMinResultValueRatio(0.8);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
@@ -179,7 +180,7 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/MultiGraphRequestCfgSample.json"), Charset.forName("UTF-8"));
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare two objects
