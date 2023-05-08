@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add multiGraphAggregationSourceValuesModifier to TravelOptions
 - Add statistics request parameter `useH3Reachability`, remove `iFeelLucky`
 - Add sourceValueModifier to Gravitation criterion
+- Change aggregation type NEAREST to aggregate in routing
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
