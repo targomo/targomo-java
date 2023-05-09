@@ -136,6 +136,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN                     = "mean";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN                   = "median";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST_ROUTING_UNION    = "nearest_routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
