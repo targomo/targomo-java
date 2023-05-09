@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add multiGraphAggregationSourceValuesModifier to TravelOptions
 - Add statistics request parameter `useH3Reachability`, remove `iFeelLucky`
 - Add sourceValueModifier to Gravitation criterion
+- Add `useStatisticTargets` Statistics Parameter
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
