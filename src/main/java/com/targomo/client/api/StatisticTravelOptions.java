@@ -94,6 +94,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private boolean useH3Reachability = false;
 
+    @Transient
+    private boolean useStatisticTargets = false;
+
     public Map<String,Coordinate> getInactiveSources() {
         return this.inactiveSources;
     }
@@ -110,6 +113,13 @@ public class StatisticTravelOptions extends TravelOptions {
         this.useH3Reachability = useH3Reachability;
     }
 
+    public boolean isUseStatisticTargets() {
+        return useStatisticTargets;
+    }
+
+    public void setUseStatisticTargets(boolean useStatisticTargets) {
+        this.useStatisticTargets = useStatisticTargets;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,6 +129,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
         return super.equals(o) &&
                 Objects.equals(useH3Reachability, that.useH3Reachability) &&
+                Objects.equals(useStatisticTargets, that.useStatisticTargets) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
@@ -140,7 +151,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, useH3Reachability, getClosestSources,
+        return Objects.hash(super.hashCode(), inactiveSources, useH3Reachability, useStatisticTargets, getClosestSources,
                 omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
                 multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
                 statisticIds, chartInterval, statisticCollectionId,
@@ -320,6 +331,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphIgnoreRoutingErrorMessages);
         builder.append("\n\tuseH3Reachability: ");
         builder.append(useH3Reachability);
+        builder.append("\n\tuseStatisticTargets: ");
+        builder.append(useStatisticTargets);
         builder.append("\n}\n");
         return builder.toString();
     }
