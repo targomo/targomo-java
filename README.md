@@ -58,6 +58,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add sourceValueModifier to Gravitation criterion
 - Add aggregation type NEAREST_ROUTING_UNION which aggregates in routing
 - Add `useStatisticTargets` Statistics Parameter
+- Replace lombok annotations with Javax validations in Routing Criteria
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
