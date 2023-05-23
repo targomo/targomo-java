@@ -9,6 +9,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class MathAggregationCriterionDefinition extends CriterionDefinition {
     @NotNull
     private final String mathExpression;
     @NotNull
-    private final Map<String, CriterionDefinition> criterionParameters;
+    private final Map<String, @Valid CriterionDefinition> criterionParameters;
 
     @Setter
     @JsonIgnore
