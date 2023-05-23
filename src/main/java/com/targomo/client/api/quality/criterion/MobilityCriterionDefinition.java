@@ -20,6 +20,8 @@ public class MobilityCriterionDefinition extends CriterionDefinition {
 
     @Setter
     @NotNull
+    private String mobilityServiceUrl;
+
     private final Integer minDuration;
     private final Integer maxDuration;
 
