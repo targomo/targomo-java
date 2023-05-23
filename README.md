@@ -59,6 +59,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add aggregation type NEAREST_ROUTING_UNION which aggregates in routing
 - Add `useStatisticTargets` Statistics Parameter
 - Add a new type of quality service's location: reference geometry
+- Replace lombok annotations with Javax validations in Multiple Criteria
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters
