@@ -155,6 +155,8 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
     @Transient private Float multiGraphAggregationSourceValuesLowerBound                     = null;
     @Transient private Float multiGraphAggregationSourceValuesUpperBound                     = null;
+    @Transient @Getter @Setter
+    private Float multiGraphAggregationSourceValuesModifier                                  = null;
     @Transient private Double multiGraphAggregationMinResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMinResultValue                             = null;
     @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
@@ -926,6 +928,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationMinSourcesCount, that.multiGraphAggregationMinSourcesCount) &&
                 Objects.equals(multiGraphAggregationSourceValuesLowerBound, that.multiGraphAggregationSourceValuesLowerBound) &&
                 Objects.equals(multiGraphAggregationSourceValuesUpperBound, that.multiGraphAggregationSourceValuesUpperBound) &&
+                Objects.equals(multiGraphAggregationSourceValuesModifier, that.multiGraphAggregationSourceValuesModifier) &&
                 Objects.equals(multiGraphAggregationMinResultValueRatio, that.multiGraphAggregationMinResultValueRatio) &&
                 Objects.equals(multiGraphAggregationMinResultValue, that.multiGraphAggregationMinResultValue) &&
                 Objects.equals(multiGraphAggregationMaxResultValueRatio, that.multiGraphAggregationMaxResultValueRatio) &&
@@ -998,7 +1001,7 @@ public class TravelOptions implements Serializable {
                 multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3IdFormat,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
-                multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound,
+                multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound, multiGraphAggregationSourceValuesModifier,
                 multiGraphAggregationMinResultValueRatio, multiGraphAggregationMinResultValue,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
                 multiGraphAggregationGravitationExponent, multiGraphAggregationProbabilityDecay, multiGraphAggregationLogitBetaAttractionStrength,
@@ -1141,6 +1144,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationSourceValuesLowerBound);
         builder.append("\n\tmultiGraphAggregationSourceValuesUpperBound: ");
         builder.append(multiGraphAggregationSourceValuesUpperBound);
+        builder.append("\n\tmultiGraphAggregationSourceValuesModifier: ");
+        builder.append(multiGraphAggregationSourceValuesModifier);
         builder.append("\n\tmultiGraphAggregationMinResultValueRatio: ");
         builder.append(multiGraphAggregationMinResultValueRatio);
         builder.append("\n\tmultiGraphAggregationMinResultValue: ");

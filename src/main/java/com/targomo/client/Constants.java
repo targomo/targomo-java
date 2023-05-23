@@ -136,6 +136,7 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEAN                     = "mean";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_MEDIAN                   = "median";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST                  = "nearest";
+    public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_NEAREST_ROUTING_UNION    = "nearest_routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_COUNT                    = "count";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_ROUTING_UNION            = "routing_union";
     public static final String KEY_MULTIGRAPH_AGGREGATION_TYPE_GRAVITATION_HUFF         = "gravitation_huff";
@@ -151,6 +152,7 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_MIN_SOURCES_COUNT                 = "minSourcesCount";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_LOWER_BOUND         = "sourceValuesLowerBound";
     public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND         = "sourceValuesUpperBound";
+    public static final String MULTIGRAPH_AGGREGATION_SOURCE_VALUES_MODIFIER            = "sourceValuesModifier";
     public static final String MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO            = "minResultValueRatio";
     public static final String MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE                  = "minResultValue";
     public static final String MULTIGRAPH_AGGREGATION_MAX_RESULT_VALUE_RATIO            = "maxResultValueRatio";

@@ -1,8 +1,6 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.targomo.client.api.enums.RoutingAggregationType;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
 import com.targomo.client.api.quality.Location;
@@ -35,6 +33,8 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
     private final Boolean calculateGravitationPerReferenceId;
 
     private final Float routingLowerBoundValue;
+
+    private final Float routingSourceModifier;
 
     private final List<CompetingRoutingOption> competingRoutingOptions;
     private final RoutingAggregationType routingAggregationType;

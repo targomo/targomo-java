@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.29.0</version>
+    <version>0.30.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,17 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.30.0
+- Add a general criterion definition interface
+- Add multiGraphAggregationSourceValuesModifier to TravelOptions
+- Add statistics request parameter `useH3Reachability`, remove `iFeelLucky`
+- Add sourceValueModifier to Gravitation criterion
+- Add aggregation type NEAREST_ROUTING_UNION which aggregates in routing
+- Add `useStatisticTargets` Statistics Parameter
+- Add a new type of quality service's location: reference geometry
+- Replace lombok annotations with Javax validations in Multiple Criteria
+- Add @Valid annotations in criteria to enable the validation of nested objects
 
 ### 0.29.0
 - Add H3 MultiGraph buffering parameters

@@ -6,7 +6,7 @@ import com.targomo.client.api.quality.Location;
 
 import java.util.List;
 
-public interface GravitationCriterionDefinition {
+public interface GravitationCriterionDefinition extends CriterionDefinitionInterface {
 
     TravelType getTravelType();
 

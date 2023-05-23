@@ -8,13 +8,13 @@ import com.targomo.client.api.exception.TargomoClientRequestConfigurationExcepti
 import com.targomo.client.api.pojo.Geometry;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +25,9 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class RoutingBasedCriterionDefinition extends CriterionDefinition {
 
-    @NonNull
+    @NotNull
     private final EdgeWeightType edgeWeight;
-    @NonNull
+    @NotNull
     private final Integer maxEdgeWeight;
     @NotEmpty
     private final CaseInsensitiveMap travelMode;

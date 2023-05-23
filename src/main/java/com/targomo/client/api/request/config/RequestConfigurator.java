@@ -123,6 +123,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationMinSourcesCount(),
                     travelOptions.getMultiGraphAggregationSourceValuesLowerBound(),
                     travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
+                    travelOptions.getMultiGraphAggregationSourceValuesModifier(),
                     travelOptions.getMultiGraphAggregationMinResultValue(),
                     travelOptions.getMultiGraphAggregationMinResultValueRatio(),
                     travelOptions.getMultiGraphAggregationMaxResultValue(),
@@ -406,6 +407,7 @@ public final class RequestConfigurator {
         if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
                 travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
                 travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
+                travelOptions.getMultiGraphAggregationSourceValuesModifier(),
                 travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
                 travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
                 travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationProbabilityDecay(),
@@ -458,6 +460,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getSourceValuesUpperBound() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_SOURCE_VALUES_UPPER_BOUND, aggregationConfiguration.getSourceValuesUpperBound());
+
+        if (aggregationConfiguration.getSourceValuesModifier() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_SOURCE_VALUES_MODIFIER, aggregationConfiguration.getSourceValuesModifier());
 
         if (aggregationConfiguration.getMinResultValueRatio() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_MIN_RESULT_VALUE_RATIO, aggregationConfiguration.getMinResultValueRatio());
