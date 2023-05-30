@@ -8,8 +8,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @Jacksonized
@@ -19,7 +17,6 @@ import javax.validation.constraints.NotNull;
 public class MobilityCriterionDefinition extends CriterionDefinition {
 
     @Setter
-    @NotNull
     private String mobilityServiceUrl;
 
     private final Integer minDuration;
