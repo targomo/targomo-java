@@ -260,6 +260,8 @@ public class TravelOptions implements Serializable {
 
     @Transient @Getter @Setter
     private List<Integer> excludeEdgeClassesFromSnapping;
+    @Transient @Getter @Setter
+    private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
 
     public String getBoundingBox() {
@@ -984,7 +986,8 @@ public class TravelOptions implements Serializable {
                 Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
                 Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
                 Objects.equals(snapRadius, that.snapRadius) &&
-                Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping);
+                Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
+                Objects.equals(multiGraphAggregationLearntMaxEdgeWeight, that.multiGraphAggregationLearntMaxEdgeWeight);
     }
 
 
@@ -1018,7 +1021,7 @@ public class TravelOptions implements Serializable {
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping);
+                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
     }
 
     /* (non-Javadoc)
@@ -1256,6 +1259,8 @@ public class TravelOptions implements Serializable {
         builder.append(snapRadius);
         builder.append("\n\texcludeEdgeClassesFromSnapping: ");
         builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
+        builder.append("\n\tmultiGraphAggregationLearntMaxEdgeWeight: ");
+        builder.append(multiGraphAggregationLearntMaxEdgeWeight);
         builder.append("\n}\n");
         return builder.toString();
     }

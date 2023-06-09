@@ -174,7 +174,8 @@ public class Constants {
     public static final String NEXT_STOPS_END_TIME                                      = "nextStopsEndTime";
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
-    public static final String MAX_EDGE_WEIGHT = "maxEdgeWeight";
+    public static final String MAX_EDGE_WEIGHT                                          = "maxEdgeWeight";
+    public static final String MULTIGRAPH_AGGREGATION_LEARNT_MAX_EDGE_WEIGHT = "learntMaxEdgeWeight";
     public static final String STATISTIC_GROUP_ID                                       = "statisticGroupId";
     public static final String STATISTICS_ID                                            = "statistics";
     public static final String FORMAT                                                   = "format";
