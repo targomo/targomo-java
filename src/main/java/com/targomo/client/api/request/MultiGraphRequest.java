@@ -43,7 +43,10 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
         if( (responseClass == MultiGraphJsonResponse.class &&
                 !MultiGraphSerializationFormat.JSON.equals( travelOptions.getMultiGraphSerializationFormat() )) ||
                 (responseClass == MultiGraphGeoJsonResponse.class &&
-                        !MultiGraphSerializationFormat.GEOJSON.equals( travelOptions.getMultiGraphSerializationFormat() )))
+                        !MultiGraphSerializationFormat.GEOJSON.equals( travelOptions.getMultiGraphSerializationFormat() )) ||
+                (responseClass == MultiGraphTileHashResponse.class &&
+                        !MultiGraphSerializationFormat.TILEHASH.equals( travelOptions.getMultiGraphSerializationFormat() ))
+        )
             throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphJsonResponse");
     }
 
@@ -67,6 +70,16 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
 
     public static MultiGraphJsonResponse executeRequestJson(TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestJson(travelOptions, new MultivaluedHashMap<>());
+    }
+
+    public static MultiGraphTileHashResponse executeRequestTileHash(TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
+        return TargomoRequest.executeRequest(
+                (client,tO) -> new MultiGraphRequest<>(client,tO,MultiGraphTileHashResponse.class, headers),
+                travelOptions);
+    }
+
+    public static MultiGraphTileHashResponse executeRequestTileHash(TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
+        return executeRequestTileHash(travelOptions,  new MultivaluedHashMap<>());
     }
 
     /**
@@ -95,6 +108,16 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
 
     public static MultiGraphJsonResponse executeRequestJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestJson(client, travelOptions, new MultivaluedHashMap<>());
+    }
+
+    public static MultiGraphTileHashResponse executeRequestTileHash(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
+        if(!MultiGraphSerializationFormat.TILEHASH.equals( travelOptions.getMultiGraphSerializationFormat() ))
+            throw new IllegalArgumentException("MultiGraph serialization type TILEHASH must be requested to expect MultiGraphTileHashResponse");
+        return new MultiGraphRequest<>(client,travelOptions,MultiGraphTileHashResponse.class, headers).get();
+    }
+
+    public static MultiGraphTileHashResponse executeRequestTileHash(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
+        return executeRequestTileHash(client, travelOptions, new MultivaluedHashMap<>());
     }
 
     public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
