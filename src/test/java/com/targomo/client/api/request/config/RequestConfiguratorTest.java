@@ -141,6 +141,7 @@ public class RequestConfiguratorTest {
             options.setServiceUrl("http://127.0.0.1:8080/");
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
+            options.setMultiGraphAggregationLearntMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
             options.setMultiGraphDomainType(MultiGraphDomainType.EDGE);
