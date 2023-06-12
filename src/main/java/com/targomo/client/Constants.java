@@ -119,6 +119,7 @@ public class Constants {
     public static final String MULTIGRAPH_SERIALIZATION_FORMAT                          = "format";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_JSON                 = "json";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_GEOJSON              = "geojson";
+    public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_TILEHASH             = "tilehash";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_FORMAT_MAPBOX_VECTOR_TILES  = "mvt";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_STRING         = "string";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_NUMERIC        = "numeric";

@@ -3,6 +3,7 @@ package com.targomo.client.api.response;
 import com.targomo.client.api.pojo.MultiGraph;
 import org.wololo.geojson.FeatureCollection;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +31,8 @@ public class MultiGraphResponse<R> extends DefaultResponse<R,R> {
     ////////////////////////////////////// Response Classes ///////////////////////////////////////////////
 
     public static class MultiGraphJsonResponse extends MultiGraphResponse<MultiGraph> {}
+
+    public static class MultiGraphTileHashResponse extends MultiGraphResponse<List<String>> {}
 
     public static class MultiGraphGeoJsonResponse extends MultiGraphResponse<FeatureCollection> {}
 

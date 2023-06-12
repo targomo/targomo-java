@@ -180,4 +180,20 @@ public class MultiGraphRequestTest extends RequestTest {
             }
         }
     }
+
+    @Test
+    @Ignore("System test - needs local R360 server to run - also a valid API_KEY needs to be set")
+    public void testTilehashJsonLocally() throws Exception {
+
+        Client client = SslClientGenerator.initClient();
+        client.register(GZipEncoder.class);
+        TravelOptions travelOptions = getTravelOptions();
+        travelOptions.setTravelType(TravelType.CAR);
+        travelOptions.setMaxEdgeWeight(600);
+        travelOptions.setMultiGraphLayerType(MultiGraphLayerType.TILE);
+        travelOptions.setMultiGraphLayerGeometryDetailLevel(10);
+        travelOptions.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.TILEHASH);
+        MultiGraphResponse.MultiGraphTileHashResponse response = MultiGraphRequest.executeRequestTileHash(client, travelOptions);
+        System.out.println(response.getData());
+    }
 }
