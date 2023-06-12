@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.31.0
 - Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null
 - Add Multigraph Tilehash Serialization
+- Update Poi Gravitation Response with multiple sources
 
 ### 0.30.0
 - Add a general criterion definition interface
