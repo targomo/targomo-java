@@ -1,5 +1,8 @@
 package com.targomo.client.api.request.config.builder;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Utility class to help generate JSON Strings using StringBuilders
  *
@@ -39,6 +42,18 @@ public final class JSONBuilder {
 	public static StringBuilder append(final StringBuilder builder, final String key, final Object value) {
 		return builder.append("\"").append(key).append("\":").append(value).append(",");
 	}
+
+	/**
+	 * Appends a list of objects adding quotes and comma separated
+	 * @param builder Builder to append the value to
+	 * @param key Field name
+	 * @param list List of objects
+	 * @return Builder after appending
+	 */
+	public static <T> StringBuilder appendStringList(final StringBuilder builder, final String key, final List<T> list) {
+		return append(builder, key, list.stream().map(val -> "\"" + val.toString()  + "\"").collect(Collectors.toList()));
+	}
+
 
 	/**
 	 * Appends Object directly and puts JSON object end descriptor "}" to the end
