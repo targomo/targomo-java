@@ -499,6 +499,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getMathExpression() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
+
+        if (aggregationConfiguration.getLearntMaxEdgeWeight() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_LEARNT_MAX_EDGE_WEIGHT, aggregationConfiguration.getLearntMaxEdgeWeight());
     }
 
     private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {
