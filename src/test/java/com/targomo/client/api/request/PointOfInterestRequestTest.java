@@ -163,14 +163,15 @@ public class PointOfInterestRequestTest extends RequestTest {
         when(sampleResponse.readEntity(String.class)).thenReturn(sampleJson);
         PointOfInterestRequest poiRequest = new PointOfInterestRequest(mockClient, getTravelOptionsWithSourceProperties());
         PointOfInterestGravitationResponse poiResponse = poiRequest.getGravitationAnalysis();
-        PointOfInterestGravitationResponse.GravitationResult result = poiResponse.getGravitationResult();
+        Map<String, PointOfInterestGravitationResponse.GravitationResult> result = poiResponse.getGravitationResult();
 
         Map<String, Float> expectedClusters = new HashMap<>();
         expectedClusters.put("c_1", 88.21f);
         expectedClusters.put("c_2", 469.34f);
 
-        Assertions.assertThat(result.getAll()).isEqualTo(557.55f);
-        Assertions.assertThat(result.getClusters()).containsAllEntriesOf(expectedClusters);
+        PointOfInterestGravitationResponse.GravitationResult resultForLoc = result.get("first");
+        Assertions.assertThat(resultForLoc.getAll()).isEqualTo(557.55f);
+        Assertions.assertThat(resultForLoc.getClusters()).containsAllEntriesOf(expectedClusters);
     }
 
     @Test

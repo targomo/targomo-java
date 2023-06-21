@@ -20,7 +20,7 @@ public class PointOfInterestGravitationResponse {
     private final TravelOptions travelOptions;
     private final JSONObject result;
     private final long requestEnd;
-    private GravitationResult gravitationResult;
+    private Map<String, GravitationResult> gravitationResult;
 
     /**
      * Create a response from JSON results, using given travel options
@@ -43,12 +43,15 @@ public class PointOfInterestGravitationResponse {
      */
     public void parseResults() {
         try {
-            TypeReference<HashMap<String, Float>> typeRef
-                    = new TypeReference<HashMap<String, Float>>() {};
-            Map<String, Float> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
-            Float all = resultMap.get(ALL_FIELD);
-            resultMap.remove(ALL_FIELD);
-            gravitationResult = new GravitationResult(all, resultMap);
+            TypeReference<HashMap<String, Map<String, Float>>> typeRef
+                    = new TypeReference<HashMap<String, Map<String, Float>>>() {};
+            HashMap<String, Map<String, Float>> resultMap = new ObjectMapper().readValue(this.result.toString(), typeRef);
+            gravitationResult = new HashMap<>();
+            resultMap.forEach((sourceId, resultForThisSource) -> {
+                Float all = resultForThisSource.get(ALL_FIELD);
+                resultForThisSource.remove(ALL_FIELD);
+                gravitationResult.put(sourceId, new GravitationResult(all, resultForThisSource));
+            });
         } catch (JsonProcessingException e) {
             throw new TargomoClientRuntimeException("Couldn't parse POI gravitation analysis response", e);
         }
