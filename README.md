@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add Multigraph Tilehash Serialization
 - Update Poi Gravitation Response with multiple sources
 - Small fix when serializing `targetGeohashes` to quote the geohash strings
+- Add parameter `learntMaxEdgeWeight` to MultiGraph Aggregations
 - Allow all domains on H3 layer type
 
 ### 0.30.0
