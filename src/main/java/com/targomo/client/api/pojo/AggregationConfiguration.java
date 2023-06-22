@@ -57,6 +57,7 @@ public class AggregationConfiguration {
     private Double logitBetaTravelTime;
     private Map<String, AggregationInputParameters> aggregationInputParameters;
     private String mathExpression;
+    private Integer learntMaxEdgeWeight; //used to cap `travelTimes` into final Probability computations in MG request
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
@@ -79,6 +80,7 @@ public class AggregationConfiguration {
         private Set<String> filterValuesForSourceOrigins;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
         private String mathExpression;
+        private Integer learntMaxEdgeWeight;
 
         public AggregationConfigurationBuilder() {}
 
@@ -112,6 +114,7 @@ public class AggregationConfiguration {
                                             entry.getValue().getGravitationCompetingPositiveInfluence()))))
                     .orElse(null);
             this.mathExpression = toCopy.mathExpression;
+            this.learntMaxEdgeWeight = toCopy.learntMaxEdgeWeight;
         }
 
         public AggregationConfigurationBuilder(TravelOptions travelOptions, boolean deepCopy) {
@@ -145,6 +148,7 @@ public class AggregationConfiguration {
                                             entry.getValue().getGravitationCompetingPositiveInfluence()))))
                     .orElse(null);
             this.mathExpression = travelOptions.getMultiGraphAggregationMathExpression();
+            this.learntMaxEdgeWeight = travelOptions.getMultiGraphAggregationLearntMaxEdgeWeight();
         }
 
         public AggregationConfigurationBuilder type(MultiGraphAggregationType type) {
@@ -247,6 +251,11 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder learntMaxEdgeWeight(Integer learntMaxEdgeWeight) {
+            this.learntMaxEdgeWeight = learntMaxEdgeWeight;
+            return this;
+        }
+
         public AggregationConfiguration build() {
             return new AggregationConfiguration(
                     type,
@@ -268,7 +277,8 @@ public class AggregationConfiguration {
                     logitBetaAttractionStrength,
                     logitBetaTravelTime,
                     aggregationInputParameters,
-                    mathExpression);
+                    mathExpression,
+                    learntMaxEdgeWeight);
         }
     }
 }

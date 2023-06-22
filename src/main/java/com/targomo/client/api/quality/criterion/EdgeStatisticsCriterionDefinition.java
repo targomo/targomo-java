@@ -10,7 +10,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -22,7 +21,6 @@ import java.util.List;
 public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
     @Setter
-    @NotNull
     private String edgeStatisticsServiceUrl;
 
     /**

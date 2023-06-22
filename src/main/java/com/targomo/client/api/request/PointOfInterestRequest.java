@@ -138,6 +138,8 @@ public class PointOfInterestRequest {
 	private Response getResponse(String path) throws TargomoClientException {
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey())
+				//TODO: remove this temporary parameter
+				.queryParam("multiple", "true")
 				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
 				.queryParam("cacheResult", travelOptions.isCacheResult());
 		if(travelOptions.getInterServiceKey() != null){
@@ -148,7 +150,7 @@ public class PointOfInterestRequest {
 		}
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
-		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
+		LOGGER.debug("Executing POI request to URI: '{}}'", target.getUri());
 		String config = RequestConfigurator.getConfig(travelOptions);
 		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 

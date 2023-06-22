@@ -160,7 +160,7 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, TARGETS, getTargets(travelOptions));
 
             if (travelOptions.getTargetGeohashes() != null && !travelOptions.getTargetGeohashes().isEmpty())
-                JSONBuilder.append(config, TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
+                JSONBuilder.appendStringList(config, TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
 
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
@@ -499,6 +499,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getMathExpression() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_MATH_EXPRESSION, aggregationConfiguration.getMathExpression());
+
+        if (aggregationConfiguration.getLearntMaxEdgeWeight() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_LEARNT_MAX_EDGE_WEIGHT, aggregationConfiguration.getLearntMaxEdgeWeight());
     }
 
     private static JSONObject buildAggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) throws JSONException {

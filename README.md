@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.30.0</version>
+    <version>0.31.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,14 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.31.0
+- Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null
+- Add Multigraph Tilehash Serialization
+- Update Poi Gravitation Response with multiple sources
+- Small fix when serializing `targetGeohashes` to quote the geohash strings
+- Add parameter `learntMaxEdgeWeight` to MultiGraph Aggregations
+- Allow all domains on H3 layer type
 
 ### 0.30.0
 - Add a general criterion definition interface

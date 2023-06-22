@@ -8,7 +8,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -20,7 +19,6 @@ import java.util.List;
 public class EdgeStatisticsReachabilityCriterionDefinition extends RoutingBasedCriterionDefinition {
 
     @Setter
-    @NotNull
     private String edgeStatisticsServiceUrl;
 
     private final Integer edgeStatisticCollectionId;
