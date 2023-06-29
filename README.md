@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.32.0
+- Remove use of the temporary parameter "multiple" for poi gravitation
 
 ### 0.31.0
 - Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null
