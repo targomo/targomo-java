@@ -57,6 +57,7 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_FROM_SOURCE      = "maxWalkingTimeFromSource";
     public static final String TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_TO_TARGET        = "maxWalkingTimeToTarget";
     public static final String TRANSPORT_MODE_TRANSIT_AVOID_TRANSIT_ROUTE_TYPES         = "avoidTransitRouteTypes";
+    public static final String ALLOW_PRIVATE_AND_SERVICE_ROADS                          = "allowPrivateAndServiceRoads";
     public static final String TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY                  = "trafficJunctionPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY                    = "trafficSignalPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY                 = "trafficLeftTurnPenalty";

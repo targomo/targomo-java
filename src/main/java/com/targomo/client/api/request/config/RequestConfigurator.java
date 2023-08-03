@@ -571,6 +571,9 @@ public final class RequestConfigurator {
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
 
+        if (travelOptions.isAllowPrivateAndServiceRoads())
+            travelMode.put(ALLOW_PRIVATE_AND_SERVICE_ROADS, travelOptions.isAllowPrivateAndServiceRoads());
+
         if (travelOptions.getTrafficJunctionPenalty() != null)
             travelMode.put(TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY, travelOptions.getTrafficJunctionPenalty());
         if (travelOptions.getTrafficSignalPenalty() != null)

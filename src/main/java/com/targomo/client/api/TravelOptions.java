@@ -87,6 +87,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
+    @Transient @Getter @Setter
+    private boolean allowPrivateAndServiceRoads = false;
+
     //the following four setting are only used for bike, car (and bike-transit)
     @Transient @Getter @Setter
     private Integer trafficJunctionPenalty  = null;
@@ -884,6 +887,7 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                Objects.equals(that.allowPrivateAndServiceRoads, allowPrivateAndServiceRoads) &&
                 Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
                 Objects.equals(that.trafficLeftTurnPenalty, trafficLeftTurnPenalty) &&
@@ -1018,7 +1022,7 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
                 includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
@@ -1063,6 +1067,8 @@ public class TravelOptions implements Serializable {
         builder.append(walkUphill);
         builder.append("\n\twalkDownhill: ");
         builder.append(walkDownhill);
+        builder.append("\n\tallowPrivateAndServiceRoads: ");
+        builder.append(allowPrivateAndServiceRoads);
         builder.append("\n\ttrafficJunctionPenalty: ");
         builder.append(trafficJunctionPenalty);
         builder.append("\n\ttrafficSignalPenalty: ");

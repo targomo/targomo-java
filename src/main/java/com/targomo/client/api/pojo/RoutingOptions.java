@@ -33,6 +33,7 @@ public class RoutingOptions {
     private Double walkSpeed;
     private Double walkDownhill;
     private Double walkUphill;
+    private Boolean allowPrivateAndServiceRoads;
     private Integer trafficJunctionPenalty;
     private Integer trafficSignalPenalty;
     private Integer trafficLeftTurnPenalty;
@@ -50,7 +51,7 @@ public class RoutingOptions {
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
         return Objects.hash(maxEdgeWeight, travelType.getKey(), travelTimeFactors, reverse, rushHour, time, date, frame,
-                elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill,
+                elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
                 maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance);
