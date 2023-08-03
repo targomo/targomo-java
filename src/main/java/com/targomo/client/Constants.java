@@ -48,6 +48,7 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRANSIT_FRAME                             = "frame";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_TIME                        = "time";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DURATION                    = "duration";
+    public static final String TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION = "arrivalOrDepartureDuration";
     public static final String TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL                  = "earliestArrival";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DATE                        = "date";
     public static final String TRANSPORT_MODE_CAR_RUSH_HOUR                             = "rushHour";
