@@ -5,10 +5,8 @@ import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultSourceGeometry;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.exception.TargomoClientException;
+import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -25,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -308,6 +307,39 @@ public class RequestConfiguratorTest {
         Assert.assertEquals(4326, geom.getCrs().longValue());
         Assert.assertEquals(TravelType.WALK, geom.getTravelType());
 
+    }
+
+    @Test
+    public void readSourceAddressWithJackson() throws IOException {
+        String address = "testh3address";
+        TravelOptions parsed = new ObjectMapper()
+                .readValue( "{ \"sourceAddresses\" : [ {\n" +
+                                "      \"h3Address\": \"" + address + "\",\n" +
+                                "      \"travelType\": \"walk\" } ] }",
+                        TravelOptions.class);
+
+        Assert.assertEquals(1, parsed.getSourceAddresses().size());
+        DefaultSourceAddress sourceAddress = parsed.getSourceAddresses().get(address);
+        Assert.assertEquals(address, sourceAddress.getH3Address());
+        Assert.assertEquals(TravelType.WALK, sourceAddress.getTravelType());
+
+    }
+
+    @Test
+    public void testSerializeAddresses() throws TargomoClientException, JSONException, IOException {
+        TravelOptions options = new TravelOptions();
+        options.setSourceAddresses(new HashMap<>());
+        Stream.of("address1", "address2").forEach(addr ->
+                options.getSourceAddresses().put(addr, new DefaultSourceAddress(addr, TravelType.CAR)));
+
+        // Run configurator && get object
+        String cfg = RequestConfigurator.getConfig(options);
+
+        JSONObject actualObject = new JSONObject(cfg);
+        String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"));
+        JSONObject sampleObject = new JSONObject(sampleJson);
+        Assert.assertEquals(sampleObject.getString(Constants.SOURCE_ADDRESSES), actualObject.getString(Constants.SOURCE_ADDRESSES));
+        System.out.println(cfg);
     }
 
     @Test

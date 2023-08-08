@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.*;
@@ -90,6 +91,24 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	public long getIdentifier() { return identifier; }
 
 	public void setIdentifier(long id) { this.identifier = id; }
+
+	/**
+	 * Not implemented, will throw exception.
+	 * @throws TargomoClientRuntimeException any time this method is called.
+	 */
+	@Override
+	public String getH3Address() {
+		throw new TargomoClientRuntimeException("Not implemented.");
+	}
+
+	/**
+	 * Not implemented, will throw exception.
+	 * @throws TargomoClientRuntimeException any time this method is called.
+	 */
+	@Override
+	public void setH3Address(final String h3Address) {
+		throw new TargomoClientRuntimeException("Not implemented.");
+	}
 
     /**
 	 * Specify a travel type for the source coordinate.

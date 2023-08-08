@@ -5,14 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
 import com.targomo.client.api.enums.RoutingAggregationType;
-import com.targomo.client.api.geo.AbstractGeometry;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultSourceGeometry;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceGeometriesMapSerializer;
+import com.targomo.client.api.geo.*;
+import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
 import lombok.Data;
 
@@ -34,6 +28,11 @@ public class StatisticTravelOptions extends TravelOptions {
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
     @Transient
     private Map<String,Coordinate> inactiveSources = new HashMap<>();
+
+    @JsonDeserialize(contentAs= DefaultSourceAddress.class, using= DefaultSourceAddressMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
+    @Transient
+    private Map<String,DefaultSourceAddress> inactiveSourceAddresses = new HashMap<>();
 
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)

@@ -24,6 +24,8 @@ public class Constants {
     public static final String PROPERTIES                                               = "properties";
     public static final String SOURCES                                                  = "sources";
     public static final String SOURCE_GEOMETRIES                                        = "sourceGeometries";
+    public static final String SOURCE_ADDRESSES                                         = "sourceAddresses";
+    public static final String H3_ADDRESS                                               = "h3Address";
     public static final String TARGETS                                                  = "targets";
     public static final String TARGET_GEOHASHES                                         = "targetGeohashes";
     public static final String ENABLE_ELEVATION                                         = "elevation";

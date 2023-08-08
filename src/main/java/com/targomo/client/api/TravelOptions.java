@@ -50,6 +50,11 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> sources  = new HashMap<>();
 
+    @JsonDeserialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
+    @Transient
+    private Map<String, DefaultSourceAddress> sourceAddresses  = new HashMap<>();
+
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
     @Transient
@@ -382,6 +387,10 @@ public class TravelOptions implements Serializable {
         this.sourceGeometries.put(source.getId(), source);
     }
 
+    public void addSourceAddress(DefaultSourceAddress address) {
+        this.sourceAddresses.put(address.getH3Address(), address);
+    }
+
     /**
      * @param target Target coordinate
      */
@@ -485,6 +494,7 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
+                Objects.equals(sourceAddresses, that.sourceAddresses) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(targetGeohashes, that.targetGeohashes) &&
                 Objects.equals(rushHour, that.rushHour) &&
@@ -590,7 +600,7 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
+        return Objects.hash(sources, sourceGeometries, sourceAddresses, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
                 rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
                 minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
@@ -642,6 +652,8 @@ public class TravelOptions implements Serializable {
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
         builder.append(" {\n\tsourceGeometries: ");
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
+        builder.append(" {\n\tsourceAddresses: ");
+        builder.append(sourceAddresses != null ? toString(sourceAddresses.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\ttargetGeohashes: ");
