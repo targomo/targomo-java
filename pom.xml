@@ -240,14 +240,6 @@
             <version>2.0.1.Final</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- Faster Json Parsing for large requests -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.83</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

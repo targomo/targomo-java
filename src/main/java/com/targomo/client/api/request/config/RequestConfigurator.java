@@ -165,8 +165,8 @@ public final class RequestConfigurator {
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
 
-            if (travelOptions.isElevationEnabled() != null)
-                JSONBuilder.append(config, ENABLE_ELEVATION, travelOptions.isElevationEnabled());
+            if (travelOptions.getElevationEnabled() != null)
+                JSONBuilder.append(config, ENABLE_ELEVATION, travelOptions.getElevationEnabled());
 
             if (travelOptions.getReverse() != null)
                 JSONBuilder.append(config, REVERSE, travelOptions.getReverse());
@@ -231,7 +231,7 @@ public final class RequestConfigurator {
             if (travelOptions.getNextStopsEndTime() != null)
                 JSONBuilder.append(config, NEXT_STOPS_END_TIME, travelOptions.getNextStopsEndTime());
 
-            JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
+            JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.isOnlyPrintReachablePoints());
             
             JSONBuilder.append(config, FORCE_RECALCULATE, travelOptions.isForceRecalculate());
             JSONBuilder.append(config, CACHE_RESULT, travelOptions.isCacheResult());
@@ -256,7 +256,7 @@ public final class RequestConfigurator {
 		JSONObject polygon = new JSONObject();
 		polygon.put(POLYGON_VALUES, 			 new JSONArray(travelOptions.getTravelTimes()));
 		polygon.put(POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
-		polygon.put(POINT_REDUCTION, 			 travelOptions.isPointReduction());
+		polygon.put(POINT_REDUCTION, 			 travelOptions.getPointReduction());
 		polygon.put(MIN_POLYGON_HOLE_SIZE, 	 travelOptions.getMinPolygonHoleSize());
 
 		if ( travelOptions.getSrid() != null )
@@ -571,6 +571,9 @@ public final class RequestConfigurator {
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
 
+        if (travelOptions.isAllowPrivateAndServiceRoads())
+            travelMode.put(ALLOW_PRIVATE_AND_SERVICE_ROADS, travelOptions.isAllowPrivateAndServiceRoads());
+
         if (travelOptions.getTrafficJunctionPenalty() != null)
             travelMode.put(TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY, travelOptions.getTrafficJunctionPenalty());
         if (travelOptions.getTrafficSignalPenalty() != null)
@@ -587,6 +590,7 @@ public final class RequestConfigurator {
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
+                        .put(TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION, travelOptions.getArrivalOrDepartureDuration())
                         .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS, travelOptions.getMaxTransfers());

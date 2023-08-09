@@ -1,6 +1,5 @@
 package com.targomo.client.api.request.config;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
@@ -397,60 +396,4 @@ public class RequestConfiguratorTest {
         Assert.assertEquals(samplePolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase(),
                 actualPolygon.getString(Constants.POLYGON_ORIENTATION_RULE).toLowerCase());
 	}
-
-    @Test
-    public void fastJsonTest() throws Exception {
-        //Duplicates the testGeometryTimeVector from above but deserializes using FastJson to make to make sure things
-        //will be okay in the core
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        String sourceGeom = "{\"type\":\"Polygon\",\"coordinates\":[[[13.396024703979492,52.51264288568319],[13.399758338928223,52.51264288568319],[13.399758338928223,52.514784484308684],[13.396024703979492,52.514784484308684],[13.396024703979492,52.51264288568319]]]}";
-        try {
-            // Generate input
-            TravelOptions options = new TravelOptions();
-            options.addSource(new DefaultSourceCoordinate("POI:1",8.620987,47.384197));
-            options.addSourceGeometry(new DefaultSourceGeometry("POI:2",sourceGeom,4326));
-            options.addSourceGeometry(new DefaultSourceGeometry("POI:3",sourceGeom,4326, false));
-            options.addTarget(new DefaultSourceCoordinate("Home 3",8.511658,47.322069));
-            options.addTarget(new DefaultSourceCoordinate("Home 4",8.572083,47.439235));
-            options.addTargetGeohash("u33d8zxfptcp");
-            options.addTargetGeohash("u33d4zxf4tb4");
-            options.setServiceKey("YOUR_API_KEY_HERE");
-            options.setServiceUrl("http://127.0.0.1:8080/");
-            options.setEdgeWeightType(EdgeWeightType.TIME);
-            options.setMaxEdgeWeight(720);
-            options.setTravelType(TravelType.TRANSIT);
-            options.setDate(20180815);
-            options.setTime(40000);
-            options.setFrame(14400);
-            options.setEarliestArrival(false);
-            options.setMaxWalkingTimeFromSource(500);
-            options.setMaxWalkingTimeToTarget(500);
-
-            // Run configurator && get object
-            String cfg = RequestConfigurator.getConfig(options);
-            com.alibaba.fastjson.JSONObject actualObject = JSON.parseObject(cfg);
-
-            // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"), StandardCharsets.UTF_8);
-            com.alibaba.fastjson.JSONObject sampleObject = JSON.parseObject(sampleJson);
-
-            // Compare source and target objects
-            assertThat(sampleObject.getJSONArray(Constants.SOURCES))
-                    .isEqualTo(actualObject.getJSONArray(Constants.SOURCES));
-            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES))
-                    .isEqualTo(actualObject.getJSONArray(Constants.SOURCE_GEOMETRIES));
-            assertThat(sampleObject.getJSONArray(Constants.TARGETS))
-                    .isEqualTo(actualObject.getJSONArray(Constants.TARGETS));
-            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES))
-                    .isEqualTo(actualObject.getJSONArray(Constants.TARGET_GEOHASHES));
-
-            //assert other elements
-            assertThat(sampleObject.getIntValue(Constants.MAX_EDGE_WEIGHT)).isEqualTo(actualObject.getIntValue(Constants.MAX_EDGE_WEIGHT));
-            assertThat(sampleObject.getString(Constants.EDGE_WEIGHT)).isEqualToIgnoringCase(actualObject.getString(Constants.EDGE_WEIGHT));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
