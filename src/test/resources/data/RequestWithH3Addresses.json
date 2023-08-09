@@ -33,6 +33,10 @@
       "reverse": false
     }
   ],
+  "targetAddresses": [
+    "address3",
+    "address4"
+  ],
   "pathSerializer": "compact",
   "elevation": true,
   "reverse": false,

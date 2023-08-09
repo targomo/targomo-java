@@ -322,7 +322,17 @@ public class RequestConfiguratorTest {
         DefaultSourceAddress sourceAddress = parsed.getSourceAddresses().get(address);
         Assert.assertEquals(address, sourceAddress.getH3Address());
         Assert.assertEquals(TravelType.WALK, sourceAddress.getTravelType());
+    }
 
+    @Test
+    public void readTargetAddressWithJackson() throws IOException {
+        String address = "testh3address";
+        TravelOptions parsed = new ObjectMapper()
+                .readValue( "{ \"targetAddresses\" : [ \"" + address + "\" ] }",
+                        TravelOptions.class);
+
+        Assert.assertEquals(1, parsed.getTargetAddresses().size());
+        Assert.assertEquals(address, parsed.getTargetAddresses().get(0));
     }
 
     @Test
@@ -331,15 +341,18 @@ public class RequestConfiguratorTest {
         options.setSourceAddresses(new HashMap<>());
         Stream.of("address1", "address2").forEach(addr ->
                 options.getSourceAddresses().put(addr, new DefaultSourceAddress(addr, TravelType.CAR)));
+        options.setTargetAddresses(Arrays.asList("address3", "address4"));
 
         // Run configurator && get object
         String cfg = RequestConfigurator.getConfig(options);
-
         JSONObject actualObject = new JSONObject(cfg);
+        System.out.println(actualObject);
+
         String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"));
         JSONObject sampleObject = new JSONObject(sampleJson);
+
         Assert.assertEquals(sampleObject.getString(Constants.SOURCE_ADDRESSES), actualObject.getString(Constants.SOURCE_ADDRESSES));
-        System.out.println(cfg);
+        Assert.assertEquals(sampleObject.getString(Constants.TARGET_ADDRESSES), actualObject.getString(Constants.TARGET_ADDRESSES));
     }
 
     @Test

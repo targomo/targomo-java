@@ -28,6 +28,7 @@ public class Constants {
     public static final String H3_ADDRESS                                               = "h3Address";
     public static final String TARGETS                                                  = "targets";
     public static final String TARGET_GEOHASHES                                         = "targetGeohashes";
+    public static final String TARGET_ADDRESSES                                         = "targetAddresses";
     public static final String ENABLE_ELEVATION                                         = "elevation";
     public static final String JSON_POLYGON_SERIALIZER                                  = "json";
     public static final String GEO_JSON_POLYGON_SERIALIZER                              = "geojson";

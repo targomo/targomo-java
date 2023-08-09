@@ -68,6 +68,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private List<String> targetGeohashes = new ArrayList<>();
 
+    @Transient
+    private List<String> targetAddresses = new ArrayList<>();
+
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
 
@@ -321,6 +324,10 @@ public class TravelOptions implements Serializable {
         this.targetGeohashes.addAll(geohashes);
     }
 
+    public void addAllTargetAddresses(List<String> targetAddresses){
+        this.targetAddresses.addAll(targetAddresses);
+    }
+
     /**
      * This function will be removed in a future release.
      * Use maxEdgeWeight and edgeWeightType instead.
@@ -497,6 +504,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(sourceAddresses, that.sourceAddresses) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(targetGeohashes, that.targetGeohashes) &&
+                Objects.equals(targetGeohashes, that.targetAddresses) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -658,6 +666,8 @@ public class TravelOptions implements Serializable {
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\ttargetGeohashes: ");
         builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
+        builder.append("\n\ttargetAddresses: ");
+        builder.append(targetAddresses != null ? toString(targetAddresses, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
