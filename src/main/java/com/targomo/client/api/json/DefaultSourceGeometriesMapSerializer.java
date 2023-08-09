@@ -1,7 +1,6 @@
 package com.targomo.client.api.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.targomo.client.api.geo.DefaultSourceGeometry;
 

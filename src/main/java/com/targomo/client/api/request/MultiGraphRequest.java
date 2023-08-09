@@ -9,7 +9,6 @@ import com.targomo.jackson.datatype.trove.TroveModule;
 import com.targomo.client.api.enums.MultiGraphSerializationFormat;
 import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.MultiGraphResponse.*;
-import org.apache.commons.collections.map.MultiValueMap;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;

@@ -12,7 +12,6 @@ import com.targomo.client.api.response.StatisticsGeometryValuesResponse;
 import com.targomo.client.api.response.StatisticsResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,10 +1,8 @@
 package com.targomo.client.api.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.targomo.client.api.geo.DefaultSourceAddress;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
 
 import java.io.IOException;
 import java.util.Map;

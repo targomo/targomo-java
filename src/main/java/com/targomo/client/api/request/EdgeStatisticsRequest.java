@@ -8,7 +8,6 @@ import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.EdgeStatisticsRequestOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

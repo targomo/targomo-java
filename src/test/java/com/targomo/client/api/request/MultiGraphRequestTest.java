@@ -11,8 +11,6 @@ import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.MultiGraphResponse;
 import com.targomo.client.api.response.MultiGraphResponse.*;
 import com.targomo.client.api.response.ResponseCode;
-import com.targomo.client.api.util.CollectionUtils;
-import com.targomo.client.api.util.GeojsonUtil;
 import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.GZipEncoder;

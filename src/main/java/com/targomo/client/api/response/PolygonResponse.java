@@ -1,7 +1,6 @@
 package com.targomo.client.api.response;
 
 import com.targomo.client.api.TravelOptions;
-import org.hsqldb.error.ErrorCode;
 import org.json.JSONObject;
 
 public class PolygonResponse {
