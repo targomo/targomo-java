@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceGeometry;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 
 import java.io.IOException;
@@ -17,25 +18,15 @@ import java.util.Map;
  * Created by gerb on 01/02/2017.
  */
 
-public class DefaultTargetCoordinateMapDeserializer extends JsonDeserializer<Map<String, Coordinate>> {
+public class DefaultTargetCoordinateMapDeserializer extends AbstractLocationMapDeserializer<DefaultTargetCoordinate> {
 
     private ObjectMapper mapper = new ObjectMapper();
 
     public DefaultTargetCoordinateMapDeserializer() {}
 
     @Override
-    public Map<String, Coordinate> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws JsonProcessingException, IOException {
-
-        JsonNode coordinatesArray = jsonParser.getCodec().readTree(jsonParser);
-
-        Map<String,Coordinate> coordinates = new HashMap<>();
-
-        for (JsonNode coordinateNode : coordinatesArray) {
-            coordinates.put(coordinateNode.get("id").asText(),
-                    mapper.readValue(coordinateNode.toString(), DefaultTargetCoordinate.class));
-        }
-
-        return coordinates;
+    public Map<String, DefaultTargetCoordinate> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+            throws IOException {
+        return deserialize("id", jsonParser, DefaultTargetCoordinate.class);
     }
 }
