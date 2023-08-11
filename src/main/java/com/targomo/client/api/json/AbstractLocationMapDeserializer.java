@@ -16,7 +16,7 @@ import java.util.Map;
 
 public abstract class AbstractLocationMapDeserializer<K extends Location> extends JsonDeserializer<Map<String, K>> {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
     
     public Map<String, K> deserialize(String key, JsonParser jsonParser, Class<K> deserializationClass)
             throws IOException {
