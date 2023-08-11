@@ -33,18 +33,6 @@ public interface Location {
     public void setId(final String id);
 
     /**
-     * Get the H3 address that represents a coordinate.
-     * @return The H3 Address
-     */
-    public String getH3Address();
-
-    /**
-     * Sets the H3 address that represents a coordinate.
-     * @param h3Address The H3 Address
-     */
-    public void setH3Address(final String h3Address);
-
-    /**
      * Get the properties of a location
      * @return Location Properties
      */

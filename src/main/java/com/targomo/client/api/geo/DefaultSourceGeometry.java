@@ -104,24 +104,6 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         this.travelType = travelType;
     }
 
-    /**
-     * Not implemented, will throw exception.
-     * @throws TargomoClientRuntimeException any time this method is called.
-     */
-    @Override
-    public String getH3Address() {
-        throw new TargomoClientRuntimeException("Not implemented.");
-    }
-
-    /**
-     * Not implemented, will throw exception.
-     * @throws TargomoClientRuntimeException any time this method is called.
-     */
-    @Override
-    public void setH3Address(final String h3Address) {
-        throw new TargomoClientRuntimeException("Not implemented.");
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
