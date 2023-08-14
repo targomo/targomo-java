@@ -6,11 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
-import com.targomo.client.api.geo.AbstractGeometry;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultSourceGeometry;
-import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.geo.*;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
@@ -20,8 +16,7 @@ import com.targomo.client.api.request.ReachabilityRequest;
 import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
 import com.targomo.client.api.statistic.PoiType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,7 +33,7 @@ import java.util.stream.Collectors;
  * {@link ReachabilityRequest}.
  */
 
-@Entity
+@Entity @Data
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -53,6 +48,11 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> sources  = new HashMap<>();
 
+    @JsonDeserialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
+    @Transient
+    private Map<String, DefaultSourceAddress> sourceAddresses  = new HashMap<>();
+
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
     @Transient
@@ -65,6 +65,9 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private List<String> targetGeohashes = new ArrayList<>();
+
+    @Transient
+    private List<String> targetAddresses = new ArrayList<>();
 
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
@@ -87,14 +90,17 @@ public class TravelOptions implements Serializable {
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
+    @Transient
+    private boolean allowPrivateAndServiceRoads = false;
+
     //the following four setting are only used for bike, car (and bike-transit)
-    @Transient @Getter @Setter
+    @Transient
     private Integer trafficJunctionPenalty  = null;
-    @Transient @Getter @Setter
+    @Transient
     private Integer trafficSignalPenalty    = null;
-    @Transient @Getter @Setter
+    @Transient
     private Integer trafficLeftTurnPenalty  = null;
-    @Transient @Getter @Setter
+    @Transient
     private Integer trafficRightTurnPenalty = null;
 
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
@@ -117,6 +123,7 @@ public class TravelOptions implements Serializable {
     @Column(name = "date")  private Integer date                    = null; //default is used in core
     @Column(name = "frame") private Integer frame                   = null; //default is used in core
     @Column(name = "earliestArrival") private Boolean earliestArrival = false;
+    @Transient private Integer arrivalOrDepartureDuration           = null;
     @Transient private Integer maxWalkingTimeFromSource             = null;
     @Transient private Integer maxWalkingTimeToTarget               = null;
     @Transient private Integer recommendations                      = 0;
@@ -144,10 +151,10 @@ public class TravelOptions implements Serializable {
     @Transient private MultiGraphSerializationFormat multiGraphSerializationFormat           = null;
     @Transient private Integer multiGraphSerializationDecimalPrecision                       = null;
     @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
-    @Transient @Getter @Setter private Integer multiGraphSerializationH3MaxBuffer            = null;
-    @Transient @Getter @Setter private Float multiGraphSerializationH3BufferSpeed            = null;
-    @Transient @Getter @Setter private Boolean multiGraphSerializationH3BufferFixedValue     = null;
-    @Transient @Getter @Setter private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
+    @Transient private Integer multiGraphSerializationH3MaxBuffer            = null;
+    @Transient private Float multiGraphSerializationH3BufferSpeed            = null;
+    @Transient private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    @Transient private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
     @Transient private Float multiGraphAggregationOutlierPenalty                             = null;
@@ -155,7 +162,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
     @Transient private Float multiGraphAggregationSourceValuesLowerBound                     = null;
     @Transient private Float multiGraphAggregationSourceValuesUpperBound                     = null;
-    @Transient @Getter @Setter
+    @Transient
     private Float multiGraphAggregationSourceValuesModifier                                  = null;
     @Transient private Double multiGraphAggregationMinResultValueRatio                       = null;
     @Transient private Float multiGraphAggregationMinResultValue                             = null;
@@ -201,7 +208,7 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "inter_service_key") private String interServiceKey = "";
 
-    @Transient @Getter @Setter
+    @Transient
     private String interServiceRequestType = "";
 
 	@Transient
@@ -249,69 +256,20 @@ public class TravelOptions implements Serializable {
     @Transient
     private Integer nextStopsEndTime;
 
-    @Transient @Getter @Setter
+    @Transient
     private Boolean includeSnapDistance;
 
-    @Transient @Getter @Setter
+    @Transient
     private Boolean useAreaSnapping;
 
     // snap radius is in meters
-    @Transient @Getter @Setter
+    @Transient
     private Integer snapRadius;
 
-    @Transient @Getter @Setter
+    @Transient
     private List<Integer> excludeEdgeClassesFromSnapping;
-    @Transient @Getter @Setter
+    @Transient
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
-
-
-    public String getBoundingBox() {
-        return boundingBox;
-    }
-
-    public void setBoundingBox(String boundingBox) {
-        this.boundingBox = boundingBox;
-    }
-
-    public Set<PoiType> getCustomPois() {
-        return customPois;
-    }
-
-    public void setCustomPois(Set<PoiType> customPois) {
-        this.customPois = customPois;
-    }
-
-    public Set<TravelType> getTravelTypes() {
-        return travelTypes;
-    }
-
-    public void setTravelTypes(Set<TravelType> travelTypes) {
-        this.travelTypes = travelTypes;
-    }
-
-    public Set<PoiType> getOsmTypes() {
-        return osmTypes;
-    }
-
-    public void setOsmTypes(Set<PoiType> osmTypes) {
-        this.osmTypes = osmTypes;
-    }
-
-    public AbstractGeometry getFilterGeometryForPOIs() { return this.filterGeometryForPOIs; }
-
-    public void setFilterGeometryForPOIs(AbstractGeometry geometry) { this.filterGeometryForPOIs = geometry; }
-
-    public Double getPoiGravitationExponent() { return this.poiGravitationExponent; }
-
-    public void setPoiGravitationExponent(Double poiGravitationExponent) { this.poiGravitationExponent = poiGravitationExponent; }
-
-    public Double getPoiGravitationProbabilityDecay() { return this.poiGravitationProbabilityDecay; }
-
-    public void setPoiGravitationProbabilityDecay(Double poiGravitationProbabilityDecay) { this.poiGravitationProbabilityDecay = poiGravitationProbabilityDecay; }
-
-    public Integer getId() { return id; }
-
-    public void setId(Integer id) { this.id = id; }
 
     /**
      *
@@ -348,87 +306,6 @@ public class TravelOptions implements Serializable {
     }
 
     /**
-     * @return the sources as Map from ID to location
-     */
-    public Map<String, Coordinate> getSources() {
-        return sources;
-    }
-
-    /**
-     * @return the geometries as Map from ID to location
-     */
-    public Map<String, AbstractGeometry> getSourceGeometries() {
-        return sourceGeometries;
-    }
-
-    /**
-     * <p>
-     * Set sources as Map from IDs to location.
-     * </p>
-     * <p>
-     * When using the Time Service the IDs have to be unique and non-empty,
-     * possibly generated. The same ID has to be used on the Coordinate itself
-     * and as key in the map.
-     * </p>
-     * <p>
-     * The Time Service simply returns the same IDs and doesn't care whether
-     * they are unique or even null. But the answer just contains the IDs and
-     * the time response. To be able to reconstruct a Map containing coordinates
-     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
-     * performed on this map stored in the travel options.
-     * </p>
-     *
-     * @param sources Map from ID to location
-     */
-    public void setSources(Map<String, Coordinate> sources) {
-        this.sources = sources;
-    }
-
-    /**
-     * Set the source
-     * @param sourceGeometries
-     */
-    public void setSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
-        this.sourceGeometries = sourceGeometries;
-    }
-
-    /**
-     * @return the targets as Map from ID to location
-     */
-    public Map<String, Coordinate> getTargets() {
-        return targets;
-    }
-
-    public List<String> getTargetGeohashes() { return targetGeohashes; }
-
-    /**
-     * <p>
-     * Set sources as Map from IDs to location.
-     * </p>
-     * <p>
-     * When using the Time Service the IDs have to be unique and non-empty,
-     * possibly generated. The same ID has to be used on the Coordinate itself
-     * and as key in the map.
-     * </p>
-     * <p>
-     * The Time Service simply returns the same IDs and doesn't care whether
-     * they are unique or even null. But the answer just contains the IDs and
-     * the time response. To be able to reconstruct a Map containing coordinates
-     * for {@code TimeResponse.getTravelTimes()}, a lookup by ID has to be
-     * performed on this map stored in the travel options.
-     * </p>
-     *
-     * @param targets Map from ID to location
-     */
-    public void setTargets(Map<String,Coordinate> targets) {
-        this.targets = targets;
-    }
-
-    public void setTargetGeohashes(List<String> targetGeohashes){
-        this.targetGeohashes = targetGeohashes;
-    }
-
-    /**
      * @param targets add all specified targets to the target map
      */
     public void addAllTargets(Map<String,Coordinate> targets) {
@@ -439,288 +316,15 @@ public class TravelOptions implements Serializable {
     * @param targets add all specified targets to the target map using their ID as key
     */
     public void addAllTargets(Collection<Coordinate> targets) {
-        this.targets = targets.stream().collect(Collectors.toMap(t -> t.getId(), Function.identity()));
+        this.targets = targets.stream().collect(Collectors.toMap(Location::getId, Function.identity()));
     }
 
     public void addAllTargetGeohashes(List<String> geohashes){
         this.targetGeohashes.addAll(geohashes);
     }
 
-    /**
-     * @return the bikeSpeed
-     */
-    public double getBikeSpeed() {
-        return bikeSpeed;
-    }
-    /**
-     * @param bikeSpeed the bikeSpeed to set
-     */
-    public void setBikeSpeed(double bikeSpeed) {
-        this.bikeSpeed = bikeSpeed;
-    }
-    /**
-     * @return the bikeUphill
-     */
-    public double getBikeUphill() {
-        return bikeUphill;
-    }
-    /**
-     * @param bikeUphill the bikeUphill to set
-     */
-    public void setBikeUphill(double bikeUphill) {
-        this.bikeUphill = bikeUphill;
-    }
-    /**
-     * @return the bikeDownhill
-     */
-    public double getBikeDownhill() {
-        return bikeDownhill;
-    }
-    /**
-     * @param bikeDownhill the bikeDownhill to set
-     */
-    public void setBikeDownhill(double bikeDownhill) {
-        this.bikeDownhill = bikeDownhill;
-    }
-    /**
-     * @return the walkSpeed
-     */
-    public double getWalkSpeed() {
-        return walkSpeed;
-    }
-    /**
-     * @param walkSpeed the walkSpeed to set
-     */
-    public void setWalkSpeed(double walkSpeed) {
-        this.walkSpeed = walkSpeed;
-    }
-    /**
-     * @return the walkUphill
-     */
-    public double getWalkUphill() {
-        return walkUphill;
-    }
-    /**
-     * @param walkUphill the walkUphill to set
-     */
-    public void setWalkUphill(double walkUphill) {
-        this.walkUphill = walkUphill;
-    }
-    /**
-     * @return the walkDownhill
-     */
-    public double getWalkDownhill() {
-        return walkDownhill;
-    }
-
-    /**
-     * @param walkDownhill the walkDownhill to set
-     */
-    public void setWalkDownhill(double walkDownhill) {
-        this.walkDownhill = walkDownhill;
-    }
-
-    public void setRushHour(boolean rushHourEnabled) {
-        this.rushHour = rushHourEnabled;
-    }
-
-    public boolean getRushHour() {
-        return rushHour;
-    }
-
-    /**
-     * @return the travelTimes
-     */
-    public List<Integer> getTravelTimes() {
-        return travelTimes;
-    }
-    /**
-     * @param travelTimes the travelTimes to set
-     */
-    public void setTravelTimes(List<Integer> travelTimes) {
-        this.travelTimes = travelTimes;
-    }
-    /**
-     * @return the travelType
-     */
-    public TravelType getTravelType() {
-        return travelType;
-    }
-    /**
-     * @param travelType the travelType to set
-     */
-    public void setTravelType(TravelType travelType) {
-        this.travelType = travelType;
-    }
-    /**
-     * @return the elevationEnabled
-     */
-    public Boolean isElevationEnabled() {
-        return elevationEnabled;
-    }
-    /**
-     * @param elevationEnabled the elevationEnabled to set
-     */
-    public void setElevationEnabled(Boolean elevationEnabled) {
-        this.elevationEnabled = elevationEnabled;
-    }
-    /**
-     * @return the minPolygonHoleSize
-     */
-    public long getMinPolygonHoleSize() {
-        return minPolygonHoleSize;
-    }
-    /**
-     * @param minPolygonHoleSize the minPolygonHoleSize to set
-     */
-    public void setMinPolygonHoleSize(long minPolygonHoleSize) {
-        this.minPolygonHoleSize = minPolygonHoleSize;
-    }
-    /**
-     * @return the time as seconds of the day
-     */
-    public Integer getTime() {
-        return time;
-    }
-    /**
-     * @param time seconds of the day
-     */
-    public void setTime(Integer time) {
-        this.time = time;
-    }
-    /**
-     * @return the date as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
-     */
-    public Integer getDate() {
-        return date;
-    }
-    /**
-     * @param date the date to set as integer in the format {@code yyyy * 10_000 + MM * 100 + dd}
-     */
-    public void setDate(Integer date) {
-        this.date = date;
-    }
-    /**
-     * @return the frame, which is the length of the time interval to search for transit connections, in seconds
-     */
-    public Integer getFrame() {
-        return frame;
-    }
-    /**
-     * @param frame the frame, which is the length of the time interval to search for transit connections, in seconds
-     */
-    public void setFrame(Integer frame) {
-        this.frame = frame;
-    }
-    /**
-     * @return If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
-     */
-    public Boolean getEarliestArrival(){ return earliestArrival; }
-    /**
-     * @param earliestArrival If true, the service returns the connection that arrives first at the target instead of the fastest in the time frame.
-     */
-    public void setEarliestArrival(Boolean earliestArrival){
-        this.earliestArrival = earliestArrival;
-    }
-    /**
-     * @return the maxWalkingTimeFromSource, which is the maximum time that can be used from the sources to a transit stop
-     * (in seconds)
-     */
-    public Integer getMaxWalkingTimeFromSource() {
-        return maxWalkingTimeFromSource;
-    }
-    /**
-     * @param maxWalkingTimeFromSource is the maximum time that can be used from the sources to a transit stop
-     *                                (in seconds)
-     */
-    public void setMaxWalkingTimeFromSource(Integer maxWalkingTimeFromSource) {
-        this.maxWalkingTimeFromSource = maxWalkingTimeFromSource;
-    }
-    /**
-     * @return the maxWalkingTimeFromTarget, which is the maximum time that can be used to the targets from a transit stop (in
-     * seconds)
-     */
-    public Integer getMaxWalkingTimeToTarget() {
-        return maxWalkingTimeToTarget;
-    }
-    /**
-     * @param maxWalkingTimeToTarget is the maximum time that can be used to the targets from a transit stop (in
-     *                               seconds)
-     */
-    public void setMaxWalkingTimeToTarget(Integer maxWalkingTimeToTarget) {
-        this.maxWalkingTimeToTarget = maxWalkingTimeToTarget;
-    }
-    /**
-     * @return the recommendations
-     */
-    public int getRecommendations() {
-        return recommendations;
-    }
-    /**
-     * @param recommendations the recommendations to set
-     */
-    public void setRecommendations(int recommendations) {
-        this.recommendations = recommendations;
-    }
-    /**
-     * @return the intersectionMode
-     */
-    public PolygonIntersectionMode getIntersectionMode() {
-        return intersectionMode;
-    }
-    /**
-     * @param intersectionMode the intersectionMode to set. Default: UNION
-     */
-    public void setIntersectionMode(PolygonIntersectionMode intersectionMode) {
-        this.intersectionMode = intersectionMode;
-    }
-    /**
-     * @return the pathSerializer
-     */
-    public PathSerializerType getPathSerializer() {
-        return pathSerializer;
-    }
-    /**
-     * @param pathSerializer the pathSerializer to set. Default: COMPACT
-     */
-    public void setPathSerializer(PathSerializerType pathSerializer) {
-        this.pathSerializer = pathSerializer;
-    }
-    /**
-     * @return the polygonSerializerType
-     */
-    public PolygonSerializerType getPolygonSerializerType() {
-        return polygonSerializerType;
-    }
-    /**
-     * @param polygonSerializerType the polygonSerializerType to set. Default: JSON
-     */
-    public void setPolygonSerializerType(PolygonSerializerType polygonSerializerType) {
-        this.polygonSerializerType = polygonSerializerType;
-    }
-    /**
-     * @return the maxSnapDistance
-     */
-    public Integer getMaxSnapDistance() {
-        return maxSnapDistance;
-    }
-    /**
-     * @param maxSnapDistance the maxSnapDistance to set.
-     */
-    public void setMaxSnapDistance(Integer maxSnapDistance) {
-        this.maxSnapDistance = maxSnapDistance;
-    }
-    /**
-     * @return the pointReduction
-     */
-    public boolean isPointReduction() {
-        return pointReduction;
-    }
-    /**
-     * @param pointReduction the pointReduction to set. Default: true
-     */
-    public void setPointReduction(boolean pointReduction) {
-        this.pointReduction = pointReduction;
+    public void addAllTargetAddresses(List<String> targetAddresses){
+        this.targetAddresses.addAll(targetAddresses);
     }
 
     /**
@@ -776,31 +380,6 @@ public class TravelOptions implements Serializable {
     }
 
     /**
-     * @return the serviceUrl
-     */
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-    /**
-     * @param serviceUrl the serviceUrl to set
-     */
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
-    /**
-     * @return the serviceKey
-     */
-    public String getServiceKey() {
-        return serviceKey;
-    }
-    /**
-     * @param serviceKey the serviceKey to set
-     */
-    public void setServiceKey(String serviceKey) {
-        this.serviceKey = serviceKey;
-    }
-
-    /**
      * @param source Source coordinate
      */
     public void addSource(Coordinate source) {
@@ -812,6 +391,10 @@ public class TravelOptions implements Serializable {
      */
     public void addSourceGeometry(AbstractGeometry source) {
         this.sourceGeometries.put(source.getId(), source);
+    }
+
+    public void addSourceAddress(DefaultSourceAddress address) {
+        this.sourceAddresses.put(address.getH3Address(), address);
     }
 
     /**
@@ -828,38 +411,6 @@ public class TravelOptions implements Serializable {
         this.targetGeohashes.add(geoHash);
     }
 
-    public Map<String, AggregationInputParameters> getMultiGraphAggregationInputParameters() {
-        return multiGraphAggregationInputParameters;
-    }
-
-    public void setMultiGraphAggregationInputParameters(Map<String, AggregationInputParameters> multiGraphAggregationInputParameters) {
-        this.multiGraphAggregationInputParameters = multiGraphAggregationInputParameters;
-    }
-
-    public LinkedHashMap<String, AggregationConfiguration> getMultiGraphPreAggregationPipeline() {
-        return multiGraphPreAggregationPipeline;
-    }
-
-    public void setMultiGraphPreAggregationPipeline(LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline) {
-        this.multiGraphPreAggregationPipeline = multiGraphPreAggregationPipeline;
-    }
-
-    public String getMultiGraphAggregationMathExpression() {
-        return multiGraphAggregationMathExpression;
-    }
-
-    public void setMultiGraphAggregationMathExpression(String multiGraphAggregationMathExpression) {
-        this.multiGraphAggregationMathExpression = multiGraphAggregationMathExpression;
-    }
-
-    public MultiGraphLayerCustomGeometryMergeAggregation getMultiGraphLayerCustomGeometryMergeAggregation() {
-        return multiGraphLayerCustomGeometryMergeAggregation;
-    }
-
-    public void setMultiGraphLayerCustomGeometryMergeAggregation(MultiGraphLayerCustomGeometryMergeAggregation multiGraphLayerCustomGeometryMergeAggregation) {
-        this.multiGraphLayerCustomGeometryMergeAggregation = multiGraphLayerCustomGeometryMergeAggregation;
-    }
-
     private String toString(Collection<?> collection, int maxLen) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
@@ -871,6 +422,62 @@ public class TravelOptions implements Serializable {
         }
         builder.append("]");
         return builder.toString();
+    }
+
+
+    /**
+     *
+     * @param id ID of source Coordinate
+     * @return Source coordinate
+     */
+    public Coordinate getSource(String id) {
+        return this.sources.get(id);
+    }
+
+    /**
+     *
+     * @param id ID of source geometry
+     * @return Source geometry
+     */
+    public AbstractGeometry getSourcegeometry(String id) {
+        return this.sourceGeometries.get(id);
+    }
+
+    /**
+     *
+     * @param id ID of source Coordinate
+     * @return Target coordinate
+     */
+    public Coordinate getTarget(String id) {
+        return this.targets.get(id);
+    }
+
+    public void addAllSources(Map<String, Coordinate> sources) {
+        this.sources.putAll(sources);
+    }
+
+    public void addAllSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
+        this.sourceGeometries.putAll(sourceGeometries);
+    }
+
+    /**
+     * Clear sources and add new one
+     * @param id ID for the new source
+     * @param source New source coordinate
+     */
+    public void clearAndAddSource(String id, Coordinate source) {
+        this.sources.clear();
+        this.sources.put(id, source);
+    }
+
+    /**
+     * Clear sourceGeometries and add new one
+     * @param id ID for the new source
+     * @param source New source geometry
+     */
+    public void clearAndAddSource(String id, AbstractGeometry source) {
+        this.sourceGeometries.clear();
+        this.sourceGeometries.put(id, source);
     }
 
     //excluding id
@@ -885,6 +492,7 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                Objects.equals(that.allowPrivateAndServiceRoads, allowPrivateAndServiceRoads) &&
                 Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
                 Objects.equals(that.trafficLeftTurnPenalty, trafficLeftTurnPenalty) &&
@@ -892,8 +500,10 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
+                Objects.equals(sourceAddresses, that.sourceAddresses) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(targetGeohashes, that.targetGeohashes) &&
+                Objects.equals(targetGeohashes, that.targetAddresses) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -904,6 +514,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(time, that.time) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(frame, that.frame) &&
+                Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration) &&
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
 				Objects.equals(exclusionGeometry, that.exclusionGeometry) &&
                 Objects.equals(recommendations, that.recommendations) &&
@@ -997,9 +608,10 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
-                rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
-                minPolygonHoleSize, time, date, frame, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
+        return Objects.hash(sources, sourceGeometries, sourceAddresses, targets, targetGeohashes, targetAddresses, bikeSpeed,
+                bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill, rushHour, travelTimes, travelType, elevationEnabled,
+                appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration,
+                recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
@@ -1020,7 +632,7 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes,
+                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
                 includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
@@ -1049,10 +661,14 @@ public class TravelOptions implements Serializable {
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
         builder.append(" {\n\tsourceGeometries: ");
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
+        builder.append(" {\n\tsourceAddresses: ");
+        builder.append(sourceAddresses != null ? toString(sourceAddresses.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\ttargetGeohashes: ");
         builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
+        builder.append("\n\ttargetAddresses: ");
+        builder.append(targetAddresses != null ? toString(targetAddresses, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
@@ -1065,6 +681,8 @@ public class TravelOptions implements Serializable {
         builder.append(walkUphill);
         builder.append("\n\twalkDownhill: ");
         builder.append(walkDownhill);
+        builder.append("\n\tallowPrivateAndServiceRoads: ");
+        builder.append(allowPrivateAndServiceRoads);
         builder.append("\n\ttrafficJunctionPenalty: ");
         builder.append(trafficJunctionPenalty);
         builder.append("\n\ttrafficSignalPenalty: ");
@@ -1093,6 +711,8 @@ public class TravelOptions implements Serializable {
         builder.append(time);
         builder.append("\n\tdate: ");
         builder.append(date);
+        builder.append("\n\tarrivalOrDepartureDuration: ");
+        builder.append(arrivalOrDepartureDuration);
         builder.append("\n\tframe: ");
         builder.append(frame);
         builder.append("\n\trecommendations: ");
@@ -1268,564 +888,4 @@ public class TravelOptions implements Serializable {
         builder.append("\n}\n");
         return builder.toString();
     }
-
-    /**
-     *
-     * @param id ID of source Coordinate
-     * @return Source coordinate
-     */
-    public Coordinate getSource(String id) {
-        return this.sources.get(id);
-    }
-
-    /**
-     *
-     * @param id ID of source geometry
-     * @return Source geometry
-     */
-    public AbstractGeometry getSourcegeometry(String id) {
-        return this.sourceGeometries.get(id);
-    }
-
-    /**
-     *
-     * @param id ID of source Coordinate
-     * @return Target coordinate
-     */
-    public Coordinate getTarget(String id) {
-        return this.targets.get(id);
-    }
-
-    public Format getFormat() {
-        return format;
-    }
-
-    public void setFormat(Format format) {
-        this.format = format;
-    }
-
-    /**
-     * Determines whether to return only reachable points or all
-     * @param onlyPrintReachablePoints default: true
-     */
-    public void setOnlyPrintReachablePoints(boolean onlyPrintReachablePoints) {
-        this.onlyPrintReachablePoints = onlyPrintReachablePoints;
-    }
-
-    public boolean getOnlyPrintReachablePoints() {
-        return onlyPrintReachablePoints;
-    }
-
-    /**
-     * Get the buffer value of polygons. Unit can be meters or degrees depending on the output CRS
-     * @return Buffer value in meters or in degrees
-     */
-    public Double getBuffer() {
-        return buffer;
-    }
-
-    /**
-     * Set how much the polygons will be buffered. Unit can be meters or degrees depending on the output CRS
-     * @param buffer Buffer value in meters or in degrees
-     */
-    public void setBuffer(Double buffer) {
-        this.buffer = buffer;
-    }
-
-    /**
-     * Get the simplify value of polygons (in meters).
-     * @return Simplify value in meters or in degrees
-     */
-    public Double getSimplify() {
-        return simplify;
-    }
-
-    /**
-     * Set how much the polygons will be simplified (in meters). This can reduce the points in the polygon significantly.
-     * @param simplify Simplify value in meters
-     */
-    public void setSimplify(Double simplify) {
-        this.simplify = simplify;
-    }
-
-    public Integer getQuadrantSegments() {
-        return quadrantSegments;
-    }
-
-    public void setQuadrantSegments(Integer quadrantSegments) {
-        this.quadrantSegments = quadrantSegments;
-    }
-
-    public Boolean getReverse() {
-        return reverse;
-    }
-
-    /**
-     *
-     * @param reverse default: false
-     */
-    public void setReverse(Boolean reverse) {
-        this.reverse = reverse;
-    }
-
-    public Integer getSrid() {
-        return srid;
-    }
-
-    public void setSrid(Integer srid) {
-        this.srid = srid;
-    }
-
-    public PolygonOrientationRule getPolygonOrientationRule() {
-        return polygonOrientationRule;
-    }
-
-    public void setPolygonOrientationRule(PolygonOrientationRule polygonOrientationRule) {
-        this.polygonOrientationRule = polygonOrientationRule;
-    }
-
-    public Integer getDecimalPrecision() {
-        return decimalPrecision;
-    }
-
-    public void setDecimalPrecision(Integer decimalPrecision) {
-        this.decimalPrecision = decimalPrecision;
-    }
-
-    /**
-     *
-     * @return Append travel times setting
-     */
-    public Boolean getAppendTravelTimes() {
-        return this.appendTravelTimes;
-    }
-
-    public Set<Integer> getMultiGraphEdgeClasses() {
-        return multiGraphEdgeClasses;
-    }
-
-    public void setMultiGraphEdgeClasses(Set<Integer> multiGraphEdgeClasses) {
-        this.multiGraphEdgeClasses = multiGraphEdgeClasses;
-    }
-
-    public MultiGraphSerializationFormat getMultiGraphSerializationFormat() {
-        return multiGraphSerializationFormat;
-    }
-
-    public void setMultiGraphSerializationFormat(MultiGraphSerializationFormat multiGraphSerializationFormat) {
-        this.multiGraphSerializationFormat = multiGraphSerializationFormat;
-    }
-
-    public Integer getMultiGraphSerializationDecimalPrecision() {
-        return multiGraphSerializationDecimalPrecision;
-    }
-
-    public void setMultiGraphSerializationDecimalPrecision(Integer multiGraphSerializationDecimalPrecision) {
-        this.multiGraphSerializationDecimalPrecision = multiGraphSerializationDecimalPrecision;
-    }
-
-    public Integer getMultiGraphSerializationMaxGeometryCount() {
-        return multiGraphSerializationMaxGeometryCount;
-    }
-
-    public void setMultiGraphSerializationMaxGeometryCount(Integer multiGraphSerializationMaxGeometryCount) {
-        this.multiGraphSerializationMaxGeometryCount = multiGraphSerializationMaxGeometryCount;
-    }
-
-    public MultiGraphAggregationType getMultiGraphAggregationType() {
-        return multiGraphAggregationType;
-    }
-
-    public void setMultiGraphAggregationType(MultiGraphAggregationType multiGraphAggregationType) {
-        this.multiGraphAggregationType = multiGraphAggregationType;
-    }
-
-    public Boolean getMultiGraphAggregationIgnoreOutliers() {
-        return multiGraphAggregationIgnoreOutliers;
-    }
-
-    public void setMultiGraphAggregationIgnoreOutliers(Boolean multiGraphAggregationIgnoreOutliers) {
-        this.multiGraphAggregationIgnoreOutliers = multiGraphAggregationIgnoreOutliers;
-    }
-
-    public Float getMultiGraphAggregationOutlierPenalty() {
-        return multiGraphAggregationOutlierPenalty;
-    }
-
-    public void setMultiGraphAggregationOutlierPenalty(Float multiGraphAggregationOutlierPenalty) {
-        this.multiGraphAggregationOutlierPenalty = multiGraphAggregationOutlierPenalty;
-    }
-
-    public Double getMultiGraphAggregationMinSourcesRatio() {
-        return multiGraphAggregationMinSourcesRatio;
-    }
-
-    public void setMultiGraphAggregationMinSourcesRatio(Double multiGraphAggregationMinSourcesRatio) {
-        this.multiGraphAggregationMinSourcesRatio = multiGraphAggregationMinSourcesRatio;
-    }
-
-    public Integer getMultiGraphAggregationMinSourcesCount() {
-        return multiGraphAggregationMinSourcesCount;
-    }
-
-    public void setMultiGraphAggregationMinSourcesCount(Integer multiGraphAggregationMinSourcesCount) {
-        this.multiGraphAggregationMinSourcesCount = multiGraphAggregationMinSourcesCount;
-    }
-
-    public Float getMultiGraphAggregationSourceValuesLowerBound() {
-        return multiGraphAggregationSourceValuesLowerBound;
-    }
-
-    public void setMultiGraphAggregationSourceValuesLowerBound(Float multiGraphAggregationSourceValuesLowerBound) {
-        this.multiGraphAggregationSourceValuesLowerBound = multiGraphAggregationSourceValuesLowerBound;
-    }
-
-    public Float getMultiGraphAggregationSourceValuesUpperBound() {
-        return multiGraphAggregationSourceValuesUpperBound;
-    }
-
-    public void setMultiGraphAggregationSourceValuesUpperBound(Float multiGraphAggregationSourceValuesUpperBound) {
-        this.multiGraphAggregationSourceValuesUpperBound = multiGraphAggregationSourceValuesUpperBound;
-    }
-
-    public Double getMultiGraphAggregationMinResultValueRatio() {
-        return multiGraphAggregationMinResultValueRatio;
-    }
-
-    public void setMultiGraphAggregationMinResultValueRatio(Double multiGraphAggregationMinResultValueRatio) {
-        this.multiGraphAggregationMinResultValueRatio = multiGraphAggregationMinResultValueRatio;
-    }
-
-    public Float getMultiGraphAggregationMinResultValue() {
-        return multiGraphAggregationMinResultValue;
-    }
-
-    public void setMultiGraphAggregationMinResultValue(Float multiGraphAggregationMinResultValue) {
-        this.multiGraphAggregationMinResultValue = multiGraphAggregationMinResultValue;
-    }
-
-    public Double getMultiGraphAggregationMaxResultValueRatio() {
-        return multiGraphAggregationMaxResultValueRatio;
-    }
-
-    public void setMultiGraphAggregationMaxResultValueRatio(Double multiGraphAggregationMaxResultValueRatio) {
-        this.multiGraphAggregationMaxResultValueRatio = multiGraphAggregationMaxResultValueRatio;
-    }
-
-    public Float getMultiGraphAggregationMaxResultValue() {
-        return multiGraphAggregationMaxResultValue;
-    }
-
-    public void setMultiGraphAggregationMaxResultValue(Float multiGraphAggregationMaxResultValue) {
-        this.multiGraphAggregationMaxResultValue = multiGraphAggregationMaxResultValue;
-    }
-
-    public Double getMultiGraphAggregationGravitationExponent() {
-        return multiGraphAggregationGravitationExponent;
-    }
-
-    public void setMultiGraphAggregationGravitationExponent(Double multiGraphAggregationGravitationExponent) {
-        this.multiGraphAggregationGravitationExponent = multiGraphAggregationGravitationExponent;
-    }
-
-    public Double getMultiGraphAggregationProbabilityDecay() {
-        return multiGraphAggregationProbabilityDecay;
-    }
-
-    public void setMultiGraphAggregationProbabilityDecay(Double multiGraphAggregationProbabilityDecay) {
-        this.multiGraphAggregationProbabilityDecay = multiGraphAggregationProbabilityDecay;
-    }
-
-    public Double getMultiGraphAggregationLogitBetaAttractionStrength() {
-        return multiGraphAggregationLogitBetaAttractionStrength;
-    }
-
-    public void setMultiGraphAggregationLogitBetaAttractionStrength(Double multiGraphAggregationLogitBetaAttractionStrength) {
-        this.multiGraphAggregationLogitBetaAttractionStrength = multiGraphAggregationLogitBetaAttractionStrength;
-    }
-
-    public Double getMultiGraphAggregationLogitBetaTravelTime() {
-        return multiGraphAggregationLogitBetaTravelTime;
-    }
-
-    public void setMultiGraphAggregationLogitBetaTravelTime(Double multiGraphAggregationLogitBetaTravelTime) {
-        this.multiGraphAggregationLogitBetaTravelTime = multiGraphAggregationLogitBetaTravelTime;
-    }
-
-    public Set<String> getMultiGraphAggregationFilterValuesForSourceOrigins() {
-        return multiGraphAggregationFilterValuesForSourceOrigins;
-    }
-
-    public void setMultiGraphAggregationFilterValuesForSourceOrigins(Set<String> multiGraphAggregationFilterValuesForSourceOrigins) {
-        this.multiGraphAggregationFilterValuesForSourceOrigins = multiGraphAggregationFilterValuesForSourceOrigins;
-    }
-
-    public MultiGraphLayerType getMultiGraphLayerType() {
-        return multiGraphLayerType;
-    }
-
-    public void setMultiGraphLayerType(MultiGraphLayerType multiGraphLayerType) {
-        this.multiGraphLayerType = multiGraphLayerType;
-    }
-
-    public MultiGraphDomainEdgeAggregationType getMultiGraphDomainEdgeAggregationType() {
-        return multiGraphDomainEdgeAggregationType;
-    }
-
-    public void setMultiGraphDomainEdgeAggregationType(MultiGraphDomainEdgeAggregationType multiGraphDomainEdgeAggregationType) {
-        this.multiGraphDomainEdgeAggregationType = multiGraphDomainEdgeAggregationType;
-    }
-
-    public MultiGraphDomainType getMultiGraphDomainType() {
-        return multiGraphDomainType;
-    }
-
-    public void setMultiGraphDomainType(MultiGraphDomainType multiGraphDomainType) {
-        this.multiGraphDomainType = multiGraphDomainType;
-    }
-
-    public Integer getMultiGraphLayerGeometryDetailPerTile() {
-        return multiGraphLayerGeometryDetailPerTile;
-    }
-
-    public void setMultiGraphLayerGeometryDetailPerTile(Integer multiGraphLayerGeometryDetailPerTile) {
-        this.multiGraphLayerGeometryDetailPerTile = multiGraphLayerGeometryDetailPerTile;
-    }
-
-    public Integer getMultiGraphLayerMinGeometryDetailLevel() {
-        return multiGraphLayerMinGeometryDetailLevel;
-    }
-
-    public void setMultiGraphLayerMinGeometryDetailLevel(Integer multiGraphLayerMinGeometryDetailLevel) {
-        this.multiGraphLayerMinGeometryDetailLevel = multiGraphLayerMinGeometryDetailLevel;
-    }
-
-    public Integer getMultiGraphLayerMaxGeometryDetailLevel() {
-        return multiGraphLayerMaxGeometryDetailLevel;
-    }
-
-    public void setMultiGraphLayerMaxGeometryDetailLevel(Integer multiGraphLayerMaxGeometryDetailLevel) {
-        this.multiGraphLayerMaxGeometryDetailLevel = multiGraphLayerMaxGeometryDetailLevel;
-    }
-
-    public Integer getMultiGraphLayerGeometryDetailLevel() {
-        return multiGraphLayerGeometryDetailLevel;
-    }
-
-    public void setMultiGraphLayerGeometryDetailLevel(Integer multiGraphLayerGeometryDetailLevel) {
-        this.multiGraphLayerGeometryDetailLevel = multiGraphLayerGeometryDetailLevel;
-    }
-
-    public Integer getMultiGraphH3FixedZoomLevel() {
-        return multiGraphH3FixedZoomLevel;
-    }
-
-    public void setMultiGraphH3FixedZoomLevel(Integer multiGraphH3FixedZoomLevel) {
-        this.multiGraphH3FixedZoomLevel = multiGraphH3FixedZoomLevel;
-    }
-
-    public Integer getMultiGraphTileZoom() {
-        return multiGraphTileZoom;
-    }
-
-    public void setMultiGraphTileZoom(Integer multiGraphTileZoom) {
-        this.multiGraphTileZoom = multiGraphTileZoom;
-    }
-
-    public Integer getMultiGraphTileX() {
-        return multiGraphTileX;
-    }
-
-    public void setMultiGraphTileX(Integer multiGraphTileX) {
-        this.multiGraphTileX = multiGraphTileX;
-    }
-
-    public Integer getMultiGraphTileY() { return multiGraphTileY; }
-    public void setMultiGraphTileY(Integer multiGraphTileY) {
-        this.multiGraphTileY = multiGraphTileY;
-    }
-
-    public Float getMultiGraphAggregationPostAggregationFactor() {
-        return multiGraphAggregationPostAggregationFactor;
-    }
-
-    public void setMultiGraphAggregationPostAggregationFactor(Float multiGraphAggregationPostAggregationFactor) {
-        this.multiGraphAggregationPostAggregationFactor = multiGraphAggregationPostAggregationFactor;
-    }
-
-    public Geometry getClipGeometry() {
-        return clipGeometry;
-    }
-
-    public void setClipGeometry(Geometry clipGeometry) {
-        this.clipGeometry = clipGeometry;
-    }
-
-    public EdgeWeightType getEdgeWeightType() {
-        return edgeWeightType;
-    }
-
-    public void setEdgeWeightType(final EdgeWeightType edgeWeightType) {
-        this.edgeWeightType = edgeWeightType;
-    }
-
-    public void setAppendTravelTimes(Boolean appendTravelTimes) {
-        this.appendTravelTimes = appendTravelTimes;
-    }
-
-    public String getStatisticServiceUrl() {
-        return statisticServiceUrl;
-    }
-
-    public void setStatisticServiceUrl(String statisticServiceUrl) {
-        this.statisticServiceUrl = statisticServiceUrl;
-    }
-
-    public Integer getStatisticGroupId() {
-        return statisticGroupId;
-    }
-
-    public void setStatisticGroupId(Integer statisticGroupId) {
-        this.statisticGroupId = statisticGroupId;
-    }
-
-    public Integer getMaxEdgeWeight() {
-        return maxEdgeWeight;
-    }
-
-    public void setMaxEdgeWeight(Integer maxEdgeWeight) {
-        this.maxEdgeWeight = maxEdgeWeight;
-    }
-
-    public void addAllSources(Map<String, Coordinate> sources) {
-        this.sources.putAll(sources);
-    }
-
-    public void addAllSourceGeometries(Map<String, AbstractGeometry> sourceGeometries) {
-        this.sourceGeometries.putAll(sourceGeometries);
-    }
-
-    /**
-     * Clear sources and add new one
-     * @param id ID for the new source
-     * @param source New source coordinate
-     */
-    public void clearAndAddSource(String id, Coordinate source) {
-        this.sources.clear();
-        this.sources.put(id, source);
-    }
-
-    /**
-     * Clear sourceGeometries and add new one
-     * @param id ID for the new source
-     * @param source New source geometry
-     */
-    public void clearAndAddSource(String id, AbstractGeometry source) {
-        this.sourceGeometries.clear();
-        this.sourceGeometries.put(id, source);
-    }
-
-    public String getFallbackServiceUrl() {
-        return fallbackServiceUrl;
-    }
-
-    public void setFallbackServiceUrl(String fallbackServiceUrl) {
-        this.fallbackServiceUrl = fallbackServiceUrl;
-    }
-
-	public String getPointOfInterestServiceUrl() {
-		return pointOfInterestServiceUrl;
-	}
-
-    public void setPointOfInterestServiceUrl(String pointOfInterestServiceUrl) {
-        this.pointOfInterestServiceUrl = pointOfInterestServiceUrl;
-    }
-
-    public String getOverpassServiceUrl() {
-        return overpassServiceUrl;
-    }
-
-    public void setOverpassServiceUrl(String overpassServiceUrl) {
-        this.overpassServiceUrl = overpassServiceUrl;
-    }
-
-    public String getOverpassQuery() {
-        return overpassQuery;
-    }
-
-    public void setOverpassQuery(String overpassQuery) {
-        this.overpassQuery = overpassQuery;
-    }
-
-    public String getInterServiceKey() {
-        return interServiceKey;
-    }
-
-    public void setInterServiceKey(String interServiceKey) {
-        this.interServiceKey = interServiceKey;
-    }
-
-    public Integer getMaxTransfers() {
-        return maxTransfers;
-    }
-
-    public void setMaxTransfers(Integer maxTransfers) {
-        this.maxTransfers = maxTransfers;
-    }
-
-	public Map<String, Double> getTravelTimeFactors() {
-		return travelTimeFactors;
-	}
-
-	public void setTravelTimeFactors(Map<String, Double> travelTimeFactors) {
-		this.travelTimeFactors = travelTimeFactors;
-	}
-
-	public Geometry getIntersectionGeometry() {
-		return intersectionGeometry;
-	}
-
-	public void setIntersectionGeometry(Geometry intersectionGeometry) {
-		this.intersectionGeometry = intersectionGeometry;
-	}
-
-    public Geometry getExclusionGeometry() {
-        return exclusionGeometry;
-    }
-
-    public void setExclusionGeometry(Geometry exclusionGeometry) {
-        this.exclusionGeometry = exclusionGeometry;
-    }
-
-    public boolean isForceRecalculate() {
-        return forceRecalculate;
-    }
-
-    public void setForceRecalculate(boolean forceRecalculate) {
-        this.forceRecalculate = forceRecalculate;
-    }
-
-    public boolean isCacheResult() {
-        return cacheResult;
-    }
-
-    public void setCacheResult(boolean cacheResult) {
-        this.cacheResult = cacheResult;
-    }
-
-    public List<Integer> getAvoidTransitRouteTypes() {
-        return avoidTransitRouteTypes;
-    }
-
-    public void setAvoidTransitRouteTypes(List<Integer> avoidTransitRouteTypes) {
-        this.avoidTransitRouteTypes = avoidTransitRouteTypes;
-    }
-
-    public Integer getNextStopsStartTime() { return nextStopsStartTime; }
-
-    public void setNextStopsStartTime(Integer nextStopsStartTime) { this.nextStopsStartTime = nextStopsStartTime; }
-
-    public Integer getNextStopsEndTime() { return nextStopsEndTime; }
-
-    public void setNextStopsEndTime(Integer nextStopsEndTime) { this.nextStopsEndTime = nextStopsEndTime; }
 }

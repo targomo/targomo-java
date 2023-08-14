@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.32.0-SNAPSHOT</version>
+    <version>0.33.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,9 +51,14 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.33.0
+- Add `multiGraphH3FixedZoomLevel` to TravelOptions
+
 ### 0.32.0
 - Remove use of the temporary parameter "multiple" for poi gravitation
-- Add `multiGraphH3FixedZoomLevel` to TravelOptions
+- Add `allowPrivateAndServiceRoads` parameter
+- Add `arrivalOrDepartureDuration` parameter
+- Add option for `sourceAddresses` and `targetAddresses` using H3 Addresses
 
 ### 0.31.0
 - Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null

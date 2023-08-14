@@ -1,0 +1,51 @@
+{
+  "polygon": {
+    "pointReduction": true,
+    "intersectionMode": "UNION",
+    "values": [
+      600,
+      1200,
+      1800
+    ],
+    "minPolygonHoleSize": 100000000,
+    "serializer": "json"
+  },
+  "intersectionMode": "UNION",
+  "sourceAddresses": [
+    {
+      "h3Address": "address2",
+      "tm": {
+        "car": {
+          "walkSpeed": 5,
+          "rushHour": false
+        }
+      },
+      "reverse": false
+    },
+    {
+      "h3Address": "address1",
+      "tm": {
+        "car": {
+          "walkSpeed": 5,
+          "rushHour": false
+        }
+      },
+      "reverse": false
+    }
+  ],
+  "targetAddresses": [
+    "address3",
+    "address4"
+  ],
+  "pathSerializer": "compact",
+  "elevation": true,
+  "reverse": false,
+  "edgeWeight": "time",
+  "serviceUrl": "",
+  "serviceKey": "",
+  "osmTypes": [],
+  "onlyPrintReachablePoints": true,
+  "forceRecalculate": false,
+  "cacheResult": true,
+  "maxEdgeWeight": 1800
+}

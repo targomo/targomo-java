@@ -2,7 +2,6 @@ package com.targomo.client.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.exception.TargomoClientException;
 
 /**
  *

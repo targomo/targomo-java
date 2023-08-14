@@ -1,6 +1,7 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.*;
