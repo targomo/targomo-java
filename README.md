@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Remove use of the temporary parameter "multiple" for poi gravitation
 - Add `allowPrivateAndServiceRoads` parameter
 - Add `arrivalOrDepartureDuration` parameter
+- Add option for `sourceAddresses` and `targetAddresses` using H3 Addresses
 
 ### 0.31.0
 - Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null

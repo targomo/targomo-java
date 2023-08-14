@@ -5,14 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.MultiGraphTravelTimeApproximation;
 import com.targomo.client.api.enums.RoutingAggregationType;
-import com.targomo.client.api.geo.AbstractGeometry;
-import com.targomo.client.api.geo.Coordinate;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.geo.DefaultSourceGeometry;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceCoordinateMapSerializer;
-import com.targomo.client.api.json.DefaultSourceGeometriesMapDeserializer;
-import com.targomo.client.api.json.DefaultSourceGeometriesMapSerializer;
+import com.targomo.client.api.geo.*;
+import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
 import lombok.Data;
 
@@ -34,6 +28,11 @@ public class StatisticTravelOptions extends TravelOptions {
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
     @Transient
     private Map<String,Coordinate> inactiveSources = new HashMap<>();
+
+    @JsonDeserialize(contentAs= DefaultSourceAddress.class, using= DefaultSourceAddressMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
+    @Transient
+    private Map<String,DefaultSourceAddress> inactiveSourceAddresses = new HashMap<>();
 
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
@@ -111,6 +110,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
+                Objects.equals(inactiveGeometrySources, that.inactiveGeometrySources) &&
+                Objects.equals(inactiveSourceAddresses, that.inactiveSourceAddresses) &&
                 Objects.equals(cellIds, that.cellIds) &&
                 Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
                 Objects.equals(multiGraphDomainStatisticCollectionId, that.multiGraphDomainStatisticCollectionId) &&
@@ -129,10 +130,10 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, useH3Reachability, useStatisticTargets, getClosestSources,
-                omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId, multiGraphDomainStatisticCollectionId,
-                multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds, multiGraphTravelTimeApproximation,
-                statisticIds, chartInterval, statisticCollectionId,
+        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses, useH3Reachability,
+                useStatisticTargets, getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
+                multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
+                multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
                 routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
     }
@@ -143,6 +144,10 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(getClass().getName());
         builder.append("\n\tinactiveSources: ");
         builder.append(Arrays.toString(inactiveSources.entrySet().toArray()));
+        builder.append("\n\tinactiveGeometrySources: ");
+        builder.append(Arrays.toString(inactiveGeometrySources.entrySet().toArray()));
+        builder.append("\n\tinactiveSourceAddresses: ");
+        builder.append(Arrays.toString(inactiveSourceAddresses.entrySet().toArray()));
         builder.append("\n\tomitIndividualStatistics: ");
         builder.append(omitIndividualStatistics);
         builder.append("\n\tcellIds: ");

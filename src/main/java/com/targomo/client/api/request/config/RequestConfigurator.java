@@ -7,6 +7,7 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceAddress;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.pojo.Geometry;
@@ -156,11 +157,17 @@ public final class RequestConfigurator {
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
                 JSONBuilder.append(config, SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
+            if (travelOptions.getSourceAddresses() != null && !travelOptions.getSourceAddresses().isEmpty())
+                JSONBuilder.append(config, SOURCE_ADDRESSES, getSourceAddresses(travelOptions));
+
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, TARGETS, getTargets(travelOptions));
 
             if (travelOptions.getTargetGeohashes() != null && !travelOptions.getTargetGeohashes().isEmpty())
                 JSONBuilder.appendStringList(config, TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
+
+            if (travelOptions.getTargetAddresses() != null && !travelOptions.getTargetAddresses().isEmpty())
+                JSONBuilder.appendStringList(config, TARGET_ADDRESSES, travelOptions.getTargetAddresses());
 
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
@@ -548,6 +555,23 @@ public final class RequestConfigurator {
         return sourceGeometries;
     }
 
+    private static JSONArray getSourceAddresses(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sourceAddresses = new JSONArray();
+        for (DefaultSourceAddress src : travelOptions.getSourceAddresses().values()) {
+
+            TravelType travelType = getTravelType(travelOptions, src);
+            JSONObject travelMode = getTravelMode(travelOptions, travelType);
+
+            JSONObject source = new JSONObject()
+                    .put(H3_ADDRESS, src.getH3Address());
+
+            addTransportationMode(travelOptions, src, source, travelType, travelMode);
+
+            sourceAddresses.put(source);
+        }
+        return sourceAddresses;
+    }
+
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
@@ -680,6 +704,7 @@ public final class RequestConfigurator {
                     .put(DATA, geometry.getData())
                     .put(ROUTE_FROM_CENTROID, geometry.isRouteFromCentroid());
         }
+        addTransportationMode(travelOptions, src, source, travelType, travelMode);
         source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
         if(src.getProperties() != null){
@@ -694,6 +719,21 @@ public final class RequestConfigurator {
             source.put(REVERSE, travelOptions.getReverse());
         }
         return source;
+    }
+
+    private static void addTransportationMode(TravelOptions travelOptions, com.targomo.client.api.geo.Location src, JSONObject source, TravelType travelType, JSONObject travelMode) throws JSONException {
+        source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+        if(src.getProperties() != null){
+            source.put(PROPERTIES, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
+            );
+        }
+
+        if (travelOptions.getReverse() != null) {
+            source.put(REVERSE, travelOptions.getReverse());
+        }
     }
 
     /**

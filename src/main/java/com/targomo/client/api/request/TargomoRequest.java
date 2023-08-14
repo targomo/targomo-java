@@ -10,7 +10,6 @@ import com.targomo.client.api.request.ssl.SslClientGenerator;
 import com.targomo.client.api.response.DefaultResponse;
 import com.targomo.client.api.response.ResponseCode;
 import com.targomo.client.api.util.IOUtil;
-import com.targomo.client.api.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.HttpMethod;

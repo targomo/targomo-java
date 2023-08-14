@@ -9,14 +9,12 @@ import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.api.TravelOptions;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.util.Objects;
 
 /**
  * Generates possible route from sources to targets.

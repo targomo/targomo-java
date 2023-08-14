@@ -17,8 +17,6 @@ import com.targomo.client.api.request.RouteRequest;
 import com.targomo.client.api.request.TimeRequest;
 import com.targomo.client.api.statistic.PoiType;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,6 +48,11 @@ public class TravelOptions implements Serializable {
     @Transient
     private Map<String,Coordinate> sources  = new HashMap<>();
 
+    @JsonDeserialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapDeserializer.class)
+    @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
+    @Transient
+    private Map<String, DefaultSourceAddress> sourceAddresses  = new HashMap<>();
+
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
     @Transient
@@ -62,6 +65,9 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private List<String> targetGeohashes = new ArrayList<>();
+
+    @Transient
+    private List<String> targetAddresses = new ArrayList<>();
 
     @Column(name = "bike_speed")
     private double bikeSpeed         = 15.0;
@@ -316,6 +322,10 @@ public class TravelOptions implements Serializable {
         this.targetGeohashes.addAll(geohashes);
     }
 
+    public void addAllTargetAddresses(List<String> targetAddresses){
+        this.targetAddresses.addAll(targetAddresses);
+    }
+
     /**
      * This function will be removed in a future release.
      * Use maxEdgeWeight and edgeWeightType instead.
@@ -380,6 +390,10 @@ public class TravelOptions implements Serializable {
      */
     public void addSourceGeometry(AbstractGeometry source) {
         this.sourceGeometries.put(source.getId(), source);
+    }
+
+    public void addSourceAddress(DefaultSourceAddress address) {
+        this.sourceAddresses.put(address.getH3Address(), address);
     }
 
     /**
@@ -485,8 +499,10 @@ public class TravelOptions implements Serializable {
                 onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
                 Objects.equals(sources, that.sources) &&
                 Objects.equals(sourceGeometries, that.sourceGeometries) &&
+                Objects.equals(sourceAddresses, that.sourceAddresses) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(targetGeohashes, that.targetGeohashes) &&
+                Objects.equals(targetGeohashes, that.targetAddresses) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 travelType == that.travelType &&
@@ -590,9 +606,10 @@ public class TravelOptions implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(sources, sourceGeometries, targets, targetGeohashes, bikeSpeed, bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill,
-                rushHour, travelTimes, travelType, elevationEnabled, appendTravelTimes, pointReduction, reverse,
-                minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration, recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
+        return Objects.hash(sources, sourceGeometries, sourceAddresses, targets, targetGeohashes, targetAddresses, bikeSpeed,
+                bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill, rushHour, travelTimes, travelType, elevationEnabled,
+                appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration,
+                recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
@@ -642,10 +659,14 @@ public class TravelOptions implements Serializable {
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
         builder.append(" {\n\tsourceGeometries: ");
         builder.append(sourceGeometries != null ? toString(sourceGeometries.entrySet(), maxLen) : null);
+        builder.append(" {\n\tsourceAddresses: ");
+        builder.append(sourceAddresses != null ? toString(sourceAddresses.entrySet(), maxLen) : null);
         builder.append("\n\ttargets: ");
         builder.append(targets != null ? toString(targets.entrySet(), maxLen) : null);
         builder.append("\n\ttargetGeohashes: ");
         builder.append(targetGeohashes != null ? toString(targetGeohashes, maxLen) : null);
+        builder.append("\n\ttargetAddresses: ");
+        builder.append(targetAddresses != null ? toString(targetAddresses, maxLen) : null);
         builder.append("\n\tbikeSpeed: ");
         builder.append(bikeSpeed);
         builder.append("\n\tbikeUphill: ");
