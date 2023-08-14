@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.31.0</version>
+    <version>0.32.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,12 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.32.0
+- Remove use of the temporary parameter "multiple" for poi gravitation
+- Add `allowPrivateAndServiceRoads` parameter
+- Add `arrivalOrDepartureDuration` parameter
+- Add option for `sourceAddresses` and `targetAddresses` using H3 Addresses
 
 ### 0.31.0
 - Allow edgeStatisticsServiceUrl and mobilityServiceUrl to be null

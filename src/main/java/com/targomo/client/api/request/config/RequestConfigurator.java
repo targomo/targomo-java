@@ -7,6 +7,7 @@ import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.AbstractGeometry;
 import com.targomo.client.api.geo.Coordinate;
+import com.targomo.client.api.geo.DefaultSourceAddress;
 import com.targomo.client.api.pojo.AggregationConfiguration;
 import com.targomo.client.api.pojo.AggregationInputParameters;
 import com.targomo.client.api.pojo.Geometry;
@@ -156,17 +157,23 @@ public final class RequestConfigurator {
             if (travelOptions.getSourceGeometries() != null && !travelOptions.getSourceGeometries().isEmpty())
                 JSONBuilder.append(config, SOURCE_GEOMETRIES, getSourceGeometries(travelOptions));
 
+            if (travelOptions.getSourceAddresses() != null && !travelOptions.getSourceAddresses().isEmpty())
+                JSONBuilder.append(config, SOURCE_ADDRESSES, getSourceAddresses(travelOptions));
+
             if (travelOptions.getTargets() != null && !travelOptions.getTargets().isEmpty())
                 JSONBuilder.append(config, TARGETS, getTargets(travelOptions));
 
             if (travelOptions.getTargetGeohashes() != null && !travelOptions.getTargetGeohashes().isEmpty())
                 JSONBuilder.appendStringList(config, TARGET_GEOHASHES, travelOptions.getTargetGeohashes());
 
+            if (travelOptions.getTargetAddresses() != null && !travelOptions.getTargetAddresses().isEmpty())
+                JSONBuilder.appendStringList(config, TARGET_ADDRESSES, travelOptions.getTargetAddresses());
+
             if (travelOptions.getPathSerializer() != null)
                 JSONBuilder.appendString(config, PATH_SERIALIZER, travelOptions.getPathSerializer().getPathSerializerName());
 
-            if (travelOptions.isElevationEnabled() != null)
-                JSONBuilder.append(config, ENABLE_ELEVATION, travelOptions.isElevationEnabled());
+            if (travelOptions.getElevationEnabled() != null)
+                JSONBuilder.append(config, ENABLE_ELEVATION, travelOptions.getElevationEnabled());
 
             if (travelOptions.getReverse() != null)
                 JSONBuilder.append(config, REVERSE, travelOptions.getReverse());
@@ -231,7 +238,7 @@ public final class RequestConfigurator {
             if (travelOptions.getNextStopsEndTime() != null)
                 JSONBuilder.append(config, NEXT_STOPS_END_TIME, travelOptions.getNextStopsEndTime());
 
-            JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.getOnlyPrintReachablePoints());
+            JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.isOnlyPrintReachablePoints());
             
             JSONBuilder.append(config, FORCE_RECALCULATE, travelOptions.isForceRecalculate());
             JSONBuilder.append(config, CACHE_RESULT, travelOptions.isCacheResult());
@@ -256,7 +263,7 @@ public final class RequestConfigurator {
 		JSONObject polygon = new JSONObject();
 		polygon.put(POLYGON_VALUES, 			 new JSONArray(travelOptions.getTravelTimes()));
 		polygon.put(POLYGON_INTERSECTION_MODE, travelOptions.getIntersectionMode());
-		polygon.put(POINT_REDUCTION, 			 travelOptions.isPointReduction());
+		polygon.put(POINT_REDUCTION, 			 travelOptions.getPointReduction());
 		polygon.put(MIN_POLYGON_HOLE_SIZE, 	 travelOptions.getMinPolygonHoleSize());
 
 		if ( travelOptions.getSrid() != null )
@@ -548,6 +555,23 @@ public final class RequestConfigurator {
         return sourceGeometries;
     }
 
+    private static JSONArray getSourceAddresses(final TravelOptions travelOptions) throws JSONException {
+        JSONArray sourceAddresses = new JSONArray();
+        for (DefaultSourceAddress src : travelOptions.getSourceAddresses().values()) {
+
+            TravelType travelType = getTravelType(travelOptions, src);
+            JSONObject travelMode = getTravelMode(travelOptions, travelType);
+
+            JSONObject source = new JSONObject()
+                    .put(H3_ADDRESS, src.getH3Address());
+
+            addTransportationMode(travelOptions, src, source, travelType, travelMode);
+
+            sourceAddresses.put(source);
+        }
+        return sourceAddresses;
+    }
+
 
     private static StringBuilder getTargets(final TravelOptions travelOptions) {
         StringBuilder targetsBuilder = new StringBuilder().append("[");
@@ -571,6 +595,9 @@ public final class RequestConfigurator {
                                            final TravelType travelType) throws JSONException {
         JSONObject travelMode = new JSONObject();
 
+        if (travelOptions.isAllowPrivateAndServiceRoads())
+            travelMode.put(ALLOW_PRIVATE_AND_SERVICE_ROADS, travelOptions.isAllowPrivateAndServiceRoads());
+
         if (travelOptions.getTrafficJunctionPenalty() != null)
             travelMode.put(TRANSPORT_MODE_TRAFFIC_JUNCTION_PENALTY, travelOptions.getTrafficJunctionPenalty());
         if (travelOptions.getTrafficSignalPenalty() != null)
@@ -587,6 +614,7 @@ public final class RequestConfigurator {
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
                         .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
+                        .put(TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION, travelOptions.getArrivalOrDepartureDuration())
                         .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
                 if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
                     travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS, travelOptions.getMaxTransfers());
@@ -676,6 +704,7 @@ public final class RequestConfigurator {
                     .put(DATA, geometry.getData())
                     .put(ROUTE_FROM_CENTROID, geometry.isRouteFromCentroid());
         }
+        addTransportationMode(travelOptions, src, source, travelType, travelMode);
         source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
 
         if(src.getProperties() != null){
@@ -690,6 +719,21 @@ public final class RequestConfigurator {
             source.put(REVERSE, travelOptions.getReverse());
         }
         return source;
+    }
+
+    private static void addTransportationMode(TravelOptions travelOptions, com.targomo.client.api.geo.Location src, JSONObject source, TravelType travelType, JSONObject travelMode) throws JSONException {
+        source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+        if(src.getProperties() != null){
+            source.put(PROPERTIES, new JSONObject()
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
+                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
+            );
+        }
+
+        if (travelOptions.getReverse() != null) {
+            source.put(REVERSE, travelOptions.getReverse());
+        }
     }
 
     /**

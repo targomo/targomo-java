@@ -138,8 +138,6 @@ public class PointOfInterestRequest {
 	private Response getResponse(String path) throws TargomoClientException {
 		WebTarget target = client.target(travelOptions.getPointOfInterestServiceUrl()).path(path)
 				.queryParam("key", travelOptions.getServiceKey())
-				//TODO: remove this temporary parameter
-				.queryParam("multiple", "true")
 				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
 				.queryParam("cacheResult", travelOptions.isCacheResult());
 		if(travelOptions.getInterServiceKey() != null){
