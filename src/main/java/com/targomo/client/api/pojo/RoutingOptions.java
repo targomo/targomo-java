@@ -51,10 +51,19 @@ public class RoutingOptions {
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
-        return Objects.hash(maxEdgeWeight, travelType.getKey(), travelTimeFactors, reverse, rushHour, time, date, frame, arrivalOrDepartureDuration,
+        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, reverse, rushHour, time, date, frame, arrivalOrDepartureDuration,
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
                 maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance);
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(!(other instanceof RoutingOptions)){
+            return false;
+        }
+        RoutingOptions that = (RoutingOptions) other;
+        return this.hashCode() == that.hashCode();
     }
 }
