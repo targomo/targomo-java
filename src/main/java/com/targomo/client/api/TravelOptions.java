@@ -187,7 +187,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
     @Transient private Geometry clipGeometry                                                 = null;
-    @Transient private Integer multiGraphH3FixedZoomLevel                                    = 10;
+    @Transient private Integer multiGraphH3FixedZoomLevel                                    = null;
 
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
