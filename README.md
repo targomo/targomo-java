@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.33.0
-
+- Use TLongObjectMap instead of TIntObjectMap in Multigraph
 
 ### 0.32.0
 - Remove use of the temporary parameter "multiple" for poi gravitation
