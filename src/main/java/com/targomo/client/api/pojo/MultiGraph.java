@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.MultiGraphDomainType;
-import gnu.trove.map.TIntFloatMap;
-import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.TLongFloatMap;
+import gnu.trove.map.TLongObjectMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class MultiGraph extends BaseGraph {
 
-    private final Map<String, TIntFloatMap> layers;
+    private final Map<String, TLongFloatMap> layers;
 
     // the type of the layer: values per vertex or per edge
     private final MultiGraphDomainType domainType;
@@ -29,17 +29,17 @@ public class MultiGraph extends BaseGraph {
 
     @JsonCreator
     public MultiGraph(@JsonProperty("networkID") long networkID,
-                      @JsonProperty("nodes") TIntObjectMap<double[]> nodes,
-                      @JsonProperty("layers") Map<String,TIntFloatMap> layers,
-                      @JsonProperty("edges") TIntObjectMap<int[]> edges,
-                      @JsonProperty("supportingPoints") TIntObjectMap<double[][]> supportingPoints,
+                      @JsonProperty("nodes") TLongObjectMap<double[]> nodes,
+                      @JsonProperty("layers") Map<String, TLongFloatMap> layers,
+                      @JsonProperty("edges") TLongObjectMap<long[]> edges,
+                      @JsonProperty("supportingPoints") TLongObjectMap<double[][]> supportingPoints,
                       @JsonProperty("domainType") MultiGraphDomainType domainType) {
         super(networkID,nodes,edges,supportingPoints);
         this.layers = layers;
         this.domainType = domainType;
     }
 
-    public Map<String, TIntFloatMap> getLayers() {
+    public Map<String, TLongFloatMap> getLayers() {
         return layers;
     }
 
