@@ -6,6 +6,7 @@ public class Constants {
 
     public static final float NO_VALUE_ENTRY_FLOAT_TROVE_MAPS = -Float.MAX_VALUE;
     public static final int NO_VALUE_ENTRY_INT_TROVE_MAPS = Integer.MIN_VALUE;
+    public static final long NO_VALUE_ENTRY_LONG_TROVE_MAPS = Long.MIN_VALUE;
 
     public static final String POLYGON_VALUES                                           = "values";
     public static final String POLYGON_INTERSECTION_MODE                                = "intersectionMode";
