@@ -51,10 +51,30 @@ public class RoutingOptions {
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
-        return Objects.hash(maxEdgeWeight, travelType.getKey(), travelTimeFactors, reverse, rushHour, time, date, frame, arrivalOrDepartureDuration,
+        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, reverse, rushHour, time, date, frame, arrivalOrDepartureDuration,
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
                 maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoutingOptions that = (RoutingOptions) o;
+        return Objects.equals(maxEdgeWeight, that.maxEdgeWeight) && travelType == that.travelType && Objects.equals(travelTimeFactors, that.travelTimeFactors)
+                && Objects.equals(reverse, that.reverse) && Objects.equals(rushHour, that.rushHour) && Objects.equals(time, that.time)
+                && Objects.equals(date, that.date) && Objects.equals(frame, that.frame) && Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration)
+                && Objects.equals(elevationEnabled, that.elevationEnabled) && Objects.equals(bikeSpeed, that.bikeSpeed) && Objects.equals(bikeDownhill, that.bikeDownhill)
+                && Objects.equals(bikeUphill, that.bikeUphill) && Objects.equals(walkSpeed, that.walkSpeed) && Objects.equals(walkDownhill, that.walkDownhill)
+                && Objects.equals(walkUphill, that.walkUphill) && Objects.equals(allowPrivateAndServiceRoads, that.allowPrivateAndServiceRoads)
+                && Objects.equals(trafficJunctionPenalty, that.trafficJunctionPenalty) && Objects.equals(trafficSignalPenalty, that.trafficSignalPenalty)
+                && Objects.equals(trafficLeftTurnPenalty, that.trafficLeftTurnPenalty) && Objects.equals(trafficRightTurnPenalty, that.trafficRightTurnPenalty)
+                && Objects.equals(maxTransfers, that.maxTransfers) && Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource)
+                && Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) && Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes)
+                && Objects.equals(maxSnapDistance, that.maxSnapDistance) && Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping)
+                && Objects.equals(useAreaSnapping, that.useAreaSnapping) && Objects.equals(snapRadius, that.snapRadius) && Objects.equals(includeSnapDistance, that.includeSnapDistance);
+    }
+
 }
