@@ -2,8 +2,8 @@ package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gnu.trove.map.TLongObjectMap;
-import gnu.trove.map.hash.TLongObjectHashMap;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.io.Serializable;
 
@@ -19,29 +19,29 @@ public class BaseGraph implements Serializable {
     }
 
     private final long networkID;
-    protected final TLongObjectMap<double[]> nodes;
-    protected final TLongObjectMap<long[]> edges;
-    protected final TLongObjectMap<double[][]> supportingPoints;
+    protected final TIntObjectMap<double[]> nodes;
+    protected final TIntObjectMap<int[]> edges;
+    protected final TIntObjectMap<double[][]> supportingPoints;
 
     public BaseGraph(long networkID) {
         this.networkID = networkID;
-        this.nodes = new TLongObjectHashMap<>();
-        this.edges = new TLongObjectHashMap<>();
-        this.supportingPoints = new TLongObjectHashMap<>();
+        this.nodes = new TIntObjectHashMap<>();
+        this.edges = new TIntObjectHashMap<>();
+        this.supportingPoints = new TIntObjectHashMap<>();
     }
 
     public BaseGraph(BaseGraph source) {
         this(source.getNetworkID(),
-                new TLongObjectHashMap<>(source.getNodes()),
-                new TLongObjectHashMap<>(source.getEdges()),
-                new TLongObjectHashMap<>(source.getSupportingPoints()));
+                new TIntObjectHashMap<>(source.getNodes()),
+                new TIntObjectHashMap<>(source.getEdges()),
+                new TIntObjectHashMap<>(source.getSupportingPoints()));
     }
 
     @JsonCreator
     public BaseGraph(@JsonProperty("networkID") long networkID,
-                     @JsonProperty("nodes") TLongObjectMap<double[]> nodes,
-                     @JsonProperty("edges") TLongObjectMap<long[]> edges,
-                     @JsonProperty("supportingPoints") TLongObjectMap<double[][]> supportingPoints) {
+                     @JsonProperty("nodes") TIntObjectMap<double[]> nodes,
+                     @JsonProperty("edges") TIntObjectMap<int[]> edges,
+                     @JsonProperty("supportingPoints") TIntObjectMap<double[][]> supportingPoints) {
         this.networkID = networkID;
         this.nodes = nodes;
         this.edges = edges;
@@ -52,15 +52,15 @@ public class BaseGraph implements Serializable {
         return networkID;
     }
 
-    public TLongObjectMap<double[]> getNodes() {
+    public TIntObjectMap<double[]> getNodes() {
         return nodes;
     }
 
-    public TLongObjectMap<long[]> getEdges() {
+    public TIntObjectMap<int[]> getEdges() {
         return edges;
     }
 
-    public TLongObjectMap<double[][]> getSupportingPoints() {
+    public TIntObjectMap<double[][]> getSupportingPoints() {
         return supportingPoints;
     }
 }
