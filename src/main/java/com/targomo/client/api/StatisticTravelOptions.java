@@ -97,6 +97,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private boolean useStatisticTargets = false;
 
+    @Transient
+    private Integer multiGraphH3FixedZoomLevel;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,6 +110,7 @@ public class StatisticTravelOptions extends TravelOptions {
         return super.equals(o) &&
                 Objects.equals(useH3Reachability, that.useH3Reachability) &&
                 Objects.equals(useStatisticTargets, that.useStatisticTargets) &&
+                Objects.equals(multiGraphH3FixedZoomLevel, that.multiGraphH3FixedZoomLevel) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
@@ -135,7 +139,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
-                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
+                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages, multiGraphH3FixedZoomLevel);
     }
 
     @Override
@@ -182,6 +186,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(useH3Reachability);
         builder.append("\n\tuseStatisticTargets: ");
         builder.append(useStatisticTargets);
+        builder.append("\n\tmultiGraphH3FixedZoomLevel: ");
+        builder.append(multiGraphH3FixedZoomLevel);
         builder.append("\n}\n");
         return builder.toString();
     }
