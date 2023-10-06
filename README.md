@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.33.0
+- Add an `equals` method for `RoutingOptions`
 - Add `multiGraphH3FixedZoomLevel` to TravelOptions
 
 ### 0.32.0
