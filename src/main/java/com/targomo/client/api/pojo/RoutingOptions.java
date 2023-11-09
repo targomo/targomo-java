@@ -19,6 +19,7 @@ import java.util.Objects;
 public class RoutingOptions {
 
     private Integer maxEdgeWeight;
+    // TODO?
     private TravelType travelType;
     private Map<String,Double> travelTimeFactors;
     private Boolean reverse;

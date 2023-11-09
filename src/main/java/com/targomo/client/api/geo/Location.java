@@ -3,6 +3,8 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
 
+import java.util.List;
+
 /**
  * Contains ID and Travel type for both Coordinates and Polygons
  */
@@ -12,7 +14,7 @@ public interface Location {
      * Get TravelType of coordinate.
      * @return Travel type associated with the coordinate
      */
-    public TravelType getTravelType();
+    public List<TravelType> getTravelTypes();
 
     /**
      * Set a travel type for the coordinate.

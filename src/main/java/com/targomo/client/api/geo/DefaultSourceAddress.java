@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,8 +22,8 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private long identifier;
 
-	@Column(name = "travel_type")
-	private TravelType travelType;
+	@Column(name = "travel_types")
+	private List<TravelType> travelTypes;
 
 	private String h3Address;
 
@@ -29,14 +32,18 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 		super();
 	}
 
-	public DefaultSourceAddress(final String h3Address, TravelType travelType, LocationProperties locationProperties) {
+	public DefaultSourceAddress(final String h3Address, List<TravelType> travelTypes, LocationProperties locationProperties) {
 		super(null, locationProperties);
 		this.h3Address = h3Address;
-		this.travelType = travelType;
+		this.travelTypes = travelTypes;
+	}
+
+	public DefaultSourceAddress(final String h3Address, TravelType travelType, LocationProperties locationProperties) {
+		this(h3Address, Collections.singletonList(travelType), locationProperties);
 	}
 
 	public DefaultSourceAddress(final String h3Address, final LocationProperties locationProperties) {
-		this(h3Address, null, locationProperties);
+		this(h3Address, Collections.emptyList(), locationProperties);
 	}
 
 	public DefaultSourceAddress(String h3Address, TravelType travelType){
@@ -44,7 +51,17 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	}
 
 	public DefaultSourceAddress(String h3Address) {
-		this(h3Address, null, null);
+		this(h3Address, Collections.emptyList(), null);
+	}
+
+	@Override
+	public List<TravelType> getTravelTypes() {
+		return travelTypes;
+	}
+
+	@Override
+	public void setTravelType(final TravelType travelType) {
+		this.travelTypes = Collections.singletonList(travelType);
 	}
 
 	/**

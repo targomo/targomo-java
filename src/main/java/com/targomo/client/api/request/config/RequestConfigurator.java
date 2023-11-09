@@ -14,15 +14,13 @@ import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.targomo.client.Constants.*;
@@ -559,13 +557,13 @@ public final class RequestConfigurator {
         JSONArray sourceAddresses = new JSONArray();
         for (DefaultSourceAddress src : travelOptions.getSourceAddresses().values()) {
 
-            TravelType travelType = getTravelType(travelOptions, src);
-            JSONObject travelMode = getTravelMode(travelOptions, travelType);
+            List<TravelType> travelTypes = getTravelTypes(travelOptions, src);
+            JSONObject travelMode = getTravelMode(travelOptions, travelTypes);
 
             JSONObject source = new JSONObject()
                     .put(H3_ADDRESS, src.getH3Address());
 
-            addTransportationMode(travelOptions, src, source, travelType, travelMode);
+            addTransportationMode(travelOptions, src, source, travelTypes, travelMode);
 
             sourceAddresses.put(source);
         }
@@ -592,7 +590,7 @@ public final class RequestConfigurator {
     }
 
     private static JSONObject getTravelMode(final TravelOptions travelOptions,
-                                           final TravelType travelType) throws JSONException {
+                                            final List<TravelType> travelTypes) throws JSONException {
         JSONObject travelMode = new JSONObject();
 
         if (travelOptions.isAllowPrivateAndServiceRoads())
@@ -607,53 +605,62 @@ public final class RequestConfigurator {
         if (travelOptions.getTrafficRightTurnPenalty() != null)
             travelMode.put(TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY, travelOptions.getTrafficRightTurnPenalty());
 
-        switch (travelType) {
-            case WALKTRANSIT:
-            case TRANSIT: //Equivalent with WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
-                travelMode.put(TRANSPORT_MODE_TRANSIT_FRAME, new JSONObject()
-                        .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
-                        .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
-                        .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
-                        .put(TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION, travelOptions.getArrivalOrDepartureDuration())
-                        .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
-                if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
-                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS, travelOptions.getMaxTransfers());
-                }
-                if (travelOptions.getMaxWalkingTimeFromSource() != null && travelOptions.getMaxWalkingTimeFromSource() >= 0) {
-                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_FROM_SOURCE, travelOptions.getMaxWalkingTimeFromSource());
-                }
-                if (travelOptions.getMaxWalkingTimeToTarget() != null && travelOptions.getMaxWalkingTimeToTarget() >= 0) {
-                    travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_TO_TARGET, travelOptions.getMaxWalkingTimeToTarget());
-                }
-                if (travelOptions.getAvoidTransitRouteTypes() != null && !travelOptions.getAvoidTransitRouteTypes().isEmpty()) {
-                    travelMode.put(TRANSPORT_MODE_TRANSIT_AVOID_TRANSIT_ROUTE_TYPES, travelOptions.getAvoidTransitRouteTypes());
-                }
-                travelMode.put(TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
-                travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
-                travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
-                travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
-                break;
-            case WALK:
-                travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
-                travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
-                travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
-                break;
-            case BIKE:
+        Set<TravelType> includedTravelTypes = new HashSet<>(travelTypes);
+
+        if (travelTypes.size() == 1 && (includedTravelTypes.contains(TravelType.WALKTRANSIT) || includedTravelTypes.contains(TravelType.TRANSIT) || includedTravelTypes.contains(TravelType.WALK))) {
+            travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+        }
+        else {
+            travelMode.put(TRAVEL_MODE_WALK_SPEED, travelOptions.getWalkSpeed());
+        }
+
+        // TRANSIT==WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
+        if (includedTravelTypes.contains(TravelType.WALKTRANSIT) || includedTravelTypes.contains(TravelType.TRANSIT)) {
+            travelMode.put(TRANSPORT_MODE_TRANSIT_FRAME, new JSONObject()
+                    .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
+                    .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
+                    .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
+                    .put(TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION, travelOptions.getArrivalOrDepartureDuration())
+                    .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
+            if (travelOptions.getMaxTransfers() != null && travelOptions.getMaxTransfers() >= 0) {
+                travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS, travelOptions.getMaxTransfers());
+            }
+            if (travelOptions.getMaxWalkingTimeFromSource() != null && travelOptions.getMaxWalkingTimeFromSource() >= 0) {
+                travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_FROM_SOURCE, travelOptions.getMaxWalkingTimeFromSource());
+            }
+            if (travelOptions.getMaxWalkingTimeToTarget() != null && travelOptions.getMaxWalkingTimeToTarget() >= 0) {
+                travelMode.put(TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_TO_TARGET, travelOptions.getMaxWalkingTimeToTarget());
+            }
+            if (travelOptions.getAvoidTransitRouteTypes() != null && !travelOptions.getAvoidTransitRouteTypes().isEmpty()) {
+                travelMode.put(TRANSPORT_MODE_TRANSIT_AVOID_TRANSIT_ROUTE_TYPES, travelOptions.getAvoidTransitRouteTypes());
+            }
+            travelMode.put(TRANSPORT_MODE_TRANSIT_RECOMMENDATIONS, travelOptions.getRecommendations());
+            travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+            travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
+        }
+
+        if (includedTravelTypes.contains(TravelType.WALK)) {
+            travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
+            travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
+        }
+
+        if (includedTravelTypes.contains(TravelType.BIKE)) {
+            if (travelTypes.size() == 1) {
                 travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
-                travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
-                travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
-                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
-                break;
-            case CAR:
-                travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
-                if (travelOptions.getDate() != null)
-                    travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
-                if (travelOptions.getTime() != null)
-                    travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
-                travelMode.put(SNAP_WALK_SPEED, travelOptions.getWalkSpeed());
-                break;
-            default:
-                break;
+            }
+            else {
+                travelMode.put(TRAVEL_MODE_BIKE_SPEED, travelOptions.getBikeSpeed());
+            }
+            travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getBikeUphill());
+            travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
+        }
+
+        if (includedTravelTypes.contains(TravelType.CAR)) {
+            travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
+            if (travelOptions.getDate() != null)
+                travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
+            if (travelOptions.getTime() != null)
+                travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
         }
 
         // snapping parameters
@@ -677,20 +684,20 @@ public final class RequestConfigurator {
      * @param src
      * @return
      */
-    private static TravelType getTravelType(final TravelOptions travelOptions, com.targomo.client.api.geo.Location src) {
-        TravelType travelType = travelOptions.getTravelType();
-        if (src.getTravelType() != null
-                && src.getTravelType() != travelType
-                && src.getTravelType() != TravelType.UNSPECIFIED) {
-            travelType = src.getTravelType();
+    private static List<TravelType> getTravelTypes(final TravelOptions travelOptions, com.targomo.client.api.geo.Location src) {
+        List<TravelType> travelTypes = travelOptions.getTravelTypes();
+        if (src.getTravelTypes() != null
+                && !src.getTravelTypes().isEmpty()
+                && !src.getTravelTypes().equals(travelTypes)) {
+            travelTypes = src.getTravelTypes();
         }
-        return travelType;
+        return travelTypes;
     }
 
     private static JSONObject getSourceObject(final TravelOptions travelOptions,
                                               final com.targomo.client.api.geo.Location src) throws JSONException {
-        TravelType travelType = getTravelType(travelOptions, src);
-        JSONObject travelMode = getTravelMode(travelOptions, travelType);
+        List<TravelType> travelTypes = getTravelTypes(travelOptions, src);
+        JSONObject travelMode = getTravelMode(travelOptions, travelTypes);
 
         JSONObject source = new JSONObject()
                 .put(ID, src.getId());
@@ -704,25 +711,26 @@ public final class RequestConfigurator {
                     .put(DATA, geometry.getData())
                     .put(ROUTE_FROM_CENTROID, geometry.isRouteFromCentroid());
         }
-        addTransportationMode(travelOptions, src, source, travelType, travelMode);
-        source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
-
-        if(src.getProperties() != null){
-            source.put(PROPERTIES, new JSONObject()
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH, src.getProperties().getGravitationAttractionStrength())
-                    .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE, src.getProperties().getGravitationPositiveInfluence())
-            );
-        }
-
-        if (travelOptions.getReverse() != null) {
-            source.put(REVERSE, travelOptions.getReverse());
-        }
+        addTransportationMode(travelOptions, src, source, travelTypes, travelMode);
         return source;
     }
 
-    private static void addTransportationMode(TravelOptions travelOptions, com.targomo.client.api.geo.Location src, JSONObject source, TravelType travelType, JSONObject travelMode) throws JSONException {
-        source.put(TRANSPORT_MODE, new JSONObject().put(travelType.toString(), travelMode));
+    private static void addTransportationMode(TravelOptions travelOptions, com.targomo.client.api.geo.Location src, JSONObject source, List<TravelType> travelTypes, JSONObject travelMode) throws JSONException {
+        String transportationModeKey;
+        if (CollectionUtils.isNotEmpty(travelTypes)) {
+            if (travelTypes.size() == 1) {
+                transportationModeKey = travelTypes.get(0).toString();
+            }
+            else {
+                transportationModeKey = TRAVEL_TYPE_MULTIMODAL;
+                JSONArray travelTypesArray = new JSONArray();
+                for (TravelType travelType : travelTypes) {
+                    travelTypesArray.put(travelType.toString());
+                }
+                travelMode.put("travelTypes", travelTypesArray);
+            }
+            source.put(TRANSPORT_MODE, new JSONObject().put(transportationModeKey, travelMode));
+        }
         if(src.getProperties() != null){
             source.put(PROPERTIES, new JSONObject()
                     .put(MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR, src.getProperties().getInputFactor())
