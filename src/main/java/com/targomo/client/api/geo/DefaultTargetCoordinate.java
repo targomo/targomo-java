@@ -45,4 +45,13 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	public void setTravelType(final TravelType travelType) {
 		throw new TargomoClientRuntimeException("Not implemented.");
 	}
+
+	/**
+	 * Not implemented, will throw exception.
+	 * @throws TargomoClientRuntimeException any time this method is called.
+	 */
+	@Override
+	public void setTravelTypes(final List<TravelType> travelType) {
+		throw new TargomoClientRuntimeException("Not implemented.");
+	}
 }

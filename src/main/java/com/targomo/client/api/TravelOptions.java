@@ -106,6 +106,9 @@ public class TravelOptions implements Serializable {
 
     @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
 
+    /**
+     * If there is more than one element in the travelTypes list, multi modal routing will be used.
+     */
     @Column(name = "travel_types")
     private List<TravelType> travelTypes                            = Collections.emptyList();
 
@@ -269,6 +272,9 @@ public class TravelOptions implements Serializable {
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
 
+    /**
+     * Set the travel type to use in routing.
+     */
     public void setTravelType(TravelType type) {
         setTravelTypes(Collections.singletonList(type));
     }

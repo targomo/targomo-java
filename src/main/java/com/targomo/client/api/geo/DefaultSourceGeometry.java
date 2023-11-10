@@ -3,6 +3,8 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -26,6 +28,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     @GeneratedValue(strategy= GenerationType.TABLE)
     private long identifier;
 
+    @Setter @Getter
     @Column(name = "travel_types")
     private List<TravelType> travelTypes;
 
@@ -85,15 +88,6 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     }
 
     /**
-     * Get travel type configuration for the source geometry.
-     * @return Travel type
-     */
-    @Override
-    public List<TravelType> getTravelTypes() {
-        return travelTypes;
-    }
-
-    /**
      * The main problem with this identifier is that we need it for hibernate
      * since it's not able to work without an ID. But source geometries have
      * per se no real identifier since the same geometry could come from multiple
@@ -105,13 +99,9 @@ public class DefaultSourceGeometry extends AbstractGeometry {
 
     public void setIdentifier(long id) { this.identifier = id; }
 
-    /**
-     * Specify a travel type for the source geometry.
-     * @param travelType TravelType to be associated with the source geometry.
-     */
     @Override
     public void setTravelType(final TravelType travelType) {
-        this.travelTypes = travelType == null ? Collections.emptyList() : Collections.singletonList(travelType);
+        setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
     }
 
     @Override

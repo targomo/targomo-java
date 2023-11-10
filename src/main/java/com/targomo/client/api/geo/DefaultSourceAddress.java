@@ -55,13 +55,8 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	}
 
 	@Override
-	public List<TravelType> getTravelTypes() {
-		return travelTypes;
-	}
-
-	@Override
 	public void setTravelType(final TravelType travelType) {
-		this.travelTypes = Collections.singletonList(travelType);
+		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
 	}
 
 	/**

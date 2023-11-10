@@ -2,6 +2,8 @@ package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -23,6 +25,7 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private long identifier;
 
+	@Setter @Getter
 	@Column(name = "travel_types")
 	private List<TravelType> travelTypes;
 
@@ -81,15 +84,6 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * Get travel type configuration for the source coordinate.
-	 * @return Travel type
-	 */
-	@Override
-	public List<TravelType> getTravelTypes() {
-		return travelTypes;
-	}
-
-	/**
      * The main problem with this identifier is that we need it for hibernate
      * since it's not able to work without an ID. But source coordinates have
      * perse no real identifier since the same coordinate could come from multiple
@@ -107,7 +101,7 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	 */
 	@Override
 	public void setTravelType(final TravelType travelType) {
-		this.travelTypes = travelType == null ? Collections.emptyList() : Collections.singletonList(travelType);
+		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
 	}
 
 	@Override
