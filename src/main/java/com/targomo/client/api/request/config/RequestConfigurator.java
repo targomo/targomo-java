@@ -607,13 +607,7 @@ public final class RequestConfigurator {
 
         Set<TravelType> includedTravelTypes = new HashSet<>(travelTypes);
 
-        if (travelTypes.size() == 1 && (includedTravelTypes.contains(TravelType.WALKTRANSIT) || includedTravelTypes.contains(TravelType.TRANSIT) || includedTravelTypes.contains(TravelType.WALK))) {
-            travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
-        }
-        else {
-            travelMode.put(TRAVEL_MODE_WALK_SPEED, travelOptions.getWalkSpeed());
-        }
-
+        // transit parameters
         // TRANSIT==WALK_TRANSIT (BIKE_TRANSIT not really supported hence it is left out)
         if (includedTravelTypes.contains(TravelType.WALKTRANSIT) || includedTravelTypes.contains(TravelType.TRANSIT)) {
             travelMode.put(TRANSPORT_MODE_TRANSIT_FRAME, new JSONObject()
@@ -639,13 +633,24 @@ public final class RequestConfigurator {
             travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
         }
 
+        // walk parameters
         if (includedTravelTypes.contains(TravelType.WALK)) {
             travelMode.put(TRAVEL_MODE_UPHILL, travelOptions.getWalkUphill());
             travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getWalkDownhill());
         }
+        if (travelTypes.size() == 1 && (includedTravelTypes.contains(TravelType.WALKTRANSIT) || includedTravelTypes.contains(TravelType.TRANSIT) || includedTravelTypes.contains(TravelType.WALK))) {
+            // if the only travel mode is walk or transit we need to use "speed" for walk speed
+            travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getWalkSpeed());
+        }
+        else {
+            // we need walk speed even for car and bike mode (if snap distance is included in travel time)
+            travelMode.put(TRAVEL_MODE_WALK_SPEED, travelOptions.getWalkSpeed());
+        }
 
+        // bike parameters
         if (includedTravelTypes.contains(TravelType.BIKE)) {
             if (travelTypes.size() == 1) {
+                // if the only travel mode is bike we need to use "speed" for bike speed
                 travelMode.put(TRAVEL_MODE_SPEED, travelOptions.getBikeSpeed());
             }
             else {
@@ -655,6 +660,7 @@ public final class RequestConfigurator {
             travelMode.put(TRAVEL_MODE_DOWNHILL, travelOptions.getBikeDownhill());
         }
 
+        // car parameters
         if (includedTravelTypes.contains(TravelType.CAR)) {
             travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
             if (travelOptions.getDate() != null)
@@ -686,8 +692,7 @@ public final class RequestConfigurator {
      */
     private static List<TravelType> getTravelTypes(final TravelOptions travelOptions, com.targomo.client.api.geo.Location src) {
         List<TravelType> travelTypes = travelOptions.getTravelTypes();
-        if (src.getTravelTypes() != null
-                && !src.getTravelTypes().isEmpty()
+        if (CollectionUtils.isNotEmpty(src.getTravelTypes())
                 && !src.getTravelTypes().equals(travelTypes)) {
             travelTypes = src.getTravelTypes();
         }
@@ -727,7 +732,7 @@ public final class RequestConfigurator {
                 for (TravelType travelType : travelTypes) {
                     travelTypesArray.put(travelType.toString());
                 }
-                travelMode.put("travelTypes", travelTypesArray);
+                travelMode.put(TRAVEL_MODE_MULTIMODAL_TRAVELTYPES, travelTypesArray);
             }
             source.put(TRANSPORT_MODE, new JSONObject().put(transportationModeKey, travelMode));
         }

@@ -25,6 +25,9 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private long identifier;
 
+	/**
+	 * If there is more than one element in the travelTypes list, multi modal routing will be used.
+	 */
 	@Setter @Getter
 	@Column(name = "travel_types")
 	private List<TravelType> travelTypes;

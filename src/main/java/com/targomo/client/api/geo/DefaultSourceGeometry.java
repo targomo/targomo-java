@@ -28,6 +28,9 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     @GeneratedValue(strategy= GenerationType.TABLE)
     private long identifier;
 
+    /**
+     * If there is more than one element in the travelTypes list, multi modal routing will be used.
+     */
     @Setter @Getter
     @Column(name = "travel_types")
     private List<TravelType> travelTypes;
@@ -99,6 +102,9 @@ public class DefaultSourceGeometry extends AbstractGeometry {
 
     public void setIdentifier(long id) { this.identifier = id; }
 
+    /**
+     * Set the travel type to use when routing.
+     */
     @Override
     public void setTravelType(final TravelType travelType) {
         setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));

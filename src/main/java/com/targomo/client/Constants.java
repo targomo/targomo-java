@@ -41,6 +41,7 @@ public class Constants {
     public static final String TRAVEL_TYPE_FLY                                          = "fly";
     public static final String TRAVEL_TYPE_MULTIMODAL                                   = "multiModal";
 
+    public static final String TRAVEL_MODE_MULTIMODAL_TRAVELTYPES                       = "travelTypes";
     public static final String TRAVEL_MODE_SPEED                                        = "speed";
     public static final String TRAVEL_MODE_UPHILL                                       = "uphill";
     public static final String TRAVEL_MODE_DOWNHILL                                     = "downhill";

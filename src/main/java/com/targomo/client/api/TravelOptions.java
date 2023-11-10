@@ -273,10 +273,10 @@ public class TravelOptions implements Serializable {
 
 
     /**
-     * Set the travel type to use in routing.
+     * Set the travel type to use when routing.
      */
     public void setTravelType(TravelType type) {
-        setTravelTypes(Collections.singletonList(type));
+        setTravelTypes(type == null ? Collections.emptyList() : Collections.singletonList(type));
     }
 
     /**

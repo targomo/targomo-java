@@ -22,6 +22,9 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private long identifier;
 
+	/**
+	 * If there is more than one element in the travelTypes list, multi modal routing will be used.
+	 */
 	@Column(name = "travel_types")
 	private List<TravelType> travelTypes;
 
@@ -80,11 +83,13 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 
 		DefaultSourceAddress that = (DefaultSourceAddress) o;
 
-		return Objects.equals(h3Address, that.h3Address);
+		return Objects.equals(this.travelTypes, that.travelTypes) && Objects.equals(h3Address, that.h3Address);
 	}
 
 	@Override
 	public int hashCode() {
-		return h3Address.hashCode();
+		int result = h3Address.hashCode();
+		result = 31 * result + (travelTypes != null ? travelTypes.hashCode() : 0);
+		return result;
 	}
 }

@@ -19,7 +19,7 @@ import java.util.Objects;
 public class RoutingOptions {
 
     private Integer maxEdgeWeight;
-    // TODO?
+    // Currently multi modal routing is not supported in competing routing options
     private TravelType travelType;
     private Map<String,Double> travelTimeFactors;
     private Boolean reverse;

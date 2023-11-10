@@ -66,6 +66,9 @@ public abstract class AbstractCoordinate extends AbstractLocation implements Coo
 		this.y = y;
 	}
 
+	/**
+	 * Set the travel type to use when routing.
+	 */
 	@Override
 	public void setTravelType(final TravelType travelType) {
 		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
