@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

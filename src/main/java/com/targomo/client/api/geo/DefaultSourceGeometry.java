@@ -1,7 +1,6 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
-import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.LocationProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -101,14 +100,6 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     public long getIdentifier() { return identifier; }
 
     public void setIdentifier(long id) { this.identifier = id; }
-
-    /**
-     * Set the travel type to use when routing.
-     */
-    @Override
-    public void setTravelType(final TravelType travelType) {
-        setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
-    }
 
     @Override
     public String toString() {

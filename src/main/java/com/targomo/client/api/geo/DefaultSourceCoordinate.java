@@ -98,15 +98,6 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 
 	public void setIdentifier(long id) { this.identifier = id; }
 
-    /**
-	 * Specify a travel type for the source coordinate.
-	 * @param travelType TravelType to be associated with the source coordinate.
-	 */
-	@Override
-	public void setTravelType(final TravelType travelType) {
-		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

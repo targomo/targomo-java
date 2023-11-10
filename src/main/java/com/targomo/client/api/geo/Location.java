@@ -3,8 +3,6 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
 
-import javax.persistence.Column;
-import java.util.Collections;
 import java.util.List;
 
 /**

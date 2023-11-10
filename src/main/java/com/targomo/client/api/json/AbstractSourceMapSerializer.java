@@ -2,12 +2,9 @@ package com.targomo.client.api.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Location;
-import com.targomo.client.api.statistic.PoiType;
 
 import java.io.IOException;
-import java.util.List;
 
 import static com.targomo.client.api.util.SerializationUtil.travelTypeListToJsonGenerator;
 
