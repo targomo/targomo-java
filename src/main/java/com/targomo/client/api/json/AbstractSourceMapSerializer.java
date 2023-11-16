@@ -6,6 +6,8 @@ import com.targomo.client.api.geo.Location;
 
 import java.io.IOException;
 
+import static com.targomo.client.api.util.SerializationUtil.travelTypeListToJsonGenerator;
+
 /**
  * Created by Gideon Cohen
  */
@@ -13,7 +15,9 @@ public abstract class AbstractSourceMapSerializer extends JsonSerializer {
 
 
     public void writeExtraData(Location location, JsonGenerator jsonGenerator) throws IOException {
-        if ( location.getTravelType() != null ) jsonGenerator.writeStringField("tm", location.getTravelType().toString());
+
+        travelTypeListToJsonGenerator(location.getTravelTypes(), jsonGenerator, "travelTypes", "travelType");
+
         if( location.getProperties() != null){
             jsonGenerator.writeFieldName("aggregationInputParameters");
             jsonGenerator.writeStartObject();

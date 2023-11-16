@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 
+import java.util.List;
+
 /**
  * Default implementation for storing target coordinates.
  * Basically a {@link AbstractCoordinate} specialized to be used as a target.
@@ -29,7 +31,7 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	 * @throws TargomoClientRuntimeException any time this method is called.
 	 */
 	@Override
-	public TravelType getTravelType() {
+	public List<TravelType> getTravelTypes() {
 		throw new TargomoClientRuntimeException("Not implemented.");
 	}
 
@@ -40,6 +42,15 @@ public class DefaultTargetCoordinate extends AbstractCoordinate {
 	 */
 	@Override
 	public void setTravelType(final TravelType travelType) {
+		throw new TargomoClientRuntimeException("Not implemented.");
+	}
+
+	/**
+	 * Not implemented, will throw exception.
+	 * @throws TargomoClientRuntimeException any time this method is called.
+	 */
+	@Override
+	public void setTravelTypes(final List<TravelType> travelType) {
 		throw new TargomoClientRuntimeException("Not implemented.");
 	}
 }

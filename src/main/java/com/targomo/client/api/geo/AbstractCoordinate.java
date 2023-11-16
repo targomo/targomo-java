@@ -1,8 +1,10 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.MappedSuperclass;
+import java.util.Collections;
 
 /**
  * Simple abstract class to use for storing coordinates with IDs and travel types.
@@ -62,6 +64,14 @@ public abstract class AbstractCoordinate extends AbstractLocation implements Coo
 	 */
 	public void setY(final double y) {
 		this.y = y;
+	}
+
+	/**
+	 * Set the travel type to use when routing.
+	 */
+	@Override
+	public void setTravelType(final TravelType travelType) {
+		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
 	}
 
 	/**

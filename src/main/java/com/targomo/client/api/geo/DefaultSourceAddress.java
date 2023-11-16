@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,8 +21,11 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private long identifier;
 
-	@Column(name = "travel_type")
-	private TravelType travelType;
+	/**
+	 * If there is more than one element in the travelTypes list, multi modal routing will be used.
+	 */
+	@Column(name = "travel_types")
+	private List<TravelType> travelTypes;
 
 	private String h3Address;
 
@@ -29,14 +34,18 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 		super();
 	}
 
-	public DefaultSourceAddress(final String h3Address, TravelType travelType, LocationProperties locationProperties) {
+	public DefaultSourceAddress(final String h3Address, List<TravelType> travelTypes, LocationProperties locationProperties) {
 		super(null, locationProperties);
 		this.h3Address = h3Address;
-		this.travelType = travelType;
+		this.travelTypes = travelTypes;
+	}
+
+	public DefaultSourceAddress(final String h3Address, TravelType travelType, LocationProperties locationProperties) {
+		this(h3Address, Collections.singletonList(travelType), locationProperties);
 	}
 
 	public DefaultSourceAddress(final String h3Address, final LocationProperties locationProperties) {
-		this(h3Address, null, locationProperties);
+		this(h3Address, Collections.emptyList(), locationProperties);
 	}
 
 	public DefaultSourceAddress(String h3Address, TravelType travelType){
@@ -44,7 +53,12 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 	}
 
 	public DefaultSourceAddress(String h3Address) {
-		this(h3Address, null, null);
+		this(h3Address, Collections.emptyList(), null);
+	}
+
+	@Override
+	public void setTravelType(final TravelType travelType) {
+		setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
 	}
 
 	/**
@@ -68,11 +82,13 @@ public class DefaultSourceAddress extends AbstractLocation implements Location {
 
 		DefaultSourceAddress that = (DefaultSourceAddress) o;
 
-		return Objects.equals(h3Address, that.h3Address);
+		return Objects.equals(this.travelTypes, that.travelTypes) && Objects.equals(h3Address, that.h3Address);
 	}
 
 	@Override
 	public int hashCode() {
-		return h3Address.hashCode();
+		int result = h3Address.hashCode();
+		result = 31 * result + (travelTypes != null ? travelTypes.hashCode() : 0);
+		return result;
 	}
 }
