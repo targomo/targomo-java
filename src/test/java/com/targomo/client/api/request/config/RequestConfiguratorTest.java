@@ -303,7 +303,7 @@ public class RequestConfiguratorTest {
         DefaultSourceGeometry geom = (DefaultSourceGeometry) parsed.getSourceGeometries().get(id);
         Assert.assertEquals(id, geom.getId());
         Assert.assertEquals(4326, geom.getCrs().longValue());
-        Assert.assertEquals(TravelType.WALK, geom.getTravelType());
+        Assert.assertEquals(TravelType.WALK, geom.getTravelTypes().get(0));
 
     }
 
@@ -319,7 +319,7 @@ public class RequestConfiguratorTest {
         Assert.assertEquals(1, parsed.getSourceAddresses().size());
         DefaultSourceAddress sourceAddress = parsed.getSourceAddresses().get(address);
         Assert.assertEquals(address, sourceAddress.getH3Address());
-        Assert.assertEquals(TravelType.WALK, sourceAddress.getTravelType());
+        Assert.assertEquals(TravelType.WALK, sourceAddress.getTravelTypes().get(0));
     }
 
     @Test

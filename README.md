@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
+- Add support for multiModal routing
 
 ### 0.32.0
 - Remove use of the temporary parameter "multiple" for poi gravitation
