@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.33.0-SNAPSHOT</version>
+    <version>0.33.0-CRITERION-METADATA-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
+- Add the possibility to set metadata for criterion definition
 
 ### 0.32.0
 - Remove use of the temporary parameter "multiple" for poi gravitation
