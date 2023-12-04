@@ -191,6 +191,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphTileX                                               = null;
     @Transient private Integer multiGraphTileY                                               = null;
     @Transient private Geometry clipGeometry                                                 = null;
+    @Transient private Integer multiGraphH3FixedZoomLevel                                    = null;
 
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
@@ -578,6 +579,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
                 Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
                 Objects.equals(clipGeometry, that.clipGeometry) &&
+                Objects.equals(multiGraphH3FixedZoomLevel, that.multiGraphH3FixedZoomLevel) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
                 Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
@@ -636,7 +638,7 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
                 multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
-                multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel,
+                multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel, multiGraphH3FixedZoomLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
                 multiGraphAggregationPostAggregationFactor, clipGeometry, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
@@ -825,6 +827,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphTileY);
         builder.append("\n\tclipGeometry: ");
         builder.append(clipGeometry != null  ? clipGeometry.toString() : null);
+        builder.append("\n\tmultiGraphH3FixedZoomLevel: ");
+        builder.append(multiGraphH3FixedZoomLevel);
         builder.append("\n\tmaxEdgeWeight: ");
         builder.append(maxEdgeWeight);
         builder.append("\n\tserviceUrl: ");
