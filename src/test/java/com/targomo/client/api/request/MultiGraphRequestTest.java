@@ -124,7 +124,7 @@ public class MultiGraphRequestTest extends RequestTest {
         for(int maxEdgeWeight = 1800; maxEdgeWeight <= 7200; maxEdgeWeight += 1800) {
             travelOptions.setMaxEdgeWeight(maxEdgeWeight);
             MultiGraphGeoJsonResponse response = MultiGraphRequest.executeRequestGeoJson(client, getTravelOptions());
-            try(  PrintWriter out = new PrintWriter( travelOptions.getTravelType() + Integer.toString(maxEdgeWeight) + ".geojson" )  ){
+            try(  PrintWriter out = new PrintWriter( travelOptions.getTravelTypes().get(0) + Integer.toString(maxEdgeWeight) + ".geojson" )  ){
                 out.println( new ObjectMapper().writeValueAsString(response.getData()) );
             }
         }
@@ -173,7 +173,7 @@ public class MultiGraphRequestTest extends RequestTest {
             String config = RequestConfigurator.getConfig(travelOptions);
             response = request.request().post(Entity.entity(config, MediaType.APPLICATION_JSON_TYPE));
 
-            try(  PrintWriter out = new PrintWriter( travelOptions.getTravelType() + Integer.toString(maxEdgeWeight) + ".gzip" )  ){
+            try(  PrintWriter out = new PrintWriter( travelOptions.getTravelTypes().get(0) + Integer.toString(maxEdgeWeight) + ".gzip" )  ){
                 out.println( IOUtil.getResultString(response) );
             }
         }

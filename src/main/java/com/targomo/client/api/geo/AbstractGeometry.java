@@ -1,8 +1,10 @@
 package com.targomo.client.api.geo;
 
+import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
 
 import javax.persistence.MappedSuperclass;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -65,6 +67,14 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
      */
     public void setRouteFromCentroid(Boolean routeFromCentroid) {
         this.routeFromCentroid = routeFromCentroid;
+    }
+
+    /**
+     * Set the travel type to use when routing.
+     */
+    @Override
+    public void setTravelType(final TravelType travelType) {
+        setTravelTypes(travelType == null ? Collections.emptyList() : Collections.singletonList(travelType));
     }
 
     /**

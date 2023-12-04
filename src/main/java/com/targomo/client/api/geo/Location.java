@@ -3,19 +3,27 @@ package com.targomo.client.api.geo;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
 
+import java.util.List;
+
 /**
  * Contains ID and Travel type for both Coordinates and Polygons
  */
 public interface Location {
 
     /**
-     * Get TravelType of coordinate.
-     * @return Travel type associated with the coordinate
+     * Get the travel type(s) associated with the location.
+     * If there is more than one element in the travelTypes list, multi modal routing will be used.
      */
-    public TravelType getTravelType();
+    public List<TravelType> getTravelTypes();
 
     /**
-     * Set a travel type for the coordinate.
+     * Set the travel type(s) to use when routing.
+     * If there is more than one element in the travelTypes list, multi modal routing will be used.
+     */
+    public void setTravelTypes(List<TravelType> travelTypes);
+
+    /**
+     * Set the travel type to use when routing.
      * @param travelType Travel type to be associated with the coordinate.
      */
     public void setTravelType(final TravelType travelType);
