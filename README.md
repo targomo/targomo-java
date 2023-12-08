@@ -52,13 +52,12 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.34.0
-
+- Add the possibility to set metadata for criterion definition
 
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
 - Add support for multiModal routing
 - Add `multiGraphH3FixedZoomLevel` to TravelOptions
-- Add the possibility to set metadata for criterion definition
 
 ### 0.32.0
 - Remove use of the temporary parameter "multiple" for poi gravitation
