@@ -39,10 +39,14 @@ public class Constants {
     public static final String TRAVEL_TYPE_WALKTRANSIT                                  = "walktransit";
     public static final String TRAVEL_TYPE_BIKETRANSIT                                  = "biketransit";
     public static final String TRAVEL_TYPE_FLY                                          = "fly";
+    public static final String TRAVEL_TYPE_MULTIMODAL                                   = "multiModal";
 
+    public static final String TRAVEL_MODE_MULTIMODAL_TRAVELTYPES                       = "travelTypes";
     public static final String TRAVEL_MODE_SPEED                                        = "speed";
     public static final String TRAVEL_MODE_UPHILL                                       = "uphill";
     public static final String TRAVEL_MODE_DOWNHILL                                     = "downhill";
+    public static final String TRAVEL_MODE_WALK_SPEED                                   = "walkSpeed";
+    public static final String TRAVEL_MODE_BIKE_SPEED                                   = "bikeSpeed";
     public static final String PATH_SERIALIZER                                          = "pathSerializer";
     public static final String TRAVEL_TIME_PATH_SERIALIZER                              = "travelTime";
     public static final String COMPACT_PATH_SERIALIZER                                  = "compact";
@@ -84,7 +88,6 @@ public class Constants {
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
-    public static final String SNAP_WALK_SPEED                                          = "walkSpeed";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";

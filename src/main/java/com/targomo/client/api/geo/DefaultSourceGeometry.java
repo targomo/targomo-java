@@ -1,10 +1,16 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
-import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import static com.targomo.client.api.util.SerializationUtil.travelTypeListToString;
 
 /**
  * Default implementation for storing source geometries.
@@ -21,10 +27,20 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     @GeneratedValue(strategy= GenerationType.TABLE)
     private long identifier;
 
-    @Column(name = "travel_type")
-    private TravelType travelType;
+    /**
+     * If there is more than one element in the travelTypes list, multi modal routing will be used.
+     */
+    @Setter @Getter
+    @Column(name = "travel_types")
+    private List<TravelType> travelTypes;
 
     private DefaultSourceGeometry(){}
+
+    public DefaultSourceGeometry(String id, String geojson, int crs, List<TravelType> travelTypes, boolean routeFromCentroid,
+                                 LocationProperties locationProperties) {
+        super(id, crs, geojson, routeFromCentroid, locationProperties);
+        this.travelTypes = travelTypes;
+    }
 
     /**
      * Generate Source geometry with a TravelType as well as ID, geojson and crs values.
@@ -36,8 +52,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
      */
     public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, boolean routeFromCentroid,
                                  LocationProperties locationProperties) {
-        super(id, crs, geojson, routeFromCentroid, locationProperties);
-        this.travelType = travelType;
+        this(id, geojson, crs, travelType == null ? Collections.emptyList() : Collections.singletonList(travelType), routeFromCentroid, locationProperties);
     }
 
     public DefaultSourceGeometry(String id, String geojson, int crs, TravelType travelType, LocationProperties locationProperties) {
@@ -71,16 +86,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     }
 
     public DefaultSourceGeometry(String id, String geojson, int crs, boolean routeFromCentroid) {
-        this(id, geojson, crs, null, routeFromCentroid, null);
-    }
-
-    /**
-     * Get travel type configuration for the source geometry.
-     * @return Travel type
-     */
-    @Override
-    public TravelType getTravelType() {
-        return travelType;
+        this(id, geojson, crs, Collections.emptyList(), routeFromCentroid, null);
     }
 
     /**
@@ -95,15 +101,6 @@ public class DefaultSourceGeometry extends AbstractGeometry {
 
     public void setIdentifier(long id) { this.identifier = id; }
 
-    /**
-     * Specify a travel type for the source geometry.
-     * @param travelType TravelType to be associated with the source geometry.
-     */
-    @Override
-    public void setTravelType(final TravelType travelType) {
-        this.travelType = travelType;
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -117,7 +114,7 @@ public class DefaultSourceGeometry extends AbstractGeometry {
         builder.append(", routeFromCentroid: ");
         builder.append(isRouteFromCentroid());
         builder.append(", travelType: ");
-        builder.append(travelType);
+        builder.append(travelTypeListToString(travelTypes));
         builder.append("}");
         return builder.toString();
     }
@@ -130,13 +127,13 @@ public class DefaultSourceGeometry extends AbstractGeometry {
 
         DefaultSourceGeometry that = (DefaultSourceGeometry) o;
 
-        return travelType == that.travelType;
+        return Objects.equals(this.travelTypes, that.travelTypes);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (travelType != null ? travelType.hashCode() : 0);
+        result = 31 * result + (travelTypes != null ? travelTypes.hashCode() : 0);
         return result;
     }
 }

@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.33.0-CRITERION-METADATA-SNAPSHOT</version>
+    <version>0.34.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,8 +51,13 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.34.0
+
+
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
+- Add support for multiModal routing
+- Add `multiGraphH3FixedZoomLevel` to TravelOptions
 - Add the possibility to set metadata for criterion definition
 
 ### 0.32.0
