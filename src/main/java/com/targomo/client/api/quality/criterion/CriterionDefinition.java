@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Locale;
+import java.util.Map;
+
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ReferenceCriterionDefinition.class, name = Constants.CRITERION_TYPE_REFERENCE),
         @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_CLOSEST_POI_DISTANCE),
@@ -53,4 +56,6 @@ public abstract class CriterionDefinition implements CriterionDefinitionInterfac
     private final Double distanceModifier;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Double lowerBound;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private final Map<Locale, CriterionMetadata> metadata;
 }
