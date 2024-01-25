@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add the possibility to set metadata for criterion definition
 - Fix edge statistic request options serialization
 - Add BoundingBox request
+- Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
 
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
