@@ -21,6 +21,9 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+/**
+ * Creates a bounding box of the reachable area using the specified travel options.
+ */
 public class BoundingBoxRequest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BoundingBoxRequest.class);
@@ -30,6 +33,12 @@ public class BoundingBoxRequest {
 
     TravelOptions travelOptions;
 
+    /**
+     * Use a custom client implementation with specified options and method
+     * @param client Client implementation to be used
+     * @param travelOptions Options to be used
+     * @param headers List of custom http headers to be used
+     */
     public BoundingBoxRequest(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
         this.client	= client;
         this.headers = headers;
@@ -44,6 +53,11 @@ public class BoundingBoxRequest {
         this(client, travelOptions, new MultivaluedHashMap<>());
     }
 
+    /**
+     * Executes the request.
+     * @return Response containing the bounds of the reachable area
+     * @throws TargomoClientException in case of errors
+     */
     public BoundingBoxResponse get() throws TargomoClientException {
 
         long startTimeMillis = System.currentTimeMillis();
