@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.34.0-SNAPSHOT</version>
+    <version>0.35.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -50,6 +50,9 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.35.0
+
 
 ### 0.34.0
 - Add the possibility to set metadata for criterion definition
