@@ -22,6 +22,7 @@ import java.util.Map;
         @JsonSubTypes.Type(value = PoiReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_COVERAGE_DISTANCE),
         @JsonSubTypes.Type(value = PoiInZoneCriterionDefinition.class, name = Constants.CRITERION_TYPE_POI_COUNT_IN_ZONE),
         @JsonSubTypes.Type(value = StatisticsReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_SUM),
+        @JsonSubTypes.Type(value = StatisticsGravitationCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_MAX),
         @JsonSubTypes.Type(value = StatisticsReachabilityCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_DISTANCE),
         @JsonSubTypes.Type(value = StatisticsInZoneCriterionDefinition.class, name = Constants.CRITERION_TYPE_STATISTICS_SUM_IN_ZONE),
         @JsonSubTypes.Type(value = StatisticsGravitationCriterionDefinition.class, name = Constants.CRITERION_TYPE_GRAVITATION_SUM),
