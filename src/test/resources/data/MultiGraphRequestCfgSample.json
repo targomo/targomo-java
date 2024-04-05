@@ -42,6 +42,7 @@
       "minResultValue": 10,
       "maxResultValueRatio": 0.6,
       "maxResultValue": 1000,
+      "useProbabilityBasedWeightedAverage": true,
       "learntMaxEdgeWeight": 300,
       "filterValuesForSourceOrigins": ["POI:0"]
     }

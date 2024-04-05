@@ -178,6 +178,7 @@ public class TravelOptions implements Serializable {
     @Transient private Double multiGraphAggregationProbabilityDecay                          = null;
     @Transient private Double multiGraphAggregationLogitBetaAttractionStrength               = null;
     @Transient private Double multiGraphAggregationLogitBetaTravelTime                       = null;
+    @Transient private Boolean multiGraphAggregationUseProbabilityBasedWeightedAverage       = null;
     @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
     @Transient private Map<String, AggregationInputParameters> multiGraphAggregationInputParameters = null;
     @Transient private LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline = null;
@@ -564,6 +565,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphAggregationProbabilityDecay, that.multiGraphAggregationProbabilityDecay) &&
                 Objects.equals(multiGraphAggregationLogitBetaAttractionStrength, that.multiGraphAggregationLogitBetaAttractionStrength) &&
                 Objects.equals(multiGraphAggregationLogitBetaTravelTime, that.multiGraphAggregationLogitBetaTravelTime) &&
+                Objects.equals(multiGraphAggregationUseProbabilityBasedWeightedAverage, that.multiGraphAggregationUseProbabilityBasedWeightedAverage) &&
                 Objects.equals(multiGraphAggregationInputParameters, that.multiGraphAggregationInputParameters) &&
                 Objects.equals(multiGraphAggregationMathExpression, that.multiGraphAggregationMathExpression) &&
                 Objects.equals(multiGraphLayerCustomGeometryMergeAggregation, that.multiGraphLayerCustomGeometryMergeAggregation) &&
@@ -634,7 +636,7 @@ public class TravelOptions implements Serializable {
                 multiGraphAggregationMinResultValueRatio, multiGraphAggregationMinResultValue,
                 multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
                 multiGraphAggregationGravitationExponent, multiGraphAggregationProbabilityDecay, multiGraphAggregationLogitBetaAttractionStrength,
-                multiGraphAggregationLogitBetaTravelTime, multiGraphLayerCustomGeometryMergeAggregation,
+                multiGraphAggregationLogitBetaTravelTime, multiGraphAggregationUseProbabilityBasedWeightedAverage, multiGraphLayerCustomGeometryMergeAggregation,
                 multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
                 multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
                 multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
@@ -803,6 +805,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphAggregationLogitBetaAttractionStrength);
         builder.append("\n\tmultiGraphAggregationLogitBetaTravelTime: ");
         builder.append(multiGraphAggregationLogitBetaTravelTime);
+        builder.append("\n\tmultiGraphAggregationUseProbabilityBasedWeightedAverage: ");
+        builder.append(multiGraphAggregationUseProbabilityBasedWeightedAverage);
         builder.append("\n\tmultiGraphAggregationInputParameters: ");
         builder.append(multiGraphAggregationInputParameters);
         builder.append("\n\tmultiGraphAggregationFilterValuesForSourceOrigins: ");

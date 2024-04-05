@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.35.0
 - Add `statisticsMax` criterion type
+- Add parameter `useProbabilityBasedWeightedAverage` to MultiGraph Aggregations
 
 ### 0.34.0
 - Add the possibility to set metadata for criterion definition
