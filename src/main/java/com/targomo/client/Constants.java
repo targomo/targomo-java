@@ -211,10 +211,10 @@ public class Constants {
     public static final String CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE = "closestPoiAbsoluteDistance";
     public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
     public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
-    public static final String CRITERION_TYPE_STATISTICS_DISTANCE_AVERAGE = "statisticsDistanceAverage";
     public static final String CRITERION_TYPE_STATISTICS_MAX = "statisticsMax";
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
     public static final String CRITERION_TYPE_STATISTICS_DISTANCE = "statisticsDistance";
+    public static final String CRITERION_TYPE_STATISTICS_DISTANCE_AVERAGE = "statisticsDistanceAverage";
     public static final String CRITERION_TYPE_GRAVITATION_SUM = "gravitationSum";
     public static final String CRITERION_TYPE_GRAVITATION_DISTANCE_AVERAGE = "gravitationDistanceAverage";
     public static final String CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL = "statisticsOnEnclosingCell";
