@@ -13,6 +13,7 @@ import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -21,9 +22,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import static com.targomo.client.Constants.FALLBACK_RESPONSE_CODES;
 
 /**
  * Base request to the targomo API. Currently supported requests:
@@ -114,9 +119,31 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @throws TargomoClientException In case of error other than Gateway Timeout
      */
     public R get() throws TargomoClientException, ResponseErrorException {
+        try {
+            return get(travelOptions.getServiceUrl());
+        }
+        catch (ProcessingException e) {
+            if (travelOptions.getFallbackServiceUrl() != null) {
+                return get(travelOptions.getFallbackServiceUrl());
+            }
+            else {
+                throw e;
+            }
+        }
+        catch (TargomoClientException e) {
+            if (travelOptions.getFallbackServiceUrl() != null && FALLBACK_RESPONSE_CODES.contains(e.getHttpStatusCode())) {
+                return get(travelOptions.getFallbackServiceUrl());
+            }
+            else {
+                throw e;
+            }
+        }
+    }
+
+    public R get(String url) throws TargomoClientException, ResponseErrorException {
 
         long startTimeMillis = System.currentTimeMillis();
-        WebTarget request = client.target(travelOptions.getServiceUrl())
+        WebTarget request = client.target(url)
                 .path(path)
                 .queryParam("cb", Constants.CALLBACK)
                 .queryParam("key", travelOptions.getServiceKey())
@@ -147,7 +174,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         }
 
         // Validate & return
-        return validateResponse(response, System.currentTimeMillis() - startTimeMillis);
+        return validateResponse(response, url, System.currentTimeMillis() - startTimeMillis);
     }
 
     /**
@@ -163,11 +190,13 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      *
      *
      * @param response HTTP response
+     * @param url the url used
      * @param roundTripTimeMillis Execution time in milliseconds
      * @return the validated response of type R
      * @throws TargomoClientException in case of errors other than GatewayTimeout
+     * @throws ResponseErrorException
      */
-    private R validateResponse(final Response response, final long roundTripTimeMillis)
+    private R validateResponse(final Response response, final String url, final long roundTripTimeMillis)
             throws TargomoClientException, ResponseErrorException {
 
         // Check HTTP status
@@ -180,8 +209,8 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
             } catch (IOException e) {
                 throw new TargomoClientException("Exception occurred for result: " + resultString, e, response.getStatus());
             }
-        } else {
-            throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
+        } else if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
+            throw new TargomoClientException(String.format("Service not found: %s", url), response.getStatus());
         }
 
         if (parsedResponse.getCode() != ResponseCode.OK) {

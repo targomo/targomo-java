@@ -22,6 +22,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.function.Function;
 
+import static com.targomo.client.Constants.FALLBACK_RESPONSE_CODES;
+
 /**
  * Calculates travel time for each source point to all targets.
  * Only accepts {@link HttpMethod} POST.
@@ -88,9 +90,32 @@ public class ReachabilityRequest {
 	 */
 	public ReachabilityResponse get(Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
 
+		try {
+			return get(travelOptions.getServiceUrl(), targetIdMapperFilter);
+		}
+		catch (ProcessingException e) {
+			if (travelOptions.getFallbackServiceUrl() != null) {
+				return get(travelOptions.getFallbackServiceUrl(), targetIdMapperFilter);
+			}
+			else {
+				throw e;
+			}
+		}
+		catch (TargomoClientException e) {
+			if (travelOptions.getFallbackServiceUrl() != null && FALLBACK_RESPONSE_CODES.contains(e.getHttpStatusCode())) {
+				return get(travelOptions.getFallbackServiceUrl(), targetIdMapperFilter);
+			}
+			else {
+				throw e;
+			}
+		}
+	}
+
+	public ReachabilityResponse get(String ServiceUrl, Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
+
 		long requestStart = System.currentTimeMillis();
 
-		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
+		WebTarget target = client.target(ServiceUrl).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
 				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
@@ -102,29 +127,8 @@ public class ReachabilityRequest {
 
 		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
 
-		Response response;
-
-		try {
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
-		// this can happen for example if we are doing a request and restart the corresponding
-		// targomo service on the same machine, in case of a fallback we need to try a different host
-		// but only once
-		catch ( ProcessingException exception ) {
-
-			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
-					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey())
-					.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
-					.queryParam("cacheResult", travelOptions.isCacheResult());
-
-			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
+		// Execute POST request
+		Response response = target.request().headers(headers).post(entity);
 
 		return validateResponse(response, requestStart, targetIdMapperFilter);
 	}
