@@ -188,8 +188,9 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
             }
         } else if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
             throw new TargomoClientException(String.format("Service not found: %s", travelOptions.getServiceUrl()), response.getStatus());
+        } else{
+            throw new TargomoClientException(String.format("Request failed with %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
         }
-
         if (parsedResponse.getCode() != ResponseCode.OK) {
             String msg = "Request returned an error";
             if (!StringUtils.isEmpty(parsedResponse.getMessage())) {
