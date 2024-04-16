@@ -7,6 +7,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
 import com.targomo.client.api.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,32 +91,9 @@ public class ReachabilityRequest {
 	 */
 	public ReachabilityResponse get(Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
 
-		try {
-			return get(travelOptions.getServiceUrl(), targetIdMapperFilter);
-		}
-		catch (ProcessingException e) {
-			if (travelOptions.getFallbackServiceUrl() != null) {
-				return get(travelOptions.getFallbackServiceUrl(), targetIdMapperFilter);
-			}
-			else {
-				throw e;
-			}
-		}
-		catch (TargomoClientException e) {
-			if (travelOptions.getFallbackServiceUrl() != null && FALLBACK_RESPONSE_CODES.contains(e.getHttpStatusCode())) {
-				return get(travelOptions.getFallbackServiceUrl(), targetIdMapperFilter);
-			}
-			else {
-				throw e;
-			}
-		}
-	}
-
-	public ReachabilityResponse get(String ServiceUrl, Function<String, String> targetIdMapperFilter) throws TargomoClientException, ResponseErrorException {
-
 		long requestStart = System.currentTimeMillis();
 
-		WebTarget target = client.target(ServiceUrl).path("v1/reachability")
+		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/reachability")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
 				.queryParam("forceRecalculate", travelOptions.isForceRecalculate())

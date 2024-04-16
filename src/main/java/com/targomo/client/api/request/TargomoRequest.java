@@ -119,31 +119,9 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @throws TargomoClientException In case of error other than Gateway Timeout
      */
     public R get() throws TargomoClientException, ResponseErrorException {
-        try {
-            return get(travelOptions.getServiceUrl());
-        }
-        catch (ProcessingException e) {
-            if (travelOptions.getFallbackServiceUrl() != null) {
-                return get(travelOptions.getFallbackServiceUrl());
-            }
-            else {
-                throw e;
-            }
-        }
-        catch (TargomoClientException e) {
-            if (travelOptions.getFallbackServiceUrl() != null && FALLBACK_RESPONSE_CODES.contains(e.getHttpStatusCode())) {
-                return get(travelOptions.getFallbackServiceUrl());
-            }
-            else {
-                throw e;
-            }
-        }
-    }
-
-    public R get(String url) throws TargomoClientException, ResponseErrorException {
 
         long startTimeMillis = System.currentTimeMillis();
-        WebTarget request = client.target(url)
+        WebTarget request = client.target(travelOptions.getServiceUrl())
                 .path(path)
                 .queryParam("cb", Constants.CALLBACK)
                 .queryParam("key", travelOptions.getServiceKey())
@@ -174,7 +152,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
         }
 
         // Validate & return
-        return validateResponse(response, url, System.currentTimeMillis() - startTimeMillis);
+        return validateResponse(response, System.currentTimeMillis() - startTimeMillis);
     }
 
     /**
@@ -190,13 +168,12 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      *
      *
      * @param response HTTP response
-     * @param url the url used
      * @param roundTripTimeMillis Execution time in milliseconds
      * @return the validated response of type R
      * @throws TargomoClientException in case of errors other than GatewayTimeout
      * @throws ResponseErrorException
      */
-    private R validateResponse(final Response response, final String url, final long roundTripTimeMillis)
+    private R validateResponse(final Response response, final long roundTripTimeMillis)
             throws TargomoClientException, ResponseErrorException {
 
         // Check HTTP status
@@ -210,7 +187,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
                 throw new TargomoClientException("Exception occurred for result: " + resultString, e, response.getStatus());
             }
         } else if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
-            throw new TargomoClientException(String.format("Service not found: %s", url), response.getStatus());
+            throw new TargomoClientException(String.format("Service not found: %s", travelOptions.getServiceUrl()), response.getStatus());
         }
 
         if (parsedResponse.getCode() != ResponseCode.OK) {
