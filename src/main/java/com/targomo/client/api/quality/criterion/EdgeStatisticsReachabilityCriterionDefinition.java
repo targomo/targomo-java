@@ -22,6 +22,9 @@ public class EdgeStatisticsReachabilityCriterionDefinition extends RoutingBasedC
     private String edgeStatisticsServiceUrl;
 
     private final Integer edgeStatisticCollectionId;
+
+    // Use either edgeStatisticIds or edgeStatisticId
     private final List<Integer> edgeStatisticIds;
+    private final Integer edgeStatisticId;
 
 }
