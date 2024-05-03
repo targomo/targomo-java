@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add parameter `useProbabilityBasedWeightedAverage` to MultiGraph Aggregations
 - Add `statisticsDistanceAverage` criterion type
 - Add `gravitationDistanceAverage` criterion type
+- Support edgeStatisticId in Edge Stats reachability criterion
 
 ### 0.34.0
 - Add the possibility to set metadata for criterion definition
