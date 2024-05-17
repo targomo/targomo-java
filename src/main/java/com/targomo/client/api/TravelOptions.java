@@ -500,7 +500,7 @@ public class TravelOptions implements Serializable {
      * Throws an exception if there are more than one travel type, use `getTravelTypes()` in this case instead.
      * @deprecated for backwards compatibility
      * @return the travel type
-     * @throws TargomoClientException if there si more than one travel type
+     * @throws TargomoClientException if there is more than one travel type
      */
     public TravelType getTravelType() throws TargomoClientException {
         if (travelTypes.size() != 1) {
