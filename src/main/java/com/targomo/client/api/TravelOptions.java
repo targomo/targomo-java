@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.enums.*;
+import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.AggregationConfiguration;
@@ -492,6 +493,22 @@ public class TravelOptions implements Serializable {
 
     public String getTravelTypesString() {
         return SerializationUtil.travelTypeListToString(travelTypes);
+    }
+
+    /**
+     * Returns the travel type used in the travel options.
+     * Throws an exception if there are more than one travel type, use `getTravelTypes()` in this case instead.
+     * @deprecated for backwards compatibility
+     * @return the travel type
+     * @throws TargomoClientException if there si more than one travel type
+     */
+    public TravelType getTravelType() throws TargomoClientException {
+        if (travelTypes.size() != 1) {
+            throw new TargomoClientException("Number of travel types was expected to be exactly one.");
+        }
+        else {
+            return travelTypes.get(0);
+        }
     }
 
     //excluding id
