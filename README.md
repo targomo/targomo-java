@@ -58,12 +58,12 @@ nexus and to the maven repo (last is only possibly from master).
 - Add `gravitationDistanceAverage` criterion type
 - Support `edgeStatisticId` in Edge Stats reachability criterion
 - Add getter for single TravelType from TravelOptions for backwards compatibility
+- Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
 
 ### 0.34.0
 - Add the possibility to set metadata for criterion definition
 - Fix edge statistic request options serialization
 - Add BoundingBox request
-- Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
 
 ### 0.33.0
 - Add an `equals` method for `RoutingOptions`
