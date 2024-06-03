@@ -502,6 +502,7 @@ public class TravelOptions implements Serializable {
      * @return the travel type
      * @throws TargomoClientException if there is more than one travel type
      */
+    @JsonIgnore
     public TravelType getTravelType() throws TargomoClientException {
         if (travelTypes.size() != 1) {
             throw new TargomoClientException("Number of travel types was expected to be exactly one.");

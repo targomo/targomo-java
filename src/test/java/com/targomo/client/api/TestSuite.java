@@ -1,6 +1,7 @@
 package com.targomo.client.api;
 
 import com.targomo.client.api.enums.RoutingAggregationTypeTest;
+import com.targomo.client.api.json.JacksonRequestConfiguratorTest;
 import com.targomo.client.api.json.TravelOptionsSerializerTest;
 import com.targomo.client.api.pojo.GeometryTest;
 import com.targomo.client.api.request.*;
@@ -34,7 +35,8 @@ import org.junit.runners.Suite;
         GeojsonUtilTest.class,
         IOUtilTest.class,
         RoutingAggregationTypeTest.class,
-        TravelOptionsSerializerTest.class
+        TravelOptionsSerializerTest.class,
+        JacksonRequestConfiguratorTest.class
 })
 public class TestSuite {
 }
