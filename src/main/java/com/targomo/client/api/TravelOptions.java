@@ -278,6 +278,7 @@ public class TravelOptions implements Serializable {
     /**
      * Set the travel type to use when routing.
      */
+    @JsonProperty("travelType")
     public void setTravelType(TravelType type) {
         setTravelTypes(type == null ? Collections.emptyList() : Collections.singletonList(type));
     }
