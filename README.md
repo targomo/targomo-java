@@ -58,6 +58,7 @@ nexus and to the maven repo (last is only possibly from master).
 - Add `gravitationDistanceAverage` criterion type
 - Support `edgeStatisticId` in Edge Stats reachability criterion
 - Add getter for single TravelType from TravelOptions for backwards compatibility
+- Remove fallbackUrl logic
 
 ### 0.34.0
 - Add the possibility to set metadata for criterion definition
