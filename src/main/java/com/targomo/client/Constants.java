@@ -201,10 +201,6 @@ public class Constants {
 
 
     public static final int BAD_GATEWAY_CODE                                            = Response.Status.BAD_GATEWAY.getStatusCode();
-    public static final List<Integer> FALLBACK_RESPONSE_CODES                           = Arrays.asList(
-                                                                                            Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
-                                                                                            Response.Status.BAD_GATEWAY.getStatusCode(),
-                                                                                            Response.Status.GATEWAY_TIMEOUT.getStatusCode());
 
     // Location scoring constants
 

@@ -7,12 +7,10 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
 import com.targomo.client.api.util.JsonUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -23,7 +21,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.function.Function;
 
-import static com.targomo.client.Constants.FALLBACK_RESPONSE_CODES;
 
 /**
  * Calculates travel time for each source point to all targets.

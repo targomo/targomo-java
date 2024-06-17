@@ -13,7 +13,6 @@ import com.targomo.client.api.util.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -22,13 +21,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import static com.targomo.client.Constants.FALLBACK_RESPONSE_CODES;
 
 /**
  * Base request to the targomo API. Currently supported requests:
