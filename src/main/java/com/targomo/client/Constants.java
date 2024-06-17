@@ -1,8 +1,6 @@
 package com.targomo.client;
 
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.List;
 
 public class Constants {
 
