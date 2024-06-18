@@ -108,57 +108,12 @@ public class StatisticsRequest {
 
 		Response response;
 
-		try {
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
-		// this can happen for example if we are doing a request and restart the corresponding
-		// targomo service on the same machine, in case of a fallback we need to try a different host
-		// but only once
-		catch ( ProcessingException exception ) {
-
-			LOGGER.error("Error executing statistics request ({}) to URI: '{}'", path, target.getUri(), exception);
-
-			target = client.target(travelOptions.getFallbackServiceUrl()).path(path)
-					.queryParam("key", travelOptions.getServiceKey());
-			if(travelOptions.getInterServiceKey() != null){
-				target = target.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey());
-			}
-			if(travelOptions.getInterServiceRequestType() != null){
-				target = target.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
-			}
-
-			LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
+		// Execute POST request
+		response = target.request().headers(headers).post(entity);
 
 		long roundTripTime = System.currentTimeMillis() - requestStart;
 
 		return responseValidator.validateResponse(response, requestStart, roundTripTime);
-	}
-
-	public static void main(String[] args) throws TargomoClientException {
-
-		StatisticTravelOptions options = new StatisticTravelOptions();
-		options.setMaxEdgeWeight(1800);
-		options.setEdgeWeightType(EdgeWeightType.TIME);
-		options.setTravelType(TravelType.WALK);
-		options.addSource(new DefaultSourceCoordinate("1asda", 13.405, 52.52));
-		options.setServiceUrl("http://localhost:8081/");
-		options.setFallbackServiceUrl("http://localhost:8081/");
-		options.setStatisticServiceUrl("http://localhost:8080/");
-		options.setServiceKey("uhWrWpUhyZQy8rPfiC7X");
-		options.setDate(20150812);
-		options.setTime(43200);
-		options.setAppendTravelTimes(true);
-		options.setStatisticIds(Arrays.asList((short) 0, (short) 1));
-		options.setStatisticGroupId(1);
-
-		StatisticsResponse response   = new StatisticsRequest(options).get(StatisticMethod.CHARTS_DEPENDENT);
-		LOGGER.info("{}", response.getStatisticResult());
 	}
 
 	private <T> T validateResponse(final Response response, Supplier<T> responseSupplier, Supplier<T> gatewayTimeOutResponseSupplier)
