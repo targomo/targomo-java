@@ -130,9 +130,13 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
                     travelOptions.getMultiGraphAggregationGravitationExponent(),
                     travelOptions.getMultiGraphAggregationProbabilityDecay(),
+                    travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
+                    travelOptions.getMultiGraphAggregationLogitBetaTravelTime(),
+                    travelOptions.getMultiGraphAggregationUseProbabilityBasedWeightedAverage(),
                     travelOptions.getMultiGraphAggregationInputParameters(),
                     travelOptions.getMultiGraphAggregationPostAggregationFactor(),
                     travelOptions.getMultiGraphAggregationMathExpression(),
+                    travelOptions.getMultiGraphAggregationLearntMaxEdgeWeight(),
                     travelOptions.getMultiGraphPreAggregationPipeline(),
                     travelOptions.getMultiGraphLayerType(),
                     travelOptions.getMultiGraphDomainEdgeAggregationType(),
@@ -409,15 +413,28 @@ public final class RequestConfigurator {
     }
 
     private static void addMultiGraphAggregation(TravelOptions travelOptions, JSONObject multiGraph) throws JSONException {
-        if (Stream.of(travelOptions.getMultiGraphAggregationType(), travelOptions.getMultiGraphAggregationIgnoreOutliers(),
-                travelOptions.getMultiGraphAggregationOutlierPenalty(), travelOptions.getMultiGraphAggregationMinSourcesCount(),
-                travelOptions.getMultiGraphAggregationSourceValuesLowerBound(), travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
+        if (Stream.of(travelOptions.getMultiGraphAggregationType(),
+                travelOptions.getMultiGraphAggregationIgnoreOutliers(),
+                travelOptions.getMultiGraphAggregationOutlierPenalty(),
+                travelOptions.getMultiGraphAggregationMinSourcesRatio(),
+                travelOptions.getMultiGraphAggregationMinSourcesCount(),
+                travelOptions.getMultiGraphAggregationSourceValuesLowerBound(),
+                travelOptions.getMultiGraphAggregationSourceValuesUpperBound(),
                 travelOptions.getMultiGraphAggregationSourceValuesModifier(),
-                travelOptions.getMultiGraphAggregationMinSourcesRatio(), travelOptions.getMultiGraphAggregationMaxResultValue(),
-                travelOptions.getMultiGraphAggregationMaxResultValueRatio(), travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
-                travelOptions.getMultiGraphAggregationGravitationExponent(), travelOptions.getMultiGraphAggregationProbabilityDecay(),
+                travelOptions.getMultiGraphAggregationMinResultValueRatio(),
+                travelOptions.getMultiGraphAggregationMinResultValue(),
+                travelOptions.getMultiGraphAggregationMaxResultValueRatio(),
+                travelOptions.getMultiGraphAggregationMaxResultValue(),
+                travelOptions.getMultiGraphAggregationPostAggregationFactor(),
+                travelOptions.getMultiGraphAggregationFilterValuesForSourceOrigins(),
+                travelOptions.getMultiGraphAggregationGravitationExponent(),
+                travelOptions.getMultiGraphAggregationProbabilityDecay(),
                 travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength(),
-                travelOptions.getMultiGraphAggregationLogitBetaTravelTime(), travelOptions.getMultiGraphAggregationPostAggregationFactor())
+                travelOptions.getMultiGraphAggregationLogitBetaTravelTime(),
+                travelOptions.getMultiGraphAggregationUseProbabilityBasedWeightedAverage(),
+                travelOptions.getMultiGraphAggregationInputParameters(),
+                travelOptions.getMultiGraphAggregationMathExpression(),
+                travelOptions.getMultiGraphAggregationLearntMaxEdgeWeight())
                 .anyMatch(Objects::nonNull)) {
             JSONObject multiGraphAggregation = new JSONObject();
             AggregationConfiguration aggregationConfiguration = new AggregationConfiguration.AggregationConfigurationBuilder(travelOptions, false).build();
@@ -495,6 +512,9 @@ public final class RequestConfigurator {
 
         if (aggregationConfiguration.getLogitBetaTravelTime() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME, aggregationConfiguration.getLogitBetaTravelTime());
+
+        if (aggregationConfiguration.getUseProbabilityBasedWeightedAverage() != null)
+            multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_USE_PROBABILITY_BASED_WEIGHTED_AVERAGE, aggregationConfiguration.getUseProbabilityBasedWeightedAverage());
 
         if (aggregationConfiguration.getFilterValuesForSourceOrigins() != null)
             multiGraphAggregation.put(MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS, aggregationConfiguration.getFilterValuesForSourceOrigins());

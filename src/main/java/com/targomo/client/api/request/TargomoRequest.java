@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+
 /**
  * Base request to the targomo API. Currently supported requests:
  * - MultiGraph
@@ -166,6 +167,7 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
      * @param roundTripTimeMillis Execution time in milliseconds
      * @return the validated response of type R
      * @throws TargomoClientException in case of errors other than GatewayTimeout
+     * @throws ResponseErrorException
      */
     private R validateResponse(final Response response, final long roundTripTimeMillis)
             throws TargomoClientException, ResponseErrorException {
@@ -180,10 +182,11 @@ public abstract class TargomoRequest<R extends DefaultResponse<?,?>> {
             } catch (IOException e) {
                 throw new TargomoClientException("Exception occurred for result: " + resultString, e, response.getStatus());
             }
-        } else {
-            throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
+        } else if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
+            throw new TargomoClientException(String.format("Service not found: %s", travelOptions.getServiceUrl()), response.getStatus());
+        } else{
+            throw new TargomoClientException(String.format("Request failed with %s: %s", response.getStatus(), response.readEntity(String.class)), response.getStatus());
         }
-
         if (parsedResponse.getCode() != ResponseCode.OK) {
             String msg = "Request returned an error";
             if (!StringUtils.isEmpty(parsedResponse.getMessage())) {

@@ -171,12 +171,14 @@ public class Constants {
     public static final String MULTIGRAPH_AGGREGATION_PROBABILITY_DECAY                 = "probabilityDecay";
     public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_ATTRACTION_STRENGTH    = "logitBetaAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_LOGIT_BETA_TRAVEL_TIME            = "logitBetaTravelTime";
+    public static final String MULTIGRAPH_AGGREGATION_USE_PROBABILITY_BASED_WEIGHTED_AVERAGE = "useProbabilityBasedWeightedAverage";
     public static final String MULTIGRAPH_AGGREGATION_FILTER_VALUES_FOR_SOURCE_ORIGINS  = "filterValuesForSourceOrigins";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS                  = "aggregationInputParameters";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_FACTOR           = "inputFactor";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_ATTRACTION_STRENGTH = "gravitationAttractionStrength";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_POSITIVE_INFLUENCE  = "gravitationPositiveInfluence";
     public static final String MULTIGRAPH_AGGREGATION_INPUT_PARAMETERS_GRAVITATION_COMPETING_POSITIVE_INFLUENCE  = "gravitationCompetingPositiveInfluence";
+    public static final String MULTIGRAPH_AGGREGATION_LEARNT_MAX_EDGE_WEIGHT            = "learntMaxEdgeWeight";
     public static final String MULTIGRAPH_PRE_AGGREGATION_PIPELINE                      = "preAggregationPipeline";
     public static final String MULTIGRAPH_AGGREGATION_MATH_EXPRESSION                   = "mathExpression";
     public static final String NEXT_STOPS_START_TIME                                    = "nextStopsStartTime";
@@ -184,7 +186,6 @@ public class Constants {
 
     public static final String EDGE_WEIGHT                                              = "edgeWeight";
     public static final String MAX_EDGE_WEIGHT                                          = "maxEdgeWeight";
-    public static final String MULTIGRAPH_AGGREGATION_LEARNT_MAX_EDGE_WEIGHT            = "learntMaxEdgeWeight";
     public static final String STATISTIC_GROUP_ID                                       = "statisticGroupId";
     public static final String STATISTICS_ID                                            = "statistics";
     public static final String FORMAT                                                   = "format";
@@ -210,9 +211,12 @@ public class Constants {
     public static final String CRITERION_TYPE_CLOSEST_POI_ABSOLUTE_DISTANCE = "closestPoiAbsoluteDistance";
     public static final String CRITERION_TYPE_POI_COUNT_IN_ZONE = "poiCountInZone";
     public static final String CRITERION_TYPE_STATISTICS_SUM = "statisticsSum";
+    public static final String CRITERION_TYPE_STATISTICS_MAX = "statisticsMax";
     public static final String CRITERION_TYPE_STATISTICS_SUM_IN_ZONE = "statisticsSumInZone";
     public static final String CRITERION_TYPE_STATISTICS_DISTANCE = "statisticsDistance";
+    public static final String CRITERION_TYPE_STATISTICS_DISTANCE_AVERAGE = "statisticsDistanceAverage";
     public static final String CRITERION_TYPE_GRAVITATION_SUM = "gravitationSum";
+    public static final String CRITERION_TYPE_GRAVITATION_DISTANCE_AVERAGE = "gravitationDistanceAverage";
     public static final String CRITERION_TYPE_STATISTICS_ON_ENCLOSING_CELL = "statisticsOnEnclosingCell";
     public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
     public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";

@@ -31,7 +31,7 @@ public class AggregationConfiguration {
     private Float sourceValuesLowerBound;
     // an upper bound for input values can be set, i.e. v = v > sourceValuesUpperBound ? sourceValuesUpperBound : v;
     private Float sourceValuesUpperBound;
-    // a constant modifier value added to the travelTimes and now v = Math.max((v + sourceValuesModifier), sourceValuesLowerBound);
+    // a constant modifier value added to the travelTimes and now v = Math.max((v + sourceValuesModifier), sourceValuesLowerBound); - FIXME was only implemented for SpecialProbabilityModelAggregations - not for the simple ones
     private Float sourceValuesModifier;
     // The ratio which defines how many of the highest result values should be included
     // (if set to 0.9 that means that 90% of the highest results are included)
@@ -55,9 +55,10 @@ public class AggregationConfiguration {
     private Double probabilityDecay;
     private Double logitBetaAttractionStrength;
     private Double logitBetaTravelTime;
+    private Boolean useProbabilityBasedWeightedAverage; //instead of using the weighted sum for probability-based aggregations like "gravitation" we use weighted Average - currently only used in statistic service for SpecialProbabilityModelAggregation
     private Map<String, AggregationInputParameters> aggregationInputParameters;
     private String mathExpression;
-    private Integer learntMaxEdgeWeight; //used to cap `travelTimes` into final Probability computations in MG request
+    private Integer learntMaxEdgeWeight; //used to cap `travelTimes` into final Probability computations in MG request - only used in statistic service for SpecialProbabilityModelAggregation
 
     public static class AggregationConfigurationBuilder {
         private MultiGraphAggregationType type;
@@ -76,6 +77,7 @@ public class AggregationConfiguration {
         private Double probabilityDecay;
         private Double logitBetaAttractionStrength;
         private Double logitBetaTravelTime;
+        private Boolean useProbabilityBasedWeightedAverage;
         private Float postAggregationFactor;
         private Set<String> filterValuesForSourceOrigins;
         private Map<String, AggregationInputParameters> aggregationInputParameters;
@@ -102,6 +104,7 @@ public class AggregationConfiguration {
             this.probabilityDecay = toCopy.probabilityDecay;
             this.logitBetaAttractionStrength = toCopy.logitBetaAttractionStrength;
             this.logitBetaTravelTime = toCopy.logitBetaTravelTime;
+            this.useProbabilityBasedWeightedAverage = toCopy.useProbabilityBasedWeightedAverage;
             this.postAggregationFactor = toCopy.postAggregationFactor;
             this.aggregationInputParameters = Optional.ofNullable(toCopy.aggregationInputParameters)
                     .map(map -> map.entrySet().stream()
@@ -137,6 +140,7 @@ public class AggregationConfiguration {
             this.probabilityDecay = travelOptions.getMultiGraphAggregationProbabilityDecay();
             this.logitBetaAttractionStrength = travelOptions.getMultiGraphAggregationLogitBetaAttractionStrength();
             this.logitBetaTravelTime = travelOptions.getMultiGraphAggregationLogitBetaTravelTime();
+            this.useProbabilityBasedWeightedAverage = travelOptions.getMultiGraphAggregationUseProbabilityBasedWeightedAverage();
             this.aggregationInputParameters = !deepCopy ? travelOptions.getMultiGraphAggregationInputParameters() :
                     Optional.ofNullable(travelOptions.getMultiGraphAggregationInputParameters()).map(map ->
                             map.entrySet().stream().collect(Collectors.toMap(
@@ -236,6 +240,11 @@ public class AggregationConfiguration {
             return this;
         }
 
+        public AggregationConfigurationBuilder useProbabilityBasedWeightedAverage(Boolean useProbabilityBasedWeightedAverage) {
+            this.useProbabilityBasedWeightedAverage = useProbabilityBasedWeightedAverage;
+            return this;
+        }
+
         public AggregationConfigurationBuilder aggregationInputParameters(Map<String, AggregationInputParameters> aggregationInputParameters) {
             this.aggregationInputParameters = aggregationInputParameters;
             return this;
@@ -276,6 +285,7 @@ public class AggregationConfiguration {
                     probabilityDecay,
                     logitBetaAttractionStrength,
                     logitBetaTravelTime,
+                    useProbabilityBasedWeightedAverage,
                     aggregationInputParameters,
                     mathExpression,
                     learntMaxEdgeWeight);

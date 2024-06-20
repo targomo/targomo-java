@@ -139,7 +139,6 @@ public class RequestConfiguratorTest {
             options.setServiceUrl("http://127.0.0.1:8080/");
             options.setEdgeWeightType(EdgeWeightType.TIME);
             options.setMaxEdgeWeight(300);
-            options.setMultiGraphAggregationLearntMaxEdgeWeight(300);
             options.setTravelType(TravelType.BIKE);
             options.setMultiGraphEdgeClasses(CollectionUtils.safeSortedSet(11,12,16,18));
             options.setMultiGraphDomainType(MultiGraphDomainType.EDGE);
@@ -172,6 +171,8 @@ public class RequestConfiguratorTest {
             options.setMultiGraphAggregationMinResultValueRatio(0.8);
             options.setMultiGraphAggregationMaxResultValue(1000.0f);
             options.setMultiGraphAggregationMaxResultValueRatio(0.6);
+            options.setMultiGraphAggregationUseProbabilityBasedWeightedAverage(true);
+            options.setMultiGraphAggregationLearntMaxEdgeWeight(300);
             options.setMultiGraphAggregationFilterValuesForSourceOrigins(CollectionUtils.safeSortedSet("POI:0"));
 
             // Run configurator && get object
