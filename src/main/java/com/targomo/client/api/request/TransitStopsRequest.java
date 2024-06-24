@@ -90,24 +90,8 @@ public class TransitStopsRequest {
 
 		Response response;
 
-		try {
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
-		// this can happen for example if we are doing a request and restart the corresponding
-		// targomo service on the same machine, in case of a fallback we need to try a different host
-		// but only once
-		catch ( ProcessingException exception ) {
-			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/transit/stops")
-					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey())
-					.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
-					.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
-			LOGGER.debug("Executing transit stops request to URI: '{}'", target.getUri());
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
+		// Execute POST request
+		response = target.request().headers(headers).post(entity);
 
 		return validateResponse(response);
 	}

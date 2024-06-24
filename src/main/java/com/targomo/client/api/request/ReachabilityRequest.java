@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -21,6 +20,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.function.Function;
+
 
 /**
  * Calculates travel time for each source point to all targets.
@@ -102,29 +102,8 @@ public class ReachabilityRequest {
 
 		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
 
-		Response response;
-
-		try {
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
-		// this can happen for example if we are doing a request and restart the corresponding
-		// targomo service on the same machine, in case of a fallback we need to try a different host
-		// but only once
-		catch ( ProcessingException exception ) {
-
-			target = client.target(travelOptions.getFallbackServiceUrl()).path("v1/reachability")
-					.queryParam("cb", CALLBACK)
-					.queryParam("key", travelOptions.getServiceKey())
-					.queryParam("forceRecalculate", travelOptions.isForceRecalculate())
-					.queryParam("cacheResult", travelOptions.isCacheResult());
-
-			LOGGER.debug("Executing reachability request to URI: '{}'", target.getUri());
-
-			// Execute POST request
-			response = target.request().headers(headers).post(entity);
-		}
+		// Execute POST request
+		Response response = target.request().headers(headers).post(entity);
 
 		return validateResponse(response, requestStart, targetIdMapperFilter);
 	}

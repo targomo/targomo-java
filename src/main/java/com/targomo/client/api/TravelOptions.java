@@ -198,7 +198,6 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
     @Column(name = "service_url") private String serviceUrl                    = "";
-    @Column(name = "fallback_service_url") private String fallbackServiceUrl   = "";
     @Column(name = "service_key") private String serviceKey                    = "";
     @Transient private boolean onlyPrintReachablePoints                        = true;
 
@@ -603,7 +602,6 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphH3FixedZoomLevel, that.multiGraphH3FixedZoomLevel) &&
                 Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
                 Objects.equals(serviceUrl, that.serviceUrl) &&
-                Objects.equals(fallbackServiceUrl, that.fallbackServiceUrl) &&
                 Objects.equals(serviceKey, that.serviceKey) &&
                 edgeWeightType == that.edgeWeightType &&
                 Objects.equals(statisticGroupId, that.statisticGroupId) &&
@@ -661,7 +659,7 @@ public class TravelOptions implements Serializable {
                 multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
                 multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel, multiGraphH3FixedZoomLevel,
                 multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
-                multiGraphAggregationPostAggregationFactor, clipGeometry, maxEdgeWeight, serviceUrl, fallbackServiceUrl, serviceKey,
+                multiGraphAggregationPostAggregationFactor, clipGeometry, maxEdgeWeight, serviceUrl, serviceKey,
                 onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
                 pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
                 format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
@@ -858,8 +856,6 @@ public class TravelOptions implements Serializable {
         builder.append(serviceUrl);
         builder.append("\n\tserviceKey: ");
         builder.append(serviceKey);
-        builder.append("\n\tfallbackServiceUrl: ");
-        builder.append(fallbackServiceUrl);
         builder.append("\n\tonlyPrintReachablePoints: ");
         builder.append(onlyPrintReachablePoints);
         builder.append("\n\tedgeWeightType: ");
