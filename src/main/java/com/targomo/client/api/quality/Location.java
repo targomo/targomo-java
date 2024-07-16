@@ -33,8 +33,10 @@ public class Location {
     private final boolean reference;
     @Setter @JsonIgnore
     private boolean competitor;
+    @Setter @JsonIgnore
+    private boolean potential;
 
     public Location(String id, Double lat, Double lng, LocationProperties properties) {
-        this(id, lat, lng, null, null, null, properties, true, false, false);
+        this(id, lat, lng, null, null, null, properties, true, false, false, false);
     }
 }
