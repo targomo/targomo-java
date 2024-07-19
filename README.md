@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.36.0
 * Add `potential` boolean parameter to Quality service's locations
+* Add `includeSnapDistanceForTargets` to TravelOptions and RoutingOptions
 
 ### 0.35.0
 - Add `statisticsMax` criterion type
