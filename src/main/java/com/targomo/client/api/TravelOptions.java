@@ -72,7 +72,7 @@ public class TravelOptions implements Serializable {
     private List<String> targetAddresses = new ArrayList<>();
 
     @Column(name = "bike_speed")
-    private double bikeSpeed         = 15.0;
+    private double bikeSpeed         = 18.0;
 
     @Column(name = "bike_uphill")
     private double bikeUphill        = 20.0;
