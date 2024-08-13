@@ -10,6 +10,7 @@ import java.util.Set;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransitStation {
+    private int id;
     private String name;
     private Double lat;
     private Double lng;
