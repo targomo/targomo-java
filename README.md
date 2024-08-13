@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 * Add `potential` boolean parameter to Quality service's locations
 * Increase the default bike speed
 * Add `filterEmptyNextStops` boolean parameter to transit stops request
+* Add `includeSnapDistanceForTargets` to TravelOptions and RoutingOptions
 
 ### 0.35.0
 - Add `statisticsMax` criterion type

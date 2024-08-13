@@ -262,6 +262,9 @@ public class TravelOptions implements Serializable {
     private Boolean includeSnapDistance;
 
     @Transient
+    private Boolean includeSnapDistanceForTargets;
+
+    @Transient
     private Boolean useAreaSnapping;
 
     // snap radius is in meters
@@ -628,6 +631,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime) &&
                 Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
+                Objects.equals(includeSnapDistanceForTargets, that.includeSnapDistanceForTargets) &&
                 Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
                 Objects.equals(snapRadius, that.snapRadius) &&
                 Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
@@ -666,7 +670,8 @@ public class TravelOptions implements Serializable {
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
+                includeSnapDistance, includeSnapDistanceForTargets, useAreaSnapping, snapRadius,
+                excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
     }
 
     /* (non-Javadoc)
@@ -906,6 +911,8 @@ public class TravelOptions implements Serializable {
         builder.append(nextStopsEndTime);
         builder.append("\n\tincludeSnapDistance: ");
         builder.append(includeSnapDistance);
+        builder.append("\n\tincludeSnapDistanceForTargets: ");
+        builder.append(includeSnapDistanceForTargets);
         builder.append("\n\tuseAreaSnapping: ");
         builder.append(useAreaSnapping);
         builder.append("\n\tsnapRadius: ");
