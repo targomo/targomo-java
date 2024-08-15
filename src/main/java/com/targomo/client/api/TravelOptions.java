@@ -72,7 +72,7 @@ public class TravelOptions implements Serializable {
     private List<String> targetAddresses = new ArrayList<>();
 
     @Column(name = "bike_speed")
-    private double bikeSpeed         = 15.0;
+    private double bikeSpeed         = 18.0;
 
     @Column(name = "bike_uphill")
     private double bikeUphill        = 20.0;
@@ -260,6 +260,9 @@ public class TravelOptions implements Serializable {
 
     @Transient
     private Boolean includeSnapDistance;
+
+    @Transient
+    private Boolean includeSnapDistanceForTargets;
 
     @Transient
     private Boolean useAreaSnapping;
@@ -628,6 +631,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
                 Objects.equals(nextStopsEndTime, that.nextStopsEndTime) &&
                 Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
+                Objects.equals(includeSnapDistanceForTargets, that.includeSnapDistanceForTargets) &&
                 Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
                 Objects.equals(snapRadius, that.snapRadius) &&
                 Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
@@ -666,7 +670,8 @@ public class TravelOptions implements Serializable {
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, useAreaSnapping, snapRadius, excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
+                includeSnapDistance, includeSnapDistanceForTargets, useAreaSnapping, snapRadius,
+                excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
     }
 
     /* (non-Javadoc)
@@ -906,6 +911,8 @@ public class TravelOptions implements Serializable {
         builder.append(nextStopsEndTime);
         builder.append("\n\tincludeSnapDistance: ");
         builder.append(includeSnapDistance);
+        builder.append("\n\tincludeSnapDistanceForTargets: ");
+        builder.append(includeSnapDistanceForTargets);
         builder.append("\n\tuseAreaSnapping: ");
         builder.append(useAreaSnapping);
         builder.append("\n\tsnapRadius: ");

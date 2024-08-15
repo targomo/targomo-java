@@ -692,6 +692,8 @@ public final class RequestConfigurator {
         // snapping parameters
         if (travelOptions.getIncludeSnapDistance() != null)
             travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
+        if (travelOptions.getIncludeSnapDistanceForTargets() != null)
+            travelMode.put(INCLUDE_SNAP_DISTANCE_FOR_TARGETS, travelOptions.getIncludeSnapDistanceForTargets());
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
         if (travelOptions.getUseAreaSnapping() != null)
