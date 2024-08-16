@@ -70,19 +70,26 @@ public class TransitStopsRequest {
 		this.headers = headers;
 	}
 
+	public Map<String, List<TransitStation>> get() throws TargomoClientException, JsonProcessingException {
+		return get(null);
+	}
+
 	/**
 	 * Execute request
 	 * @return Map keys - source id
 	 *             values - list of reachable transit stations
 	 * @throws TargomoClientException In case of error other than Gateway Timeout
 	 */
-	public Map<String, List<TransitStation>> get() throws TargomoClientException, JsonProcessingException {
+	public Map<String, List<TransitStation>> get(Boolean filterEmptyNextStops) throws TargomoClientException, JsonProcessingException {
 
 		WebTarget target = client.target(travelOptions.getServiceUrl()).path("v1/transit/stops")
 				.queryParam("cb", CALLBACK)
 				.queryParam("key", travelOptions.getServiceKey())
         		.queryParam(Constants.INTER_SERVICE_KEY, travelOptions.getInterServiceKey())
 				.queryParam(Constants.INTER_SERVICE_REQUEST, travelOptions.getInterServiceRequestType());
+		if(filterEmptyNextStops != null){
+			target = target.queryParam("filterEmptyNextStops", filterEmptyNextStops);
+		}
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
