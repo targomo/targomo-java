@@ -52,14 +52,13 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.37.0
-
+* Remove `none` from `polygonIntersectionMode`
 
 ### 0.36.0
 * Add `potential` boolean parameter to Quality service's locations
 * Increase the default bike speed
 * Add `filterEmptyNextStops` boolean parameter to transit stops request
 * Add `includeSnapDistanceForTargets` to TravelOptions and RoutingOptions
-* Remove `none` from `polygonIntersectionMode` 
 
 ### 0.35.0
 - Add `statisticsMax` criterion type
