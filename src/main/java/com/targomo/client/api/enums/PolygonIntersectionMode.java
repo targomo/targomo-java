@@ -16,8 +16,7 @@ public enum PolygonIntersectionMode {
 
     AVERAGE("average"),
     UNION("union"),
-    INTERSECTION("intersection"),
-    NONE("none");
+    INTERSECTION("intersection");
 
     private String key;
 
