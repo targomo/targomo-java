@@ -35,6 +35,7 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
     private final Geometry exclusionGeometry;
+    private final Boolean routeFromGeometryCentroid;
 
     @Setter
     private String coreServiceUrl;

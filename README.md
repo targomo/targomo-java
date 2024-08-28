@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.37.0
 * Remove `none` from `polygonIntersectionMode`
+* Add `routeFromGeometryCentroid` parameter in routing based criteria
 
 ### 0.36.0
 * Add `potential` boolean parameter to Quality service's locations
