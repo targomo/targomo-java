@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.38.0
+* Check source properties' nullity during serialization
 
 ### 0.37.0
 * Remove `none` from `polygonIntersectionMode`
