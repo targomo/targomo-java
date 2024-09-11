@@ -18,12 +18,18 @@ public abstract class AbstractSourceMapSerializer extends JsonSerializer {
 
         travelTypeListToJsonGenerator(location.getTravelTypes(), jsonGenerator, "travelTypes", "travelType");
 
-        if( location.getProperties() != null){
+        if( location.getProperties() != null) {
             jsonGenerator.writeFieldName("aggregationInputParameters");
             jsonGenerator.writeStartObject();
-            jsonGenerator.writeNumberField("inputFactor", location.getProperties().getInputFactor());
-            jsonGenerator.writeNumberField("gravitationAttractionStrength", location.getProperties().getGravitationAttractionStrength());
-            jsonGenerator.writeBooleanField("gravitationPositiveInfluence", location.getProperties().getGravitationPositiveInfluence());
+            if (location.getProperties().getInputFactor() != null) {
+                jsonGenerator.writeNumberField("inputFactor", location.getProperties().getInputFactor());
+            }
+            if (location.getProperties().getGravitationAttractionStrength() != null) {
+                jsonGenerator.writeNumberField("gravitationAttractionStrength", location.getProperties().getGravitationAttractionStrength());
+            }
+            if (location.getProperties().getGravitationPositiveInfluence() != null) {
+                jsonGenerator.writeBooleanField("gravitationPositiveInfluence", location.getProperties().getGravitationPositiveInfluence());
+            }
             jsonGenerator.writeEndObject();
         }
     }

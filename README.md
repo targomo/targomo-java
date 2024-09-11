@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.37.0-SNAPSHOT</version>
+    <version>0.38.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,8 +51,12 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.37.0
+### 0.38.0
+* Check source properties' nullity during serialization
 
+### 0.37.0
+* Remove `none` from `polygonIntersectionMode`
+* Add `routeFromGeometryCentroid` parameter in routing based criteria
 
 ### 0.36.0
 * Add `potential` boolean parameter to Quality service's locations
