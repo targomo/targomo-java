@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.38.0
 * Check source properties' nullity during serialization
+* Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
 
 ### 0.37.0
 * Remove `none` from `polygonIntersectionMode`
@@ -63,7 +64,6 @@ nexus and to the maven repo (last is only possibly from master).
 * Increase the default bike speed
 * Add `filterEmptyNextStops` boolean parameter to transit stops request
 * Add `includeSnapDistanceForTargets` to TravelOptions and RoutingOptions
-* Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
 
 ### 0.35.0
 - Add `statisticsMax` criterion type
