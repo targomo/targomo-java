@@ -97,6 +97,12 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private boolean useStatisticTargets = false;
 
+    @Transient
+    private String customGeometryCollectionId;
+
+    @Transient
+    private List<String> customGeometryFeatureIds = new ArrayList<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,6 +129,8 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
                 Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
                 Objects.equals(returnOriginId, that.returnOriginId)&&
+                Objects.equals(customGeometryCollectionId, that.customGeometryCollectionId) &&
+                Objects.equals(customGeometryFeatureIds, that.customGeometryFeatureIds) &&
                 Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
                 Objects.equals(routingAggregationType, that.routingAggregationType) &&
                 Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages);
@@ -134,7 +142,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 useStatisticTargets, getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
-                multigraphCalculateGravitationPerReferenceId, returnOriginId, competingRoutingOptions,
+                multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
                 routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
     }
 
@@ -172,6 +180,10 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multigraphCalculateGravitationPerReferenceId);
         builder.append("\n\treturnOriginId: ");
         builder.append(returnOriginId);
+        builder.append("\n\tcustomGeometryCollectionId: ");
+        builder.append(customGeometryCollectionId);
+        builder.append("\n\tcustomGeometryFeatureIds: ");
+        builder.append(customGeometryFeatureIds!= null ? customGeometryFeatureIds.toString() : "[]");
         builder.append("\n\tcompetingRoutingOptions: ");
         builder.append(competingRoutingOptions);
         builder.append("\n\troutingAggregationType: ");
