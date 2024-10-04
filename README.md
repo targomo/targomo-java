@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.39.0
+
+
 ### 0.38.0
 * Check source properties' nullity during serialization
 * Add `customGeometryCollectionId` & `customGeometryFeatureIds` parameters for the administrative areas
