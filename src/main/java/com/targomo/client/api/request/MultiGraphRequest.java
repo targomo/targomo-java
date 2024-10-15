@@ -2,13 +2,14 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.enums.MultiGraphSerializationH3IdFormat;
+import com.targomo.client.api.enums.MultiGraphSerializationFormat;
 import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.jackson.datatype.trove.TroveModule;
-import com.targomo.client.api.enums.MultiGraphSerializationFormat;
 import com.targomo.client.api.response.MultiGraphResponse;
-import com.targomo.client.api.response.MultiGraphResponse.*;
+import com.targomo.client.api.response.MultiGraphResponse.MultiGraphGeoJsonResponse;
+import com.targomo.client.api.response.MultiGraphResponse.MultiGraphJsonResponse;
+import com.targomo.client.api.response.MultiGraphResponse.MultiGraphTileHashResponse;
+import com.targomo.jackson.datatype.trove.TroveModule;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -127,31 +128,5 @@ public class MultiGraphRequest<R extends MultiGraphResponse<?>> extends TargomoR
 
     public static MultiGraphGeoJsonResponse executeRequestGeoJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
         return executeRequestGeoJson(client, travelOptions, new MultivaluedHashMap<>());
-    }
-
-    private static <T> MultiGraphH3JsonResponse<T> executeRequestH3Json(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
-        if(!MultiGraphSerializationFormat.JSON.equals(travelOptions.getMultiGraphSerializationFormat()))
-            throw new IllegalArgumentException("MultiGraph serialization type JSON must be requested to expect MultiGraphH3JsonResponse");
-        return new MultiGraphRequest<>(client, travelOptions,MultiGraphH3JsonResponse.class, headers).get();
-    }
-
-    public static MultiGraphH3JsonResponse<String> executeRequestH3StringJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
-        if(!MultiGraphSerializationH3IdFormat.STRING.equals(travelOptions.getMultiGraphSerializationH3IdFormat()))
-            throw new IllegalArgumentException("H3 Id format STRING must be requested to expect MultiGraphH3JsonResponse<String>");
-        return executeRequestH3Json(client, travelOptions, headers);
-    }
-
-    public static MultiGraphH3JsonResponse<String> executeRequestH3StringJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
-        return executeRequestH3StringJson(client, travelOptions, new MultivaluedHashMap<>());
-    }
-
-    public static MultiGraphH3JsonResponse<Long> executeRequestH3NumericJson(Client client, TravelOptions travelOptions, MultivaluedMap<String, Object> headers) throws TargomoClientException, ResponseErrorException {
-        if(!MultiGraphSerializationH3IdFormat.NUMERIC.equals(travelOptions.getMultiGraphSerializationH3IdFormat()))
-            throw new IllegalArgumentException("H3 Id format NUMERIC must be requested to expect MultiGraphH3JsonResponse<Long>");
-        return executeRequestH3Json(client, travelOptions, headers);
-    }
-
-    public static MultiGraphH3JsonResponse<Long> executeRequestH3NumericJson(Client client, TravelOptions travelOptions) throws TargomoClientException, ResponseErrorException {
-        return executeRequestH3NumericJson(client, travelOptions, new MultivaluedHashMap<>());
     }
 }
