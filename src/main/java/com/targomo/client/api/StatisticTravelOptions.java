@@ -92,9 +92,6 @@ public class StatisticTravelOptions extends TravelOptions {
     private Boolean multiGraphIgnoreRoutingErrorMessages = false;
 
     @Transient
-    private boolean useH3Reachability = false;
-
-    @Transient
     private boolean useStatisticTargets = false;
 
     @Transient
@@ -111,7 +108,6 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(useH3Reachability, that.useH3Reachability) &&
                 Objects.equals(useStatisticTargets, that.useStatisticTargets) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
@@ -138,7 +134,7 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses, useH3Reachability,
+        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses,
                 useStatisticTargets, getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
@@ -190,8 +186,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(routingAggregationType);
         builder.append("\n\tmultiGraphIgnoreRoutingErrorMessages: ");
         builder.append(multiGraphIgnoreRoutingErrorMessages);
-        builder.append("\n\tuseH3Reachability: ");
-        builder.append(useH3Reachability);
         builder.append("\n\tuseStatisticTargets: ");
         builder.append(useStatisticTargets);
         builder.append("\n}\n");
