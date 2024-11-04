@@ -81,6 +81,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private String valuesGeometryAggregation;
 
+    @Transient
+    private Double filterStatsValuesByPercentile;
+
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
@@ -129,7 +132,9 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(customGeometryFeatureIds, that.customGeometryFeatureIds) &&
                 Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
                 Objects.equals(routingAggregationType, that.routingAggregationType) &&
-                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages);
+                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages) &&
+                Objects.equals(valuesGeometryAggregation, that.valuesGeometryAggregation) &&
+                Objects.equals(filterStatsValuesByPercentile, that.filterStatsValuesByPercentile);
     }
 
     @Override
@@ -139,7 +144,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
-                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
+                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages, valuesGeometryAggregation, filterStatsValuesByPercentile);
     }
 
     @Override
@@ -188,6 +193,10 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphIgnoreRoutingErrorMessages);
         builder.append("\n\tuseStatisticTargets: ");
         builder.append(useStatisticTargets);
+        builder.append("\n\tvaluesGeometryAggregation: ");
+        builder.append(valuesGeometryAggregation);
+        builder.append("\n\tfilterStatsValuesByPercentile: ");
+        builder.append(filterStatsValuesByPercentile);
         builder.append("\n}\n");
         return builder.toString();
     }
