@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.39.0
 * Remove `useH3Reachability` parameter from `StatisticTravelOptions`
+* Add `filterStatsValuesByPercentile` parameter in StatisticTravelOptions and statistics criteria
 
 ### 0.38.0
 * Check source properties' nullity during serialization
