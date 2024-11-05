@@ -81,6 +81,9 @@ public class StatisticTravelOptions extends TravelOptions {
     @Transient
     private String valuesGeometryAggregation;
 
+    @Transient
+    private Double filterStatsValuesByPercentile;
+
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
     @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
@@ -90,9 +93,6 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Transient
     private Boolean multiGraphIgnoreRoutingErrorMessages = false;
-
-    @Transient
-    private boolean useH3Reachability = false;
 
     @Transient
     private boolean useStatisticTargets = false;
@@ -111,7 +111,6 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(useH3Reachability, that.useH3Reachability) &&
                 Objects.equals(useStatisticTargets, that.useStatisticTargets) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
@@ -133,17 +132,19 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(customGeometryFeatureIds, that.customGeometryFeatureIds) &&
                 Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
                 Objects.equals(routingAggregationType, that.routingAggregationType) &&
-                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages);
+                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages) &&
+                Objects.equals(valuesGeometryAggregation, that.valuesGeometryAggregation) &&
+                Objects.equals(filterStatsValuesByPercentile, that.filterStatsValuesByPercentile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses, useH3Reachability,
+        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses,
                 useStatisticTargets, getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
-                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages);
+                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages, valuesGeometryAggregation, filterStatsValuesByPercentile);
     }
 
     @Override
@@ -190,10 +191,12 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(routingAggregationType);
         builder.append("\n\tmultiGraphIgnoreRoutingErrorMessages: ");
         builder.append(multiGraphIgnoreRoutingErrorMessages);
-        builder.append("\n\tuseH3Reachability: ");
-        builder.append(useH3Reachability);
         builder.append("\n\tuseStatisticTargets: ");
         builder.append(useStatisticTargets);
+        builder.append("\n\tvaluesGeometryAggregation: ");
+        builder.append(valuesGeometryAggregation);
+        builder.append("\n\tfilterStatsValuesByPercentile: ");
+        builder.append(filterStatsValuesByPercentile);
         builder.append("\n}\n");
         return builder.toString();
     }

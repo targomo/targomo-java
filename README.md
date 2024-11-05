@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.38.0</version>
+    <version>0.39.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,10 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.39.0
+* Remove `useH3Reachability` parameter from `StatisticTravelOptions`
+* Add `filterStatsValuesByPercentile` parameter in StatisticTravelOptions and statistics criteria
 
 ### 0.38.0
 * Check source properties' nullity during serialization
