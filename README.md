@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.40.0
-
+* Add `minSourcesRatio` and `minSourcesCount` support for stats gravitation criteria
 
 ### 0.39.0
 * Remove `useH3Reachability` parameter from `StatisticTravelOptions`
