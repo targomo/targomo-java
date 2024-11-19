@@ -36,6 +36,9 @@ public class StatisticsGravitationCriterionDefinition extends StatisticsReachabi
 
     private final Float routingSourceModifier;
 
+    private final Integer minSourcesCount;
+    private final Double minSourcesRatio;
+
     private final List<CompetingRoutingOption> competingRoutingOptions;
     private final RoutingAggregationType routingAggregationType;
 }
