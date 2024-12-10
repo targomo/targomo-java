@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -20,6 +21,6 @@ public class TransitStopsCriterionDefinition extends RoutingBasedCriterionDefini
     private final Integer startTime;
     private final Integer endTime;
     private final Integer referenceInterval;
-    private final List<Integer> routeTypes;
+    private final Set<Integer> routeTypes;
 
 }

@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.40.0
 * Add `minSourcesRatio` and `minSourcesCount` support for stats gravitation criteria
+* Add a `routeTypes` filter to the transit stops criterion
 
 ### 0.39.0
 * Remove `useH3Reachability` parameter from `StatisticTravelOptions`
