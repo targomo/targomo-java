@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.40.0
+* Add `ExceptionCode` interface to keep Exception codes
 * Add `minSourcesRatio` and `minSourcesCount` support for stats gravitation criteria
 * Add a `routeTypes` filter to the transit stops criterion
 * Add `routeType` field to the transit stops endpoint response from core service
