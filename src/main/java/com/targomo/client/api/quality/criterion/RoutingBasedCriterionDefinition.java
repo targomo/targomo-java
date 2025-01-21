@@ -17,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -34,7 +35,17 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Boolean elevation;
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
+    private final Integer maxSnapDistance;
     private final Geometry exclusionGeometry;
+    private final Set<Integer> excludeEdgeClasses;
+
+    //snapping parameters
+    private final Boolean includeSnapDistance;
+    private final Boolean includeSnapDistanceForTargets;
+    private final Boolean useAreaSnapping;
+    private final Integer snapRadius;
+    private final Set<Integer> excludeEdgeClassesFromSnapping;
+
     private final Boolean routeFromGeometryCentroid;
 
     @Setter

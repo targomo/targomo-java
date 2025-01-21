@@ -240,6 +240,9 @@ public final class RequestConfigurator {
             if (travelOptions.getNextStopsEndTime() != null)
                 JSONBuilder.append(config, NEXT_STOPS_END_TIME, travelOptions.getNextStopsEndTime());
 
+            if (travelOptions.getExcludeEdgeClasses() != null)
+                JSONBuilder.append(config, EXCLUDE_EDGE_CLASSES, new JSONArray(travelOptions.getExcludeEdgeClasses()));
+
             JSONBuilder.append(config, "onlyPrintReachablePoints", travelOptions.isOnlyPrintReachablePoints());
             
             JSONBuilder.append(config, FORCE_RECALCULATE, travelOptions.isForceRecalculate());

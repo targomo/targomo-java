@@ -225,6 +225,9 @@ public class TravelOptions implements Serializable {
     @Transient
     private Geometry exclusionGeometry;
 
+    @Transient
+    private Set<Integer> excludeEdgeClasses;
+
 	@Transient
 	private String boundingBox;
 
@@ -272,7 +275,7 @@ public class TravelOptions implements Serializable {
     private Integer snapRadius;
 
     @Transient
-    private List<Integer> excludeEdgeClassesFromSnapping;
+    private Set<Integer> excludeEdgeClassesFromSnapping;
     @Transient
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
@@ -637,7 +640,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
                 Objects.equals(multiGraphAggregationLearntMaxEdgeWeight, that.multiGraphAggregationLearntMaxEdgeWeight);
     }
-
+//todo
 
     //excluding id
     @Override
