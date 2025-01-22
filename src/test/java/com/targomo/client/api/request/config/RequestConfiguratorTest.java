@@ -9,6 +9,8 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
+
+import com.google.common.collect.Sets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -233,7 +235,7 @@ public class RequestConfiguratorTest {
             options.setIncludeSnapDistance(true);
             options.setUseAreaSnapping(true);
             options.setSnapRadius(200);
-            options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12));
+            options.setExcludeEdgeClassesFromSnapping(Sets.newHashSet(11, 12));
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
