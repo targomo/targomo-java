@@ -28,7 +28,7 @@
           "includeSnapDistance": true,
           "useAreaSnapping": true,
           "snapRadius": 200,
-          "excludeEdgeClassesFromSnapping": [12, 11]
+          "excludeEdgeClassesFromSnapping": [11, 12]
         }
       },
       "id": "id1",
