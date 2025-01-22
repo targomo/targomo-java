@@ -235,7 +235,7 @@ public class RequestConfiguratorTest {
             options.setIncludeSnapDistance(true);
             options.setUseAreaSnapping(true);
             options.setSnapRadius(200);
-            options.setExcludeEdgeClassesFromSnapping(Sets.newHashSet(11, 12));
+            options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12));
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -244,7 +244,7 @@ public class RequestConfiguratorTest {
 	        // Load sample json & load object
             String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
-
+//todo: add new params
 	        // Compare two objects
 	        checkPolygons(actualObject, sampleObject);
             Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));

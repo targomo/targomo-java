@@ -226,7 +226,7 @@ public class TravelOptions implements Serializable {
     private Geometry exclusionGeometry;
 
     @Transient
-    private Set<Integer> excludeEdgeClasses;
+    private List<Integer> excludeEdgeClasses;
 
 	@Transient
 	private String boundingBox;
@@ -275,7 +275,7 @@ public class TravelOptions implements Serializable {
     private Integer snapRadius;
 
     @Transient
-    private Set<Integer> excludeEdgeClassesFromSnapping;
+    private List<Integer> excludeEdgeClassesFromSnapping;
     @Transient
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
@@ -554,6 +554,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration) &&
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
 				Objects.equals(exclusionGeometry, that.exclusionGeometry) &&
+                Objects.equals(excludeEdgeClasses, that.excludeEdgeClasses) &&
                 Objects.equals(recommendations, that.recommendations) &&
                 Objects.equals(srid, that.srid) &&
                 Objects.equals(polygonOrientationRule, that.polygonOrientationRule) &&
@@ -650,7 +651,7 @@ public class TravelOptions implements Serializable {
                 bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill, rushHour, travelTimes, elevationEnabled,
                 appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration,
                 recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry,
+                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry, excludeEdgeClasses,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
                 multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3IdFormat,
@@ -696,6 +697,8 @@ public class TravelOptions implements Serializable {
         builder.append(intersectionGeometry != null ? intersectionGeometry.toString() : null);
         builder.append("\n\texclusionGeometry: ");
         builder.append(exclusionGeometry != null ? exclusionGeometry.toString() : null);
+        builder.append("\n\texcludeEdgeClasses: ");
+        builder.append(excludeEdgeClasses != null ? toString(excludeEdgeClasses, maxLen) :null);
         builder.append(" {\n\tsources: ");
         builder.append(sources != null ? toString(sources.entrySet(), maxLen) : null);
         builder.append(" {\n\tsourceGeometries: ");
