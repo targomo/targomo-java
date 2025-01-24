@@ -56,6 +56,8 @@ nexus and to the maven repo (last is only possibly from master).
 * Add `minSourcesRatio` and `minSourcesCount` support for stats gravitation criteria
 * Add a `routeTypes` filter to the transit stops criterion
 * Add `routeType` field to the transit stops endpoint response from core service
+* Support `excludeEdgeClasses`
+* Fix a bug in TravelOptions `equals` method in the comparison of `targetAddresses`
 
 ### 0.39.0
 * Remove `useH3Reachability` parameter from `StatisticTravelOptions`

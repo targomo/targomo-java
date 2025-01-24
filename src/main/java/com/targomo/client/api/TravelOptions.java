@@ -541,7 +541,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(sourceAddresses, that.sourceAddresses) &&
                 Objects.equals(targets, that.targets) &&
                 Objects.equals(targetGeohashes, that.targetGeohashes) &&
-                Objects.equals(targetGeohashes, that.targetAddresses) &&
+                Objects.equals(targetAddresses, that.targetAddresses) &&
                 Objects.equals(rushHour, that.rushHour) &&
                 Objects.equals(travelTimes, that.travelTimes) &&
                 Objects.equals(elevationEnabled, that.elevationEnabled) &&
