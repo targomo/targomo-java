@@ -39,26 +39,6 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
 
     private final Boolean routeFromGeometryCentroid;
 
-//
-//    // snapping parameters
-//        if (travelOptions.getIncludeSnapDistance() != null)
-//                travelMode.put(INCLUDE_SNAP_DISTANCE, travelOptions.getIncludeSnapDistance());
-//        if (travelOptions.getIncludeSnapDistanceForTargets() != null)
-//                travelMode.put(INCLUDE_SNAP_DISTANCE_FOR_TARGETS, travelOptions.getIncludeSnapDistanceForTargets());
-//        if (travelOptions.getUseAreaSnapping() != null)
-//                travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
-//        if (travelOptions.getUseAreaSnapping() != null)
-//                travelMode.put(SNAP_RADIUS, travelOptions.getSnapRadius());
-//        if (travelOptions.getExcludeEdgeClassesFromSnapping() != null)
-//                travelMode.put(EXCLUDE_EDGE_CLASSES_FROM_SNAPPING, new JSONArray(travelOptions.getExcludeEdgeClassesFromSnapping()));
-//        if (travelOptions.getExcludeEdgeClasses() != null)
-//                travelMode.put(EXCLUDE_EDGE_CLASSES, new JSONArray(travelOptions.getExcludeEdgeClasses()));
-//        if (travelOptions.getMaxSnapDistance() != null)
-//                travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
-
-
-
-
     @Setter
     private String coreServiceUrl;
 

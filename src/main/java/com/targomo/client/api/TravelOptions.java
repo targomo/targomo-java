@@ -641,7 +641,6 @@ public class TravelOptions implements Serializable {
                 Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
                 Objects.equals(multiGraphAggregationLearntMaxEdgeWeight, that.multiGraphAggregationLearntMaxEdgeWeight);
     }
-//todo
 
     //excluding id
     @Override
