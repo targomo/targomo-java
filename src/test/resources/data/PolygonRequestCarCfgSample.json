@@ -28,7 +28,8 @@
           "includeSnapDistance": true,
           "useAreaSnapping": true,
           "snapRadius": 200,
-          "excludeEdgeClassesFromSnapping": [11, 12]
+          "maxSnapDistance": 30,
+          "excludeEdgeClassesFromSnapping": [11, 12, 75]
         }
       },
       "id": "id1",
@@ -38,5 +39,7 @@
   ],
   "reverse": false,
   "edgeWeight": "DISTANCE",
+  "maxSnapDistance": 30,
+  "excludeEdgeClasses": [11, 12],
   "travelTimeFactors":{"all":0.9,"motorway":0.7}
 }

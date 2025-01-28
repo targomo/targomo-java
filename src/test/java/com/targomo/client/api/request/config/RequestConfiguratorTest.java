@@ -231,11 +231,13 @@ public class RequestConfiguratorTest {
             options.setMaxTransfers(2);
             options.getTravelTimeFactors().put("all",0.9);
             options.getTravelTimeFactors().put("motorway",0.7);
+            options.setMaxSnapDistance(30);
+            options.setExcludeEdgeClasses(Arrays.asList(11, 12));
 
             options.setIncludeSnapDistance(true);
             options.setUseAreaSnapping(true);
             options.setSnapRadius(200);
-            options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12));
+            options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12, 75));
 
 	        // Run configurator && get object
             String cfg = RequestConfigurator.getConfig(options);
@@ -244,7 +246,7 @@ public class RequestConfiguratorTest {
 	        // Load sample json & load object
             String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"));
             JSONObject sampleObject = new JSONObject(sampleJson);
-//todo: add new params
+
 	        // Compare two objects
 	        checkPolygons(actualObject, sampleObject);
             Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));

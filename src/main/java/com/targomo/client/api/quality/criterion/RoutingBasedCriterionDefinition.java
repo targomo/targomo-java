@@ -16,6 +16,7 @@ import org.apache.commons.collections.map.CaseInsensitiveMap;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +37,7 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final Map<String, Double> travelTimeFactors;
     private final Boolean reverse;
     private final Geometry exclusionGeometry;
+    private final List<Integer> excludeEdgeClasses;
 
     private final Boolean routeFromGeometryCentroid;
 
