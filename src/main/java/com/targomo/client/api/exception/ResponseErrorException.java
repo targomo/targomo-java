@@ -3,7 +3,7 @@ package com.targomo.client.api.exception;
 import com.targomo.client.api.response.ResponseCode;
 import lombok.Getter;
 
-public class ResponseErrorException extends Exception {
+public class ResponseErrorException extends Exception implements ExceptionCode {
 
     @Getter
     private final ResponseCode errorCode;
@@ -13,4 +13,8 @@ public class ResponseErrorException extends Exception {
         this.errorCode = errorCode;
     }
 
+    @Override
+    public Integer getCode() {
+        return errorCode.ordinal();
+    }
 }

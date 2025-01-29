@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * Excpetion thrown when there is an exception in a request to a Targomo API
  */
-public class TargomoClientException extends Exception {
+public class TargomoClientException extends Exception implements ExceptionCode {
 
 	private static final long serialVersionUID = 748077356312331362L;
 
@@ -49,5 +49,10 @@ public class TargomoClientException extends Exception {
 	public TargomoClientException(String message, int httpStatusCode) {
 		super(message);
 		this.httpStatusCode = httpStatusCode;
+	}
+
+	@Override
+	public Integer getCode() {
+		return httpStatusCode;
 	}
 }

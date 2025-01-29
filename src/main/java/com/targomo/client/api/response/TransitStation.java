@@ -26,5 +26,6 @@ public class TransitStation {
         private String name;
         private String line;
         private String endStation;
+        private int routeType;
     }
 }

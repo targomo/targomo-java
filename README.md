@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.39.0</version>
+    <version>0.40.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,14 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.40.0
+* Add `ExceptionCode` interface to keep Exception codes
+* Add `minSourcesRatio` and `minSourcesCount` support for stats gravitation criteria
+* Add a `routeTypes` filter to the transit stops criterion
+* Add `routeType` field to the transit stops endpoint response from core service
+* Support `excludeEdgeClasses`
+* Fix a bug in TravelOptions `equals` method in the comparison of `targetAddresses`
 
 ### 0.39.0
 * Remove `useH3Reachability` parameter from `StatisticTravelOptions`
