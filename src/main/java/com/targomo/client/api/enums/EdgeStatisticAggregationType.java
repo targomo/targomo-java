@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum EdgeStatisticAggregationType {
-    NONE("none"),
     SUM("sum"),
     AVERAGE("average");
 

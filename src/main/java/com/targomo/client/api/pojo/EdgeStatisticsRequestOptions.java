@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Parameters for an edge statistics location request.
@@ -24,7 +21,7 @@ public class EdgeStatisticsRequestOptions {
 
     private List<Integer> edgeStatisticIds = new ArrayList<>();
 
-    private Map<String, List<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
+    private Map<String, Collection<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
 
     private EdgeStatisticAggregationType aggregationType = EdgeStatisticAggregationType.SUM;
 
