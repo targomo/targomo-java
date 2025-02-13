@@ -1,14 +1,12 @@
 package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.*;
 
@@ -16,13 +14,18 @@ import java.util.*;
  * Parameters for an edge statistics location request.
  */
 @Getter @Setter
+@EqualsAndHashCode
 @AllArgsConstructor @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EdgeStatisticsRequestOptions {
 
-    private List<Integer> edgeStatisticIds = new ArrayList<>();
+    private Set<Integer> edgeStatisticIds = new HashSet<>();
 
-    private Map<String, Collection<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
+    // Map of aggregations id to a list of statistics ids to aggregate
+    private Map<String, List<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
 
+    // Type of aggregation
     private EdgeStatisticAggregationType aggregationType = EdgeStatisticAggregationType.SUM;
 
     private Integer radius = 100;
