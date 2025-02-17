@@ -1,6 +1,7 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,8 @@ public class EdgeStatisticsReachabilityCriterionDefinition extends RoutingBasedC
     private String edgeStatisticsServiceUrl;
 
     private final Integer edgeStatisticCollectionId;
+
+    private final EdgeStatisticAggregationType aggregationType;
 
     // Use either edgeStatisticIds or edgeStatisticId
     private final List<Integer> edgeStatisticIds;

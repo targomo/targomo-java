@@ -76,7 +76,7 @@ public class EdgeStatisticsRequest {
 	 * @throws JsonProcessingException In case the returned response is not parsable
 	 * @throws TargomoClientException In case of other errors
 	 */
-	public Map<String, Map<Integer, Double>> get() throws TargomoClientException, JsonProcessingException {
+	public Map<String, Map<String, Double>> get() throws TargomoClientException, JsonProcessingException {
 
 		String path = StringUtils.join(Arrays.asList(String.valueOf(this.edgeStatisticCollectionId), "locations"), "/");
 		WebTarget target = client.target(serviceUrl).path(path).queryParam("key", serviceKey);
@@ -95,7 +95,7 @@ public class EdgeStatisticsRequest {
 	 * @return map of location id to edge statistics value
 	 * @throws TargomoClientException In case of errors
 	 */
-	private Map<String, Map<Integer, Double>> parseResponse(final Response response)
+	private Map<String, Map<String, Double>> parseResponse(final Response response)
 			throws TargomoClientException {
 
 		String responseStr = response.readEntity(String.class);
@@ -105,7 +105,7 @@ public class EdgeStatisticsRequest {
 
 			// consume the results
 			try {
-				TypeReference<HashMap<String, Map<Integer, Double>>> typeRef = new TypeReference<HashMap<String, Map<Integer, Double>>>() {};
+				TypeReference<HashMap<String, Map<String, Double>>> typeRef = new TypeReference<HashMap<String, Map<String, Double>>>() {};
 				return new ObjectMapper().readValue(responseStr, typeRef);
 			}
 			catch (JsonProcessingException e){

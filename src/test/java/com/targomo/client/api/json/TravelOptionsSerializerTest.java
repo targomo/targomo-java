@@ -2,18 +2,19 @@ package com.targomo.client.api.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.request.EdgeStatisticsReachabilityRequest;
+import com.targomo.client.api.pojo.EdgeStatisticsReachabilityRequestOptions;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class TravelOptionsSerializerTest {
 
@@ -28,12 +29,19 @@ public class TravelOptionsSerializerTest {
         options.setServiceKey("KEY");
         options.setServiceUrl("https://api.targomo.com/edge-statistics/");
 
-        EdgeStatisticsReachabilityRequest.EdgeStatisticsReachabilityBody cfg = new EdgeStatisticsReachabilityRequest.EdgeStatisticsReachabilityBody(Arrays.asList(0, 1), options);
+        EdgeStatisticsReachabilityRequestOptions cfg = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), new HashMap<>(), null, options);
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
 
         ClassLoader classLoader = getClass().getClassLoader();
         String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsReachabilityRequest.json"));
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
 
+        Map<String, List<Integer>> aggStats = new HashMap<>();
+        aggStats.put("asdf", Arrays.asList(0, 1, 2));
+        EdgeStatisticsReachabilityRequestOptions cfg2 = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), aggStats, EdgeStatisticAggregationType.SUM, options);
+        String requestBody2 = new ObjectMapper().writeValueAsString(cfg2);
+
+        String expectedJson2 = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/EdgeStatisticsReachabilityRequest2.json"));
+        Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson2), StringUtils.deleteWhitespace(requestBody2));
     }
 }
