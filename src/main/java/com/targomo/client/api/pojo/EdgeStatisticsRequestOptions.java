@@ -2,10 +2,14 @@ package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeStatisticAggregationType;
+import com.targomo.client.api.enums.EdgeStatisticCalculationType;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
+import com.targomo.client.api.json.TravelOptionsSerializer;
 import lombok.*;
 
 import java.util.*;
@@ -19,6 +23,8 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EdgeStatisticsRequestOptions {
+
+    private EdgeStatisticCalculationType calculationType = EdgeStatisticCalculationType.MAX;
 
     private Set<Integer> edgeStatisticIds = new HashSet<>();
 
