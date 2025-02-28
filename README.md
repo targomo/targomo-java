@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.41.0
 * Add parameters to aggregate edge statistics
+* Add EdgeStatisticsReachabilityInRadiusRequest
 
 ### 0.40.0
 * Add `ExceptionCode` interface to keep Exception codes
