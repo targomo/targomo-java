@@ -6,17 +6,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.json.TravelOptionsSerializer;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EdgeStatisticsReachabilityInRadiusOptions extends AbstractEdgeStatisticsReachabilityInRadiusOptions {
 
     @JsonSerialize(using = TravelOptionsSerializer.class)
-    TravelOptions routingOptions;
+    private TravelOptions routingOptions;
 }
