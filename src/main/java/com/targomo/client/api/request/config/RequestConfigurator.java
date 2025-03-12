@@ -636,6 +636,7 @@ public final class RequestConfigurator {
             travelMode.put(TRANSPORT_MODE_TRANSIT_FRAME, new JSONObject()
                     .put(TRANSPORT_MODE_TRANSIT_FRAME_TIME, travelOptions.getTime())
                     .put(TRANSPORT_MODE_TRANSIT_FRAME_DATE, travelOptions.getDate())
+                    .put(TRANSPORT_MODE_TRANSIT_FRAME_WEEKDAY, travelOptions.getWeekday())
                     .put(TRANSPORT_MODE_TRANSIT_FRAME_DURATION, travelOptions.getFrame())
                     .put(TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION, travelOptions.getArrivalOrDepartureDuration())
                     .put(TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL, travelOptions.getEarliestArrival()));
@@ -687,7 +688,9 @@ public final class RequestConfigurator {
         if (includedTravelTypes.contains(TravelType.CAR)) {
             travelMode.put(TRANSPORT_MODE_CAR_RUSH_HOUR, travelOptions.getRushHour());
             if (travelOptions.getDate() != null)
-                travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate()); //date is on the travelMode level unlike for transit where it is on the "transit frame" level
+                travelMode.put(TRANSPORT_MODE_CAR_DATE, travelOptions.getDate());//date is on the travelMode level unlike for transit where it is on the "transit frame" level
+            if (travelOptions.getWeekday() != null)
+                travelMode.put(TRANSPORT_MODE_CAR_WEEKDAY, travelOptions.getWeekday());//weekday is on the travelMode level unlike for transit where it is on the "transit frame" level
             if (travelOptions.getTime() != null)
                 travelMode.put(TRANSPORT_MODE_CAR_TIME, travelOptions.getTime()); //time is on the travelMode level unlike for transit where it is on the "transit frame" level
         }

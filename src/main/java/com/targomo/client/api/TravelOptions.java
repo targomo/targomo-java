@@ -126,6 +126,7 @@ public class TravelOptions implements Serializable {
 
     @Column(name = "time") private Integer time                     = null; //default is used in core
     @Column(name = "date")  private Integer date                    = null; //default is used in core
+    @Column(name = "weekday")  private Weekday weekday              = null; //default is used in core
     @Column(name = "frame") private Integer frame                   = null; //default is used in core
     @Column(name = "earliestArrival") private Boolean earliestArrival = false;
     @Transient private Integer arrivalOrDepartureDuration           = null;
@@ -550,6 +551,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(minPolygonHoleSize, that.minPolygonHoleSize) &&
                 Objects.equals(time, that.time) &&
                 Objects.equals(date, that.date) &&
+                Objects.equals(weekday, that.weekday) &&
                 Objects.equals(frame, that.frame) &&
                 Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration) &&
 				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
@@ -648,7 +650,7 @@ public class TravelOptions implements Serializable {
 
         return Objects.hash(sources, sourceGeometries, sourceAddresses, targets, targetGeohashes, targetAddresses, bikeSpeed,
                 bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill, rushHour, travelTimes, elevationEnabled,
-                appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, frame, arrivalOrDepartureDuration,
+                appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, weekday, frame, arrivalOrDepartureDuration,
                 recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry, excludeEdgeClasses,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
@@ -750,6 +752,8 @@ public class TravelOptions implements Serializable {
         builder.append(time);
         builder.append("\n\tdate: ");
         builder.append(date);
+        builder.append("\n\tweekday: ");
+        builder.append(weekday);
         builder.append("\n\tarrivalOrDepartureDuration: ");
         builder.append(arrivalOrDepartureDuration);
         builder.append("\n\tframe: ");

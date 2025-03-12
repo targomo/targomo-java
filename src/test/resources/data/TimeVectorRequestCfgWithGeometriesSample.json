@@ -10,6 +10,7 @@
         "transit": {
           "frame": {
             "date": 20180815,
+            "weekday": "TUESDAY",
             "time": 40000,
             "duration": 14400,
             "earliestArrival": false
@@ -35,6 +36,7 @@
         "transit": {
           "frame": {
             "date": 20180815,
+            "weekday": "TUESDAY",
             "time": 40000,
             "duration": 14400,
             "earliestArrival": false
@@ -58,6 +60,7 @@
         "transit": {
           "frame": {
             "date": 20180815,
+            "weekday": "TUESDAY",
             "time": 40000,
             "duration": 14400,
             "earliestArrival": false
