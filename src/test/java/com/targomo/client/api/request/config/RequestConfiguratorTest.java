@@ -394,7 +394,7 @@ public class RequestConfiguratorTest {
         assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
                 .isEqualTo("{\"transit\":{\"downhill\":0,\"recommendations\":0,\"uphill\":10,\"speed\":5,\"frame\":{\"earliestArrival\":false,\"weekday\":\"THURSDAY\"}}}");
 
-        // If Date and weekday are both set, they will both be forwarded to the relevant service, internally however, weekday will always be preferred over date
+        // If Date and weekday are both set, they will both be forwarded to the relevant service. This will cause the services to throw an error
         to.setDate(20250512);
         cfg = RequestConfigurator.getConfig(to);
         actualObject = new JSONObject(cfg);
