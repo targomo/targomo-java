@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.41.0
 * Add parameters to aggregate edge statistics
+* Update old service urls from the README file
 
 ### 0.40.0
 * Add `ExceptionCode` interface to keep Exception codes
@@ -440,7 +441,7 @@ Create polygon from source point.
     options.setTravelType(TravelType.TRANSIT);
     options.addSource(new DefaultSourceCoordinate("id1", 40.608155, -73.976636));
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://api.targomo.com/germany/");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
     
     Client client = ClientBuilder.newClient();
     client.register(GZipEncoder.class); // when using jersey
@@ -460,7 +461,7 @@ Return travel times from each source to each target point.
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://api.targomo.com/germany/");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
     
     Client client = ClientBuilder.newClient();
     client.register(GZipEncoder.class); // when using jersey
@@ -480,7 +481,7 @@ Return total travel time for each source point to all targets.
     options.setTargets(targets);
     options.setTravelType(TravelType.CAR);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://api.targomo.com/germany/");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
     
     Client client = ClientBuilder.newClient();
     client.register(GZipEncoder.class); // when using jersey
@@ -513,7 +514,7 @@ Return possible route from each source point to each target.
     options.setTravelType(TravelType.BIKE);
     options.setElevationEnabled(true);
     options.setServiceKey("ENTER YOUR KEY HERE");
-    options.setServiceUrl("https://api.targomo.com/germany/");
+    options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
     
     Client client = ClientBuilder.newClient();
     client.register(GZipEncoder.class); // when using jersey
