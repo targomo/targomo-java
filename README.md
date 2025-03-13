@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.41.0
 * Add parameters to aggregate edge statistics
+* Add weekday parameter
 * Update old service urls from the README file
 
 ### 0.40.0

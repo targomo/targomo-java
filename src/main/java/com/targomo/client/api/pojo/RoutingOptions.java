@@ -2,6 +2,7 @@ package com.targomo.client.api.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.enums.Weekday;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class RoutingOptions {
     private Boolean rushHour;
     private Integer time;
     private Integer date;
+    private Weekday weekday;
     private Integer frame;
     private Integer arrivalOrDepartureDuration;
     private Boolean elevationEnabled;
@@ -53,7 +55,7 @@ public class RoutingOptions {
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
-        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, reverse, rushHour, time, date, frame, arrivalOrDepartureDuration,
+        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, reverse, rushHour, time, date, weekday, frame, arrivalOrDepartureDuration,
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
@@ -67,7 +69,7 @@ public class RoutingOptions {
         RoutingOptions that = (RoutingOptions) o;
         return Objects.equals(maxEdgeWeight, that.maxEdgeWeight) && travelType == that.travelType && Objects.equals(travelTimeFactors, that.travelTimeFactors)
                 && Objects.equals(reverse, that.reverse) && Objects.equals(rushHour, that.rushHour) && Objects.equals(time, that.time)
-                && Objects.equals(date, that.date) && Objects.equals(frame, that.frame) && Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration)
+                && Objects.equals(date, that.date) && Objects.equals(weekday, that.weekday) && Objects.equals(frame, that.frame) && Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration)
                 && Objects.equals(elevationEnabled, that.elevationEnabled) && Objects.equals(bikeSpeed, that.bikeSpeed) && Objects.equals(bikeDownhill, that.bikeDownhill)
                 && Objects.equals(bikeUphill, that.bikeUphill) && Objects.equals(walkSpeed, that.walkSpeed) && Objects.equals(walkDownhill, that.walkDownhill)
                 && Objects.equals(walkUphill, that.walkUphill) && Objects.equals(allowPrivateAndServiceRoads, that.allowPrivateAndServiceRoads)

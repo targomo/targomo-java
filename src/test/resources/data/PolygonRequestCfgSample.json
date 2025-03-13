@@ -24,6 +24,7 @@
           "recommendations": 0,
           "frame": {
             "date": 20161020,
+            "weekday": "TUESDAY",
             "duration": 18000,
             "earliestArrival": false,
             "time": 55852
