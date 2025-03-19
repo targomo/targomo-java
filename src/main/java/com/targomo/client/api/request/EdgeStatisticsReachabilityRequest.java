@@ -1,13 +1,17 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.TravelOptions;
+import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
 import com.targomo.client.api.json.TravelOptionsSerializer;
+import com.targomo.client.api.pojo.EdgeStatisticsReachabilityRequestOptions;
 import com.targomo.client.api.response.EdgeStatisticsReachabilityResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +28,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Reachability request to edge statistics service.
@@ -39,49 +42,44 @@ public class EdgeStatisticsReachabilityRequest {
     private final MultivaluedMap<String, Object> headers;
 
     int edgeStatisticCollectionId;
-    List<Integer> edgeStatisticIds;
-    TravelOptions travelOptions;
 
-
-    @Getter @Setter
-    @AllArgsConstructor @NoArgsConstructor
-    public static class EdgeStatisticsReachabilityBody {
-        List<Integer> edgeStatisticIds;
-        @JsonSerialize(using = TravelOptionsSerializer.class)
-        TravelOptions routingOptions;
-    }
+    EdgeStatisticsReachabilityRequestOptions requestOptions;
 
     /**
      * Use a custom client implementation with specified options, method, and headers
      * @param client Client implementation to be used
      * @param edgeStatisticCollectionId Id of the statistic collection
-     * @param edgeStatisticIds A list of statistic ids (that are part of the specified collection)
-     * @param travelOptions The travel options to user for routing
+     * @param requestOptions The options for the request
      * @param headers List of custom http headers to be used
      */
-    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, List<Integer> edgeStatisticIds,
-                                             TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
+    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId,
+                                             EdgeStatisticsReachabilityRequestOptions requestOptions,
+                                             MultivaluedMap<String, Object> headers) {
         this.client	= client;
         this.headers = headers;
         this.edgeStatisticCollectionId = edgeStatisticCollectionId;
-        this.edgeStatisticIds = edgeStatisticIds;
-        this.travelOptions = travelOptions;
+        this.requestOptions = requestOptions;
+    }
+
+    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds,
+                                             TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
+        this(client, edgeStatisticCollectionId, new EdgeStatisticsReachabilityRequestOptions(edgeStatisticIds, new HashMap<>(), null, travelOptions), headers);
     }
 
     /**
      * Use a custom client implementation with specified options and default headers
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, List, TravelOptions, MultivaluedMap)
+     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, List<Integer> edgeStatisticIds, TravelOptions travelOptions) {
+    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, TravelOptions travelOptions) {
         this(client, edgeStatisticCollectionId, edgeStatisticIds, travelOptions, new MultivaluedHashMap<>());
     }
 
     /**
      * Use default client implementation with specified options and default headers
      * Default client uses {@link ClientBuilder}
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, List, TravelOptions, MultivaluedMap)
+     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityRequest(int edgeStatisticCollectionId, List<Integer> edgeStatisticIds, TravelOptions travelOptions) {
+    public EdgeStatisticsReachabilityRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, TravelOptions travelOptions) {
         this(ClientBuilder.newClient(), edgeStatisticCollectionId, edgeStatisticIds, travelOptions);
     }
 
@@ -93,14 +91,12 @@ public class EdgeStatisticsReachabilityRequest {
     public EdgeStatisticsReachabilityResponse get() throws TargomoClientException, JsonProcessingException {
 
         String path = StringUtils.join(Arrays.asList(String.valueOf(this.edgeStatisticCollectionId), "reachability"), "/");
-        WebTarget target = client.target(travelOptions.getServiceUrl()).path(path).queryParam("key", travelOptions.getServiceKey());
-
-        EdgeStatisticsReachabilityBody cfg = new EdgeStatisticsReachabilityBody(edgeStatisticIds, travelOptions);
+        WebTarget target = client.target(requestOptions.getRoutingOptions().getServiceUrl()).path(path).queryParam("key", requestOptions.getRoutingOptions().getServiceKey());
 
         log.debug(String.format("Executing edge statistics reachability request (%s) to URI: '%s'", path, target.getUri()));
 
         // Execute POST request
-        String requestBody = new ObjectMapper().writeValueAsString(cfg);
+        String requestBody = new ObjectMapper().writeValueAsString(requestOptions);
         final Entity<String> entity = Entity.entity(requestBody, MediaType.APPLICATION_JSON_TYPE);
         Response response = target.request().headers(headers).post(entity);
         return parseResponse(response);

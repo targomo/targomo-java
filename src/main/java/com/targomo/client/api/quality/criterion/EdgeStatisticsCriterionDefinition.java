@@ -1,6 +1,7 @@
 package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.enums.EdgeStatisticDirection;
 import com.targomo.client.api.enums.TravelType;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,8 @@ public class EdgeStatisticsCriterionDefinition extends CriterionDefinition {
 
     private final Integer edgeStatisticCollectionId;
     private final List<Integer> edgeStatisticIds;
+
+    private final EdgeStatisticAggregationType aggregationType;
 
     private final Integer radius;
     private final List<Integer> radii;

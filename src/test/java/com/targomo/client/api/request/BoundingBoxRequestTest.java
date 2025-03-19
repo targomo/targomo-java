@@ -2,6 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.enums.Weekday;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.response.BoundingBoxResponse;
@@ -67,6 +68,7 @@ public class BoundingBoxRequestTest extends RequestTest {
         options.setServiceKey("INSERT_YOUR_KEY_HERE");
         options.setServiceUrl("https://api.targomo.com/westcentraleurope/");
         options.setDate(20240120);
+        options.setWeekday(Weekday.TUESDAY);
         options.setTime(55852);
         return options;
     }

@@ -58,8 +58,10 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_ARRIVAL_OR_DEPARTURE_DURATION = "arrivalOrDepartureDuration";
     public static final String TRANSPORT_MODE_TRANSIT_EARLIEST_ARRIVAL                  = "earliestArrival";
     public static final String TRANSPORT_MODE_TRANSIT_FRAME_DATE                        = "date";
+    public static final String TRANSPORT_MODE_TRANSIT_FRAME_WEEKDAY                     = "weekday";
     public static final String TRANSPORT_MODE_CAR_RUSH_HOUR                             = "rushHour";
     public static final String TRANSPORT_MODE_CAR_DATE                                  = "date";
+    public static final String TRANSPORT_MODE_CAR_WEEKDAY                               = "weekday";
     public static final String TRANSPORT_MODE_CAR_TIME                                  = "time";
     public static final String TRANSPORT_MODE_TRANSIT_MAX_TRANSFERS                     = "maxTransfers";
     public static final String TRANSPORT_MODE_TRANSIT_MAX_WALKING_TIME_FROM_SOURCE      = "maxWalkingTimeFromSource";

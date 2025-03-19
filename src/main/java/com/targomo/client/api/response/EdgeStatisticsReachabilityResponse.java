@@ -14,8 +14,8 @@ import java.util.Map;
 @AllArgsConstructor @NoArgsConstructor
 public class EdgeStatisticsReachabilityResponse {
 
-    // map from location id to a map of statistic id to statistic value
-    HashMap<String, Map<Integer, Double>> data;
+    // map from location id to a map of statistic id (or aggregations id) to statistic value
+    HashMap<String, Map<String, Double>> data;
 
     // response code
     String code;

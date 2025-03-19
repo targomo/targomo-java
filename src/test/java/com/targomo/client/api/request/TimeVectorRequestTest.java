@@ -3,6 +3,7 @@ package com.targomo.client.api.request;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
+import com.targomo.client.api.enums.Weekday;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.response.ResponseCode;
@@ -115,6 +116,7 @@ public class TimeVectorRequestTest extends RequestTest {
         options.setMaxEdgeWeight(720);
         options.setTravelType(TravelType.TRANSIT);
         options.setDate(20180815);
+        options.setWeekday(Weekday.TUESDAY);
         options.setTime(40000);
         options.setFrame(14400);
         options.setMaxWalkingTimeFromSource(500);

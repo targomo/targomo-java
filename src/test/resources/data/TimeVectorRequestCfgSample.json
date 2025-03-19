@@ -12,7 +12,8 @@
             "date": 20180815,
             "time": 40000,
             "earliestArrival": true,
-            "duration": 14400
+            "duration": 14400,
+            "weekday": "TUESDAY"
           },
           "downhill":0,
           "recommendations":0,
@@ -34,7 +35,8 @@
             "date": 20180815,
             "time": 40000,
             "earliestArrival": true,
-            "duration": 14400
+            "duration": 14400,
+            "weekday": "TUESDAY"
           },
           "downhill":0,
           "recommendations":0,

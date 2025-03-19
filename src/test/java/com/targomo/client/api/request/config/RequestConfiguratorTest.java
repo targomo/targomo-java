@@ -46,6 +46,7 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(720);
             options.setTravelType(TravelType.TRANSIT);
             options.setDate(20180815);
+            options.setWeekday(Weekday.TUESDAY);
             options.setTime(40000);
             options.setFrame(14400);
             options.setEarliestArrival(true);
@@ -96,6 +97,7 @@ public class RequestConfiguratorTest {
             options.setMaxEdgeWeight(720);
             options.setTravelType(TravelType.TRANSIT);
             options.setDate(20180815);
+            options.setWeekday(Weekday.TUESDAY);
             options.setTime(40000);
             options.setFrame(14400);
             options.setEarliestArrival(false);
@@ -223,6 +225,7 @@ public class RequestConfiguratorTest {
             options.setServiceKey("INSERT_YOUR_KEY_HERE");
             options.setServiceUrl("https://api.targomo.com/na_northeast/");
             options.setDate(20161020);
+            options.setWeekday(Weekday.TUESDAY);
             options.setTime(55852);
             options.setFrame(18000);
             options.setSrid(25833);
@@ -356,6 +359,47 @@ public class RequestConfiguratorTest {
 
         Assert.assertEquals(sampleObject.getString(Constants.SOURCE_ADDRESSES), actualObject.getString(Constants.SOURCE_ADDRESSES));
         Assert.assertEquals(sampleObject.getString(Constants.TARGET_ADDRESSES), actualObject.getString(Constants.TARGET_ADDRESSES));
+    }
+
+    @Test
+    public void testWeekday() throws TargomoClientException, JSONException, IOException {
+        TravelOptions to = new TravelOptions();
+        to.addSource(new DefaultSourceCoordinate("Source1",8.620987,47.384197));
+        to.setTravelType(TravelType.CAR);
+
+        // Run configurator && get object
+        String cfg = RequestConfigurator.getConfig(to);
+        JSONObject actualObject = new JSONObject(cfg);
+        assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
+                .isEqualTo("{\"car\":{\"walkSpeed\":5,\"rushHour\":false}}");
+
+        // Check that weekday is present, monday and on the same level as e.g. rushhour
+        to.setWeekday(Weekday.MONDAY);
+        cfg = RequestConfigurator.getConfig(to);
+        actualObject = new JSONObject(cfg);
+        assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
+                .isEqualTo("{\"car\":{\"walkSpeed\":5,\"rushHour\":false,\"weekday\":\"MONDAY\"}}");
+
+        to.setWeekday(null);
+        to.setTravelType(TravelType.TRANSIT);
+        cfg = RequestConfigurator.getConfig(to);
+        actualObject = new JSONObject(cfg);
+        assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
+                .isEqualTo("{\"transit\":{\"downhill\":0,\"recommendations\":0,\"uphill\":10,\"speed\":5,\"frame\":{\"earliestArrival\":false}}}");
+
+        // check that weekday is present, thursday and inside the transit frame like e.g. earliest arrival
+        to.setWeekday(Weekday.THURSDAY);
+        cfg = RequestConfigurator.getConfig(to);
+        actualObject = new JSONObject(cfg);
+        assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
+                .isEqualTo("{\"transit\":{\"downhill\":0,\"recommendations\":0,\"uphill\":10,\"speed\":5,\"frame\":{\"earliestArrival\":false,\"weekday\":\"THURSDAY\"}}}");
+
+        // If Date and weekday are both set, they will both be forwarded to the relevant service. This will cause the services to throw an error
+        to.setDate(20250512);
+        cfg = RequestConfigurator.getConfig(to);
+        actualObject = new JSONObject(cfg);
+        assertThat(actualObject.getJSONArray("sources").getJSONObject(0).get("tm").toString())
+                .isEqualTo("{\"transit\":{\"downhill\":0,\"recommendations\":0,\"uphill\":10,\"speed\":5,\"frame\":{\"date\":20250512,\"earliestArrival\":false,\"weekday\":\"THURSDAY\"}}}");
     }
 
     @Test
