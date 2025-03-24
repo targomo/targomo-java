@@ -22,6 +22,7 @@
       "tm": {
         "car": {
           "date":20161020,
+          "weekday": "TUESDAY",
           "time":55852,
           "rushHour":false,
           "walkSpeed":5,
