@@ -7,7 +7,7 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
-import com.targomo.client.api.pojo.EdgeStatisticsReachabilityInRadiusOptions;
+import com.targomo.client.api.pojo.EdgeStatisticsCrossingRadiusOptions;
 import com.targomo.client.api.response.EdgeStatisticsReachabilityResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,14 +23,14 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 
 @Slf4j
-public class EdgeStatisticsReachabilityInRadiusRequest {
+public class EdgeStatisticsCrossingRadiusRequest {
 
     private final Client client;
     private final MultivaluedMap<String, Object> headers;
 
     int edgeStatisticCollectionId;
 
-    EdgeStatisticsReachabilityInRadiusOptions requestOptions;
+    EdgeStatisticsCrossingRadiusOptions requestOptions;
 
     /**
      * Use a custom client implementation with specified options, method, and headers
@@ -39,20 +39,20 @@ public class EdgeStatisticsReachabilityInRadiusRequest {
      * @param requestOptions The options for the request
      * @param headers List of custom http headers to be used
      */
-    public EdgeStatisticsReachabilityInRadiusRequest(Client client, int edgeStatisticCollectionId,
-                                                     EdgeStatisticsReachabilityInRadiusOptions requestOptions,
-                                                     MultivaluedMap<String, Object> headers) {
+    public EdgeStatisticsCrossingRadiusRequest(Client client, int edgeStatisticCollectionId,
+                                               EdgeStatisticsCrossingRadiusOptions requestOptions,
+                                               MultivaluedMap<String, Object> headers) {
         this.client	= client;
         this.headers = headers;
         this.edgeStatisticCollectionId = edgeStatisticCollectionId;
         this.requestOptions = requestOptions;
     }
 
-    public EdgeStatisticsReachabilityInRadiusRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds,
-                                                     Map<String, List<Integer>> aggregateEdgeStatisticIds, EdgeStatisticAggregationType aggregationType,
-                                                     Integer radius, List<Integer> ignoreRoadClasses, TravelOptions routingOptions, boolean ignoreReachability,
-                                                     MultivaluedMap<String, Object> headers) {
-        this(client, edgeStatisticCollectionId, EdgeStatisticsReachabilityInRadiusOptions.builder()
+    public EdgeStatisticsCrossingRadiusRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds,
+                                               Map<String, List<Integer>> aggregateEdgeStatisticIds, EdgeStatisticAggregationType aggregationType,
+                                               Integer radius, List<Integer> ignoreRoadClasses, TravelOptions routingOptions, boolean ignoreReachability,
+                                               MultivaluedMap<String, Object> headers) {
+        this(client, edgeStatisticCollectionId, EdgeStatisticsCrossingRadiusOptions.builder()
                 .edgeStatisticIds(edgeStatisticIds)
                 .aggregateEdgeStatisticIds(aggregateEdgeStatisticIds)
                 .aggregationType(aggregationType)
@@ -67,7 +67,7 @@ public class EdgeStatisticsReachabilityInRadiusRequest {
      * Use a custom client implementation with specified options and default headers
      * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityInRadiusRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions routingOptions) {
+    public EdgeStatisticsCrossingRadiusRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions routingOptions) {
         this(client, edgeStatisticCollectionId, edgeStatisticIds, new HashMap<>(), EdgeStatisticAggregationType.SUM, radius, new ArrayList<>(), routingOptions, false, new MultivaluedHashMap<>());
     }
 
@@ -76,7 +76,7 @@ public class EdgeStatisticsReachabilityInRadiusRequest {
      * Default client uses {@link ClientBuilder}
      * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityInRadiusRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions travelOptions) {
+    public EdgeStatisticsCrossingRadiusRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions travelOptions) {
         this(ClientBuilder.newClient(), edgeStatisticCollectionId, edgeStatisticIds, radius, travelOptions);
     }
 

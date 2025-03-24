@@ -7,7 +7,7 @@ import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
-import com.targomo.client.api.pojo.EdgeStatisticsReachabilityInRadiusOptions;
+import com.targomo.client.api.pojo.EdgeStatisticsCrossingRadiusOptions;
 import com.targomo.client.api.pojo.EdgeStatisticsReachabilityRequestOptions;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +47,7 @@ public class TravelOptionsSerializerTest {
     }
 
     @Test
-    public void testEdgeStatisticsReachabilityInRadiusOptions() throws IOException {
+    public void testEdgeStatisticsCrossingRadiusOptions() throws IOException {
         TravelOptions options = new TravelOptions();
         options.setEdgeWeightType(EdgeWeightType.TIME);
         options.setMaxEdgeWeight(80);
@@ -59,7 +59,7 @@ public class TravelOptionsSerializerTest {
 
         HashMap<String, List<Integer>> aggregateIds = new HashMap<>();
         aggregateIds.put("abc", Arrays.asList(0, 1));
-        EdgeStatisticsReachabilityInRadiusOptions cfg = EdgeStatisticsReachabilityInRadiusOptions.builder()
+        EdgeStatisticsCrossingRadiusOptions cfg = EdgeStatisticsCrossingRadiusOptions.builder()
                 .edgeStatisticIds(new HashSet<>(Arrays.asList(0, 1)))
                 .aggregateEdgeStatisticIds(aggregateIds)
                 .aggregationType(EdgeStatisticAggregationType.SUM)
@@ -70,7 +70,7 @@ public class TravelOptionsSerializerTest {
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsReachabilityInRadiusRequest.json"));
+        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsCrossingRadiusRequest.json"));
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
     }
 

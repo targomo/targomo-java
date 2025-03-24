@@ -16,7 +16,7 @@ import java.util.*;
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractEdgeStatisticsReachabilityInRadiusOptions {
+public abstract class AbstractEdgeStatisticsCrossingRadiusOptions {
 
     Set<Integer> edgeStatisticIds = new HashSet<>();
 

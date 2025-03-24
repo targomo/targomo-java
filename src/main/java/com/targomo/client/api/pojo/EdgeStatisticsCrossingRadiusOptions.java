@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EdgeStatisticsReachabilityInRadiusOptions extends AbstractEdgeStatisticsReachabilityInRadiusOptions {
+public class EdgeStatisticsCrossingRadiusOptions extends AbstractEdgeStatisticsCrossingRadiusOptions {
 
     @JsonSerialize(using = TravelOptionsSerializer.class)
     private TravelOptions routingOptions;
