@@ -9,6 +9,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 
+/**
+ * Request options for EdgeStatisticsCrossingRadiusRequest.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -18,6 +21,7 @@ import lombok.experimental.SuperBuilder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EdgeStatisticsCrossingRadiusOptions extends AbstractEdgeStatisticsCrossingRadiusOptions {
 
+    // Travel options to use for routing if ignoreReachability is false
     @JsonSerialize(using = TravelOptionsSerializer.class)
     private TravelOptions routingOptions;
 }

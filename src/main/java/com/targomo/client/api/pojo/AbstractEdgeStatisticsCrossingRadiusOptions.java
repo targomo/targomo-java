@@ -23,12 +23,15 @@ public abstract class AbstractEdgeStatisticsCrossingRadiusOptions {
     // Map of aggregations id to a list of statistics ids to aggregate
     private Map<String, List<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
 
-    // Type of aggregation
+    // How the edge statistics in aggregateEdgeStatisticIds should be aggregated
     private EdgeStatisticAggregationType aggregationType = EdgeStatisticAggregationType.SUM;
 
+    // Radius in meters
     private Integer radius = 100;
 
+    // Road classes that will be ignored
     private List<Integer> ignoreRoadClasses = new ArrayList<>();
 
+    // If true no reachability will be calculated, otherwise a routing from the location will be performed and only reachable edges considered
     private boolean ignoreReachability = false;
 }

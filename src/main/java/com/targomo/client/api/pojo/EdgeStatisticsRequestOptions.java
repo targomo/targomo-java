@@ -33,6 +33,6 @@ public class EdgeStatisticsRequestOptions {
     private EdgeStatisticDirection direction = EdgeStatisticDirection.ANY;
     private List<Integer> ignoreRoadClasses = new ArrayList<>();
 
-    @JsonIgnoreProperties({"travelType", "properties", "travelTypes", "identifier"})
+    @JsonIgnoreProperties({"travelType", "properties", "travelTypes"})
     private List<DefaultTargetCoordinate> locations = new ArrayList<>();
 }

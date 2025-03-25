@@ -22,6 +22,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
+/**
+ * Using this request Edge Statistics for each location will be calculated by summing up the statistics values of all edges crossing a circle (defined by a radius) around the location.
+ * The values for the direction entering the circle and the values for the direction exiting will be summed up separately and the average of the both returned.
+ */
 @Slf4j
 public class EdgeStatisticsCrossingRadiusRequest {
 
@@ -65,7 +69,6 @@ public class EdgeStatisticsCrossingRadiusRequest {
 
     /**
      * Use a custom client implementation with specified options and default headers
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
     public EdgeStatisticsCrossingRadiusRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions routingOptions) {
         this(client, edgeStatisticCollectionId, edgeStatisticIds, new HashMap<>(), EdgeStatisticAggregationType.SUM, radius, new ArrayList<>(), routingOptions, false, new MultivaluedHashMap<>());
@@ -74,7 +77,6 @@ public class EdgeStatisticsCrossingRadiusRequest {
     /**
      * Use default client implementation with specified options and default headers
      * Default client uses {@link ClientBuilder}
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
      */
     public EdgeStatisticsCrossingRadiusRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, Integer radius, TravelOptions travelOptions) {
         this(ClientBuilder.newClient(), edgeStatisticCollectionId, edgeStatisticIds, radius, travelOptions);
