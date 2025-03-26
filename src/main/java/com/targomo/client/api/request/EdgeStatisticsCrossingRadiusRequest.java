@@ -25,6 +25,7 @@ import java.util.*;
 /**
  * Using this request Edge Statistics for each location will be calculated by summing up the statistics values of all edges crossing a circle (defined by a radius) around the location.
  * The values for the direction entering the circle and the values for the direction exiting will be summed up separately and the average of the both returned.
+ * The edges considered are limited to only reachable edges by default, which can be disabled.
  */
 @Slf4j
 public class EdgeStatisticsCrossingRadiusRequest {
@@ -89,10 +90,10 @@ public class EdgeStatisticsCrossingRadiusRequest {
      */
     public EdgeStatisticsReachabilityResponse get() throws TargomoClientException, JsonProcessingException {
 
-        String path = StringUtils.join(Arrays.asList(String.valueOf(this.edgeStatisticCollectionId), "reachabilityInRadius"), "/");
+        String path = StringUtils.join(Arrays.asList(String.valueOf(this.edgeStatisticCollectionId), "locations", "crossing-radius"), "/");
         WebTarget target = client.target(requestOptions.getRoutingOptions().getServiceUrl()).path(path).queryParam("key", requestOptions.getRoutingOptions().getServiceKey());
 
-        log.debug(String.format("Executing edge statistics reachability in radius request (%s) to URI: '%s'", path, target.getUri()));
+        log.debug(String.format("Executing edge statistics crossing radius request (%s) to URI: '%s'", path, target.getUri()));
 
         // Execute POST request
         String requestBody = new ObjectMapper().writeValueAsString(requestOptions);
@@ -119,7 +120,7 @@ public class EdgeStatisticsCrossingRadiusRequest {
                 return new ObjectMapper().readValue(responseStr, typeRef);
             }
             catch (JsonProcessingException e){
-                throw new TargomoClientRuntimeException("Couldn't parse Edge Statistics reachability response", e);
+                throw new TargomoClientRuntimeException("Couldn't parse Edge Statistics crossing radius response", e);
             }
         }
         else {
