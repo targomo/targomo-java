@@ -18,20 +18,20 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractEdgeStatisticsCrossingRadiusOptions {
 
-    Set<Integer> edgeStatisticIds = new HashSet<>();
+    Set<Integer> edgeStatisticIds;
 
     // Map of aggregations id to a list of statistics ids to aggregate
-    private Map<String, List<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
+    private Map<String, List<Integer>> aggregateEdgeStatisticIds;
 
     // How the edge statistics in aggregateEdgeStatisticIds should be aggregated
-    private EdgeStatisticAggregationType aggregationType = EdgeStatisticAggregationType.SUM;
+    private EdgeStatisticAggregationType aggregationType;
 
     // Radius in meters
-    private Integer radius = 100;
+    private Integer radius;
 
     // Road classes that will be ignored
-    private List<Integer> ignoreRoadClasses = new ArrayList<>();
+    private List<Integer> ignoreRoadClasses;
 
     // If true no reachability will be calculated, otherwise a routing from the location will be performed and only reachable edges considered
-    private boolean ignoreReachability = false;
+    private boolean ignoreReachability;
 }
