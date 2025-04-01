@@ -7,6 +7,7 @@ import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.geo.Coordinate;
 import com.targomo.client.api.geo.DefaultSourceCoordinate;
+import com.targomo.client.api.pojo.EdgeStatisticsCrossingRadiusOptions;
 import com.targomo.client.api.pojo.EdgeStatisticsReachabilityRequestOptions;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,4 +45,33 @@ public class TravelOptionsSerializerTest {
         String expectedJson2 = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/EdgeStatisticsReachabilityRequest2.json"));
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson2), StringUtils.deleteWhitespace(requestBody2));
     }
+
+    @Test
+    public void testEdgeStatisticsCrossingRadiusOptions() throws IOException {
+        TravelOptions options = new TravelOptions();
+        options.setEdgeWeightType(EdgeWeightType.TIME);
+        options.setMaxEdgeWeight(80);
+        options.setTravelType(TravelType.CAR);
+        Coordinate source = new DefaultSourceCoordinate("p1", 13.42883045, 52.5494892);
+        options.addSource(source);
+        options.setServiceKey("KEY");
+        options.setServiceUrl("https://api.targomo.com/edge-statistics/");
+
+        HashMap<String, List<Integer>> aggregateIds = new HashMap<>();
+        aggregateIds.put("abc", Arrays.asList(0, 1));
+        EdgeStatisticsCrossingRadiusOptions cfg = EdgeStatisticsCrossingRadiusOptions.builder()
+                .edgeStatisticIds(new HashSet<>(Arrays.asList(0, 1)))
+                .aggregateEdgeStatisticIds(aggregateIds)
+                .aggregationType(EdgeStatisticAggregationType.SUM)
+                .radius(50)
+                .ignoreRoadClasses(Arrays.asList(11, 13))
+                .routingOptions(options)
+                .build();
+        String requestBody = new ObjectMapper().writeValueAsString(cfg);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsCrossingRadiusRequest.json"));
+        Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
+    }
+
 }

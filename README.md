@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.42.0
+* Add EdgeStatisticsCrossingRadiusRequest
 
 ### 0.41.0
 * Add parameters to aggregate edge statistics

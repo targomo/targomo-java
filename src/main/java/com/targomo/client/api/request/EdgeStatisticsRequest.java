@@ -1,5 +1,6 @@
 package com.targomo.client.api.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -84,7 +85,7 @@ public class EdgeStatisticsRequest {
 		log.debug(String.format("Executing edge statistics request (%s) to URI: '%s'", path, target.getUri()));
 
 		// Execute POST request
-		final Entity<String> entity = Entity.entity(new ObjectMapper().writeValueAsString(requestOptions), MediaType.APPLICATION_JSON_TYPE);
+		final Entity<String> entity = Entity.entity(new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writeValueAsString(requestOptions), MediaType.APPLICATION_JSON_TYPE);
 		Response response = target.request().headers(headers).post(entity);
 		return parseResponse(response);
 	}
