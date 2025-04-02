@@ -226,7 +226,6 @@ public class Constants {
     public static final String CRITERION_TYPE_POI_GRAVITATION_SUM = "poiGravitationSum";
     public static final String CRITERION_TYPE_EDGE_STATISTICS = "edgeStatistics";
     public static final String CRITERION_TYPE_EDGE_STATISTICS_REACHABILITY = "edgeStatisticsReachability";
-    public static final String CRITERION_TYPE_EDGE_STATISTICS_CROSSING_RADIUS = "edgeStatisticsCrossingRadius";
     public static final String CRITERION_TYPE_MATH_AGGREGATION = "mathAggregation";
     public static final String CRITERION_TYPE_STAYPOINT_COUNT = "staypointCount";
     public static final String CRITERION_TYPE_TRANSIT_STOPS_SUM = "transitStopsSum";

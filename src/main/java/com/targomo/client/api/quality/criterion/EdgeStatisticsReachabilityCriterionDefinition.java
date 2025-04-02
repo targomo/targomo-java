@@ -30,4 +30,8 @@ public class EdgeStatisticsReachabilityCriterionDefinition extends RoutingBasedC
     private final List<Integer> edgeStatisticIds;
     private final Integer edgeStatisticId;
 
+    // If true, reachability will be calculated even when using fly mode and only reachable edges considered
+    private final boolean calculateReachabilityInFlyMode;
+
+    private final List<Integer> excludeEdgeClassesFromRouting;
 }
