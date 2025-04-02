@@ -3,6 +3,7 @@
         0,
         1
     ],
+    "calculateReachabilityInFlyMode": false,
     "routingOptions": {
         "polygon": {
             "pointReduction": true,

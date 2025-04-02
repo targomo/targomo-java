@@ -7,9 +7,8 @@
         "abc": [0, 1]
     },
     "aggregationType": "sum",
-    "radius": 50,
     "ignoreRoadClasses": [11, 13],
-    "ignoreReachability": false,
+    "calculateReachabilityInFlyMode": false,
     "routingOptions": {
         "polygon": {
             "pointReduction": true,
@@ -27,9 +26,8 @@
             {
                 "lng": 13.42883045,
                 "tm": {
-                    "car": {
-                        "walkSpeed": 5,
-                        "rushHour": false
+                    "fly": {
+                        "walkSpeed": 5
                     }
                 },
                 "id": "p1",
