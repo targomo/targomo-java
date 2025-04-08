@@ -35,6 +35,6 @@ public class EdgeStatisticsReachabilityCriterionDefinition extends RoutingBasedC
     private final boolean calculateReachabilityInFlyMode;
 
     // These edges will not be routed.
-    // Tis different from the other excludeEdgeClasses parameter, which will route the edges but exclude the statistics on them.
+    // This is different from the other excludeEdgeClasses parameter, which will route the edges but exclude the statistics on them.
     private final List<Integer> excludeEdgeClassesFromRouting;
 }
