@@ -11,6 +11,7 @@
     ]
   },
   "aggregationType": "sum",
+  "calculateReachabilityInFlyMode": false,
   "routingOptions": {
     "polygon": {
       "pointReduction": true,

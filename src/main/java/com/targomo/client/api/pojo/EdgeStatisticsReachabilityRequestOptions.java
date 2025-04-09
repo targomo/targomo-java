@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Parameters for an edge statistics location request.
+ * Parameters for an edge statistics reachability request.
  */
 @Getter @Setter
 @EqualsAndHashCode
@@ -29,6 +29,12 @@ public class EdgeStatisticsReachabilityRequestOptions {
 
     // Type of aggregation
     private EdgeStatisticAggregationType aggregationType;
+
+    // Road classes that will be ignored
+    private List<Integer> ignoreRoadClasses;
+
+    // If true, reachability will be calculated even when using fly mode and only reachable edges considered
+    private boolean calculateReachabilityInFlyMode;
 
     @JsonSerialize(using = TravelOptionsSerializer.class)
     TravelOptions routingOptions;
