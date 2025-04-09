@@ -51,6 +51,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.43.0
+* Refactor CurlUtil
+
 ### 0.42.0
 * Support fly mode in edge statistics reachability request
 

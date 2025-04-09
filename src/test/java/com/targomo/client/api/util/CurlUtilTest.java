@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class CurlUtilTest {
 
 	@Test
-	public void buildCurlRequest() throws Exception {
+	public void buildCurlRequest() {
 
 		final String s1 = CurlUtil.buildCurlRequest("URL", Arrays.asList("header"), "body");
 		assertEquals("curl --location -X POST 'URL' \\\n" +
@@ -24,12 +24,16 @@ public class CurlUtilTest {
 				"--insecure --compressed", s2);
 
 		final String s3 = CurlUtil.buildCurlRequest("URL", new ArrayList<>(), "");
-		assertEquals("curl 'URL'", s3);
+		assertEquals("curl --location -X GET 'URL' \\\n" +
+				"--insecure --compressed", s3);
 
 		final String s4 = CurlUtil.buildCurlRequest("URL", Arrays.asList("header"), "");
-		assertEquals("curl 'URL' -H 'header'", s4);
+		assertEquals("curl --location -X GET 'URL' \\\n" +
+				"-H 'header' \\\n" +
+				"--insecure --compressed", s4);
 
 		final String s5 = CurlUtil.buildCurlRequest("URL", null, null);
-		assertEquals("curl 'URL'", s5);
+		assertEquals("curl --location -X GET 'URL' \\\n" +
+				"--insecure --compressed", s5);
 	}
 }

@@ -1,5 +1,6 @@
 package com.targomo.client.api.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -49,8 +50,10 @@ public class CurlUtil {
             sb.append("?").append(queryString);
         }
         sb.append("' \\\n");
-        for(String header : headers) {
-            sb.append("-H '").append(header).append("' \\\n");
+        if(!CollectionUtils.isEmpty(headers)) {
+            for(String header : headers) {
+                sb.append("-H '").append(header).append("' \\\n");
+            }
         }
         if(!StringUtils.isEmpty(body)) {
             sb.append("--data-raw '").append(body).append("' \\\n");
