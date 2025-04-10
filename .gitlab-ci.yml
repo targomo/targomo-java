@@ -40,6 +40,23 @@ sonarqube:
     - /^feature.*$/
     - develop
 
+deploy_maven_test:
+  stage: deploy
+  script:
+    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
+    - cp targomo-config/mvn/settings.xml settings.xml
+    - mvn -DperformRelease=true --settings settings.xml javadoc:javadoc
+
+  artifacts:
+    name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
+    paths:
+      - target/*.jar
+  when: manual
+  only:
+    - /^feature.*$/
+    - /^release.*$/
+    - develop
+
 deploy_maven:
   stage: deploy
   script:
@@ -57,14 +74,13 @@ deploy_maven:
     name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
     paths:
       - target/*.jar
-  when: manual
   only:
     - master
     - /^hotfix.*$/
   tags:
     - k8sdev
 
-deploy_nexus:
+.deploy_nexus: &deploy_nexus
   stage: deploy
   script:
     - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
@@ -80,22 +96,18 @@ deploy_nexus:
     - /^release.*$/
     - develop
 
-deploy_maven_test:
-  stage: deploy
-  script:
-    - git clone "$BASE_URL/api-server/gitlab-ci-scripts.git" targomo-config
-    - cp targomo-config/mvn/settings.xml settings.xml
-    - mvn -DperformRelease=true --settings settings.xml javadoc:javadoc
-
-  artifacts:
-    name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
-    paths:
-      - target/*.jar
+deploy_nexus_manual:
+  <<: *deploy_nexus
   when: manual
   only:
     - /^feature.*$/
     - /^release.*$/
     - develop
+
+deploy_nexus_master:
+  <<: *deploy_nexus
+  only:
+    - master
 
 # ----------------------------------------------------------------------------------------------------
 

@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.43.0
+* Update pipeline to auto deploy to nexus on master
 
 ### 0.42.0
 * Support fly mode in edge statistics reachability request
