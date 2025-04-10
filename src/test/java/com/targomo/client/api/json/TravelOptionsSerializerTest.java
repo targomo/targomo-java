@@ -29,7 +29,7 @@ public class TravelOptionsSerializerTest {
         options.setServiceKey("KEY");
         options.setServiceUrl("https://api.targomo.com/edge-statistics/");
 
-        EdgeStatisticsReachabilityRequestOptions cfg = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), new HashMap<>(), null, options);
+        EdgeStatisticsReachabilityRequestOptions cfg = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), new HashMap<>(), null, null, false, options);
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
 
         ClassLoader classLoader = getClass().getClassLoader();
@@ -38,10 +38,38 @@ public class TravelOptionsSerializerTest {
 
         Map<String, List<Integer>> aggStats = new HashMap<>();
         aggStats.put("asdf", Arrays.asList(0, 1, 2));
-        EdgeStatisticsReachabilityRequestOptions cfg2 = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), aggStats, EdgeStatisticAggregationType.SUM, options);
+        EdgeStatisticsReachabilityRequestOptions cfg2 = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), aggStats, EdgeStatisticAggregationType.SUM, new ArrayList<>(), false, options);
         String requestBody2 = new ObjectMapper().writeValueAsString(cfg2);
 
         String expectedJson2 = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/EdgeStatisticsReachabilityRequest2.json"));
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson2), StringUtils.deleteWhitespace(requestBody2));
     }
+
+    @Test
+    public void testEdgeStatisticsCrossingRadiusOptions() throws IOException {
+        TravelOptions options = new TravelOptions();
+        options.setEdgeWeightType(EdgeWeightType.TIME);
+        options.setMaxEdgeWeight(80);
+        options.setTravelType(TravelType.FLY);
+        Coordinate source = new DefaultSourceCoordinate("p1", 13.42883045, 52.5494892);
+        options.addSource(source);
+        options.setServiceKey("KEY");
+        options.setServiceUrl("https://api.targomo.com/edge-statistics/");
+
+        HashMap<String, List<Integer>> aggregateIds = new HashMap<>();
+        aggregateIds.put("abc", Arrays.asList(0, 1));
+        EdgeStatisticsReachabilityRequestOptions cfg = new EdgeStatisticsReachabilityRequestOptions(
+                new HashSet<>(Arrays.asList(0, 1)),
+                aggregateIds,
+                EdgeStatisticAggregationType.SUM,
+                Arrays.asList(11, 13),
+                false,
+                options);
+        String requestBody = new ObjectMapper().writeValueAsString(cfg);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsCrossingRadiusRequest.json"));
+        Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
+    }
+
 }

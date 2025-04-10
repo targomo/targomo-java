@@ -1,22 +1,13 @@
 package com.targomo.client.api.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
-import com.targomo.client.api.json.TravelOptionsSerializer;
 import com.targomo.client.api.pojo.EdgeStatisticsReachabilityRequestOptions;
 import com.targomo.client.api.response.EdgeStatisticsReachabilityResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -62,25 +53,26 @@ public class EdgeStatisticsReachabilityRequest {
     }
 
     public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds,
+                                             List<Integer> ignoreRoadClasses, boolean calculateReachabilityInFlyMode,
                                              TravelOptions travelOptions, MultivaluedMap<String, Object> headers) {
-        this(client, edgeStatisticCollectionId, new EdgeStatisticsReachabilityRequestOptions(edgeStatisticIds, new HashMap<>(), null, travelOptions), headers);
+        this(client, edgeStatisticCollectionId, new EdgeStatisticsReachabilityRequestOptions(edgeStatisticIds, new HashMap<>(), null, ignoreRoadClasses, calculateReachabilityInFlyMode, travelOptions), headers);
     }
 
     /**
      * Use a custom client implementation with specified options and default headers
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
+     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, List, boolean, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, TravelOptions travelOptions) {
-        this(client, edgeStatisticCollectionId, edgeStatisticIds, travelOptions, new MultivaluedHashMap<>());
+    public EdgeStatisticsReachabilityRequest(Client client, int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, List<Integer> ignoreRoadClasses, boolean calculateReachabilityInFlyMode, TravelOptions travelOptions) {
+        this(client, edgeStatisticCollectionId, edgeStatisticIds, ignoreRoadClasses, calculateReachabilityInFlyMode, travelOptions, new MultivaluedHashMap<>());
     }
 
     /**
      * Use default client implementation with specified options and default headers
      * Default client uses {@link ClientBuilder}
-     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, TravelOptions, MultivaluedMap)
+     * @see EdgeStatisticsReachabilityRequest#EdgeStatisticsReachabilityRequest(Client, int, Set, List, boolean, TravelOptions, MultivaluedMap)
      */
-    public EdgeStatisticsReachabilityRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, TravelOptions travelOptions) {
-        this(ClientBuilder.newClient(), edgeStatisticCollectionId, edgeStatisticIds, travelOptions);
+    public EdgeStatisticsReachabilityRequest(int edgeStatisticCollectionId, Set<Integer> edgeStatisticIds, List<Integer> ignoreRoadClasses, boolean calculateReachabilityInFlyMode, TravelOptions travelOptions) {
+        this(ClientBuilder.newClient(), edgeStatisticCollectionId, edgeStatisticIds, ignoreRoadClasses, calculateReachabilityInFlyMode, travelOptions);
     }
 
     /**

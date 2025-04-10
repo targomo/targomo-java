@@ -3,6 +3,11 @@
         0,
         1
     ],
+    "aggregateEdgeStatisticIds": {
+        "abc": [0, 1]
+    },
+    "aggregationType": "sum",
+    "ignoreRoadClasses": [11, 13],
     "calculateReachabilityInFlyMode": false,
     "routingOptions": {
         "polygon": {
@@ -21,9 +26,8 @@
             {
                 "lng": 13.42883045,
                 "tm": {
-                    "car": {
-                        "walkSpeed": 5,
-                        "rushHour": false
+                    "fly": {
+                        "walkSpeed": 5
                     }
                 },
                 "id": "p1",

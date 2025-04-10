@@ -115,7 +115,6 @@ public class TimeVectorRequestTest extends RequestTest {
         options.setEdgeWeightType(EdgeWeightType.TIME);
         options.setMaxEdgeWeight(720);
         options.setTravelType(TravelType.TRANSIT);
-        options.setDate(20180815);
         options.setWeekday(Weekday.TUESDAY);
         options.setTime(40000);
         options.setFrame(14400);
