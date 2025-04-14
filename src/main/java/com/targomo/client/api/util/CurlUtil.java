@@ -16,22 +16,6 @@ public class CurlUtil {
         String method = body == null || body.isEmpty() ? "GET" : "POST";
 
         return buildCurlRequest(method, url, null, headers, body);
-//        List<String> updatedHeader = new ArrayList<>();
-//
-//        for ( int i = 0 ; headers != null && i < headers.size(); i++)
-//            updatedHeader.add(i, String.format("-H '%s'", headers.get(i)));
-//
-//        // this is a GET request
-//        if ( body == null || body.isEmpty() ) {
-//            return String.format("curl '%s'%s", url, updatedHeader == null || updatedHeader.isEmpty() ? "" :
-//                    " " + StringUtils.join(updatedHeader, " "));
-//        }
-//        else {
-//            return String.format("curl -X POST '%s'%s -d '%s' --insecure --compressed",
-//                    url,
-//                    updatedHeader == null || updatedHeader.isEmpty() ? "" :
-//                        " " + StringUtils.join(updatedHeader, " "), body);
-//        }
     }
 
     /**
