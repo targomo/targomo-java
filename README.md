@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.42.0-SNAPSHOT</version>
+    <version>0.43.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -53,6 +53,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.43.0
 * Refactor CurlUtil
+
+### 0.43.0
+* Update pipeline to auto deploy to nexus on master
 
 ### 0.42.0
 * Support fly mode in edge statistics reachability request
