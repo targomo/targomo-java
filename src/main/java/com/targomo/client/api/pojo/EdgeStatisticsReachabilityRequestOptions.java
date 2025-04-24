@@ -8,9 +8,7 @@ import com.targomo.client.api.enums.EdgeStatisticAggregationType;
 import com.targomo.client.api.json.TravelOptionsSerializer;
 import lombok.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Parameters for an edge statistics reachability request.
@@ -22,16 +20,16 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EdgeStatisticsReachabilityRequestOptions {
 
-    Set<Integer> edgeStatisticIds;
+    Set<Integer> edgeStatisticIds = new HashSet<>();
 
     // Map of aggregations id to a list of statistics ids to aggregate
-    private Map<String, List<Integer>> aggregateEdgeStatisticIds;
+    private Map<String, List<Integer>> aggregateEdgeStatisticIds = new HashMap<>();
 
     // Type of aggregation
-    private EdgeStatisticAggregationType aggregationType;
+    private EdgeStatisticAggregationType aggregationType = EdgeStatisticAggregationType.SUM;
 
     // Road classes that will be ignored
-    private List<Integer> ignoreRoadClasses;
+    private List<Integer> ignoreRoadClasses = new ArrayList<>();
 
     // If true, reachability will be calculated even when using fly mode and only reachable edges considered
     private boolean calculateReachabilityInFlyMode;

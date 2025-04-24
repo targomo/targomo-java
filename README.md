@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.43.0
 * Update pipeline to auto deploy to nexus on master
 * Refactor CurlUtil
+* Add default values to edge statistics reachability request
 
 ### 0.42.0
 * Support fly mode in edge statistics reachability request
