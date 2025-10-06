@@ -27,6 +27,7 @@ public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCrite
     private final List<Short> referenceStatisticsIds;
 
     private final Double filterStatsValuesByPercentile;
+    private final StatisticIdsAggregationType statisticIdsAggregation;
 
     private final Boolean cellsCount;
     @Setter
