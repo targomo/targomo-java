@@ -77,8 +77,10 @@ deploy_maven:
   only:
     - master
     - /^hotfix.*$/
+    - /^feature.*$/
   tags:
     - k8sdev
+  when: manual
 
 .deploy_nexus: &deploy_nexus
   stage: deploy
