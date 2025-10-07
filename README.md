@@ -55,6 +55,7 @@ nexus and to the maven repo (last is only possibly from master).
 * Update pipeline to auto deploy to nexus on master
 * Refactor CurlUtil
 * Add `statisticIdsAggregation` parameter to `statisticsMax` criterion
+* Migrate to the new central maven repository
 
 ### 0.42.0
 * Support fly mode in edge statistics reachability request

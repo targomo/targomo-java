@@ -22,7 +22,7 @@ public class CurlUtil {
      * Build a curl request. Only checks for body if the method is 'POST'.
      * @param method The method of the request
      * @param url The base url of both the host and endpoint
-     * @param queryString All query parameters as a string joined using '&'
+     * @param queryString All query parameters as a string joined using '&amp;'
      * @param headers A list of strings of request headers in the format 'Key: Value'
      * @param body The request body. If there is no body should be an empty string
      * @return A full curl request
