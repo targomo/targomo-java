@@ -4,7 +4,7 @@
 
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.43.0-SNAPSHOT</version>
+    <version>0.44.0-SNAPSHOT</version>
     <name>Targomo Java Client Library</name>
     <description>Java client library for easy usage of Targomo web services.</description>
     <url>https://github.com/targomo/targomo-java</url>
@@ -339,14 +339,14 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <serverId>central</serverId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
                             <stagingProgressTimeoutMinutes>120</stagingProgressTimeoutMinutes>
                         </configuration>
                     </plugin>
