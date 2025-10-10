@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.44.0
-
+* Support `virtualMaxEdgeWeight` in statistics criteria
 
 ### 0.43.0
 * Update pipeline to auto deploy to nexus on master
