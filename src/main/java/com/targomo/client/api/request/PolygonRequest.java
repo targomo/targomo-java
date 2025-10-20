@@ -180,7 +180,7 @@ public class PolygonRequest {
 				if (!StringUtils.isEmpty(message)) {
 					msg += ": " + message;
 				}
-				throw new TargomoClientException(String.format("Status: %s: %s", response.getStatus(), message), response.getStatus());
+				throw new TargomoClientException(String.format("Status: %s: %s (%s)", response.getStatus(), msg, responseCode), response.getStatus());
 			}
 			return new PolygonResponse(travelOptions, result, responseCode,
 					JsonUtil.getLong(result, "requestTime"), roundTripTimeMillis, parseTime);
