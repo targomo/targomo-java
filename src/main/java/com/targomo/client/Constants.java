@@ -101,6 +101,7 @@ public class Constants {
     public static final String MULTIGRAPH_DOMAIN_CLIP_GEOMETRY                          = "clipGeometry";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_EDGE                          = "edge";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NODE                          = "node";
+    public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NONE                          = "none";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_STATISTIC_GEOMETRY            = "statistic_geometry";
     public static final String MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE                  = "edgeAggregationType";
     public static final String KEY_MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE_MINIMUM      = "min";
