@@ -95,9 +95,6 @@ public class StatisticTravelOptions extends TravelOptions {
     private Boolean multiGraphIgnoreRoutingErrorMessages = false;
 
     @Transient
-    private boolean useStatisticTargets = false;
-
-    @Transient
     private String customGeometryCollectionId;
 
     @Transient
@@ -111,7 +108,6 @@ public class StatisticTravelOptions extends TravelOptions {
         StatisticTravelOptions that = (StatisticTravelOptions) o;
 
         return super.equals(o) &&
-                Objects.equals(useStatisticTargets, that.useStatisticTargets) &&
                 Objects.equals(getClosestSources, that.getClosestSources) &&
                 Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
                 Objects.equals(inactiveSources, that.inactiveSources) &&
@@ -140,7 +136,7 @@ public class StatisticTravelOptions extends TravelOptions {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses,
-                useStatisticTargets, getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
+                getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
                 multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
@@ -191,8 +187,6 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(routingAggregationType);
         builder.append("\n\tmultiGraphIgnoreRoutingErrorMessages: ");
         builder.append(multiGraphIgnoreRoutingErrorMessages);
-        builder.append("\n\tuseStatisticTargets: ");
-        builder.append(useStatisticTargets);
         builder.append("\n\tvaluesGeometryAggregation: ");
         builder.append(valuesGeometryAggregation);
         builder.append("\n\tfilterStatsValuesByPercentile: ");

@@ -21,6 +21,7 @@ public class StatisticsReachabilityCriterionDefinition extends RoutingBasedCrite
     
     private final Integer statisticGroupId;
     private final Integer statisticCollectionId;
+    private final Integer virtualMaxEdgeWeight;
 
     @NotEmpty
     private final List<Short> statisticsIds;
