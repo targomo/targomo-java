@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.44.0
 * Support `virtualMaxEdgeWeight` in statistics criteria
 * Add response code to the error message when parsing polygon response
+* Remove `useStatisticTargets` parameter from `StatisticTravelOptions`
 
 ### 0.43.0
 * Update pipeline to auto deploy to nexus on master
