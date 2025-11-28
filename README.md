@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.44.0-SNAPSHOT</version>
+    <version>0.45.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,10 +51,13 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
+### 0.45.0
+* Add new multigraph domain type, `NONE`
+
 ### 0.44.0
 * Support `virtualMaxEdgeWeight` in statistics criteria
 * Add response code to the error message when parsing polygon response
-* Add new multigraph domain type, `NONE`
+* Remove `useStatisticTargets` parameter from `StatisticTravelOptions`
 
 ### 0.43.0
 * Update pipeline to auto deploy to nexus on master
