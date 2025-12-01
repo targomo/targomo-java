@@ -14,6 +14,7 @@ public enum MultiGraphDomainType {
 
     NODE                (Constants.KEY_MULTIGRAPH_DOMAIN_TYPE_NODE, false),
     EDGE                (Constants.KEY_MULTIGRAPH_DOMAIN_TYPE_EDGE, false),
+    NONE                (Constants.KEY_MULTIGRAPH_DOMAIN_TYPE_NONE, false),
     STATISTIC_GEOMETRY  (Constants.KEY_MULTIGRAPH_DOMAIN_TYPE_STATISTIC_GEOMETRY, true);
 
     private final String key;

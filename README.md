@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.45.0
-
+* Add new multigraph domain type, `NONE`
 
 ### 0.44.0
 * Support `virtualMaxEdgeWeight` in statistics criteria
