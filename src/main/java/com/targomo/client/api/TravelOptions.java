@@ -89,6 +89,9 @@ public class TravelOptions implements Serializable {
     @Column(name = "walk_downhill")
     private double walkDownhill      = 0.0;
 
+    @Column(name = "snapping_speed")
+    private Double snappingSpeed;
+
     @Column(name = "rush_hour")
     private Boolean rushHour         = false;
 
