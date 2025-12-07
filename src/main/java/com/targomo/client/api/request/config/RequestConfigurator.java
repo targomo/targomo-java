@@ -709,7 +709,7 @@ public final class RequestConfigurator {
         if (travelOptions.getMaxSnapDistance() != null)
             travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
         if(travelOptions.getSnappingSpeed() != null)
-            travelMode.put(TRAVEL_MODE_SNAPPING_SPEED, travelOptions.getSnappingSpeed());
+            travelMode.put(SNAPPING_SPEED, travelOptions.getSnappingSpeed());
 
         return travelMode;
     }
