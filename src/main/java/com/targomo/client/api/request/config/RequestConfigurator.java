@@ -289,6 +289,9 @@ public final class RequestConfigurator {
         if ( travelOptions.getQuadrantSegments() != null )
             polygon.put(QUADRANT_SEGMENTS, travelOptions.getQuadrantSegments());
 
+        if ( travelOptions.getFlyCircleDetailLevel() != null )
+            polygon.put(FLY_CIRCLE_DETAIL_LEVEL, travelOptions.getFlyCircleDetailLevel());
+
         if ( travelOptions.getPolygonSerializerType() != null )
             polygon.put(SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 

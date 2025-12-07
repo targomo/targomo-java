@@ -75,6 +75,7 @@ public class Constants {
     public static final String BUFFER                                                   = "buffer";
     public static final String SIMPLIFY                                                 = "simplify";
     public static final String QUADRANT_SEGMENTS                                        = "quadrantSegments";
+    public static final String FLY_CIRCLE_DETAIL_LEVEL                                  = "flyCircleDetailLevel";
     public static final String REVERSE                                                  = "reverse";
     public static final String Y                                                        = "y";
     public static final String X                                                        = "x";
