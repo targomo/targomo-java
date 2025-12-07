@@ -53,6 +53,8 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.45.0
 * Add new multigraph domain type, `NONE`
+* Support `flyCircleDetailLevel` in Polygon request
+* Support `snappingSpeed` travel type option
 
 ### 0.44.0
 * Support `virtualMaxEdgeWeight` in statistics criteria

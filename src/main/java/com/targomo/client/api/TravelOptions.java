@@ -149,6 +149,7 @@ public class TravelOptions implements Serializable {
     @Transient private Double buffer                                = null;
     @Transient private Double simplify                              = null;
     @Transient private Integer quadrantSegments                     = null;
+    @Transient private Integer flyCircleDetailLevel                 = null;
     @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
     @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
     @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
