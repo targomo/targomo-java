@@ -705,7 +705,7 @@ public final class RequestConfigurator {
             travelMode.put(INCLUDE_SNAP_DISTANCE_FOR_TARGETS, travelOptions.getIncludeSnapDistanceForTargets());
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
-        if (travelOptions.getSnapRadius() != null) // todo: check if that's right ?
+        if (travelOptions.getSnapRadius() != null)
             travelMode.put(SNAP_RADIUS, travelOptions.getSnapRadius());
         if (travelOptions.getExcludeEdgeClassesFromSnapping() != null)
             travelMode.put(EXCLUDE_EDGE_CLASSES_FROM_SNAPPING, new JSONArray(travelOptions.getExcludeEdgeClassesFromSnapping()));
