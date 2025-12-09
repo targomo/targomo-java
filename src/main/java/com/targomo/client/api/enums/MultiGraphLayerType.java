@@ -16,11 +16,11 @@ import static com.targomo.client.api.enums.MultiGraphDomainType.*;
  */
 public enum MultiGraphLayerType {
 
-    IDENTITY            (Constants.KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY,          false, MultiGraphDomainType.values()),
+    IDENTITY            (Constants.KEY_MULTIGRAPH_LAYER_TYPE_IDENTITY,          false, EDGE, NODE, STATISTIC_GEOMETRY),
     TILE                (Constants.KEY_MULTIGRAPH_LAYER_TYPE_TILE,              true,  EDGE, NODE),
     HEXAGON             (Constants.KEY_MULTIGRAPH_LAYER_TYPE_HEXAGON,           true,  EDGE, NODE),
-    H3HEXAGON           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_H3HEXAGON,         true,  MultiGraphDomainType.values()),
-    CUSTOM_GEOMETRIES   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES, false, MultiGraphDomainType.values());
+    H3HEXAGON           (Constants.KEY_MULTIGRAPH_LAYER_TYPE_H3HEXAGON,         true,  EDGE, NODE, STATISTIC_GEOMETRY, NONE),
+    CUSTOM_GEOMETRIES   (Constants.KEY_MULTIGRAPH_LAYER_TYPE_CUSTOM_GEOMETRIES, false, EDGE, NODE, STATISTIC_GEOMETRY);
 
     private final String key;
     private final boolean requiresFixedPrecisionOrTile;

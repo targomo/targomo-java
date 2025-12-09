@@ -289,6 +289,9 @@ public final class RequestConfigurator {
         if ( travelOptions.getQuadrantSegments() != null )
             polygon.put(QUADRANT_SEGMENTS, travelOptions.getQuadrantSegments());
 
+        if ( travelOptions.getFlyCircleDetailLevel() != null )
+            polygon.put(FLY_CIRCLE_DETAIL_LEVEL, travelOptions.getFlyCircleDetailLevel());
+
         if ( travelOptions.getPolygonSerializerType() != null )
             polygon.put(SERIALIZER, travelOptions.getPolygonSerializerType().getPolygonSerializerName());
 
@@ -702,12 +705,14 @@ public final class RequestConfigurator {
             travelMode.put(INCLUDE_SNAP_DISTANCE_FOR_TARGETS, travelOptions.getIncludeSnapDistanceForTargets());
         if (travelOptions.getUseAreaSnapping() != null)
             travelMode.put(USE_AREA_SNAPPING, travelOptions.getUseAreaSnapping());
-        if (travelOptions.getUseAreaSnapping() != null)
+        if (travelOptions.getSnapRadius() != null)
             travelMode.put(SNAP_RADIUS, travelOptions.getSnapRadius());
         if (travelOptions.getExcludeEdgeClassesFromSnapping() != null)
             travelMode.put(EXCLUDE_EDGE_CLASSES_FROM_SNAPPING, new JSONArray(travelOptions.getExcludeEdgeClassesFromSnapping()));
         if (travelOptions.getMaxSnapDistance() != null)
             travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
+        if(travelOptions.getSnappingSpeed() != null)
+            travelMode.put(SNAPPING_SPEED, travelOptions.getSnappingSpeed());
 
         return travelMode;
     }

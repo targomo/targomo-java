@@ -19,5 +19,6 @@ public class PolygonAreaCriterionDefinition extends RoutingBasedCriterionDefinit
     private final Double simplify;
     private final Double buffer;
     private final Integer quadrantSegments;
+    private final Integer flyCircleDetailLevel;
 
 }

@@ -75,6 +75,7 @@ public class Constants {
     public static final String BUFFER                                                   = "buffer";
     public static final String SIMPLIFY                                                 = "simplify";
     public static final String QUADRANT_SEGMENTS                                        = "quadrantSegments";
+    public static final String FLY_CIRCLE_DETAIL_LEVEL                                  = "flyCircleDetailLevel";
     public static final String REVERSE                                                  = "reverse";
     public static final String Y                                                        = "y";
     public static final String X                                                        = "x";
@@ -93,6 +94,7 @@ public class Constants {
     public static final String USE_AREA_SNAPPING                                        = "useAreaSnapping";
     public static final String SNAP_RADIUS                                              = "snapRadius";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
+    public static final String SNAPPING_SPEED                                           = "snappingSpeed";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
@@ -101,6 +103,7 @@ public class Constants {
     public static final String MULTIGRAPH_DOMAIN_CLIP_GEOMETRY                          = "clipGeometry";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_EDGE                          = "edge";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NODE                          = "node";
+    public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_NONE                          = "none";
     public static final String KEY_MULTIGRAPH_DOMAIN_TYPE_STATISTIC_GEOMETRY            = "statistic_geometry";
     public static final String MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE                  = "edgeAggregationType";
     public static final String KEY_MULTIGRAPH_DOMAIN_EDGE_AGGREGATION_TYPE_MINIMUM      = "min";
