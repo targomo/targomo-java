@@ -535,6 +535,7 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
+                Double.compare(that.snappingSpeed, snappingSpeed) == 0 &&
                 Objects.equals(that.allowPrivateAndServiceRoads, allowPrivateAndServiceRoads) &&
                 Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
@@ -679,7 +680,7 @@ public class TravelOptions implements Serializable {
                 travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, includeSnapDistanceForTargets, useAreaSnapping, snapRadius,
+                includeSnapDistance, includeSnapDistanceForTargets, useAreaSnapping, snapRadius, snappingSpeed,
                 excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
     }
 
@@ -930,6 +931,8 @@ public class TravelOptions implements Serializable {
         builder.append(useAreaSnapping);
         builder.append("\n\tsnapRadius: ");
         builder.append(snapRadius);
+        builder.append("\n\tsnappingSpeed: ");
+        builder.append(snappingSpeed);
         builder.append("\n\texcludeEdgeClassesFromSnapping: ");
         builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
         builder.append("\n\tmultiGraphAggregationLearntMaxEdgeWeight: ");
