@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.45.0-SNAPSHOT</version>
+    <version>0.46.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -50,6 +50,16 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.46.0
+
+
+### 0.45.2
+* Fix `snappingSpeed` parameter equals check in `TravelOptions
+* Remove auto maven deploy from the hotfix pipeline and add nexus pipeline instead
+
+### 0.45.1
+* Add `snappingSpeed` to hashing parameters for caching
 
 ### 0.45.0
 * Add new multigraph domain type, `NONE`
