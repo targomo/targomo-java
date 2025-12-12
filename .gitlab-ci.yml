@@ -76,7 +76,6 @@ deploy_maven:
       - target/*.jar
   only:
     - master
-    - /^hotfix.*$/
   tags:
     - k8sdev
 
@@ -97,6 +96,7 @@ deploy_nexus_manual:
   only:
     - /^feature.*$/
     - /^release.*$/
+    - /^hotfix.*$/
 
 deploy_nexus_master:
   <<: *deploy_nexus
