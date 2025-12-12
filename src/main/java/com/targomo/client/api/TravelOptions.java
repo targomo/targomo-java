@@ -535,7 +535,7 @@ public class TravelOptions implements Serializable {
                 Double.compare(that.walkSpeed, walkSpeed) == 0 &&
                 Double.compare(that.walkUphill, walkUphill) == 0 &&
                 Double.compare(that.walkDownhill, walkDownhill) == 0 &&
-                Double.compare(that.snappingSpeed, snappingSpeed) == 0 &&
+                Objects.equals(that.snappingSpeed, snappingSpeed) &&
                 Objects.equals(that.allowPrivateAndServiceRoads, allowPrivateAndServiceRoads) &&
                 Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
                 Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
