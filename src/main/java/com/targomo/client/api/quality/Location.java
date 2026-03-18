@@ -17,8 +17,10 @@ import org.geojson.GeoJsonObject;
 public class Location {
     @Setter
     private String id;
-    private final Double lat;
-    private final Double lng;
+    @Setter
+    private Double lat;
+    @Setter
+    private Double lng;
     @Setter @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer crs;
     @JsonInclude(JsonInclude.Include.NON_NULL)
