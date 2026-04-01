@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.46.0
-
+* Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection
 
 ### 0.45.2
 * Fix `snappingSpeed` parameter equals check in `TravelOptions
