@@ -61,6 +61,9 @@ public class StatisticTravelOptions extends TravelOptions {
     private Integer multiGraphDomainStatisticCollectionId = null;
 
     @Transient
+    private Integer statisticCollectionPeriod = null;
+
+    @Transient
     private Boolean multiGraphLayerUnboundedStatistics = null;
 
     @Transient
@@ -116,6 +119,7 @@ public class StatisticTravelOptions extends TravelOptions {
                 Objects.equals(cellIds, that.cellIds) &&
                 Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
                 Objects.equals(multiGraphDomainStatisticCollectionId, that.multiGraphDomainStatisticCollectionId) &&
+                Objects.equals(statisticCollectionPeriod, that.statisticCollectionPeriod) &&
                 Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
                 Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
                 multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
@@ -137,7 +141,7 @@ public class StatisticTravelOptions extends TravelOptions {
     public int hashCode() {
         return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses,
                 getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
-                multiGraphDomainStatisticCollectionId, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
+                multiGraphDomainStatisticCollectionId, statisticCollectionPeriod, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
                 multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
                 multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
                 routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages, valuesGeometryAggregation, filterStatsValuesByPercentile);
@@ -163,6 +167,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(multiGraphDomainStatisticGroupId);
         builder.append("\n\tmultiGraphDomainStatisticCollectionId: ");
         builder.append(multiGraphDomainStatisticCollectionId);
+        builder.append("\n\tstatisticCollectionPeriod: ");
+        builder.append(statisticCollectionPeriod);
         builder.append("\n\tmultiGraphLayerUnboundedStatistics: ");
         builder.append(multiGraphLayerUnboundedStatistics);
         builder.append("\n\tmultiGraphTravelTimeApproximation: ");
