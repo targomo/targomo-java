@@ -17,6 +17,7 @@ import org.geojson.GeoJsonObject;
 public class Location {
     @Setter
     private String id;
+    private Integer rank;
     @Setter
     private Double lat;
     @Setter
@@ -39,6 +40,6 @@ public class Location {
     private boolean potential;
 
     public Location(String id, Double lat, Double lng, LocationProperties properties) {
-        this(id, lat, lng, null, null, null, properties, true, false, false, false);
+        this(id, null, lat, lng, null, null, null, properties, true, false, false, false);
     }
 }
