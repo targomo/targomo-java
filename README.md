@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.46.0-SNAPSHOT</version>
+    <version>0.47.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -51,8 +51,12 @@ nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
 
-### 0.46.0
+### 0.47.0
 * Add setters for lat/lng in Location
+* Add rank field in Location
+
+### 0.46.0
+* Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection
 
 ### 0.45.2
 * Fix `snappingSpeed` parameter equals check in `TravelOptions
