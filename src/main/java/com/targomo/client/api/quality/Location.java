@@ -17,6 +17,7 @@ import org.geojson.GeoJsonObject;
 public class Location {
     @Setter
     private String id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer rank;
     @Setter
     private Double lat;
