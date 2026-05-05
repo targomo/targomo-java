@@ -164,6 +164,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphSerializationH3MaxBuffer            = null;
     @Transient private Float multiGraphSerializationH3BufferSpeed            = null;
     @Transient private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    @Transient private MultiGraphLayerCustomGeometryMergeAggregation multiGraphSerializationH3BufferAggregationType = null;
     @Transient private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
@@ -579,6 +580,7 @@ public class TravelOptions implements Serializable {
                 Objects.equals(multiGraphSerializationH3MaxBuffer, that.multiGraphSerializationH3MaxBuffer) &&
                 Objects.equals(multiGraphSerializationH3BufferSpeed, that.multiGraphSerializationH3BufferSpeed) &&
                 Objects.equals(multiGraphSerializationH3BufferFixedValue, that.multiGraphSerializationH3BufferFixedValue) &&
+                Objects.equals(multiGraphSerializationH3BufferAggregationType, that.multiGraphSerializationH3BufferAggregationType) &&
                 Objects.equals(multiGraphSerializationH3IdFormat, that.multiGraphSerializationH3IdFormat) &&
                 multiGraphAggregationType == that.multiGraphAggregationType &&
                 Objects.equals(multiGraphAggregationIgnoreOutliers, that.multiGraphAggregationIgnoreOutliers) &&
@@ -660,7 +662,7 @@ public class TravelOptions implements Serializable {
                 intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry, excludeEdgeClasses,
                 multiGraphEdgeClasses, multiGraphSerializationFormat,
                 multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
-                multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3IdFormat,
+                multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3BufferAggregationType, multiGraphSerializationH3IdFormat,
                 multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
                 multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
                 multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound, multiGraphAggregationSourceValuesModifier,
@@ -797,6 +799,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphSerializationH3BufferSpeed);
         builder.append("\n\tmultiGraphSerializationH3BufferFixedValue: ");
         builder.append(multiGraphSerializationH3BufferFixedValue);
+        builder.append("\n\tmultiGraphSerializationH3BufferAggregationType: ");
+        builder.append(multiGraphSerializationH3BufferAggregationType);
         builder.append("\n\tmultiGraphSerializationH3IdFormat: ");
         builder.append(multiGraphSerializationH3IdFormat);
         builder.append("\n\tmultiGraphDomainType: ");

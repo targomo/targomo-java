@@ -52,7 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.47.0
-
+* Add `h3BufferAggregationType` parameter to multigraph serialization configuration
 
 ### 0.46.0
 * Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection

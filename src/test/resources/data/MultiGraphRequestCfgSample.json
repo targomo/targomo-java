@@ -27,6 +27,7 @@
       "h3MaxBuffer": 300,
       "h3BufferSpeed": 5.5,
       "h3BufferFixedValue": false,
+      "h3BufferAggregationType":"MEAN",
       "h3IdFormat": "string"
     },
     "aggregation":{

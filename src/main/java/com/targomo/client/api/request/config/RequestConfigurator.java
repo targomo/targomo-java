@@ -112,6 +112,7 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphSerializationH3MaxBuffer(),
                     travelOptions.getMultiGraphSerializationH3BufferSpeed(),
                     travelOptions.getMultiGraphSerializationH3BufferFixedValue(),
+                    travelOptions.getMultiGraphSerializationH3BufferAggregationType(),
                     travelOptions.getMultiGraphSerializationH3IdFormat(),
                     travelOptions.getMultiGraphDomainType(),
                     travelOptions.getMultiGraphDomainEdgeAggregationType(),
@@ -410,6 +411,9 @@ public final class RequestConfigurator {
 
             if ( travelOptions.getMultiGraphSerializationH3BufferFixedValue() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE, travelOptions.getMultiGraphSerializationH3BufferFixedValue());
+
+            if ( travelOptions.getMultiGraphSerializationH3BufferAggregationType() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_AGGREGATION_TYPE, travelOptions.getMultiGraphSerializationH3BufferAggregationType());
 
             if ( travelOptions.getMultiGraphSerializationH3IdFormat() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT, travelOptions.getMultiGraphSerializationH3IdFormat().getKey());

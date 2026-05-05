@@ -162,6 +162,7 @@ public class RequestConfiguratorTest {
             options.setMultiGraphSerializationH3MaxBuffer(300);
             options.setMultiGraphSerializationH3BufferSpeed(5.5f);
             options.setMultiGraphSerializationH3BufferFixedValue(false);
+            options.setMultiGraphSerializationH3BufferAggregationType(MultiGraphLayerCustomGeometryMergeAggregation.MEAN);
             options.setMultiGraphSerializationH3IdFormat(MultiGraphSerializationH3IdFormat.STRING);
             options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
             options.setMultiGraphAggregationIgnoreOutliers(true);
