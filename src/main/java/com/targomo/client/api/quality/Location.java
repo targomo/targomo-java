@@ -17,8 +17,12 @@ import org.geojson.GeoJsonObject;
 public class Location {
     @Setter
     private String id;
-    private final Double lat;
-    private final Double lng;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer rank;
+    @Setter
+    private Double lat;
+    @Setter
+    private Double lng;
     @Setter @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer crs;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,6 +41,6 @@ public class Location {
     private boolean potential;
 
     public Location(String id, Double lat, Double lng, LocationProperties properties) {
-        this(id, lat, lng, null, null, null, properties, true, false, false, false);
+        this(id, null, lat, lng, null, null, null, properties, true, false, false, false);
     }
 }
