@@ -52,6 +52,8 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.47.0
+* Add names hashing method
+* Add hash value alert test
 * Add setters for lat/lng in Location
 * Add rank field in Location
 

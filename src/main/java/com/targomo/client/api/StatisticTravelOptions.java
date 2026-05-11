@@ -9,6 +9,7 @@ import com.targomo.client.api.geo.*;
 import com.targomo.client.api.json.*;
 import com.targomo.client.api.pojo.CompetingRoutingOption;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ import java.util.*;
 @Entity @Data
 @Table(name = "statistic_travel_option")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EqualsAndHashCode(callSuper = true)
 public class StatisticTravelOptions extends TravelOptions {
 
     @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
@@ -102,50 +104,6 @@ public class StatisticTravelOptions extends TravelOptions {
 
     @Transient
     private List<String> customGeometryFeatureIds = new ArrayList<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StatisticTravelOptions)) return false;
-
-        StatisticTravelOptions that = (StatisticTravelOptions) o;
-
-        return super.equals(o) &&
-                Objects.equals(getClosestSources, that.getClosestSources) &&
-                Objects.equals(omitIndividualStatistics, that.omitIndividualStatistics) &&
-                Objects.equals(inactiveSources, that.inactiveSources) &&
-                Objects.equals(inactiveGeometrySources, that.inactiveGeometrySources) &&
-                Objects.equals(inactiveSourceAddresses, that.inactiveSourceAddresses) &&
-                Objects.equals(cellIds, that.cellIds) &&
-                Objects.equals(multiGraphDomainStatisticGroupId, that.multiGraphDomainStatisticGroupId) &&
-                Objects.equals(multiGraphDomainStatisticCollectionId, that.multiGraphDomainStatisticCollectionId) &&
-                Objects.equals(statisticCollectionPeriod, that.statisticCollectionPeriod) &&
-                Objects.equals(multiGraphLayerUnboundedStatistics, that.multiGraphLayerUnboundedStatistics) &&
-                Objects.equals(multiGraphReferencedStatisticIds, that.multiGraphReferencedStatisticIds) &&
-                multiGraphTravelTimeApproximation == that.multiGraphTravelTimeApproximation &&
-                Objects.equals(statisticIds, that.statisticIds) &&
-                Objects.equals(chartInterval, that.chartInterval) &&
-                Objects.equals(statisticCollectionId, that.statisticCollectionId) &&
-                Objects.equals(multigraphCalculateGravitationPerReferenceId, that.multigraphCalculateGravitationPerReferenceId)&&
-                Objects.equals(returnOriginId, that.returnOriginId)&&
-                Objects.equals(customGeometryCollectionId, that.customGeometryCollectionId) &&
-                Objects.equals(customGeometryFeatureIds, that.customGeometryFeatureIds) &&
-                Objects.equals(competingRoutingOptions, that.competingRoutingOptions) &&
-                Objects.equals(routingAggregationType, that.routingAggregationType) &&
-                Objects.equals(multiGraphIgnoreRoutingErrorMessages, that.multiGraphIgnoreRoutingErrorMessages) &&
-                Objects.equals(valuesGeometryAggregation, that.valuesGeometryAggregation) &&
-                Objects.equals(filterStatsValuesByPercentile, that.filterStatsValuesByPercentile);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), inactiveSources, inactiveGeometrySources, inactiveSourceAddresses,
-                getClosestSources, omitIndividualStatistics, cellIds, multiGraphDomainStatisticGroupId,
-                multiGraphDomainStatisticCollectionId, statisticCollectionPeriod, multiGraphLayerUnboundedStatistics, multiGraphReferencedStatisticIds,
-                multiGraphTravelTimeApproximation, statisticIds, chartInterval, statisticCollectionId,
-                multigraphCalculateGravitationPerReferenceId, returnOriginId, customGeometryCollectionId, customGeometryFeatureIds, competingRoutingOptions,
-                routingAggregationType.ordinal(), multiGraphIgnoreRoutingErrorMessages, valuesGeometryAggregation, filterStatsValuesByPercentile);
-    }
 
     @Override
     public String toString(){
