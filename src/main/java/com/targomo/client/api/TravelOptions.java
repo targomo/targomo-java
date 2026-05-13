@@ -166,6 +166,7 @@ public class TravelOptions implements Serializable {
     @Transient private Integer multiGraphSerializationH3MaxBuffer            = null;
     @Transient private Float multiGraphSerializationH3BufferSpeed            = null;
     @Transient private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    @Transient private MultiGraphLayerCustomGeometryMergeAggregation multiGraphSerializationH3BufferAggregationType = null;
     @Transient private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
@@ -638,6 +639,8 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphSerializationH3BufferSpeed);
         builder.append("\n\tmultiGraphSerializationH3BufferFixedValue: ");
         builder.append(multiGraphSerializationH3BufferFixedValue);
+        builder.append("\n\tmultiGraphSerializationH3BufferAggregationType: ");
+        builder.append(multiGraphSerializationH3BufferAggregationType);
         builder.append("\n\tmultiGraphSerializationH3IdFormat: ");
         builder.append(multiGraphSerializationH3IdFormat);
         builder.append("\n\tmultiGraphDomainType: ");

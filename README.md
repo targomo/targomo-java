@@ -56,6 +56,7 @@ nexus and to the maven repo (last is only possibly from master).
 * Add hash value alert test
 * Add setters for lat/lng in Location
 * Add rank field in Location
+* Add `h3BufferAggregationType` parameter to multigraph serialization configuration
 
 ### 0.46.0
 * Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection

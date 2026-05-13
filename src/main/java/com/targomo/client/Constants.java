@@ -142,6 +142,7 @@ public class Constants {
     public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER                   = "h3MaxBuffer";
     public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED                 = "h3BufferSpeed";
     public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE           = "h3BufferFixedValue";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_AGGREGATION_TYPE      = "h3BufferAggregationType";
     public static final String MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT                    = "h3IdFormat";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
