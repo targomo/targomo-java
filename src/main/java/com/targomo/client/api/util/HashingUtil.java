@@ -2,7 +2,6 @@ package com.targomo.client.api.util;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * @author gideon

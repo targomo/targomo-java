@@ -2,10 +2,7 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.StatisticTravelOptions;
-import com.targomo.client.api.enums.EdgeWeightType;
-import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientException;
-import com.targomo.client.api.geo.DefaultSourceCoordinate;
 import com.targomo.client.api.request.config.JacksonRequestConfigurator;
 import com.targomo.client.api.request.enums.StatisticMethod;
 import com.targomo.client.api.response.StatisticsGeometryValuesResponse;
@@ -15,7 +12,6 @@ import com.targomo.client.api.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -24,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class StatisticsRequest {

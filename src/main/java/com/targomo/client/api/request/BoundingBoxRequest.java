@@ -2,7 +2,6 @@ package com.targomo.client.api.request;
 
 import com.targomo.client.Constants;
 import com.targomo.client.api.TravelOptions;
-import com.targomo.client.api.exception.ResponseErrorException;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.BoundingBoxResponse;
