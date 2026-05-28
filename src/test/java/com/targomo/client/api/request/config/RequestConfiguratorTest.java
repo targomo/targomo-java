@@ -10,7 +10,6 @@ import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.collect.Sets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
