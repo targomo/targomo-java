@@ -15,11 +15,8 @@ public class HashingUtil {
      * @return The hash of all delcared field names
      */
     public static int hashFieldNames(Class clazz) {
-        String[] fieldNames = Arrays.stream(clazz.getDeclaredFields())
-                .map(Field::getName)
-                .sorted(String::compareTo)
-                .collect(Collectors.toList())
-                .toArray(new String[]{});
+        String[] fieldNames = (String[]) Arrays.stream(clazz.getDeclaredFields())
+                .map(Field::getName).sorted().toArray();
         return Arrays.hashCode(fieldNames);
     }
 }
