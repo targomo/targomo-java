@@ -1,7 +1,5 @@
 package com.targomo.client.api.util;
 
-import com.targomo.client.api.exception.TargomoClientRuntimeException;
-
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -17,8 +15,11 @@ public class HashingUtil {
      * @return The hash of all delcared field names
      */
     public static int hashFieldNames(Class clazz) {
-        String[] fieldNames = Arrays.stream(clazz.getDeclaredFields()).map(Field::getName)
-                .collect(Collectors.toSet()).toArray(new String[]{});
+        String[] fieldNames = Arrays.stream(clazz.getDeclaredFields())
+                .map(Field::getName)
+                .sorted(String::compareTo)
+                .collect(Collectors.toList())
+                .toArray(new String[]{});
         return Arrays.hashCode(fieldNames);
     }
 }
