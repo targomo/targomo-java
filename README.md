@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.46.0</version>
+    <version>0.47.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,15 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.47.0
+* Add names hashing method
+* Add hash value alert test
+* Add setters for lat/lng in Location
+* Add rank field in Location
+* Add `h3BufferAggregationType` parameter to multigraph serialization configuration
+* Replace `h3BufferSize` with `h3BufferSizeMeters` and `h3BufferSizeCells`
+* Add snapping parameter  `areaSnappingOppositeLanesMaxDist`
 
 ### 0.46.0
 * Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection

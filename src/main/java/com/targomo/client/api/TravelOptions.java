@@ -19,6 +19,7 @@ import com.targomo.client.api.request.TimeRequest;
 import com.targomo.client.api.statistic.PoiType;
 import com.targomo.client.api.util.SerializationUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 @Table(name = "travel_option")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@EqualsAndHashCode(exclude = {"id"})
 public class TravelOptions implements Serializable {
 
     @Id
@@ -161,9 +163,11 @@ public class TravelOptions implements Serializable {
     @Transient private MultiGraphSerializationFormat multiGraphSerializationFormat           = null;
     @Transient private Integer multiGraphSerializationDecimalPrecision                       = null;
     @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
-    @Transient private Integer multiGraphSerializationH3MaxBuffer            = null;
+    @Transient private Integer multiGraphSerializationH3MaxBufferMeters      = null;
+    @Transient private Integer multiGraphSerializationH3MaxBufferCells       = null;
     @Transient private Float multiGraphSerializationH3BufferSpeed            = null;
     @Transient private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    @Transient private MultiGraphLayerCustomGeometryMergeAggregation multiGraphSerializationH3BufferAggregationType = null;
     @Transient private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
     @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
     @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
@@ -278,6 +282,9 @@ public class TravelOptions implements Serializable {
     // snap radius is in meters
     @Transient
     private Integer snapRadius;
+    // maximum distance between the lanes to snap to the opposite direction lane of multi-lane roads
+    @Transient
+    private Integer areaSnappingOppositeLanesMaxDist;
 
     @Transient
     private List<Integer> excludeEdgeClassesFromSnapping;
@@ -523,167 +530,6 @@ public class TravelOptions implements Serializable {
         }
     }
 
-    //excluding id
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TravelOptions)) return false;
-        TravelOptions that = (TravelOptions) o;
-        return Double.compare(that.bikeSpeed, bikeSpeed) == 0 &&
-                Double.compare(that.bikeUphill, bikeUphill) == 0 &&
-                Double.compare(that.bikeDownhill, bikeDownhill) == 0 &&
-                Double.compare(that.walkSpeed, walkSpeed) == 0 &&
-                Double.compare(that.walkUphill, walkUphill) == 0 &&
-                Double.compare(that.walkDownhill, walkDownhill) == 0 &&
-                Objects.equals(that.snappingSpeed, snappingSpeed) &&
-                Objects.equals(that.allowPrivateAndServiceRoads, allowPrivateAndServiceRoads) &&
-                Objects.equals(that.trafficJunctionPenalty, trafficJunctionPenalty) &&
-                Objects.equals(that.trafficSignalPenalty, trafficSignalPenalty) &&
-                Objects.equals(that.trafficLeftTurnPenalty, trafficLeftTurnPenalty) &&
-                Objects.equals(that.trafficRightTurnPenalty, trafficRightTurnPenalty) &&
-                onlyPrintReachablePoints == that.onlyPrintReachablePoints &&
-                Objects.equals(sources, that.sources) &&
-                Objects.equals(sourceGeometries, that.sourceGeometries) &&
-                Objects.equals(sourceAddresses, that.sourceAddresses) &&
-                Objects.equals(targets, that.targets) &&
-                Objects.equals(targetGeohashes, that.targetGeohashes) &&
-                Objects.equals(targetAddresses, that.targetAddresses) &&
-                Objects.equals(rushHour, that.rushHour) &&
-                Objects.equals(travelTimes, that.travelTimes) &&
-                Objects.equals(elevationEnabled, that.elevationEnabled) &&
-                Objects.equals(pointReduction, that.pointReduction) &&
-                Objects.equals(reverse, that.reverse) &&
-                Objects.equals(minPolygonHoleSize, that.minPolygonHoleSize) &&
-                Objects.equals(time, that.time) &&
-                Objects.equals(date, that.date) &&
-                Objects.equals(weekday, that.weekday) &&
-                Objects.equals(frame, that.frame) &&
-                Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration) &&
-				Objects.equals(intersectionGeometry, that.intersectionGeometry) &&
-				Objects.equals(exclusionGeometry, that.exclusionGeometry) &&
-                Objects.equals(excludeEdgeClasses, that.excludeEdgeClasses) &&
-                Objects.equals(recommendations, that.recommendations) &&
-                Objects.equals(srid, that.srid) &&
-                Objects.equals(polygonOrientationRule, that.polygonOrientationRule) &&
-                Objects.equals(decimalPrecision, that.decimalPrecision) &&
-                Objects.equals(buffer, that.buffer) &&
-                Objects.equals(simplify, that.simplify) &&
-                intersectionMode == that.intersectionMode &&
-                pathSerializer == that.pathSerializer &&
-                polygonSerializerType == that.polygonSerializerType &&
-                Objects.equals(maxSnapDistance, that.maxSnapDistance) &&
-                Objects.equals(multiGraphEdgeClasses, that.multiGraphEdgeClasses) &&
-                multiGraphSerializationFormat == that.multiGraphSerializationFormat &&
-                Objects.equals(multiGraphSerializationDecimalPrecision, that.multiGraphSerializationDecimalPrecision) &&
-                Objects.equals(multiGraphSerializationMaxGeometryCount, that.multiGraphSerializationMaxGeometryCount) &&
-                Objects.equals(multiGraphSerializationH3MaxBuffer, that.multiGraphSerializationH3MaxBuffer) &&
-                Objects.equals(multiGraphSerializationH3BufferSpeed, that.multiGraphSerializationH3BufferSpeed) &&
-                Objects.equals(multiGraphSerializationH3BufferFixedValue, that.multiGraphSerializationH3BufferFixedValue) &&
-                Objects.equals(multiGraphSerializationH3IdFormat, that.multiGraphSerializationH3IdFormat) &&
-                multiGraphAggregationType == that.multiGraphAggregationType &&
-                Objects.equals(multiGraphAggregationIgnoreOutliers, that.multiGraphAggregationIgnoreOutliers) &&
-                Objects.equals(multiGraphAggregationOutlierPenalty, that.multiGraphAggregationOutlierPenalty) &&
-                Objects.equals(multiGraphAggregationMinSourcesRatio, that.multiGraphAggregationMinSourcesRatio) &&
-                Objects.equals(multiGraphAggregationMinSourcesCount, that.multiGraphAggregationMinSourcesCount) &&
-                Objects.equals(multiGraphAggregationSourceValuesLowerBound, that.multiGraphAggregationSourceValuesLowerBound) &&
-                Objects.equals(multiGraphAggregationSourceValuesUpperBound, that.multiGraphAggregationSourceValuesUpperBound) &&
-                Objects.equals(multiGraphAggregationSourceValuesModifier, that.multiGraphAggregationSourceValuesModifier) &&
-                Objects.equals(multiGraphAggregationMinResultValueRatio, that.multiGraphAggregationMinResultValueRatio) &&
-                Objects.equals(multiGraphAggregationMinResultValue, that.multiGraphAggregationMinResultValue) &&
-                Objects.equals(multiGraphAggregationMaxResultValueRatio, that.multiGraphAggregationMaxResultValueRatio) &&
-                Objects.equals(multiGraphAggregationMaxResultValue, that.multiGraphAggregationMaxResultValue) &&
-                Objects.equals(multiGraphAggregationFilterValuesForSourceOrigins, that.multiGraphAggregationFilterValuesForSourceOrigins) &&
-                Objects.equals(multiGraphAggregationGravitationExponent, that.multiGraphAggregationGravitationExponent) &&
-                Objects.equals(multiGraphAggregationProbabilityDecay, that.multiGraphAggregationProbabilityDecay) &&
-                Objects.equals(multiGraphAggregationLogitBetaAttractionStrength, that.multiGraphAggregationLogitBetaAttractionStrength) &&
-                Objects.equals(multiGraphAggregationLogitBetaTravelTime, that.multiGraphAggregationLogitBetaTravelTime) &&
-                Objects.equals(multiGraphAggregationUseProbabilityBasedWeightedAverage, that.multiGraphAggregationUseProbabilityBasedWeightedAverage) &&
-                Objects.equals(multiGraphAggregationInputParameters, that.multiGraphAggregationInputParameters) &&
-                Objects.equals(multiGraphAggregationMathExpression, that.multiGraphAggregationMathExpression) &&
-                Objects.equals(multiGraphLayerCustomGeometryMergeAggregation, that.multiGraphLayerCustomGeometryMergeAggregation) &&
-                Objects.equals(multiGraphAggregationPostAggregationFactor, that.multiGraphAggregationPostAggregationFactor) &&
-                multiGraphLayerType == that.multiGraphLayerType &&
-                Objects.equals(multiGraphDomainType, that.multiGraphDomainType) &&
-                multiGraphDomainEdgeAggregationType == that.multiGraphDomainEdgeAggregationType &&
-                Objects.equals(multiGraphLayerGeometryDetailPerTile, that.multiGraphLayerGeometryDetailPerTile) &&
-                Objects.equals(multiGraphLayerMinGeometryDetailLevel, that.multiGraphLayerMinGeometryDetailLevel) &&
-                Objects.equals(multiGraphLayerMaxGeometryDetailLevel, that.multiGraphLayerMaxGeometryDetailLevel) &&
-                Objects.equals(multiGraphLayerGeometryDetailLevel, that.multiGraphLayerGeometryDetailLevel) &&
-                Objects.equals(multiGraphTileZoom, that.multiGraphTileZoom) &&
-                Objects.equals(multiGraphTileX, that.multiGraphTileX) &&
-                Objects.equals(multiGraphTileY, that.multiGraphTileY) &&
-                Objects.equals(clipGeometry, that.clipGeometry) &&
-                Objects.equals(multiGraphH3FixedZoomLevel, that.multiGraphH3FixedZoomLevel) &&
-                Objects.equals(maxEdgeWeight, that.maxEdgeWeight) &&
-                Objects.equals(serviceUrl, that.serviceUrl) &&
-                Objects.equals(serviceKey, that.serviceKey) &&
-                edgeWeightType == that.edgeWeightType &&
-                Objects.equals(statisticGroupId, that.statisticGroupId) &&
-                Objects.equals(statisticServiceUrl, that.statisticServiceUrl) &&
-                Objects.equals(pointOfInterestServiceUrl, that.pointOfInterestServiceUrl) &&
-                Objects.equals(overpassQuery, that.overpassQuery) &&
-                Objects.equals(overpassServiceUrl, that.overpassServiceUrl) &&
-                Objects.equals(interServiceKey, that.interServiceKey) &&
-                Objects.equals(interServiceRequestType, that.interServiceRequestType) &&
-                format == that.format &&
-                Objects.equals(boundingBox, that.boundingBox) &&
-                Objects.equals(travelTypes, that.travelTypes) &&
-                Objects.equals(osmTypes, that.osmTypes) &&
-                Objects.equals(customPois, that.customPois) &&
-                Objects.equals(filterGeometryForPOIs, that.filterGeometryForPOIs) &&
-                Objects.equals(poiGravitationExponent, that.poiGravitationExponent) &&
-                Objects.equals(poiGravitationProbabilityDecay, that.poiGravitationProbabilityDecay) &&
-                Objects.equals(travelTimeFactors, that.travelTimeFactors) &&
-                Objects.equals(maxTransfers, that.maxTransfers) &&
-                Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes) &&
-                Objects.equals(multiGraphPreAggregationPipeline, that.multiGraphPreAggregationPipeline) &&
-                Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource) &&
-                Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) &&
-                Objects.equals(nextStopsStartTime, that.nextStopsStartTime) &&
-                Objects.equals(nextStopsEndTime, that.nextStopsEndTime) &&
-                Objects.equals(includeSnapDistance, that.includeSnapDistance) &&
-                Objects.equals(includeSnapDistanceForTargets, that.includeSnapDistanceForTargets) &&
-                Objects.equals(useAreaSnapping, that.useAreaSnapping) &&
-                Objects.equals(snapRadius, that.snapRadius) &&
-                Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping) &&
-                Objects.equals(multiGraphAggregationLearntMaxEdgeWeight, that.multiGraphAggregationLearntMaxEdgeWeight);
-    }
-
-    //excluding id
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(sources, sourceGeometries, sourceAddresses, targets, targetGeohashes, targetAddresses, bikeSpeed,
-                bikeUphill, bikeDownhill, walkSpeed, walkUphill, walkDownhill, rushHour, travelTimes, elevationEnabled,
-                appendTravelTimes, pointReduction, reverse, minPolygonHoleSize, time, date, weekday, frame, arrivalOrDepartureDuration,
-                recommendations, srid, polygonOrientationRule, decimalPrecision, buffer, simplify,
-                intersectionMode, pathSerializer, polygonSerializerType, maxSnapDistance, intersectionGeometry, exclusionGeometry, excludeEdgeClasses,
-                multiGraphEdgeClasses, multiGraphSerializationFormat,
-                multiGraphSerializationDecimalPrecision, multiGraphSerializationMaxGeometryCount,
-                multiGraphSerializationH3MaxBuffer, multiGraphSerializationH3BufferSpeed, multiGraphSerializationH3BufferFixedValue, multiGraphSerializationH3IdFormat,
-                multiGraphAggregationType, multiGraphAggregationIgnoreOutliers, multiGraphAggregationOutlierPenalty,
-                multiGraphAggregationMinSourcesRatio, multiGraphAggregationMinSourcesCount,
-                multiGraphAggregationSourceValuesLowerBound, multiGraphAggregationSourceValuesUpperBound, multiGraphAggregationSourceValuesModifier,
-                multiGraphAggregationMinResultValueRatio, multiGraphAggregationMinResultValue,
-                multiGraphAggregationMaxResultValueRatio, multiGraphAggregationMaxResultValue,
-                multiGraphAggregationGravitationExponent, multiGraphAggregationProbabilityDecay, multiGraphAggregationLogitBetaAttractionStrength,
-                multiGraphAggregationLogitBetaTravelTime, multiGraphAggregationUseProbabilityBasedWeightedAverage, multiGraphLayerCustomGeometryMergeAggregation,
-                multiGraphAggregationInputParameters, multiGraphAggregationFilterValuesForSourceOrigins,
-                multiGraphPreAggregationPipeline, multiGraphAggregationMathExpression, multiGraphLayerType,
-                multiGraphDomainType, multiGraphDomainEdgeAggregationType, multiGraphLayerGeometryDetailPerTile,
-                multiGraphLayerMinGeometryDetailLevel, multiGraphLayerMaxGeometryDetailLevel, multiGraphH3FixedZoomLevel,
-                multiGraphLayerGeometryDetailLevel, multiGraphTileZoom, multiGraphTileX, multiGraphTileY,
-                multiGraphAggregationPostAggregationFactor, clipGeometry, maxEdgeWeight, serviceUrl, serviceKey,
-                onlyPrintReachablePoints, edgeWeightType, statisticGroupId, statisticServiceUrl,
-                pointOfInterestServiceUrl, overpassQuery, overpassServiceUrl, interServiceKey, interServiceRequestType,
-                format, boundingBox, travelTypes, osmTypes, customPois, filterGeometryForPOIs, poiGravitationExponent, poiGravitationProbabilityDecay,
-                travelTimeFactors, maxTransfers, avoidTransitRouteTypes, allowPrivateAndServiceRoads,
-                trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
-                maxWalkingTimeFromSource, maxWalkingTimeToTarget, nextStopsStartTime, nextStopsEndTime,
-                includeSnapDistance, includeSnapDistanceForTargets, useAreaSnapping, snapRadius, snappingSpeed,
-                excludeEdgeClassesFromSnapping, multiGraphAggregationLearntMaxEdgeWeight);
-    }
-
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -791,12 +637,16 @@ public class TravelOptions implements Serializable {
         builder.append(multiGraphSerializationDecimalPrecision);
         builder.append("\n\tmultiGraphSerializationMaxGeometryCount: ");
         builder.append(multiGraphSerializationMaxGeometryCount);
-        builder.append("\n\tmultiGraphSerializationH3MaxBuffer: ");
-        builder.append(multiGraphSerializationH3MaxBuffer);
+        builder.append("\n\tmultiGraphSerializationH3MaxBufferMeters: ");
+        builder.append(multiGraphSerializationH3MaxBufferMeters);
+        builder.append("\n\tmultiGraphSerializationH3MaxBufferCells: ");
+        builder.append(multiGraphSerializationH3MaxBufferCells);
         builder.append("\n\tmultiGraphSerializationH3BufferSpeed: ");
         builder.append(multiGraphSerializationH3BufferSpeed);
         builder.append("\n\tmultiGraphSerializationH3BufferFixedValue: ");
         builder.append(multiGraphSerializationH3BufferFixedValue);
+        builder.append("\n\tmultiGraphSerializationH3BufferAggregationType: ");
+        builder.append(multiGraphSerializationH3BufferAggregationType);
         builder.append("\n\tmultiGraphSerializationH3IdFormat: ");
         builder.append(multiGraphSerializationH3IdFormat);
         builder.append("\n\tmultiGraphDomainType: ");
@@ -935,6 +785,8 @@ public class TravelOptions implements Serializable {
         builder.append(snappingSpeed);
         builder.append("\n\texcludeEdgeClassesFromSnapping: ");
         builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
+        builder.append("\n\tareaSnappingOppositeLanesMaxDist: ");
+        builder.append(areaSnappingOppositeLanesMaxDist);
         builder.append("\n\tmultiGraphAggregationLearntMaxEdgeWeight: ");
         builder.append(multiGraphAggregationLearntMaxEdgeWeight);
         builder.append("\n}\n");

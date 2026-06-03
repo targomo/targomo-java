@@ -109,9 +109,11 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(),
                     travelOptions.getMultiGraphSerializationMaxGeometryCount(),
-                    travelOptions.getMultiGraphSerializationH3MaxBuffer(),
+                    travelOptions.getMultiGraphSerializationH3MaxBufferMeters(),
+                    travelOptions.getMultiGraphSerializationH3MaxBufferCells(),
                     travelOptions.getMultiGraphSerializationH3BufferSpeed(),
                     travelOptions.getMultiGraphSerializationH3BufferFixedValue(),
+                    travelOptions.getMultiGraphSerializationH3BufferAggregationType(),
                     travelOptions.getMultiGraphSerializationH3IdFormat(),
                     travelOptions.getMultiGraphDomainType(),
                     travelOptions.getMultiGraphDomainEdgeAggregationType(),
@@ -402,14 +404,23 @@ public final class RequestConfigurator {
             if ( travelOptions.getMultiGraphSerializationMaxGeometryCount() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
 
-            if ( travelOptions.getMultiGraphSerializationH3MaxBuffer() != null )
-                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER, travelOptions.getMultiGraphSerializationH3MaxBuffer());
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferMeters() != null && travelOptions.getMultiGraphSerializationH3MaxBufferCells() != null)
+                throw new IllegalArgumentException("Multi graph buffer size can be set in meters or number of cells, but not both.");
+
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferMeters() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_METERS, travelOptions.getMultiGraphSerializationH3MaxBufferMeters());
+
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferCells() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_CELLS, travelOptions.getMultiGraphSerializationH3MaxBufferCells());
 
             if ( travelOptions.getMultiGraphSerializationH3BufferSpeed() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED, travelOptions.getMultiGraphSerializationH3BufferSpeed());
 
             if ( travelOptions.getMultiGraphSerializationH3BufferFixedValue() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE, travelOptions.getMultiGraphSerializationH3BufferFixedValue());
+
+            if ( travelOptions.getMultiGraphSerializationH3BufferAggregationType() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_AGGREGATION_TYPE, travelOptions.getMultiGraphSerializationH3BufferAggregationType());
 
             if ( travelOptions.getMultiGraphSerializationH3IdFormat() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT, travelOptions.getMultiGraphSerializationH3IdFormat().getKey());
@@ -713,6 +724,8 @@ public final class RequestConfigurator {
             travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
         if(travelOptions.getSnappingSpeed() != null)
             travelMode.put(SNAPPING_SPEED, travelOptions.getSnappingSpeed());
+        if(travelOptions.getAreaSnappingOppositeLanesMaxDist() != null)
+            travelMode.put(AREA_SNAPPING_OPPOSITE_LANES_MAX_DIST, travelOptions.getAreaSnappingOppositeLanesMaxDist());
 
         return travelMode;
     }

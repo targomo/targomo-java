@@ -10,7 +10,6 @@ import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.collect.Sets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -159,9 +158,10 @@ public class RequestConfiguratorTest {
             options.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.JSON);
             options.setMultiGraphSerializationDecimalPrecision(5);
             options.setMultiGraphSerializationMaxGeometryCount(100000);
-            options.setMultiGraphSerializationH3MaxBuffer(300);
+            options.setMultiGraphSerializationH3MaxBufferMeters(300);
             options.setMultiGraphSerializationH3BufferSpeed(5.5f);
             options.setMultiGraphSerializationH3BufferFixedValue(false);
+            options.setMultiGraphSerializationH3BufferAggregationType(MultiGraphLayerCustomGeometryMergeAggregation.MEAN);
             options.setMultiGraphSerializationH3IdFormat(MultiGraphSerializationH3IdFormat.STRING);
             options.setMultiGraphAggregationType(MultiGraphAggregationType.NONE);
             options.setMultiGraphAggregationIgnoreOutliers(true);
@@ -240,6 +240,8 @@ public class RequestConfiguratorTest {
             options.setIncludeSnapDistance(true);
             options.setUseAreaSnapping(true);
             options.setSnapRadius(200);
+            options.setSnappingSpeed(3.5);
+            options.setAreaSnappingOppositeLanesMaxDist(20);
             options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12, 75));
 
 	        // Run configurator && get object

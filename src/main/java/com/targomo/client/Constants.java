@@ -95,6 +95,7 @@ public class Constants {
     public static final String SNAP_RADIUS                                              = "snapRadius";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
     public static final String SNAPPING_SPEED                                           = "snappingSpeed";
+    public static final String AREA_SNAPPING_OPPOSITE_LANES_MAX_DIST                    = "areaSnappingOppositeLanesMaxDist";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";
@@ -140,8 +141,11 @@ public class Constants {
     public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_STRING         = "string";
     public static final String KEY_MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT_NUMERIC        = "numeric";
     public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER                   = "h3MaxBuffer";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_METERS            = "h3MaxBufferMeters";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_CELLS             = "h3MaxBufferCells";
     public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED                 = "h3BufferSpeed";
     public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_FIXED_VALUE           = "h3BufferFixedValue";
+    public static final String MULTIGRAPH_SERIALIZATION_H3_BUFFER_AGGREGATION_TYPE      = "h3BufferAggregationType";
     public static final String MULTIGRAPH_SERIALIZATION_H3_ID_FORMAT                    = "h3IdFormat";
     public static final String MULTIGRAPH_AGGREGATION                                   = "aggregation";
     public static final String MULTIGRAPH_AGGREGATION_TYPE                              = "type";
