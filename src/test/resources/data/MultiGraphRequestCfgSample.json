@@ -24,7 +24,7 @@
       "format":"json",
       "decimalPrecision": 5,
       "maxGeometryCount": 100000,
-      "h3MaxBuffer": 300,
+      "h3MaxBufferMeters": 300,
       "h3BufferSpeed": 5.5,
       "h3BufferFixedValue": false,
       "h3BufferAggregationType":"MEAN",

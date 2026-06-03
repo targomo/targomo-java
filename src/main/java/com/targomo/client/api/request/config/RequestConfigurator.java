@@ -109,7 +109,8 @@ public final class RequestConfigurator {
                     travelOptions.getMultiGraphSerializationFormat(),
                     travelOptions.getMultiGraphSerializationDecimalPrecision(),
                     travelOptions.getMultiGraphSerializationMaxGeometryCount(),
-                    travelOptions.getMultiGraphSerializationH3MaxBuffer(),
+                    travelOptions.getMultiGraphSerializationH3MaxBufferMeters(),
+                    travelOptions.getMultiGraphSerializationH3MaxBufferCells(),
                     travelOptions.getMultiGraphSerializationH3BufferSpeed(),
                     travelOptions.getMultiGraphSerializationH3BufferFixedValue(),
                     travelOptions.getMultiGraphSerializationH3BufferAggregationType(),
@@ -403,8 +404,14 @@ public final class RequestConfigurator {
             if ( travelOptions.getMultiGraphSerializationMaxGeometryCount() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_MAX_GEOMETRY_COUNT, travelOptions.getMultiGraphSerializationMaxGeometryCount());
 
-            if ( travelOptions.getMultiGraphSerializationH3MaxBuffer() != null )
-                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER, travelOptions.getMultiGraphSerializationH3MaxBuffer());
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferMeters() != null && travelOptions.getMultiGraphSerializationH3MaxBufferCells() != null)
+                throw new IllegalArgumentException("Multi graph buffer size can be set in meters or number of cells, but not both.");
+
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferMeters() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_METERS, travelOptions.getMultiGraphSerializationH3MaxBufferMeters());
+
+            if ( travelOptions.getMultiGraphSerializationH3MaxBufferCells() != null )
+                multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_MAX_BUFFER_CELLS, travelOptions.getMultiGraphSerializationH3MaxBufferCells());
 
             if ( travelOptions.getMultiGraphSerializationH3BufferSpeed() != null )
                 multiGraphSerialization.put(MULTIGRAPH_SERIALIZATION_H3_BUFFER_SPEED, travelOptions.getMultiGraphSerializationH3BufferSpeed());
