@@ -240,6 +240,8 @@ public class RequestConfiguratorTest {
             options.setIncludeSnapDistance(true);
             options.setUseAreaSnapping(true);
             options.setSnapRadius(200);
+            options.setSnappingSpeed(3.5);
+            options.setAreaSnappingOppositeLanesMaxDist(20);
             options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12, 75));
 
 	        // Run configurator && get object

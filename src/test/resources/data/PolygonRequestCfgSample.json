@@ -37,6 +37,8 @@
           "useAreaSnapping": true,
           "snapRadius": 200,
           "maxSnapDistance": 30,
+          "snappingSpeed": 3.5,
+          "areaSnappingOppositeLanesMaxDist": 20,
           "excludeEdgeClassesFromSnapping": [11, 12, 75]
         }
       },
