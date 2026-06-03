@@ -8,8 +8,7 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.TransitStation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -27,9 +26,8 @@ import java.util.Map;
  * Get all the transit stations reachable from source(s) and the times of the next stops
  * Only accepts {@link HttpMethod} POST.
  */
+@Slf4j
 public class TransitStopsRequest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(TransitStopsRequest.class);
 
 	private final Client client;
 	private final TravelOptions travelOptions;
@@ -92,7 +90,7 @@ public class TransitStopsRequest {
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing transit stops request to URI: '{}}'", target.getUri());
+		log.debug("Executing transit stops request to URI: '{}}'", target.getUri());
 
 		Response response;
 

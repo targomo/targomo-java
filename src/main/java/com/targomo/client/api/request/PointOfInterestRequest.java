@@ -10,8 +10,7 @@ import com.targomo.client.api.response.PointOfInterestResponse;
 import com.targomo.client.api.response.PointOfInterestSummaryResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -28,9 +27,8 @@ import java.util.function.Supplier;
  * Find reachable openstreetmap pois with this class.
  * Only accepts {@link HttpMethod} POST.
  */
+@Slf4j
 public class PointOfInterestRequest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(PointOfInterestRequest.class);
 
 	private final Client client;
 	private final TravelOptions travelOptions;
@@ -148,7 +146,7 @@ public class PointOfInterestRequest {
 		}
 
 		if (travelOptions.getFormat() == null) travelOptions.setFormat(Format.JSON);
-		LOGGER.debug("Executing POI request to URI: '{}}'", target.getUri());
+		log.debug("Executing POI request to URI: '{}}'", target.getUri());
 		String config = RequestConfigurator.getConfig(travelOptions);
 		final Entity<String> entity = Entity.entity(config, MediaType.APPLICATION_JSON_TYPE);
 

@@ -11,8 +11,7 @@ import com.targomo.client.api.request.esri.ESRIAuthenticationDetails;
 import com.targomo.client.api.response.GeocodingResponse;
 import com.targomo.client.api.response.esri.AuthenticationResponse;
 import com.targomo.client.api.util.POJOUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.ServiceUnavailableException;
@@ -32,7 +31,7 @@ import java.util.function.UnaryOperator;
  *
  * @see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm">Documentation</a>
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) @Slf4j
 public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
     /**
@@ -91,7 +90,6 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
 
     //Class constants
     private static final ObjectMapper JSON_PARSER   = new ObjectMapper();
-    private static final Logger       LOGGER        = LoggerFactory.getLogger(GeocodingRequest.class);
 
     //"Immutable" Object values
     private final Client client;
@@ -277,7 +275,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
             } else
                 finalTarget = target;
             //execute request
-            LOGGER.debug("Executing geocoding request to URI: {}", finalTarget.getUri());
+            log.debug("Executing geocoding request to URI: {}", finalTarget.getUri());
             WebTarget immutableTarget = finalTarget;
             Response response = null;
             try {
@@ -346,7 +344,7 @@ public class GeocodingRequest implements GetRequest<String, GeocodingResponse> {
                 .queryParam("client_secret", this.authenticationDetails.getClientSecret())
                 .queryParam("expiration", this.authenticationDetails.getTokenExpirationInMinutes());
 
-        LOGGER.debug("Have to redo authentication for ESRI user with client id: {}",
+        log.debug("Have to redo authentication for ESRI user with client id: {}",
                 this.authenticationDetails.getClientID());
 
         Response response = null;
