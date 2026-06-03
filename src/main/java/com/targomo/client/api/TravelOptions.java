@@ -282,6 +282,9 @@ public class TravelOptions implements Serializable {
     // snap radius is in meters
     @Transient
     private Integer snapRadius;
+    // maximum distance between the lanes to snap to the opposite direction lane of multi-lane roads
+    @Transient
+    private Integer areaSnappingOppositeLanesMaxDist;
 
     @Transient
     private List<Integer> excludeEdgeClassesFromSnapping;
@@ -782,6 +785,8 @@ public class TravelOptions implements Serializable {
         builder.append(snappingSpeed);
         builder.append("\n\texcludeEdgeClassesFromSnapping: ");
         builder.append(excludeEdgeClassesFromSnapping != null ? toString(excludeEdgeClassesFromSnapping, maxLen) :null);
+        builder.append("\n\tareaSnappingOppositeLanesMaxDist: ");
+        builder.append(areaSnappingOppositeLanesMaxDist);
         builder.append("\n\tmultiGraphAggregationLearntMaxEdgeWeight: ");
         builder.append(multiGraphAggregationLearntMaxEdgeWeight);
         builder.append("\n}\n");

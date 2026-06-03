@@ -95,6 +95,7 @@ public class Constants {
     public static final String SNAP_RADIUS                                              = "snapRadius";
     public static final String EXCLUDE_EDGE_CLASSES_FROM_SNAPPING                       = "excludeEdgeClassesFromSnapping";
     public static final String SNAPPING_SPEED                                           = "snappingSpeed";
+    public static final String AREA_SNAPPING_OPPOSITE_LANES_MAX_DIST                    = "areaSnappingOppositeLanesMaxDist";
 
     public static final String MULTIGRAPH                                               = "multigraph";
     public static final String MULTIGRAPH_EDGE_CLASSES                                  = "edgeClasses";

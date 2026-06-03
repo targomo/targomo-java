@@ -724,6 +724,8 @@ public final class RequestConfigurator {
             travelMode.put(MAX_SNAP_DISTANCE, travelOptions.getMaxSnapDistance());
         if(travelOptions.getSnappingSpeed() != null)
             travelMode.put(SNAPPING_SPEED, travelOptions.getSnappingSpeed());
+        if(travelOptions.getAreaSnappingOppositeLanesMaxDist() != null)
+            travelMode.put(AREA_SNAPPING_OPPOSITE_LANES_MAX_DIST, travelOptions.getAreaSnappingOppositeLanesMaxDist());
 
         return travelMode;
     }

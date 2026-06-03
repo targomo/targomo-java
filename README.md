@@ -58,6 +58,7 @@ nexus and to the maven repo (last is only possibly from master).
 * Add rank field in Location
 * Add `h3BufferAggregationType` parameter to multigraph serialization configuration
 * Replace `h3BufferSize` with `h3BufferSizeMeters` and `h3BufferSizeCells`
+* Add snapping parameter  `areaSnappingOppositeLanesMaxDist`
 
 ### 0.46.0
 * Add `statisticCollectionPeriod` parameter to access different periods of a statistics data collection
