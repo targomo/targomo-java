@@ -12,6 +12,7 @@ import com.targomo.client.api.response.ReachabilityResponseTest;
 import com.targomo.client.api.response.TimeResponseTest;
 import com.targomo.client.api.util.CurlUtilTest;
 import com.targomo.client.api.util.GeojsonUtilTest;
+import com.targomo.client.api.util.HashingUtilTest;
 import com.targomo.client.api.util.IOUtilTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -38,7 +39,8 @@ import org.junit.runners.Suite;
         WeekdayTest.class,
         RoutingAggregationTypeTest.class,
         TravelOptionsSerializerTest.class,
-        JacksonRequestConfiguratorTest.class
+        JacksonRequestConfiguratorTest.class,
+        HashingUtilTest.class
 })
 public class TestSuite {
 }
