@@ -15,8 +15,7 @@ public class HashingUtil {
      */
     public static int hashFieldNames(Class clazz) {
         String[] fieldNames = Arrays.stream(clazz.getDeclaredFields())
-                .map(Field::getName).sorted()
-                .toArray(String[]::new);
+                .map(Field::getName).sorted().toArray(String[]::new);
         return Arrays.hashCode(fieldNames);
     }
 }

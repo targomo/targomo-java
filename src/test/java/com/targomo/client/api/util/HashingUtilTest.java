@@ -19,6 +19,6 @@ public class HashingUtilTest {
 		assertEquals(651477336, HashingUtil.hashFieldNames(AggregationInputParameters.class));
 		assertEquals(924843144, HashingUtil.hashFieldNames(TravelOptions.class));
 		assertEquals(-675091905, HashingUtil.hashFieldNames(StatisticTravelOptions.class));
-		assertEquals(607894625, HashingUtil.hashFieldNames(RoutingOptions.class));
+		assertEquals(797048770, HashingUtil.hashFieldNames(RoutingOptions.class));
 	}
 }
