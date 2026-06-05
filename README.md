@@ -53,6 +53,9 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.48.0
 
+### 0.47.1
+* Add  `areaSnappingOppositeLanesMaxDist` to `RoutingOptions` class
+
 ### 0.47.0
 * Add names hashing method
 * Add hash value alert test

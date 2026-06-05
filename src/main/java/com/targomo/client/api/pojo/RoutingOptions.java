@@ -52,6 +52,7 @@ public class RoutingOptions {
     private Integer snapRadius;
     private Boolean includeSnapDistance;
     private Boolean includeSnapDistanceForTargets;
+    private Integer areaSnappingOppositeLanesMaxDist;
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
@@ -59,7 +60,7 @@ public class RoutingOptions {
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
                 trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
-                maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance, includeSnapDistanceForTargets);
+                maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance, includeSnapDistanceForTargets, areaSnappingOppositeLanesMaxDist);
     }
 
     @Override
@@ -79,7 +80,8 @@ public class RoutingOptions {
                 && Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) && Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes)
                 && Objects.equals(maxSnapDistance, that.maxSnapDistance) && Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping)
                 && Objects.equals(useAreaSnapping, that.useAreaSnapping) && Objects.equals(snapRadius, that.snapRadius) && Objects.equals(includeSnapDistance, that.includeSnapDistance)
-                && Objects.equals(includeSnapDistanceForTargets, that.includeSnapDistanceForTargets);
+                && Objects.equals(includeSnapDistanceForTargets, that.includeSnapDistanceForTargets)
+                && Objects.equals(areaSnappingOppositeLanesMaxDist, that.areaSnappingOppositeLanesMaxDist);
     }
 
 }
