@@ -39,8 +39,7 @@ import org.junit.runners.Suite;
         WeekdayTest.class,
         RoutingAggregationTypeTest.class,
         TravelOptionsSerializerTest.class,
-        JacksonRequestConfiguratorTest.class,
-        HashingUtilTest.class
+        JacksonRequestConfiguratorTest.class
 })
 public class TestSuite {
 }
