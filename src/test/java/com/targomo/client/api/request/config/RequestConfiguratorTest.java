@@ -8,6 +8,7 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
+import com.targomo.client.api.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
 
 import org.json.JSONException;
@@ -61,9 +62,9 @@ public class RequestConfiguratorTest {
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
-            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCES));
-            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGETS));
 
             //assert other elements
@@ -112,13 +113,13 @@ public class RequestConfiguratorTest {
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
-            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCES));
-            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCE_GEOMETRIES));
-            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGETS));
-            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGET_GEOHASHES));
 
             //assert other elements
@@ -188,7 +189,7 @@ public class RequestConfiguratorTest {
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONObject(Constants.MULTIGRAPH));
 
 
@@ -204,7 +205,7 @@ public class RequestConfiguratorTest {
             actualObject = new JSONObject(RequestConfigurator.getConfig(options));
 
             // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONObject(Constants.MULTIGRAPH));
 
         } catch (IOException e) {
@@ -254,16 +255,16 @@ public class RequestConfiguratorTest {
 
 	        // Compare two objects
 	        checkPolygons(actualObject, sampleObject);
-            Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCES),JsonUtil.getString(actualObject, Constants.SOURCES));
 	        Assert.assertEquals(
-                    sampleObject.getString(Constants.ENABLE_ELEVATION),
-                    actualObject.getString(Constants.ENABLE_ELEVATION)
+                    JsonUtil.getString(sampleObject, Constants.ENABLE_ELEVATION),
+                    JsonUtil.getString(actualObject, Constants.ENABLE_ELEVATION)
             );
-            Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.REVERSE), JsonUtil.getString(actualObject, Constants.REVERSE));
 	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
                     actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
-            Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.TRAVEL_TIME_FACTORS), JsonUtil.getString(actualObject, Constants.TRAVEL_TIME_FACTORS));
 
             //// test with car
             options.setTravelType(TravelType.CAR);
@@ -271,7 +272,7 @@ public class RequestConfiguratorTest {
             actualObject = new JSONObject(cfg);
             sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"));
             sampleObject = new JSONObject(sampleJson);
-            Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCES), JsonUtil.getString(actualObject, Constants.SOURCES));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -359,8 +360,8 @@ public class RequestConfiguratorTest {
         String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"));
         JSONObject sampleObject = new JSONObject(sampleJson);
 
-        Assert.assertEquals(sampleObject.getString(Constants.SOURCE_ADDRESSES), actualObject.getString(Constants.SOURCE_ADDRESSES));
-        Assert.assertEquals(sampleObject.getString(Constants.TARGET_ADDRESSES), actualObject.getString(Constants.TARGET_ADDRESSES));
+        Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCE_ADDRESSES), JsonUtil.getString(actualObject, Constants.SOURCE_ADDRESSES));
+        Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.TARGET_ADDRESSES), JsonUtil.getString(actualObject, Constants.TARGET_ADDRESSES));
     }
 
     @Test
