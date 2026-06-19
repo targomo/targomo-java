@@ -5,7 +5,6 @@ import com.targomo.client.api.pojo.LocationProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -18,20 +17,12 @@ import static com.targomo.client.api.util.SerializationUtil.travelTypeListToStri
  *
  * @author gideon
  */
-@Entity
-@Table(name="source_geometry")
 public class DefaultSourceGeometry extends AbstractGeometry {
-
-    @Id
-    @Column(name = "identifier")
-    @GeneratedValue(strategy= GenerationType.TABLE)
-    private long identifier;
 
     /**
      * If there is more than one element in the travelTypes list, multi modal routing will be used.
      */
     @Setter @Getter
-    @Column(name = "travel_types")
     private List<TravelType> travelTypes;
 
     private DefaultSourceGeometry(){}
@@ -88,18 +79,6 @@ public class DefaultSourceGeometry extends AbstractGeometry {
     public DefaultSourceGeometry(String id, String geojson, int crs, boolean routeFromCentroid) {
         this(id, geojson, crs, Collections.emptyList(), routeFromCentroid, null);
     }
-
-    /**
-     * The main problem with this identifier is that we need it for hibernate
-     * since it's not able to work without an ID. But source geometries have
-     * per se no real identifier since the same geometry could come from multiple
-     * clients and have different lat/lng/traveltype.
-     *
-     * @return this database unique identifier of this source point
-     */
-    public long getIdentifier() { return identifier; }
-
-    public void setIdentifier(long id) { this.identifier = id; }
 
     @Override
     public String toString() {

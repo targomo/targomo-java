@@ -19,6 +19,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
@@ -109,7 +110,7 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
@@ -250,7 +251,7 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
 	        // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
 	        // Compare two objects
@@ -270,7 +271,7 @@ public class RequestConfiguratorTest {
             options.setTravelType(TravelType.CAR);
             cfg = RequestConfigurator.getConfig(options);
             actualObject = new JSONObject(cfg);
-            sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"));
+            sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"), StandardCharsets.UTF_8);
             sampleObject = new JSONObject(sampleJson);
             Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCES), JsonUtil.getString(actualObject, Constants.SOURCES));
         } catch (IOException e) {
@@ -357,7 +358,7 @@ public class RequestConfiguratorTest {
         JSONObject actualObject = new JSONObject(cfg);
         System.out.println(actualObject);
 
-        String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"));
+        String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"), StandardCharsets.UTF_8);
         JSONObject sampleObject = new JSONObject(sampleJson);
 
         Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCE_ADDRESSES), JsonUtil.getString(actualObject, Constants.SOURCE_ADDRESSES));
@@ -414,7 +415,8 @@ public class RequestConfiguratorTest {
 	        final int numOfTargets = 500000;
 
             TravelOptions options = new TravelOptions();
-            options.setMaxRoutingTime(3600);
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(3600);
 
 	        // Sources
 	        double min = -90;
@@ -444,7 +446,7 @@ public class RequestConfiguratorTest {
 
 	        // Load sample json file & create sample object
 	        InputStream resource = getClass().getClassLoader().getResourceAsStream("data/TimeRequestCfgSample.json");
-	        String sampleJson = IOUtils.toString(resource, Charset.forName("UTF-8"));
+	        String sampleJson = IOUtils.toString(resource, StandardCharsets.UTF_8);
 	        JSONObject sampleObject = new JSONObject(sampleJson);
 
 	        // Input is random at each test, so we only compare array lengths to make sure all data is converted

@@ -1,7 +1,10 @@
 package com.targomo.client.api.geo;
 
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public abstract class AbstractLocation {
 
     protected String id;
@@ -15,33 +18,4 @@ public abstract class AbstractLocation {
         this.id = id;
         this.properties = properties;
     }
-
-    /**
-     * Get the ID associated with the location.
-     * @return Location ID
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Assign an ID to the location
-     * @param id ID to be assigned
-     */
-    public void setId(final String id) {
-        this.id = id;
-    }
-
-    /**
-     * Get the properties of a location
-     * @return Location Properties
-     */
-    public LocationProperties getProperties() { return this.properties; }
-
-    /**
-     * Assign properties to a location
-     * @param properties location properties to be assigned
-     */
-    public void setProperties(final LocationProperties properties){ this.properties = properties; }
-
 }

@@ -2,14 +2,15 @@ package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.MappedSuperclass;
 import java.util.Collections;
 
 /**
  * Simple abstract class to use for storing coordinates with IDs and travel types.
  */
-@MappedSuperclass
+@Getter @Setter
 public abstract class AbstractCoordinate extends AbstractLocation implements Coordinate {
 
 	private double x;
@@ -31,38 +32,6 @@ public abstract class AbstractCoordinate extends AbstractLocation implements Coo
 	public AbstractCoordinate(final String id, final double x, final double y, final LocationProperties locationProperties) {
 		super(id, locationProperties);
 		this.x = x;
-		this.y = y;
-	}
-
-	/**
-	 * Get the value of coordinate in X-axis.
-	 * @return Value in x-axis
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Set the value of coordinate in X-axis.
-	 * @param x X value to be set
-	 */
-	public void setX(final double x) {
-		this.x = x;
-	}
-
-	/**
-	 * Get the value of coordinate in Y-axis.
-	 * @return Value in y-axis
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
-	 * Set the value of coordinate in Y-axis.
-	 * @param y Y value to be set
-	 */
-	public void setY(final double y) {
 		this.y = y;
 	}
 

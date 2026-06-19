@@ -5,7 +5,6 @@ import com.targomo.client.api.pojo.LocationProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -16,20 +15,12 @@ import static com.targomo.client.api.util.SerializationUtil.travelTypeListToStri
  * Default implementation for storing source coordinates.
  * Basically a {@link AbstractCoordinate} with TravelType, specialized to be used as a target.
  */
-@Entity
-@Table(name="source_coordinate")
 public class DefaultSourceCoordinate extends AbstractCoordinate {
-
-	@Id
-	@Column(name = "identifier")
-	@GeneratedValue(strategy= GenerationType.TABLE)
-	private long identifier;
 
 	/**
 	 * If there is more than one element in the travelTypes list, multi modal routing will be used.
 	 */
 	@Setter @Getter
-	@Column(name = "travel_types")
 	private List<TravelType> travelTypes;
 
 	// needed for jackson
@@ -85,18 +76,6 @@ public class DefaultSourceCoordinate extends AbstractCoordinate {
 	public DefaultSourceCoordinate(String id, double x, double y, LocationProperties locationProperties) {
 		this(id, x, y, Collections.emptyList(), locationProperties);
 	}
-
-	/**
-     * The main problem with this identifier is that we need it for hibernate
-     * since it's not able to work without an ID. But source coordinates have
-     * perse no real identifier since the same coordinate could come from multiple
-     * clients and have different lat/lng/traveltype.
-     *
-     * @return this database unique identifier of this source point
-     */
-	public long getIdentifier() { return identifier; }
-
-	public void setIdentifier(long id) { this.identifier = id; }
 
 	@Override
 	public String toString() {
