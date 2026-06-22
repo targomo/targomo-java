@@ -7,8 +7,7 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.ReachabilityResponse;
 import com.targomo.client.api.util.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -26,9 +25,8 @@ import java.util.function.Function;
  * Calculates travel time for each source point to all targets.
  * Only accepts {@link HttpMethod} POST.
  */
+@Slf4j
 public class ReachabilityRequest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReachabilityRequest.class);
 
 	private final Client client;
 	private final TravelOptions travelOptions;
@@ -100,7 +98,7 @@ public class ReachabilityRequest {
 
 		final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
+		log.debug("Executing reachability request to URI: '{}}'", target.getUri());
 
 		// Execute POST request
 		Response response = target.request().headers(headers).post(entity);

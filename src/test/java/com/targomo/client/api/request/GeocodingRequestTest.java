@@ -5,11 +5,10 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.DefaultTargetCoordinate;
 import com.targomo.client.api.request.esri.ESRIAuthenticationDetails;
 import com.targomo.client.api.response.GeocodingResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.client.Client;
@@ -41,10 +40,9 @@ import static org.mockito.Mockito.when;
  *
  * Created by David on 18.07.2017.
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) @Slf4j
 public class GeocodingRequestTest extends RequestTest{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeocodingRequestTest.class);
     private static final double DELTA  = 0.005; //Allowed delta when comparing the coordinates
 
     private static ESRIAuthenticationDetails esriAccountInfo = null;
@@ -53,9 +51,9 @@ public class GeocodingRequestTest extends RequestTest{
 
     @BeforeClass
     public static void setup() {
-        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("test.properties");
+        InputStream stream = log.getClass().getClassLoader().getResourceAsStream("test.properties");
         if(stream == null) {
-            LOGGER.warn("No test.properties found in src/test/resources : " +
+            log.warn("No test.properties found in src/test/resources : " +
                     "Tests associated with an ESRI account are skipped");
         } else {
             Properties prop = new Properties();
@@ -64,7 +62,7 @@ public class GeocodingRequestTest extends RequestTest{
                 esriAccountInfo = new ESRIAuthenticationDetails(prop.getProperty("esri.clientId"),
                         prop.getProperty("esri.clientSecret"),1);
             } catch (IOException | IllegalArgumentException e) {
-                LOGGER.error("test.properties not properly formed : " +
+                log.error("test.properties not properly formed : " +
                         "Tests associated with an ESRI account are skipped", e);
             }
         }
@@ -218,7 +216,7 @@ public class GeocodingRequestTest extends RequestTest{
             timeAfterFirstRequest = System.currentTimeMillis();
             firstAccessToken = geocodingRequestWithCredentials.getCurrentAccessToken();
         } else {
-            LOGGER.warn("Parts of testParallelBatchRequestSuccess skipped due to missing ESRI account data");
+            log.warn("Parts of testParallelBatchRequestSuccess skipped due to missing ESRI account data");
         }
 
         //while waiting a minute so that the first token will be invalidated, test the batch process without credentials
@@ -251,7 +249,7 @@ public class GeocodingRequestTest extends RequestTest{
     public void testParallelAddressBatchRequestSuccess() throws TargomoClientException {
 
         if(esriAccountInfo == null) {
-            LOGGER.warn("testParallelAddressBatchRequestSuccess skipped due to missing ESRI account data");
+            log.warn("testParallelAddressBatchRequestSuccess skipped due to missing ESRI account data");
         } else {
             final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo);
             executeBatchRequest(coordinatesAdd2, batchAdd2, batch -> geocodingRequest.getBatchParallel(20, 10, batch));
@@ -264,14 +262,14 @@ public class GeocodingRequestTest extends RequestTest{
     public void testParallelBatchWithOptionsRequestSuccess() throws TargomoClientException {
 
         if(esriAccountInfo == null) {
-            LOGGER.warn("testParallelBatchWithOptionsRequestSuccess skipped due to missing ESRI account data");
+            log.warn("testParallelBatchWithOptionsRequestSuccess skipped due to missing ESRI account data");
         } else {
             //Add Option source country: Germany
             EnumMap<GeocodingRequest.Option, String> options = new EnumMap<>(GeocodingRequest.Option.class);
             options.put(GeocodingRequest.Option.SOURCE_COUNTRY, "DEU");
             final GeocodingRequest geocodingRequest = new GeocodingRequest(client, esriAccountInfo, options,60000);
 
-            LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany");
+            log.info("Single Line batch of 26; 10 Threads; Source Country Germany");
             executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10, 10, batch));
 
 //        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany");
@@ -283,7 +281,7 @@ public class GeocodingRequestTest extends RequestTest{
 
             //Add option search extent: Berlin
             options.put(GeocodingRequest.Option.SEARCH_EXTENT, "12.9803466797,52.3420516364,13.8153076172,52.716330936");
-            LOGGER.info("Single Line batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
+            log.info("Single Line batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
             executeBatchRequest(null, batch26, batch -> geocodingRequest.getBatchParallel(10, 10, batch));
 //        LOGGER.info("Address batch of 26; 10 Threads; Source Country Germany; Search Extent Berlin");
 //        executeBatchRequest(null, batchAdd26, batch -> geocodingRequest.getBatchParallel(10,10,batch) );
@@ -331,12 +329,12 @@ public class GeocodingRequestTest extends RequestTest{
         GeocodingResponse[] responses = request.get( input );
         long timeSequentialFinished = System.currentTimeMillis();
         if( expectedOutput == null ) //print output
-            LOGGER.debug( Arrays.asList(responses).toString() );
+            log.debug( Arrays.asList(responses).toString() );
         else {
             assertCoordinate(expectedOutput, responses, DefaultTargetCoordinate::getX);
             assertCoordinate(expectedOutput, responses, DefaultTargetCoordinate::getY);
         }
-        LOGGER.info( "Runtime for " + input.length + " addresses: " + (timeSequentialFinished-timeBefore));
+        log.info( "Runtime for " + input.length + " addresses: " + (timeSequentialFinished-timeBefore));
         return responses;
     }
 

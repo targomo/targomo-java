@@ -6,8 +6,7 @@ import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.response.OverpassResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.Client;
@@ -21,9 +20,8 @@ import javax.ws.rs.core.Response;
  * Find reachable openstreetmap pois with this class.
  * Only accepts {@link HttpMethod} POST.
  */
+@Slf4j
 public class OverpassRequest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(OverpassRequest.class);
 
 	private Client client;
 	private TravelOptions travelOptions;
@@ -82,14 +80,14 @@ public class OverpassRequest {
 		long requestStart = System.currentTimeMillis();
 
 		WebTarget target = client.target(travelOptions.getOverpassServiceUrl()).path("/api/interpreter");
-        LOGGER.info("{}", target.getUri());
+        log.info("{}", target.getUri());
 
 		if (travelOptions.getOverpassQuery() == null || travelOptions.getOverpassQuery().isEmpty())
 			throw new TargomoClientException("Empty query");
 
 		final Entity<String> entity = Entity.entity(travelOptions.getOverpassQuery(), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing overpass query to URI: '{}'", target.getUri());
+		log.debug("Executing overpass query to URI: '{}'", target.getUri());
 
 		Response response = target.request().post(entity);
 
@@ -109,7 +107,7 @@ public class OverpassRequest {
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 			// consume the results
 			OverpassResponse overpassResponse = new OverpassResponse(travelOptions, JsonUtil.parseString(IOUtil.getResultString(response)), requestStart, poiType);
-			LOGGER.info("Request complete in {}ms", overpassResponse.getRequestEnd());
+			log.info("Request complete in {}ms", overpassResponse.getRequestEnd());
 			return overpassResponse;
 		}
 		else {

@@ -2,12 +2,11 @@ package com.targomo.client.api.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Geometry;
 import org.geotools.geometry.jts.JTS;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.jts2geojson.GeoJSONReader;
@@ -34,9 +33,9 @@ import java.util.stream.Stream;
  *     <li>Visualization of Geojson data in browser</li>
  * </ul>
  */
+@Slf4j
 public class GeojsonUtil {
 
-    private static final Logger LOGGER      = LoggerFactory.getLogger(GeojsonUtil.class);
     private static final String FILE_ENDING = ".geojson";
 
     private GeojsonUtil() {}
@@ -160,7 +159,7 @@ public class GeojsonUtil {
             try {
                 desktop.browse(new URI(url));
             } catch (URISyntaxException e) {
-                LOGGER.error("Error occurred while trying to open the browser", e);
+                log.error("Error occurred while trying to open the browser", e);
             }
         } else
             Runtime.getRuntime().exec("xdg-open " + url);

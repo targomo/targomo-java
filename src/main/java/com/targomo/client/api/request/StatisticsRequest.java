@@ -9,8 +9,7 @@ import com.targomo.client.api.response.StatisticsGeometryValuesResponse;
 import com.targomo.client.api.response.StatisticsResponse;
 import com.targomo.client.api.util.IOUtil;
 import com.targomo.client.api.util.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,9 +21,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.function.Supplier;
 
+@Slf4j
 public class StatisticsRequest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRequest.class);
 	private static final String VALUES_GEOMETRY = "values/geometry";
 	private final Client client;
 	private final StatisticTravelOptions travelOptions;
@@ -99,7 +98,7 @@ public class StatisticsRequest {
 
 		final Entity<String> entity = Entity.entity(JacksonRequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-		LOGGER.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
+		log.debug("Executing statistics request ({}) to URI: '{}'", path, target.getUri());
 
 		Response response;
 

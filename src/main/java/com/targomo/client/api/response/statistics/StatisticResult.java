@@ -2,18 +2,16 @@ package com.targomo.client.api.response.statistics;
 
 import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.util.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.DoubleStream;
 
+@Slf4j
 public class StatisticResult {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticResult.class);
 
 	private final Map<Integer, Map<Integer, Double>> statistics;
 	private final Map<Integer, Integer> reachableTargets;
@@ -92,7 +90,7 @@ public class StatisticResult {
 			reachablePersonsByStatistic.put(statistic, reachablePersons);
 		}
 		
-		LOGGER.debug("It took {}ms to parse the population results!", System.currentTimeMillis() - start);
+		log.debug("It took {}ms to parse the population results!", System.currentTimeMillis() - start);
 		
 		return reachablePersonsByStatistic;
 	}
