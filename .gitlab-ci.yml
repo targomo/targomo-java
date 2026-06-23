@@ -38,7 +38,7 @@ sonarqube:
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
       -Dsonar.branch.target=develop
       -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-aggregate/jacoco.xml
-    - cat target/site/jacoco-ut/index.html
+    - find target/site -type f -name "index.html"
   only:
     - /^feature.*$/
     - develop
