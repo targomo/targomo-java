@@ -199,12 +199,6 @@
             <groupId>com.targomo</groupId>
             <artifactId>jackson-datatype-trove</artifactId>
             <version>0.0.8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
