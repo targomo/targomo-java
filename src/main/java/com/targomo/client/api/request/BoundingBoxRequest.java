@@ -6,10 +6,9 @@ import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.request.config.RequestConfigurator;
 import com.targomo.client.api.response.BoundingBoxResponse;
 import com.targomo.client.api.util.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -23,10 +22,8 @@ import javax.ws.rs.core.Response;
 /**
  * Creates a bounding box of the reachable area using the specified travel options.
  */
+@Slf4j
 public class BoundingBoxRequest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(BoundingBoxRequest.class);
-
     private final Client client;
     private final MultivaluedMap<String, Object> headers;
 
@@ -68,7 +65,7 @@ public class BoundingBoxRequest {
 
         final Entity<String> entity = Entity.entity(RequestConfigurator.getConfig(travelOptions), MediaType.APPLICATION_JSON_TYPE);
 
-        LOGGER.debug("Executing reachability request to URI: '{}}'", target.getUri());
+        log.debug("Executing reachability request to URI: '{}}'", target.getUri());
 
         Response response;
 

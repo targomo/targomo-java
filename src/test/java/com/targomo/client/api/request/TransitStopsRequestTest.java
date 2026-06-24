@@ -50,7 +50,7 @@ public class TransitStopsRequestTest extends RequestTest {
         Assertions.assertThat(transitStopsResponse.get("id0"))
                 .hasSize(1);
         Assertions.assertThat(transitStopsResponse.get("id0").get(0))
-                .isEqualToComparingFieldByFieldRecursively(expectedTransitStation);
+                .usingRecursiveComparison().isEqualTo(expectedTransitStation);
     }
 
     @Test

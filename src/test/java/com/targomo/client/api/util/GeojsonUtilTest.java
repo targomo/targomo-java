@@ -1,11 +1,10 @@
 package com.targomo.client.api.util;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.wololo.geojson.*;
 
 import java.io.IOException;
@@ -24,18 +23,17 @@ import java.util.Properties;
  * </pre>
  */
 
+@Slf4j
 public class GeojsonUtilTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeojsonUtilTest.class);
 
     private static String YOUR_GITHUB_USER_ACCOUNT;
     private static String YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE;
 
     @BeforeClass
     public static void setup() {
-        InputStream stream = LOGGER.getClass().getClassLoader().getResourceAsStream("test.properties");
+        InputStream stream = log.getClass().getClassLoader().getResourceAsStream("test.properties");
         if(stream == null) {
-            LOGGER.warn("No test.properties found in src/test/resources : Tests are skipped");
+            log.warn("No test.properties found in src/test/resources : Tests are skipped");
         } else {
             Properties prop = new Properties();
             try {
@@ -43,7 +41,7 @@ public class GeojsonUtilTest {
                 YOUR_GITHUB_USER_ACCOUNT = prop.getProperty("github.user");
                 YOUR_TOKEN_WITH_GIST_UPLOAD_SCOPE = prop.getProperty("github.gistUploadToken");
             } catch (IOException | IllegalArgumentException e) {
-                LOGGER.error("test.properties not properly formed : Tests are skipped", e);
+                log.error("test.properties not properly formed : Tests are skipped", e);
             }
         }
     }

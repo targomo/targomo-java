@@ -37,7 +37,7 @@ sonarqube:
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
       -Dsonar.branch.target=develop
-    - cat target/site/jacoco-ut/index.html
+      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-aggregate/jacoco.xml
   only:
     - /^feature.*$/
     - develop
@@ -52,7 +52,7 @@ sonarqube_release:
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME
       -Dsonar.branch.target=master
-    - cat target/site/jacoco-ut/index.html
+      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-aggregate/jacoco.xml
   only:
     - /^release.*$/
     - /^hotfix.*$/

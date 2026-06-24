@@ -10,7 +10,7 @@ Get your API key [here](http://targomo.com/developers/pricing/).
 <dependency>
     <groupId>com.targomo</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.47.1</version>
+    <version>0.48.0</version>
 </dependency>
 ```
 
@@ -50,6 +50,13 @@ To perform a release simply do: `mvn clean deploy -DperformRelease=true`. There 
 nexus and to the maven repo (last is only possibly from master).
 
 ## Release Notes
+
+### 0.48.0
+* Update to JDK 17
+* Remove unused persistence annotations
+* Swap all logging to SLf4J annotation
+* Cleanup classes
+* minor dependency updates
 
 ### 0.47.1
 * Add  `areaSnappingOppositeLanesMaxDist` to `RoutingOptions` class

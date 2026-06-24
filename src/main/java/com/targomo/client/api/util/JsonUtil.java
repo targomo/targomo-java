@@ -1,11 +1,10 @@
 package com.targomo.client.api.util;
 
 import com.targomo.client.api.exception.TargomoClientRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 public class JsonUtil {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
 
 	public static void put(JSONArray array, JSONObject object) {
 		
@@ -43,7 +41,7 @@ public class JsonUtil {
 		} 
 		catch (JSONException e) {
 			
-			LOGGER.error("Could not put json in json object", e);
+			log.error("Could not put json in json object", e);
 		}
 		
 		return object;
@@ -57,7 +55,7 @@ public class JsonUtil {
 		} 
 		catch (JSONException e) {
 			
-			LOGGER.error("Could not put json in json object", e);
+			log.error("Could not put json in json object", e);
 		}
 		return object;
 	}
@@ -70,7 +68,7 @@ public class JsonUtil {
 		} 
 		catch (JSONException e) {
 			
-			LOGGER.error("Could not put json in json object", e);
+			log.error("Could not put json in json object", e);
 		}
 		return object;
 	}
@@ -90,7 +88,7 @@ public class JsonUtil {
 		} 
 		catch (JSONException e) {
 			
-			LOGGER.error("Could not put json in json object", e);
+			log.error("Could not put json in json object", e);
 		}
 		return object;
 	}
@@ -110,7 +108,7 @@ public class JsonUtil {
 		} 
 		catch (JSONException e) {
 			
-			LOGGER.error("Could not put json in json object", e);
+			log.error("Could not put json in json object", e);
 		}
 		return object;
 	}
@@ -160,11 +158,12 @@ public class JsonUtil {
 	public static String getString(JSONObject jsonConfig, String key) throws TargomoClientRuntimeException {
 		
 		try {
-			
-			return jsonConfig.getString(key);
+			//This is how it used to work, in the modern version of the library it fails when the
+			// type is not explicitly a string (e.g. if the id is just the int 1 or 2 like in our example)
+			return jsonConfig.get(key).toString();
 		} 
 		catch (JSONException e) {
-			
+			log.error(e.getMessage(), e);
 			throw new TargomoClientRuntimeException(String.format("Could not get key '%s' from json object: %s", key, jsonConfig));
 		}
 	}

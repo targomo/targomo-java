@@ -11,98 +11,68 @@ import com.targomo.client.api.pojo.CompetingRoutingOption;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.*;
 
 /**
  * Created by gerb on 13/02/2017.
  */
-@Entity @Data
-@Table(name = "statistic_travel_option")
+@Data @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@EqualsAndHashCode(callSuper = true)
 public class StatisticTravelOptions extends TravelOptions {
 
     @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
-    @Transient
     private Map<String,Coordinate> inactiveSources = new HashMap<>();
 
     @JsonDeserialize(contentAs= DefaultSourceAddress.class, using= DefaultSourceAddressMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
-    @Transient
     private Map<String,DefaultSourceAddress> inactiveSourceAddresses = new HashMap<>();
 
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
-    @Transient
     private Map<String,AbstractGeometry> inactiveGeometrySources = new HashMap<>();
 
-    @Column(name = "get_closest_sources")
     private boolean getClosestSources = false;
 
-    @Column(name = "omit_individual_statistics")
     private boolean omitIndividualStatistics = false;
 
-    @Transient
     private List<Integer> cellIds = new ArrayList<>();
 
-    @Transient
     private Map<String,Short> multiGraphReferencedStatisticIds = null;
 
-    @Transient
     private MultiGraphTravelTimeApproximation multiGraphTravelTimeApproximation = null;
 
-    @Transient
     private Integer multiGraphDomainStatisticGroupId = null;
 
-    @Transient
     private Integer multiGraphDomainStatisticCollectionId = null;
 
-    @Transient
     private Integer statisticCollectionPeriod = null;
 
-    @Transient
     private Boolean multiGraphLayerUnboundedStatistics = null;
 
-    @Transient
     private List<Short> statisticIds;
 
-    @Transient
     private Integer chartInterval;
 
-    @Transient
     private Integer statisticCollectionId;
 
-    @Transient
     private List<CompetingRoutingOption> competingRoutingOptions;
 
-    @Transient
     private RoutingAggregationType routingAggregationType = RoutingAggregationType.MIN;
 
-    @Transient
     private String valuesGeometryAggregation;
 
-    @Transient
     private Double filterStatsValuesByPercentile;
 
     // Should be true, if the new calculation method will be used which is related to individual reference ids calculation with the virtual statistic.
-    @Transient
     private boolean multigraphCalculateGravitationPerReferenceId = true;
 
-    @Transient
     private Boolean returnOriginId = false;
 
-    @Transient
     private Boolean multiGraphIgnoreRoutingErrorMessages = false;
 
-    @Transient
     private String customGeometryCollectionId;
 
-    @Transient
     private List<String> customGeometryFeatureIds = new ArrayList<>();
 
     @Override

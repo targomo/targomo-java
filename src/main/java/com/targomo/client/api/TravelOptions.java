@@ -21,7 +21,6 @@ import com.targomo.client.api.util.SerializationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
@@ -36,259 +35,201 @@ import java.util.stream.Collectors;
  * {@link ReachabilityRequest}.
  */
 
-@Entity @Data
-@Table(name = "travel_option")
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Data @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@EqualsAndHashCode(exclude = {"id"})
 public class TravelOptions implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.TABLE)
-    private Integer id;
 
     @JsonDeserialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultSourceCoordinateMapSerializer.class)
-    @Transient
-    private Map<String,Coordinate> sources  = new HashMap<>();
+    private Map<String,Coordinate> sources = new HashMap<>();
 
     @JsonDeserialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceAddress.class, using=DefaultSourceAddressMapSerializer.class)
-    @Transient
-    private Map<String, DefaultSourceAddress> sourceAddresses  = new HashMap<>();
+    private Map<String, DefaultSourceAddress> sourceAddresses = new HashMap<>();
 
     @JsonDeserialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapDeserializer.class)
     @JsonSerialize(contentAs= DefaultSourceGeometry.class, using= DefaultSourceGeometriesMapSerializer.class)
-    @Transient
     private Map<String, AbstractGeometry> sourceGeometries = new HashMap<>();
 
     @JsonDeserialize(contentAs=DefaultTargetCoordinate.class, using=DefaultTargetCoordinateMapDeserializer.class)
     @JsonSerialize(contentAs=DefaultSourceCoordinate.class, using=DefaultTargetCoordinateMapSerializer.class)
-    @Transient
-    private Map<String,Coordinate> targets  = new HashMap<>();
-
-    @Transient
+    private Map<String,Coordinate> targets = new HashMap<>();
+    
     private List<String> targetGeohashes = new ArrayList<>();
-
-    @Transient
     private List<String> targetAddresses = new ArrayList<>();
 
-    @Column(name = "bike_speed")
-    private double bikeSpeed         = 18.0;
+    private double bikeSpeed = 18.0;
+    private double bikeUphill = 20.0;
+    private double bikeDownhill = -10.0;
 
-    @Column(name = "bike_uphill")
-    private double bikeUphill        = 20.0;
+    private double walkSpeed = 5.0;
+    private double walkUphill = 10.0;
+    private double walkDownhill = 0.0;
 
-    @Column(name = "bike_downhill")
-    private double bikeDownhill      = -10.0;
-
-    @Column(name = "walk_speed")
-    private double walkSpeed         = 5.0;
-
-    @Column(name = "walk_uphill")
-    private double walkUphill        = 10.0;
-
-    @Column(name = "walk_downhill")
-    private double walkDownhill      = 0.0;
-
-    @Column(name = "snapping_speed")
     private Double snappingSpeed;
 
-    @Column(name = "rush_hour")
-    private Boolean rushHour         = false;
-
-    @Transient
+    private Boolean rushHour = false;
+    
     private boolean allowPrivateAndServiceRoads = false;
 
     //the following four setting are only used for bike, car (and bike-transit)
-    @Transient
-    private Integer trafficJunctionPenalty  = null;
-    @Transient
-    private Integer trafficSignalPenalty    = null;
-    @Transient
-    private Integer trafficLeftTurnPenalty  = null;
-    @Transient
+    private Integer trafficJunctionPenalty = null;
+    private Integer trafficSignalPenalty = null;
+    private Integer trafficLeftTurnPenalty = null;
     private Integer trafficRightTurnPenalty = null;
 
-    @Transient private List<Integer> travelTimes                    = Arrays.asList(600, 1200, 1800);
+    private List<Integer> travelTimes = Arrays.asList(600, 1200, 1800);
+    
+    // If there is more than one element in the travelTypes list, multi modal routing will be used.
+    private List<TravelType> travelTypes = Collections.emptyList();
+    
+	private Map<String,Double> travelTimeFactors = new HashMap<>();
 
-    /**
-     * If there is more than one element in the travelTypes list, multi modal routing will be used.
-     */
-    @Column(name = "travel_types")
-    private List<TravelType> travelTypes                            = Collections.emptyList();
+    private Boolean elevationEnabled = true;
 
-    @Transient
-	private Map<String,Double> travelTimeFactors 	            	= new HashMap<>();
+    private Boolean appendTravelTimes = false;
+    private Boolean pointReduction = true;
+    private Boolean reverse = false;
+    private Long minPolygonHoleSize = 100000000L;
 
-    @Column(name = "elevation_enabled")
-    private Boolean elevationEnabled                                = true;
-
-    @Transient private Boolean appendTravelTimes                    = false;
-    @Transient private Boolean pointReduction                       = true;
-    @Transient private Boolean reverse                              = false;
-    @Transient private Long minPolygonHoleSize                      = 100000000L;
-
-    @Column(name = "time") private Integer time                     = null; //default is used in core
-    @Column(name = "date")  private Integer date                    = null; //default is used in core
-    @Column(name = "weekday")  private Weekday weekday              = null; //default is used in core
-    @Column(name = "frame") private Integer frame                   = null; //default is used in core
-    @Column(name = "earliestArrival") private Boolean earliestArrival = false;
-    @Transient private Integer arrivalOrDepartureDuration           = null;
-    @Transient private Integer maxWalkingTimeFromSource             = null;
-    @Transient private Integer maxWalkingTimeToTarget               = null;
-    @Transient private Integer recommendations                      = 0;
-    @Transient private Integer srid                                 = null;
-    @Transient private PolygonOrientationRule polygonOrientationRule = null;
-    @Transient private Integer decimalPrecision                     = null;
+    private Integer time = null; //default is used in core
+    private Integer date = null; //default is used in core
+    private Weekday weekday = null; //default is used in core
+    private Integer frame = null; //default is used in core
+    private Boolean earliestArrival = false;
+    private Integer arrivalOrDepartureDuration = null;
+    private Integer maxWalkingTimeFromSource = null;
+    private Integer maxWalkingTimeToTarget = null;
+    private Integer recommendations = 0;
+    private Integer srid = null;
+    private PolygonOrientationRule polygonOrientationRule = null;
+    private Integer decimalPrecision = null;
 
     // maximum number of transfers when using public transportation
-    @Column(name = "max_transfers") private Integer maxTransfers    = null;
+    private Integer maxTransfers = null;
 
     // Transit route types that should not be used for routing
-    @Transient private List<Integer> avoidTransitRouteTypes         = Collections.emptyList();
+    private List<Integer> avoidTransitRouteTypes = Collections.emptyList();
 
-    @Transient private Double buffer                                = null;
-    @Transient private Double simplify                              = null;
-    @Transient private Integer quadrantSegments                     = null;
-    @Transient private Integer flyCircleDetailLevel                 = null;
-    @Transient private PolygonIntersectionMode intersectionMode     = PolygonIntersectionMode.UNION;
-    @Transient private PathSerializerType pathSerializer            = PathSerializerType.COMPACT_PATH_SERIALIZER;
-    @Transient private PolygonSerializerType polygonSerializerType  = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
-    @Transient private Integer maxSnapDistance                                               = null;
+    private Double buffer = null;
+    private Double simplify = null;
+    private Integer quadrantSegments = null;
+    private Integer flyCircleDetailLevel = null;
+    private PolygonIntersectionMode intersectionMode = PolygonIntersectionMode.UNION;
+    private PathSerializerType pathSerializer = PathSerializerType.COMPACT_PATH_SERIALIZER;
+    private PolygonSerializerType polygonSerializerType = PolygonSerializerType.JSON_POLYGON_SERIALIZER;
+    private Integer maxSnapDistance = null;
 
-    @Transient private Set<Integer> multiGraphEdgeClasses                                    = null;
-    @Transient private MultiGraphDomainType multiGraphDomainType                             = null;
-    @Transient private MultiGraphDomainEdgeAggregationType multiGraphDomainEdgeAggregationType = null;
-    @Transient private MultiGraphSerializationFormat multiGraphSerializationFormat           = null;
-    @Transient private Integer multiGraphSerializationDecimalPrecision                       = null;
-    @Transient private Integer multiGraphSerializationMaxGeometryCount                       = null;
-    @Transient private Integer multiGraphSerializationH3MaxBufferMeters      = null;
-    @Transient private Integer multiGraphSerializationH3MaxBufferCells       = null;
-    @Transient private Float multiGraphSerializationH3BufferSpeed            = null;
-    @Transient private Boolean multiGraphSerializationH3BufferFixedValue     = null;
-    @Transient private MultiGraphLayerCustomGeometryMergeAggregation multiGraphSerializationH3BufferAggregationType = null;
-    @Transient private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
-    @Transient private MultiGraphAggregationType multiGraphAggregationType                   = null;
-    @Transient private Boolean multiGraphAggregationIgnoreOutliers                           = null;
-    @Transient private Float multiGraphAggregationOutlierPenalty                             = null;
-    @Transient private Double multiGraphAggregationMinSourcesRatio                           = null;
-    @Transient private Integer multiGraphAggregationMinSourcesCount                          = null;
-    @Transient private Float multiGraphAggregationSourceValuesLowerBound                     = null;
-    @Transient private Float multiGraphAggregationSourceValuesUpperBound                     = null;
-    @Transient
+    private Set<Integer> multiGraphEdgeClasses                                    = null;
+    private MultiGraphDomainType multiGraphDomainType                             = null;
+    private MultiGraphDomainEdgeAggregationType multiGraphDomainEdgeAggregationType = null;
+    private MultiGraphSerializationFormat multiGraphSerializationFormat           = null;
+    private Integer multiGraphSerializationDecimalPrecision                       = null;
+    private Integer multiGraphSerializationMaxGeometryCount                       = null;
+    private Integer multiGraphSerializationH3MaxBufferMeters      = null;
+    private Integer multiGraphSerializationH3MaxBufferCells       = null;
+    private Float multiGraphSerializationH3BufferSpeed            = null;
+    private Boolean multiGraphSerializationH3BufferFixedValue     = null;
+    private MultiGraphLayerCustomGeometryMergeAggregation multiGraphSerializationH3BufferAggregationType = null;
+    private MultiGraphSerializationH3IdFormat multiGraphSerializationH3IdFormat = null;
+    private MultiGraphAggregationType multiGraphAggregationType                   = null;
+    private Boolean multiGraphAggregationIgnoreOutliers                           = null;
+    private Float multiGraphAggregationOutlierPenalty                             = null;
+    private Double multiGraphAggregationMinSourcesRatio                           = null;
+    private Integer multiGraphAggregationMinSourcesCount                          = null;
+    private Float multiGraphAggregationSourceValuesLowerBound                     = null;
+    private Float multiGraphAggregationSourceValuesUpperBound                     = null;
+
     private Float multiGraphAggregationSourceValuesModifier                                  = null;
-    @Transient private Double multiGraphAggregationMinResultValueRatio                       = null;
-    @Transient private Float multiGraphAggregationMinResultValue                             = null;
-    @Transient private Double multiGraphAggregationMaxResultValueRatio                       = null;
-    @Transient private Float multiGraphAggregationMaxResultValue                             = null;
-    @Transient private String multiGraphAggregationMathExpression                            = null;
-    @Transient private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
-    @Transient private Double multiGraphAggregationGravitationExponent                       = null;
-    @Transient private Double multiGraphAggregationProbabilityDecay                          = null;
-    @Transient private Double multiGraphAggregationLogitBetaAttractionStrength               = null;
-    @Transient private Double multiGraphAggregationLogitBetaTravelTime                       = null;
-    @Transient private Boolean multiGraphAggregationUseProbabilityBasedWeightedAverage       = null;
-    @Transient private Float multiGraphAggregationPostAggregationFactor                      = null;
-    @Transient private Map<String, AggregationInputParameters> multiGraphAggregationInputParameters = null;
-    @Transient private LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline = null;
-    @Transient private MultiGraphLayerType multiGraphLayerType                               = null;
-    @Transient private Integer multiGraphLayerGeometryDetailPerTile                          = null;
-    @Transient private Integer multiGraphLayerMinGeometryDetailLevel                         = null;
-    @Transient private Integer multiGraphLayerMaxGeometryDetailLevel                         = null;
-    @Transient private Integer multiGraphLayerGeometryDetailLevel                            = null;
-    @Transient private MultiGraphLayerCustomGeometryMergeAggregation multiGraphLayerCustomGeometryMergeAggregation = null;
-    @Transient private Integer multiGraphTileZoom                                            = null;
-    @Transient private Integer multiGraphTileX                                               = null;
-    @Transient private Integer multiGraphTileY                                               = null;
-    @Transient private Geometry clipGeometry                                                 = null;
-    @Transient private Integer multiGraphH3FixedZoomLevel                                    = null;
+    private Double multiGraphAggregationMinResultValueRatio                       = null;
+    private Float multiGraphAggregationMinResultValue                             = null;
+    private Double multiGraphAggregationMaxResultValueRatio                       = null;
+    private Float multiGraphAggregationMaxResultValue                             = null;
+    private String multiGraphAggregationMathExpression                            = null;
+    private Set<String> multiGraphAggregationFilterValuesForSourceOrigins         = null;
+    private Double multiGraphAggregationGravitationExponent                       = null;
+    private Double multiGraphAggregationProbabilityDecay                          = null;
+    private Double multiGraphAggregationLogitBetaAttractionStrength               = null;
+    private Double multiGraphAggregationLogitBetaTravelTime                       = null;
+    private Boolean multiGraphAggregationUseProbabilityBasedWeightedAverage       = null;
+    private Float multiGraphAggregationPostAggregationFactor                      = null;
+    private Map<String, AggregationInputParameters> multiGraphAggregationInputParameters = null;
+    private LinkedHashMap<String, AggregationConfiguration> multiGraphPreAggregationPipeline = null;
+    private MultiGraphLayerType multiGraphLayerType                               = null;
+    private Integer multiGraphLayerGeometryDetailPerTile                          = null;
+    private Integer multiGraphLayerMinGeometryDetailLevel                         = null;
+    private Integer multiGraphLayerMaxGeometryDetailLevel                         = null;
+    private Integer multiGraphLayerGeometryDetailLevel                            = null;
+    private MultiGraphLayerCustomGeometryMergeAggregation multiGraphLayerCustomGeometryMergeAggregation = null;
+    private Integer multiGraphTileZoom                                            = null;
+    private Integer multiGraphTileX                                               = null;
+    private Integer multiGraphTileY                                               = null;
+    private Geometry clipGeometry                                                 = null;
+    private Integer multiGraphH3FixedZoomLevel                                    = null;
 
 
-    @Column(name = "max_edge_weight") private Integer maxEdgeWeight            = 1800;
-    @Column(name = "service_url") private String serviceUrl                    = "";
-    @Column(name = "service_key") private String serviceKey                    = "";
-    @Transient private boolean onlyPrintReachablePoints                        = true;
+    private Integer maxEdgeWeight = 1800;
+    private String serviceUrl = "";
+    private String serviceKey = "";
+    private boolean onlyPrintReachablePoints = true;
 
     @JsonProperty("edgeWeight")
-    @Column(name = "edge_weight_type") private EdgeWeightType edgeWeightType   = EdgeWeightType.TIME;
+    private EdgeWeightType edgeWeightType = EdgeWeightType.TIME;
 
-	@Column(name = "statistic_group_id") private Integer statisticGroupId;
-    @Column(name = "statistic_service_url") private String statisticServiceUrl = "https://api.targomo.com/statistics/";
-	@Column(name = "poi_service_url") private String pointOfInterestServiceUrl = "https://api.targomo.com/pointofinterest/";
+	private Integer statisticGroupId;
+    private String statisticServiceUrl = "https://api.targomo.com/statistics/";
+	private String pointOfInterestServiceUrl = "https://api.targomo.com/pointofinterest/";
 
-	@Column(name = "overpass_query") private String overpassQuery;
-	@Column(name = "overpass_service_url") private String overpassServiceUrl = "https://api.targomo.com/overpass/";
+	private String overpassQuery;
+	private String overpassServiceUrl = "https://api.targomo.com/overpass/";
 
-    @Column(name = "inter_service_key") private String interServiceKey = "";
-
-    @Transient
+    private String interServiceKey = "";
+    
     private String interServiceRequestType = "";
-
-	@Transient
+    
 	private Format format;
-
-	@Transient
+    
 	private Geometry intersectionGeometry;
-
-    @Transient
+    
     private Geometry exclusionGeometry;
-
-    @Transient
+    
     private List<Integer> excludeEdgeClasses;
-
-	@Transient
+    
 	private String boundingBox;
-
-    @Transient
+    
     private Set<PoiType> osmTypes = new HashSet<>();
-
-    @Transient
+    
     private Set<PoiType> customPois = new HashSet<>();
-
-    @Transient
+    
     @JsonProperty("filterGeometry")
     private AbstractGeometry filterGeometryForPOIs;
-
-    @Transient
+    
     @JsonProperty("gravitationExponent")
     private Double poiGravitationExponent;
-
-    @Transient
+    
     @JsonProperty("probabilityDecay")
     private Double poiGravitationProbabilityDecay;
-
-    @Transient
+    
     private boolean forceRecalculate = false;
-
-    @Transient
+    
     private boolean cacheResult = true;
 
     //parameters for requesting "transit/stops" endpoint - not for routing
-    @Transient
     private Integer nextStopsStartTime;
-    @Transient
     private Integer nextStopsEndTime;
-
-    @Transient
+    
     private Boolean includeSnapDistance;
-
-    @Transient
+    
     private Boolean includeSnapDistanceForTargets;
-
-    @Transient
+    
     private Boolean useAreaSnapping;
 
     // snap radius is in meters
-    @Transient
     private Integer snapRadius;
     // maximum distance between the lanes to snap to the opposite direction lane of multi-lane roads
-    @Transient
     private Integer areaSnappingOppositeLanesMaxDist;
 
-    @Transient
     private List<Integer> excludeEdgeClassesFromSnapping;
-    @Transient
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
 
@@ -520,7 +461,7 @@ public class TravelOptions implements Serializable {
      * @return the travel type
      * @throws TargomoClientException if there is more than one travel type
      */
-    @JsonIgnore
+    @JsonIgnore @Deprecated
     public TravelType getTravelType() throws TargomoClientException {
         if (travelTypes.size() != 1) {
             throw new TargomoClientException("Number of travel types was expected to be exactly one.");
@@ -539,8 +480,6 @@ public class TravelOptions implements Serializable {
         final int maxLen = 5;
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getName());
-        builder.append("\n\tid: ");
-        builder.append(id);
         builder.append("\n\tforceRecalculate: ");
         builder.append(forceRecalculate);
         builder.append("\n\tcacheResult: ");

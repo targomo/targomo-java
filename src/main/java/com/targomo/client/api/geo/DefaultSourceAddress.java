@@ -5,7 +5,6 @@ import com.targomo.client.api.pojo.LocationProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -13,18 +12,12 @@ import java.util.Objects;
 /**
  * AbstractClass for dealing with Source/Target H3 Addresses
  */
-@MappedSuperclass @Getter @Setter
+@Getter @Setter
 public class DefaultSourceAddress extends AbstractLocation implements Location {
-
-	@Id
-	@Column(name = "identifier")
-	@GeneratedValue(strategy= GenerationType.TABLE)
-	private long identifier;
 
 	/**
 	 * If there is more than one element in the travelTypes list, multi modal routing will be used.
 	 */
-	@Column(name = "travel_types")
 	private List<TravelType> travelTypes;
 
 	private String h3Address;

@@ -2,8 +2,9 @@ package com.targomo.client.api.geo;
 
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.pojo.LocationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.MappedSuperclass;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
  * Simple abstract class to use for storing geometry data with IDs and travel types.
  * @author gideon
  */
-@MappedSuperclass
+@Getter @Setter
 public abstract class AbstractGeometry extends AbstractLocation implements RoutingGeometry {
 
     private Integer crs;
@@ -24,48 +25,6 @@ public abstract class AbstractGeometry extends AbstractLocation implements Routi
         super(id, locationProperties);
         this.crs = crs;
         this.data = data;
-        this.routeFromCentroid = routeFromCentroid;
-    }
-
-    /**
-     * @return the string representation of this geometry
-     */
-    public String getData() {
-        return data;
-    }
-
-    /**
-     * @return the coordinate reference system for this geometry
-     */
-    public Integer getCrs() {
-        return crs;
-    }
-
-    /**
-     * @return route from geometry centroid boolean
-     */
-    public boolean isRouteFromCentroid() {
-        return routeFromCentroid;
-    }
-
-    /**
-     * @param data the string representation of this geometry
-     */
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    /**
-     * @param crs coordinate reference system for this geometry
-     */
-    public void setCrs(Integer crs) {
-        this.crs = crs;
-    }
-
-    /**
-     * @param routeFromCentroid if true route from/to the centroid of this geometry when no intersections found
-     */
-    public void setRouteFromCentroid(Boolean routeFromCentroid) {
         this.routeFromCentroid = routeFromCentroid;
     }
 

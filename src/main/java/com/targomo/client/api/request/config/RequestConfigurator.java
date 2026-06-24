@@ -14,8 +14,8 @@ import com.targomo.client.api.pojo.Geometry;
 import com.targomo.client.api.quality.Location;
 import com.targomo.client.api.quality.criterion.CriterionDefinition;
 import com.targomo.client.api.request.config.builder.JSONBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,9 +32,8 @@ import static com.targomo.client.Constants.*;
  * Polygon, sources array and other properties are created as JSONObjects, then appended as Strings.
  *
  */
+@Slf4j
 public final class RequestConfigurator {
-
-    private static final Logger LOG = Logger.getLogger(RequestConfigurator.class);
 
     private RequestConfigurator() { }
 
@@ -46,23 +45,23 @@ public final class RequestConfigurator {
 	 * @throws TargomoClientException Thrown when JSON cannot be generated
 	 */
 	public static String getConfig(final TravelOptions travelOptions) throws TargomoClientException {
-	    LOG.trace("Creating configuration...");
+	    log.trace("Creating configuration...");
 	    String config = getCommonConfig(travelOptions);
-	    LOG.trace("Configuration created.");
+	    log.trace("Configuration created.");
 	    return config;
     }
 
     public static String getConfig(final Map<String, CriterionDefinition> criteria, final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
-        LOG.trace("Creating configuration...");
+        log.trace("Creating configuration...");
         String config = getCommonConfig(criteria, locations, competitors);
-        LOG.trace("Configuration created.");
+        log.trace("Configuration created.");
         return config;
     }
 
     public static String getConfig(final List<Location> locations, final List<Location> competitors) throws TargomoClientException {
-        LOG.trace("Creating configuration...");
+        log.trace("Creating configuration...");
         String config = getCommonConfig(locations, competitors);
-        LOG.trace("Configuration created.");
+        log.trace("Configuration created.");
         return config;
     }
 

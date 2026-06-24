@@ -8,6 +8,7 @@ import com.targomo.client.api.enums.*;
 import com.targomo.client.api.exception.TargomoClientException;
 import com.targomo.client.api.geo.*;
 import com.targomo.client.api.util.CollectionUtils;
+import com.targomo.client.api.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
 
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,13 +59,13 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
-            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCES));
-            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGETS));
 
             //assert other elements
@@ -108,17 +110,17 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
             // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/TimeVectorRequestCfgWithGeometriesSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare source and target objects
-            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCES));
-            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.SOURCE_GEOMETRIES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.SOURCE_GEOMETRIES));
-            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGETS)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGETS));
-            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONArray(Constants.TARGET_GEOHASHES)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONArray(Constants.TARGET_GEOHASHES));
 
             //assert other elements
@@ -188,7 +190,7 @@ public class RequestConfiguratorTest {
             JSONObject sampleObject = new JSONObject(sampleJson);
 
             // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONObject(Constants.MULTIGRAPH));
 
 
@@ -204,7 +206,7 @@ public class RequestConfiguratorTest {
             actualObject = new JSONObject(RequestConfigurator.getConfig(options));
 
             // Compare two objects
-            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).isEqualToComparingFieldByFieldRecursively(
+            assertThat(sampleObject.getJSONObject(Constants.MULTIGRAPH)).usingRecursiveComparison().isEqualTo(
                     actualObject.getJSONObject(Constants.MULTIGRAPH));
 
         } catch (IOException e) {
@@ -249,29 +251,29 @@ public class RequestConfiguratorTest {
             JSONObject actualObject = new JSONObject(cfg);
 
 	        // Load sample json & load object
-            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"));
+            String sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCfgSample.json"), StandardCharsets.UTF_8);
             JSONObject sampleObject = new JSONObject(sampleJson);
 
 	        // Compare two objects
 	        checkPolygons(actualObject, sampleObject);
-            Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCES),JsonUtil.getString(actualObject, Constants.SOURCES));
 	        Assert.assertEquals(
-                    sampleObject.getString(Constants.ENABLE_ELEVATION),
-                    actualObject.getString(Constants.ENABLE_ELEVATION)
+                    JsonUtil.getString(sampleObject, Constants.ENABLE_ELEVATION),
+                    JsonUtil.getString(actualObject, Constants.ENABLE_ELEVATION)
             );
-            Assert.assertEquals(sampleObject.getString(Constants.REVERSE), actualObject.getString(Constants.REVERSE));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.REVERSE), JsonUtil.getString(actualObject, Constants.REVERSE));
 	        Assert.assertEquals(sampleObject.getString(Constants.EDGE_WEIGHT).toLowerCase(),
                     actualObject.getString(Constants.EDGE_WEIGHT).toLowerCase());
 
-            Assert.assertEquals(sampleObject.getString(Constants.TRAVEL_TIME_FACTORS), actualObject.getString(Constants.TRAVEL_TIME_FACTORS));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.TRAVEL_TIME_FACTORS), JsonUtil.getString(actualObject, Constants.TRAVEL_TIME_FACTORS));
 
             //// test with car
             options.setTravelType(TravelType.CAR);
             cfg = RequestConfigurator.getConfig(options);
             actualObject = new JSONObject(cfg);
-            sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"));
+            sampleJson = IOUtils.toString(classLoader.getResourceAsStream("data/PolygonRequestCarCfgSample.json"), StandardCharsets.UTF_8);
             sampleObject = new JSONObject(sampleJson);
-            Assert.assertEquals(sampleObject.getString(Constants.SOURCES), actualObject.getString(Constants.SOURCES));
+            Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCES), JsonUtil.getString(actualObject, Constants.SOURCES));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -356,11 +358,11 @@ public class RequestConfiguratorTest {
         JSONObject actualObject = new JSONObject(cfg);
         System.out.println(actualObject);
 
-        String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"));
+        String sampleJson = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/RequestWithH3Addresses.json"), StandardCharsets.UTF_8);
         JSONObject sampleObject = new JSONObject(sampleJson);
 
-        Assert.assertEquals(sampleObject.getString(Constants.SOURCE_ADDRESSES), actualObject.getString(Constants.SOURCE_ADDRESSES));
-        Assert.assertEquals(sampleObject.getString(Constants.TARGET_ADDRESSES), actualObject.getString(Constants.TARGET_ADDRESSES));
+        Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.SOURCE_ADDRESSES), JsonUtil.getString(actualObject, Constants.SOURCE_ADDRESSES));
+        Assert.assertEquals(JsonUtil.getString(sampleObject, Constants.TARGET_ADDRESSES), JsonUtil.getString(actualObject, Constants.TARGET_ADDRESSES));
     }
 
     @Test
@@ -413,7 +415,8 @@ public class RequestConfiguratorTest {
 	        final int numOfTargets = 500000;
 
             TravelOptions options = new TravelOptions();
-            options.setMaxRoutingTime(3600);
+            options.setEdgeWeightType(EdgeWeightType.TIME);
+            options.setMaxEdgeWeight(3600);
 
 	        // Sources
 	        double min = -90;
@@ -443,7 +446,7 @@ public class RequestConfiguratorTest {
 
 	        // Load sample json file & create sample object
 	        InputStream resource = getClass().getClassLoader().getResourceAsStream("data/TimeRequestCfgSample.json");
-	        String sampleJson = IOUtils.toString(resource, Charset.forName("UTF-8"));
+	        String sampleJson = IOUtils.toString(resource, StandardCharsets.UTF_8);
 	        JSONObject sampleObject = new JSONObject(sampleJson);
 
 	        // Input is random at each test, so we only compare array lengths to make sure all data is converted

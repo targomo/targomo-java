@@ -4,12 +4,8 @@ import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.response.statistics.StatisticResult;
 import com.targomo.client.api.util.JsonUtil;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class StatisticsResponse {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsResponse.class);
 
 	private final long requestTimeMillis;
 	private final long totalTimeMillis;
