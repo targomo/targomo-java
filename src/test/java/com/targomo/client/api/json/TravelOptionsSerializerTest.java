@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class TravelOptionsSerializerTest {
@@ -33,7 +34,7 @@ public class TravelOptionsSerializerTest {
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsReachabilityRequest.json"));
+        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsReachabilityRequest.json"), StandardCharsets.UTF_8);
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
 
         Map<String, List<Integer>> aggStats = new HashMap<>();
@@ -41,7 +42,7 @@ public class TravelOptionsSerializerTest {
         EdgeStatisticsReachabilityRequestOptions cfg2 = new EdgeStatisticsReachabilityRequestOptions(new HashSet<>(Arrays.asList(0, 1)), aggStats, EdgeStatisticAggregationType.SUM, new ArrayList<>(), false, options);
         String requestBody2 = new ObjectMapper().writeValueAsString(cfg2);
 
-        String expectedJson2 = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/EdgeStatisticsReachabilityRequest2.json"));
+        String expectedJson2 = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("data/EdgeStatisticsReachabilityRequest2.json"), StandardCharsets.UTF_8);
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson2), StringUtils.deleteWhitespace(requestBody2));
     }
 
@@ -68,7 +69,7 @@ public class TravelOptionsSerializerTest {
         String requestBody = new ObjectMapper().writeValueAsString(cfg);
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsCrossingRadiusRequest.json"));
+        String expectedJson = IOUtils.toString(classLoader.getResourceAsStream("data/EdgeStatisticsCrossingRadiusRequest.json"), StandardCharsets.UTF_8);
         Assert.assertEquals(StringUtils.deleteWhitespace(expectedJson), StringUtils.deleteWhitespace(requestBody));
     }
 

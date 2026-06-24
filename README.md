@@ -52,6 +52,8 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.48.0
+* Update to JDK 17
+* Remove unused persistence annotations
 
 ### 0.47.1
 * Add  `areaSnappingOppositeLanesMaxDist` to `RoutingOptions` class

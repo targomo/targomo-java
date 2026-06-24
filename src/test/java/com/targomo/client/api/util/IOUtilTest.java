@@ -50,6 +50,6 @@ public class IOUtilTest {
 
 		StatisticTravelOptions clone = IOUtil.cloneObjects( original, StatisticTravelOptions.class );
 
-		assertThat(clone).isEqualToComparingFieldByFieldRecursively(original);
+		assertThat(clone).usingRecursiveComparison().isEqualTo(original);
 	}
 }
