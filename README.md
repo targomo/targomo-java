@@ -52,6 +52,7 @@ nexus and to the maven repo (last is only possibly from master).
 ## Release Notes
 
 ### 0.49.0
+* Add new tiles multigraph per source serialization
 
 ### 0.48.0
 * Update to JDK 17
