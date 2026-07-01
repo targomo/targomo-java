@@ -173,7 +173,7 @@ public class MultiGraphRequestTest extends RequestTest {
         travelOptions.setMultiGraphLayerType(MultiGraphLayerType.TILE);
         travelOptions.setMultiGraphLayerGeometryDetailLevel(10);
         travelOptions.setMultiGraphSerializationFormat(MultiGraphSerializationFormat.TILEHASH);
-        MultiGraphResponse.MultiGraphTileHashResponse response = MultiGraphRequest.executeRequestTileHash(client, travelOptions);
+        MultiGraphResponse.MultiGraphTileHashPerSourceResponse response = MultiGraphRequest.executeRequestTileHash(client, travelOptions);
         System.out.println(response.getData());
     }
 }
