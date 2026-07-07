@@ -72,6 +72,7 @@ public class Constants {
     public static final String TRANSPORT_MODE_TRAFFIC_SIGNAL_PENALTY                    = "trafficSignalPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY                 = "trafficLeftTurnPenalty";
     public static final String TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY                = "trafficRightTurnPenalty";
+    public static final String TRANSPORT_MODE_IGNORE_PENALTIES_IN_STARTING_SERVICE_AREA = "ignorePenaltiesInStartingServiceArea";
     public static final String BUFFER                                                   = "buffer";
     public static final String SIMPLIFY                                                 = "simplify";
     public static final String QUADRANT_SEGMENTS                                        = "quadrantSegments";
@@ -204,6 +205,7 @@ public class Constants {
     public static final String INTER_SERVICE_KEY                                        = "interServiceKey";
     public static final String INTER_SERVICE_REQUEST                                    = "interServiceRequest";
     public static final String TRAVEL_TIME_FACTORS										= "travelTimeFactors";
+    public static final String DEFAULT_ROAD_SPEEDS										= "defaultRoadSpeeds";
     public static final String GEO_JSON   												= "geojson";
     public static final String DATA   												    = "data";
     public static final String CRS                                                      = "crs";

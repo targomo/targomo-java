@@ -226,6 +226,13 @@ public final class RequestConfigurator {
                 JSONBuilder.append(config, TRAVEL_TIME_FACTORS, travelFactors);
             }
 
+            if (travelOptions.getDefaultRoadSpeeds() != null && !travelOptions.getDefaultRoadSpeeds().isEmpty()) {
+                JSONObject defaultRoadSpeeds = new JSONObject();
+                for(Map.Entry<String,Integer> speeds : travelOptions.getDefaultRoadSpeeds().entrySet())
+                    defaultRoadSpeeds.put(speeds.getKey(), speeds.getValue());
+                JSONBuilder.append(config, DEFAULT_ROAD_SPEEDS, defaultRoadSpeeds);
+            }
+
             if ( travelOptions.getClipGeometry() != null )
                 JSONBuilder.append(config, CLIP_GEOMETRY, createGeometryJson(travelOptions.getClipGeometry()));
 
@@ -640,6 +647,9 @@ public final class RequestConfigurator {
             travelMode.put(TRANSPORT_MODE_TRAFFIC_LEFT_TURN_PENALTY, travelOptions.getTrafficLeftTurnPenalty());
         if (travelOptions.getTrafficRightTurnPenalty() != null)
             travelMode.put(TRANSPORT_MODE_TRAFFIC_RIGHT_TURN_PENALTY, travelOptions.getTrafficRightTurnPenalty());
+
+        if (travelOptions.getIgnorePenaltiesInStartingServiceArea() != null)
+            travelMode.put(TRANSPORT_MODE_IGNORE_PENALTIES_IN_STARTING_SERVICE_AREA, travelOptions.getIgnorePenaltiesInStartingServiceArea());
 
         Set<TravelType> includedTravelTypes = new HashSet<>(travelTypes);
 
