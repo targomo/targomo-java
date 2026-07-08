@@ -34,6 +34,7 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final CaseInsensitiveMap travelMode;
     private final Boolean elevation;
     private final Map<String, Double> travelTimeFactors;
+    private final Map<String, Integer> defaultRoadSpeeds;
     private final Boolean reverse;
     private final Geometry exclusionGeometry;
     private final List<Integer> excludeEdgeClasses;
