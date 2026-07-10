@@ -54,6 +54,7 @@ nexus and to the maven repo (last is only possibly from master).
 ### 0.49.0
 * Add routing parameter `ignorePenaltiesInStartingServiceArea`
 * Add routing parameter `defaultRoadSpeeds`
+* Add hashing of routing parameters and creation of TravelOptions to `RoutingBasedCriterionDefinition`
 
 ### 0.48.0
 * Update to JDK 17
