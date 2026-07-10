@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -72,6 +73,12 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
         }
 
         return (Map) propertiesObj;
+    }
+
+    @JsonIgnore
+    public int hashRoutingParameters() {
+        return Objects.hash(edgeWeight.ordinal(), maxEdgeWeight, travelMode, elevation,
+                travelTimeFactors, defaultRoadSpeeds, reverse, exclusionGeometry, excludeEdgeClasses);
     }
 
     @JsonIgnore
