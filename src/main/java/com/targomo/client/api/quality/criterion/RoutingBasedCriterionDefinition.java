@@ -74,39 +74,4 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
 
         return (Map) propertiesObj;
     }
-
-    @JsonIgnore
-    public int hashRoutingParameters() {
-        return Objects.hash(edgeWeight.ordinal(), maxEdgeWeight, travelMode, elevation,
-                travelTimeFactors, defaultRoadSpeeds, reverse, exclusionGeometry, excludeEdgeClasses);
-    }
-
-    @JsonIgnore
-    public TravelOptions createTravelOptionsWithoutSources() {
-        return populateTravelOptionsWithoutSources(new TravelOptions());
-    }
-
-    @JsonIgnore
-    public TravelOptions populateTravelOptionsWithoutSources(TravelOptions options) {
-        options.setEdgeWeightType(edgeWeight);
-        options.setMaxEdgeWeight(maxEdgeWeight);
-
-        options.setTravelType(this.getTravelType());
-        if (elevation != null) {
-            options.setElevationEnabled(elevation);
-        }
-        if (travelTimeFactors != null) {
-            options.setTravelTimeFactors(travelTimeFactors);
-        }
-        if (defaultRoadSpeeds != null) {
-            options.setDefaultRoadSpeeds(defaultRoadSpeeds);
-        }
-        if(reverse != null){
-            options.setReverse(reverse);
-        }
-        options.setExclusionGeometry(exclusionGeometry);
-        options.setExcludeEdgeClasses(excludeEdgeClasses);
-        return options;
-    }
-
 }
