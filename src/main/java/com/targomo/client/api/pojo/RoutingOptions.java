@@ -23,6 +23,7 @@ public class RoutingOptions {
     // Currently multi modal routing is not supported in competing routing options
     private TravelType travelType;
     private Map<String,Double> travelTimeFactors;
+    private Map<String,Integer> defaultRoadSpeeds;
     private Boolean reverse;
     private Boolean rushHour;
     private Integer time;
@@ -53,12 +54,13 @@ public class RoutingOptions {
     private Boolean includeSnapDistance;
     private Boolean includeSnapDistanceForTargets;
     private Integer areaSnappingOppositeLanesMaxDist;
+    private Boolean ignorePenaltiesInStartingServiceArea;
 
     @Override //overriding hash code since the has would change with each execution for enums (travelType)
     public int hashCode(){
-        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, reverse, rushHour, time, date, weekday, frame, arrivalOrDepartureDuration,
+        return Objects.hash(maxEdgeWeight, travelType.ordinal(), travelTimeFactors, defaultRoadSpeeds, reverse, rushHour, time, date, weekday, frame, arrivalOrDepartureDuration,
                 elevationEnabled, bikeSpeed, bikeDownhill, bikeUphill, walkSpeed, walkDownhill, walkUphill, allowPrivateAndServiceRoads,
-                trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty,
+                trafficJunctionPenalty, trafficSignalPenalty, trafficLeftTurnPenalty, trafficRightTurnPenalty, ignorePenaltiesInStartingServiceArea,
                 maxTransfers, maxWalkingTimeFromSource, maxWalkingTimeToTarget, avoidTransitRouteTypes,
                 maxSnapDistance, excludeEdgeClassesFromSnapping, useAreaSnapping, snapRadius, includeSnapDistance, includeSnapDistanceForTargets, areaSnappingOppositeLanesMaxDist);
     }
@@ -68,7 +70,7 @@ public class RoutingOptions {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoutingOptions that = (RoutingOptions) o;
-        return Objects.equals(maxEdgeWeight, that.maxEdgeWeight) && travelType == that.travelType && Objects.equals(travelTimeFactors, that.travelTimeFactors)
+        return Objects.equals(maxEdgeWeight, that.maxEdgeWeight) && travelType == that.travelType && Objects.equals(travelTimeFactors, that.travelTimeFactors) && Objects.equals(defaultRoadSpeeds, that.defaultRoadSpeeds)
                 && Objects.equals(reverse, that.reverse) && Objects.equals(rushHour, that.rushHour) && Objects.equals(time, that.time)
                 && Objects.equals(date, that.date) && Objects.equals(weekday, that.weekday) && Objects.equals(frame, that.frame) && Objects.equals(arrivalOrDepartureDuration, that.arrivalOrDepartureDuration)
                 && Objects.equals(elevationEnabled, that.elevationEnabled) && Objects.equals(bikeSpeed, that.bikeSpeed) && Objects.equals(bikeDownhill, that.bikeDownhill)
@@ -76,6 +78,7 @@ public class RoutingOptions {
                 && Objects.equals(walkUphill, that.walkUphill) && Objects.equals(allowPrivateAndServiceRoads, that.allowPrivateAndServiceRoads)
                 && Objects.equals(trafficJunctionPenalty, that.trafficJunctionPenalty) && Objects.equals(trafficSignalPenalty, that.trafficSignalPenalty)
                 && Objects.equals(trafficLeftTurnPenalty, that.trafficLeftTurnPenalty) && Objects.equals(trafficRightTurnPenalty, that.trafficRightTurnPenalty)
+                && Objects.equals(ignorePenaltiesInStartingServiceArea, that.ignorePenaltiesInStartingServiceArea)
                 && Objects.equals(maxTransfers, that.maxTransfers) && Objects.equals(maxWalkingTimeFromSource, that.maxWalkingTimeFromSource)
                 && Objects.equals(maxWalkingTimeToTarget, that.maxWalkingTimeToTarget) && Objects.equals(avoidTransitRouteTypes, that.avoidTransitRouteTypes)
                 && Objects.equals(maxSnapDistance, that.maxSnapDistance) && Objects.equals(excludeEdgeClassesFromSnapping, that.excludeEdgeClassesFromSnapping)

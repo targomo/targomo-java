@@ -39,7 +39,8 @@
           "maxSnapDistance": 30,
           "snappingSpeed": 3.5,
           "areaSnappingOppositeLanesMaxDist": 20,
-          "excludeEdgeClassesFromSnapping": [11, 12, 75]
+          "excludeEdgeClassesFromSnapping": [11, 12, 75],
+          "ignorePenaltiesInStartingServiceArea" : true
         }
       },
       "id": "id1",
@@ -51,5 +52,6 @@
   "edgeWeight": "DISTANCE",
   "maxSnapDistance": 30,
   "excludeEdgeClasses": [11, 12],
-  "travelTimeFactors":{"all":0.9,"motorway":0.7}
+  "travelTimeFactors":{"all":0.9,"motorway":0.7},
+  "defaultRoadSpeeds":{"all":60,"service":50}
 }

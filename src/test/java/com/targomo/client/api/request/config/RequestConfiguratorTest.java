@@ -236,6 +236,8 @@ public class RequestConfiguratorTest {
             options.setMaxTransfers(2);
             options.getTravelTimeFactors().put("all",0.9);
             options.getTravelTimeFactors().put("motorway",0.7);
+            options.getDefaultRoadSpeeds().put("all", 60);
+            options.getDefaultRoadSpeeds().put("service", 50);
             options.setMaxSnapDistance(30);
             options.setExcludeEdgeClasses(Arrays.asList(11, 12));
 
@@ -244,6 +246,7 @@ public class RequestConfiguratorTest {
             options.setSnapRadius(200);
             options.setSnappingSpeed(3.5);
             options.setAreaSnappingOppositeLanesMaxDist(20);
+            options.setIgnorePenaltiesInStartingServiceArea(true);
             options.setExcludeEdgeClassesFromSnapping(Arrays.asList(11, 12, 75));
 
 	        // Run configurator && get object
