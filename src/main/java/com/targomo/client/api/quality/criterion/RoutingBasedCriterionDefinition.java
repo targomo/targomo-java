@@ -2,6 +2,7 @@ package com.targomo.client.api.quality.criterion;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.targomo.client.api.TravelOptions;
 import com.targomo.client.api.enums.EdgeWeightType;
 import com.targomo.client.api.enums.TravelType;
 import com.targomo.client.api.exception.TargomoClientRequestConfigurationException;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -34,6 +36,7 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
     private final CaseInsensitiveMap travelMode;
     private final Boolean elevation;
     private final Map<String, Double> travelTimeFactors;
+    private final Map<String, Integer> defaultRoadSpeeds;
     private final Boolean reverse;
     private final Geometry exclusionGeometry;
     private final List<Integer> excludeEdgeClasses;
@@ -71,5 +74,4 @@ public abstract class RoutingBasedCriterionDefinition extends CriterionDefinitio
 
         return (Map) propertiesObj;
     }
-
 }

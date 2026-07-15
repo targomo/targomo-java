@@ -85,6 +85,8 @@ public class TravelOptions implements Serializable {
     
 	private Map<String,Double> travelTimeFactors = new HashMap<>();
 
+    private Map<String,Integer> defaultRoadSpeeds = new HashMap<>();
+
     private Boolean elevationEnabled = true;
 
     private Boolean appendTravelTimes = false;
@@ -232,6 +234,7 @@ public class TravelOptions implements Serializable {
     private List<Integer> excludeEdgeClassesFromSnapping;
     private Integer multiGraphAggregationLearntMaxEdgeWeight;
 
+    private Boolean ignorePenaltiesInStartingServiceArea;
 
     /**
      * Set the travel type to use when routing.
@@ -700,6 +703,8 @@ public class TravelOptions implements Serializable {
         builder.append(poiGravitationProbabilityDecay);
         builder.append("\n\ttravelTimeFactors: ");
         builder.append(travelTimeFactors != null ? toString(travelTimeFactors.entrySet(), maxLen) : null);
+        builder.append("\n\tdefaultRoadSpeeds: ");
+        builder.append(defaultRoadSpeeds != null ? toString(defaultRoadSpeeds.entrySet(), maxLen) : null);
         builder.append("\n\tmaxTransfers: ");
         builder.append(maxTransfers);
         builder.append("\n\tavoidTransitRouteTypes: ");
@@ -728,6 +733,8 @@ public class TravelOptions implements Serializable {
         builder.append(areaSnappingOppositeLanesMaxDist);
         builder.append("\n\tmultiGraphAggregationLearntMaxEdgeWeight: ");
         builder.append(multiGraphAggregationLearntMaxEdgeWeight);
+        builder.append("\n\tignorePenaltiesInStartingServiceArea: ");
+        builder.append(ignorePenaltiesInStartingServiceArea);
         builder.append("\n}\n");
         return builder.toString();
     }
