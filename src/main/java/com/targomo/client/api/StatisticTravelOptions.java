@@ -34,6 +34,15 @@ public class StatisticTravelOptions extends TravelOptions {
 
     private Map<String,Short> multiGraphReferencedStatisticIds = null;
 
+    /**
+     * Optional per-reference period selection for a collection multigraph request. Maps each key of
+     * {@link #multiGraphReferencedStatisticIds} to the {@code periodOrder} of the collection period its statistic
+     * should be read from. Keys absent here fall back to {@link #statisticCollectionPeriod} (or the default period).
+     * Only valid together with {@link #multiGraphDomainStatisticCollectionId}. Enables comparing statistics of
+     * different periods within a single request; periods are matched cell-by-cell via a shared geometry group.
+     */
+    private Map<String,Integer> multiGraphReferencedStatisticIdsPeriods = null;
+
     private MultiGraphTravelTimeApproximation multiGraphTravelTimeApproximation = null;
 
     private Integer multiGraphDomainStatisticGroupId = null;
@@ -81,6 +90,8 @@ public class StatisticTravelOptions extends TravelOptions {
         builder.append(cellIds!= null ? cellIds.toString() : "[]");
         builder.append("\n\tmultiGraphReferencedStatisticIds: ");
         builder.append(multiGraphReferencedStatisticIds != null ? multiGraphReferencedStatisticIds.toString() : "[]");
+        builder.append("\n\tmultiGraphReferencedStatisticIdsPeriods: ");
+        builder.append(multiGraphReferencedStatisticIdsPeriods != null ? multiGraphReferencedStatisticIdsPeriods.toString() : "[]");
         builder.append("\n\tmultiGraphDomainStatisticGroupId: ");
         builder.append(multiGraphDomainStatisticGroupId);
         builder.append("\n\tmultiGraphDomainStatisticCollectionId: ");
