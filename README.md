@@ -53,6 +53,7 @@ nexus and to the maven repo (last is only possibly from master).
 
 ### 0.50.0
 * Remove `inactiveSourceAddresses` and  `inactiveGeometrySources` parameters from `StatisticTravelOptions`
+* Add year-to-year data support
 
 ### 0.49.0
 * Add routing parameter `ignorePenaltiesInStartingServiceArea`
